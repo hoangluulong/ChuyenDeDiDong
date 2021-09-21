@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/drawable-xxxhdpi/back_24.xml" value="0.2630208333333333" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/drawable-xxxhdpi/buttom_bg_while.xml" value="0.258974358974359" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/drawable-xxxhdpi/check_ok.xml" value="0.2630208333333333" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/drawable-xxxhdpi/edit_24.xml" value="0.2630208333333333" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/drawable-xxxhdpi/settings_24.xml" value="0.2630208333333333" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/drawable/dialog_baocao_bg.xml" value="0.2630208333333333" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/activity_bao_cao_kho.xml" value="0.246875" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/activity_bao_cao_tong_quan.xml" value="0.25" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/activity_chi_tiet_nhap_kho.xml" value="0.246875" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/bao_cao_sheet_dialog.xml" value="0.246875" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/item_chi_tiet_cap_nhat_kho.xml" value="0.246875" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/item_quan_li_kho.xml" value="0.8543876567020251" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/item_top_san_pham.xml" value="0.246875" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/layout/slide_pie.xml" value="0.246875" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/menu/menu_baobao.xml" value="0.36666666666666664" />
+        <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/menu/menu_save.xml" value="0.36666666666666664" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/drawable-mdpi/rv_khuvuc_bg.xml" value="0.19583333333333333" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/drawable/rv_khuvuc_selected_bg.xml" value="0.19583333333333333" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/drawable/shadow.xml" value="0.19583333333333333" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/layout/activity_forget_password.xml" value="0.1796875" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/layout/activity_order_menu.xml" value="0.1796875" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/layout/activity_processing.xml" value="0.1796875" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/layout/item_khuvuc.xml" value="0.1796875" />
+        <entry key="..\:/QuanLyBanHang/app/src/main/res/layout/slides_layout.xml" value="0.1796875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
