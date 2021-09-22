@@ -26,4 +26,26 @@
     <string name="hoa_don_online">Hóa đơn online</string>
     <string name="so_luong">Số lượng: </string>
     <string name="so_0">0</string>
+    <string name="themsanpham">Thêm sản phẩm</string>
+    <string name="tensanpham">Tên sản phẩm</string>
+    <string name="chitietsanpham">Chi tiết sản phẩm</string>
+    <string name="giabansanpham">Giá bán sản phẩm</string>
+    <string name="gianhapsanpham">Giá nhập sản phẩm</string>
+    <string name="soluongsanpham">Số lượng sản phẩm</string>
+    <string name="chose">Chose</string>
+    <string name="btnthemsanpham">Thêm sản phẩm mới</string>
+    <string name="nhomsanpham">Nhóm sản phẩm</string>
+    <string name="tennhanvien">Tên nhân viên</string>
+    <string name="sodienthoai">Số điện thoại</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="catoi">Ca tối (18h-22h)</string>
+    <string name="casang">Ca sáng (7h-11h)</string>
+    <string name="catrua">Ca chiều (12h-17h)</string>
+    <string name="quanlynhanvien">Quản lý nhân viên</string>
+    <string name="bep">Bếp</string>
+    <string name="quanlysanpham">Quản lý sản phẩm</string>
+    <string name="thuchi">Thu chi</string>
+    <string name="oder">Oder</string>
+
 </resources>
