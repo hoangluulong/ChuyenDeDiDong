@@ -27,7 +27,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".function.BaoCao.BaoCaoTongQuanActivity"
+            android:name=".function.SanPham.AddNhanVien"
             android:exported="true"
             android:label="Tổng quan"
             android:screenOrientation="portrait"
@@ -41,7 +41,7 @@
         <activity android:name=".function.BaoCao.ChiTietNhapKhoActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".function.BaoCao.BaoCaoKhoActivity" android:screenOrientation="portrait" >
+        <activity android:name=".function.SanPham.AddCategory" android:screenOrientation="portrait" >
 
         </activity>
     </application>

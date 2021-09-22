@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_weight="10">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_weight="0.5"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/themsanpham"
+            android:textSize="17sp"
+            android:fontFamily="@font/baloo"
+            android:textColor="@color/black"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <LinearLayout
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_themsanpham">
+            <EditText
+                android:id="@+id/textTensanpham"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/tensanpham"></EditText>
+            <View
+                style="@style/view" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_themsanpham">
+            <EditText
+                android:id="@+id/textChitietsanpham"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/chitietsanpham"></EditText>
+            <View
+                style="@style/view" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_nhomsanpham">
+            <LinearLayout
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_weight="0.75"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/nhomsanpham"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/baloo"
+                    android:textColor="@color/black"></TextView>
+                <Spinner
+                    android:id="@+id/spnNhomsanpham"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"></Spinner>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_gravity="bottom"
+                android:background="@color/teal_200" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+          style="@style/cardview_themsanpham">
+            <EditText
+                android:inputType="number"
+                android:id="@+id/textGianhap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/gianhapsanpham"></EditText>
+            <View
+               style="@style/view" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+           style="@style/cardview_themsanpham">
+            <EditText
+                android:inputType="number"
+                android:id="@+id/textGianban"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/giabansanpham"></EditText>
+            <View
+               style="@style/view" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_themsanpham">
+            <EditText
+                android:inputType="number"
+                android:id="@+id/textSoluong"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/soluongsanpham"></EditText>
+            <View
+              style="@style/view"></View>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2.5"
+        android:orientation="vertical">
+      <androidx.cardview.widget.CardView
+       style="@style/image">
+
+          <ImageView
+              android:id="@+id/imgChoose"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="5dp"></ImageView>
+      </androidx.cardview.widget.CardView>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="8dp"
+            />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="0.75">
+    <Button
+        android:id="@+id/btnChoose"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/chose"></Button>
+</LinearLayout>
+<LinearLayout
+    android:layout_weight="0.5"
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        >
+        <Button
+            android:id="@+id/btnAddproduct"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/btnthemsanpham"
+            android:background="@color/teal_200"
+            android:textSize="17sp"
+            android:fontFamily="@font/baloo"
+            android:textColor="@color/black"></Button>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
+
+</LinearLayout>

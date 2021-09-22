@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="10"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+           style="@style/cardview_themnhanvien">
+            <EditText
+                android:id="@+id/edtTenNhanVien"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/tennhanvien"></EditText>
+            <View
+              style="@style/view"></View>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+           style="@style/cardview_themnhanvien">
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/sodienthoai"></EditText>
+            <View
+                style="@style/view"></View>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_themnhanvien">
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/email"></EditText>
+            <View
+                style="@style/view"></View>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_themnhanvien">
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/password"></EditText>
+            <View
+                style="@style/view"></View>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+          style="@style/cardview_calam">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Ca làm"
+                android:textSize="35sp"
+                android:gravity="center"
+                android:fontFamily="@font/baloo"
+                android:background="@color/purple_200"></TextView>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_calam1">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+              <Spinner
+                  android:id="@+id/spnCalam"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"></Spinner>
+
+              <CheckBox
+                  android:id="@+id/checkCaSangthu"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/casang" />
+
+              <CheckBox
+                  android:id="@+id/checkCaChieuthu"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/catrua"
+                  />
+
+              <CheckBox
+                  android:id="@+id/checkCaToithu"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/catoi" />
+          </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <View
+            style="@style/view"></View>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            style="@style/cardview_calam">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/purple_200"
+                android:fontFamily="@font/baloo"
+                android:gravity="center"
+                android:hint="Công việc"
+                android:textSize="35sp"></TextView>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+           style="@style/cardview_congviec">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <CheckBox
+                    android:id="@+id/checkcongviecBep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/quanlynhanvien" />
+
+                <CheckBox
+                    android:id="@+id/checkcongviecOder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/quanlysanpham"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkcongviecThuchi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/thuchi" />
+
+                <CheckBox
+                    android:id="@+id/checkcongviecQuanlynhanvien"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/oder" />
+
+                <CheckBox
+                    android:id="@+id/checkcongviecQuanlysanpham"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/bep" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+            <Button
+                android:id="@+id/btnTaoUser"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Tạo"
+                android:layout_margin="6dp"></Button>
+        </LinearLayout>
+
+</LinearLayout>
