@@ -1,19 +1,16 @@
     package java.android.quanlybanhang.function;
 
-    import android.content.Context;
     import android.os.Bundle;
     import android.util.Log;
-    import android.view.LayoutInflater;
     import android.view.Menu;
     import android.view.MenuItem;
     import android.view.View;
-    import android.view.ViewGroup;
 
     import androidx.annotation.NonNull;
     import androidx.appcompat.app.ActionBar;
     import androidx.appcompat.app.AppCompatActivity;
     import androidx.appcompat.widget.Toolbar;
-    import androidx.fragment.app.Fragment;
+    import androidx.recyclerview.widget.GridLayoutManager;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,13 +23,12 @@
 
     import java.android.quanlybanhang.Ban.StaticBanModel;
     import java.android.quanlybanhang.Ban.StaticRvAdapter;
-    import java.android.quanlybanhang.Interface_KhuVuc_ban;
+    import java.android.quanlybanhang.ChiTietSanPham.Interface_KhuVuc_ban;
     import java.android.quanlybanhang.KhuVuc.StaticModelKhuVuc;
 
     import java.android.quanlybanhang.R;
     import java.android.quanlybanhang.KhuVuc.StaticRvKhuVucAdapter;
     import java.util.ArrayList;
-    import java.util.List;
 
     public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban {
     private RecyclerView recyclerView,recyclerView2;//rv khu vuc ban
@@ -42,7 +38,7 @@
      private DatabaseReference mDatabase;//khai bao database
      Interface_KhuVuc_ban interfaceKhuVucBan ; //ham get back
      private ArcMenu arcMenu;//arc menu material
-
+        ArrayList<StaticModelKhuVuc> item;
      private Toolbar toolbar;//tool bar khai bao id
 
         @Override
@@ -60,13 +56,14 @@
             actionBar.setDisplayHomeAsUpEnabled(true);
 //arc menu them ban
             arcMenu = findViewById(R.id.arcmenu);
+
 //database realtime khu vuc
              mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc");
 //            Log.d("ccc",FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").getKey());
             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    final ArrayList<StaticModelKhuVuc> item = new ArrayList<>();
+                     item = new ArrayList<>();
 
                     for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                         ArrayList<StaticBanModel> mm= new ArrayList<>();
@@ -92,6 +89,7 @@
                         Log.d("vvv",item.get(i).getTenkhuvuc());
                         for (int x=0;x< item.get(i).getStaticBanModels().size();x++){
                             Log.d("vvv",item.get(i).getStaticBanModels().get(x).getTenban());
+
                         }
                     }
                     staticRvKhuVucAdapter = new StaticRvKhuVucAdapter(item,OrderMenu.this,OrderMenu.this);
@@ -120,9 +118,13 @@
 //            items.add(new StaticBanModel("aaaaa","1","aaaaaaaaa","11h"));
 //            items.add(new StaticBanModel("ban 2","2","Long","2h"));
             recyclerView2 =findViewById(R.id.rv_2);
-            staticRvAdapter = new StaticRvAdapter(items);
-            recyclerView2.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+            staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item);
+
+//            recyclerView2.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.HORIZONTAL,false);
+            recyclerView2.setLayoutManager(gridLayoutManager);
             recyclerView2.setAdapter(staticRvAdapter);
+
             recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -143,9 +145,10 @@
 
         @Override
         public void GetBack(int position, ArrayList<StaticBanModel> items) {
-         staticRvAdapter = new StaticRvAdapter(items);
+         staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item);
          staticRvAdapter.notifyDataSetChanged();
          recyclerView2.setAdapter(staticRvAdapter);
+
         }
 
         @Override

@@ -49,7 +49,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="1dp"
@@ -64,9 +64,11 @@
         android:id="@+id/arcmenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="339dp"
         android:layout_marginBottom="93dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu_open="arc_left"
         app:menu_scr="@drawable/adds">
 

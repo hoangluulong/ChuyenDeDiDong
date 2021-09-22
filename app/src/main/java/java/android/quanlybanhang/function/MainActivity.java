@@ -18,13 +18,100 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.login.LoginActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+
+    FirebaseAuth mFirebaseAuth;
+    RelativeLayout ordermenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bao_cao_tong_quan);
+        setContentView(R.layout.activity_main);
+//        odermenu
+        ordermenu = findViewById(R.id.orderbutton);
+        ordermenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, OrderMenu.class);
+                startActivity(intent);
+            }
+        });
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("aa");
+
+        myRef.setValue("Hello, World!");
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+       /*lay id tung phan*/
+        drawerLayout = findViewById(R.id.drawable_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+
+        /*lay ra ten cua toolbar*/
+//        setSupportActionBar(toolbar);
+
+        /* lay ra action bar*/
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.setCheckedItem(R.id.nav_homes);
+    }
+        /*dong mo action bar*/
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_homes:
+                break;
+            case R.id.ds_order:
+                Intent intent = new Intent(MainActivity.this, OrderMenu.class);
+                startActivity(intent);
+                break;
+            case R.id.ds_chebien:
+                Intent intent1 = new Intent(MainActivity.this, AddCategory.class);
+                startActivity(intent1);
+                break;
+            case R.id.ds_thuchi:
+                Intent intent2 = new Intent(MainActivity.this, AddProduct.class);
+                startActivity(intent2);
+                break;
+            case R.id.quanly:
+                Intent intent3 = new Intent(MainActivity.this, ListProduct.class);
+                startActivity(intent3);
+                break;
+            case R.id.profile:
+                Intent intent4 = new Intent(MainActivity.this, ListCategory.class);
+                startActivity(intent4);
+                break;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent5 = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent5);
+                finish();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

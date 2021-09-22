@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Login</string>
+    <string name="app_name">Coffe</string>
     <string name="facebook_app_id">248728940107368</string>
     <string name="fb_login_protocol_scheme">fb248728940107368</string>
     //
@@ -9,21 +9,5 @@
 
     <string name="text123">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock</string>
 
-    <!--Báo cáo-->
-    <string name="tinh_hinh_tai_chinh">Tình hình tài chính</string>
-    <string name="toc_do_tang_truong">Tốc độ tăng trưởng >></string>
-    <string name="tong_tien">Tổng tiền</string>
-    <string name="no_phai_thu">Nợ phải thu</string>
-    <string name="no_phai_tra">Nợ phải trả</string>
-    <string name="tong_quan">Tổng quan</string>
-    <string name="doanh_thu">Doanh thu</string>
-    <string name="hoa_don">Hóa đơn</string>
-    <string name="doanh_so">Doanh số</string>
-    <string name="chua_thanh_toan">Chưa thanh toán</string>
-    <string name="da_thanh_toan">Đã thanh toán</string>
-    <string name="hoa_don_dich_vu">Hóa đơn dịch vụ - phụ thu</string>
-    <string name="hoa_don_co_mon_huy">Hóa đơn có món hủy</string>
-    <string name="hoa_don_online">Hóa đơn online</string>
-    <string name="so_luong">Số lượng: </string>
-    <string name="so_0">0</string>
+
 </resources>

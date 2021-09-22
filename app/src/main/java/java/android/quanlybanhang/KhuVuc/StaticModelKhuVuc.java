@@ -33,14 +33,6 @@ public class StaticModelKhuVuc {
     public StaticModelKhuVuc() {
     }
 
-
-
-
-
-
-
-
-
     public StaticModelKhuVuc(String ten, String trangThai) {
         this.tenkhuvuc = ten;
         this.trangthai = trangThai;

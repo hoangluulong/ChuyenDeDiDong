@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.Ban;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +12,22 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.android.quanlybanhang.KhuVuc.StaticModelKhuVuc;
+import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.OrderMenu;
 import java.util.ArrayList;
 
 public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.StaticRvHolderBan> {
-
+    private OrderMenu orderMenu;
     public ArrayList<StaticBanModel> staticBanModels;
     ArrayList<StaticModelKhuVuc> items;
     boolean check = true;
     boolean select= true;
-    public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels){
+
+    public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items){
         this.staticBanModels = staticBanModels;
+        this.orderMenu = orderMenu;
+        this.items = items;
     }
     public class StaticRvHolderBan extends RecyclerView.ViewHolder {
 
@@ -31,6 +37,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         public TextView tenBan;
         public TextView ngayGio;
         public TextView trangThai;
+        View view ;
+
         ConstraintLayout constraintLayout;
 
         public StaticRvHolderBan(@NonNull View itemView) {
@@ -39,9 +47,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
             tenBan = itemView.findViewById(R.id.tvtenban);
             ngayGio = itemView.findViewById(R.id.tvngaygio);
             trangThai = itemView.findViewById(R.id.tvtrangthai);
+            view = itemView.findViewById(R.id.view2);
             constraintLayout = itemView.findViewById(R.id.constraintLayouts);
-
-
         }
     }
 
@@ -49,6 +56,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     @Override
     public StaticRvHolderBan onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ban,parent,false);
+
         StaticRvHolderBan staticRvHolderBan = new StaticRvHolderBan(view);
 
         return staticRvHolderBan;
@@ -62,6 +70,32 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.tenBan.setText(CrrItem.getTenban());
         holder.ngayGio.setText(CrrItem.getGioDaOder());
         holder.trangThai.setText(CrrItem.getTrangthai());
+         if (staticBanModels.get(position).getTrangthai().equals("3")){
+//            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
+             holder.view.setBackgroundResource(R.color.red);
+            holder.constraintLayout.setEnabled(false);
+
+        }
+        if (staticBanModels.get(position).getTrangthai().equals("2")){
+//            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
+            holder.view.setBackgroundResource(R.color.maudat);
+
+
+        }
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if(items.get(position).getTenkhuvuc().equals("Khu vuc A")){
+                    Intent intent = new Intent(orderMenu,MonOrder.class);
+                    intent.putExtra("tenban",CrrItem.getTenban());
+                    orderMenu.startActivity(intent);
+//                }
+//                else {
+//                    return;
+//                }
+
+            }
+        });
         for(int i =0; i<staticBanModels.size();i++) {
             Log.d("mnn", i + "mm");
         }
@@ -77,7 +111,6 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 //
 //            }
 //        });
-
 
 
     }
