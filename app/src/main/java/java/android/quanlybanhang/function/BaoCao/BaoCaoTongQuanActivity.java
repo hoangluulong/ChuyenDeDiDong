@@ -18,7 +18,6 @@ import androidx.cardview.widget.CardView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.MainActivity;
 import java.text.NumberFormat;
 import java.util.Locale;
 

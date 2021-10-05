@@ -25,18 +25,50 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <activity
+            android:name=".ChiTietSanPham.Card_San_Pham"
+            android:exported="true">
 
+
+        </activity>
+        <activity android:name=".function.ListProduct" />
+        <activity android:name=".function.ListCategory" />
+        <activity android:name=".function.AddProduct" />
+        <activity android:name=".function.AddCategory" />
+        <activity
+            android:name=".ChiTietSanPham.ChiTietSanPham_Banh"
+            android:exported="true"
+            android:parentActivityName=".function.MonOrder" />
+        <activity
+            android:name=".ChiTietSanPham.ChiTietSanPham"
+            android:exported="true"
+            android:parentActivityName=".function.MonOrder" />
+        <activity
+            android:name=".function.MonOrder"
+            android:exported="true"
+            android:parentActivityName=".function.OrderMenu" />
+        <activity android:name=".function.AccountInformationActivity" />
+
+        <activity android:name=".function.Manager" />
+
+        <activity android:name=".function.Income" />
+        <activity android:name=".function.Processing" />
+        <activity
+            android:name=".function.OrderMenu"
+            android:parentActivityName=".function.MainActivity" />
+        <activity android:name=".function.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".function.BaoCao.BaoCaoTongQuanActivity"
             android:exported="true"
             android:label="Tổng quan"
             android:screenOrientation="portrait"
             android:theme="@style/thameActionbar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".function.BaoCao.ChiTietNhapKhoActivity"
             android:screenOrientation="portrait" >
