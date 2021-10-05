@@ -1,32 +1,56 @@
 package java.android.quanlybanhang.Data;
 
+import java.util.ArrayList;
+
 public class NhanVien {
     String username;
     String email;
-    int chucVu;
-    int caLam;
+    ArrayList<Integer> chucVu;
+    CaLam caLam;
     String phone;
-    String tenQuan;
-    int id;
+    String id;
+
 
     public NhanVien() {
     }
 
+    public NhanVien(String username, String email, String phone, String id) {
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.id = id;
+    }
 
-    public NhanVien(String username, String email, int chucVu, int caLam, String phone, String tenQuan) {
+    public NhanVien(String username, String email, ArrayList<Integer> chucVu, CaLam caLam, String phone, String id) {
         this.username = username;
         this.email = email;
         this.chucVu = chucVu;
         this.caLam = caLam;
         this.phone = phone;
-        this.tenQuan = tenQuan;
+        this.id = id;
     }
 
-    public int getId() {
+    public ArrayList<Integer> getChucVu() {
+        return chucVu;
+    }
+
+    public void setChucVu(ArrayList<Integer> chucVu) {
+        this.chucVu = chucVu;
+    }
+
+    public CaLam getCaLam() {
+        return caLam;
+    }
+
+    public void setCaLam(CaLam caLam) {
+        this.caLam = caLam;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,22 +70,6 @@ public class NhanVien {
         this.email = email;
     }
 
-    public int getChucVu() {
-        return chucVu;
-    }
-
-    public void setChucVu(int chucVu) {
-        this.chucVu = chucVu;
-    }
-
-    public int getCaLam() {
-        return caLam;
-    }
-
-    public void setCaLam(int caLam) {
-        this.caLam = caLam;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -70,11 +78,4 @@ public class NhanVien {
         this.phone = phone;
     }
 
-    public String getTenQuan() {
-        return tenQuan;
-    }
-
-    public void setTenQuan(String tenQuan) {
-        this.tenQuan = tenQuan;
-    }
 }

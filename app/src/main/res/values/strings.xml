@@ -39,9 +39,9 @@
     <string name="sodienthoai">Số điện thoại</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="catoi">Ca tối (18h-22h)</string>
-    <string name="casang">Ca sáng (7h-11h)</string>
-    <string name="catrua">Ca chiều (12h-17h)</string>
+    <string name="catoi">Ca tối </string>
+    <string name="casang">Ca sáng </string>
+    <string name="catrua">Ca chiều </string>
     <string name="quanlynhanvien">Quản lý nhân viên</string>
     <string name="bep">Bếp</string>
     <string name="quanlysanpham">Quản lý sản phẩm</string>

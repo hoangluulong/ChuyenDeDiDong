@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_weight="7"
+    android:padding="10dp">
+    <CheckBox
+        android:id="@+id/checkTh2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="T2"
+        android:layout_weight="1">
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/checkTh3"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="T3">
+    </CheckBox>
+    <CheckBox
+        android:id="@+id/checkTh4"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="T4"
+        android:layout_weight="1">
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/checkTh5"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="T5"
+        android:layout_weight="1">
+    </CheckBox>
+    <CheckBox
+        android:id="@+id/checkTh6"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="T6"
+        android:layout_weight="1">
+    </CheckBox>
+    <CheckBox
+        android:id="@+id/checkTh7"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="T7"
+        android:layout_weight="1">
+    </CheckBox>
+    <CheckBox
+        android:id="@+id/checkCN"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="CN"
+        android:layout_weight="1">
+    </CheckBox>
+
+
+</LinearLayout>

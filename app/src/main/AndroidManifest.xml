@@ -27,7 +27,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".function.SanPham.AddNhanVien"
+            android:name=".function.NhanVien.AddNhanVien"
             android:exported="true"
             android:label="Tổng quan"
             android:screenOrientation="portrait"

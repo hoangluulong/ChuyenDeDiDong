@@ -126,33 +126,41 @@ public class AddProduct extends AppCompatActivity {
                                       }
                                   }, 5000);
 
-                                  Toast.makeText(AddProduct.this, "Upload successfull", Toast.LENGTH_SHORT).show();
-                                  if (textName.getText().toString().isEmpty()){
-                                      Toast.makeText(AddProduct.this,"Hãy nhập tên sản phẩm",Toast.LENGTH_LONG).show();
-                                  }else if (textChitiet.getText().toString().isEmpty()){
-                                      Toast.makeText(AddProduct.this,"Hãy nhập chi tiết sản phẩm",Toast.LENGTH_LONG).show();
-                                  }else if(textGiaban.getText().toString().isEmpty()){
-                                      Toast.makeText(AddProduct.this,"Hãy nhập giá bán sản phẩm",Toast.LENGTH_LONG).show();
-                                  }else if(textGianhap.getText().toString().isEmpty()){
-                                      Toast.makeText(AddProduct.this,"Hãy nhập giá nhập sản phẩm",Toast.LENGTH_LONG).show();
-                                  }else if(textSoluong.getText().toString().isEmpty()){
-                                      Toast.makeText(AddProduct.this,"Hãy nhập số lượng sản phẩm",Toast.LENGTH_LONG).show();
-                                  }else if(spnNhomsanpham.getSelectedItem().toString().isEmpty()){
-                                      Toast.makeText(AddProduct.this,"Hãy chọn nhóm sản phẩm",Toast.LENGTH_LONG).show();
-                                  }else {
-                                      String id = mDatabase1.push().getKey();
-                                      String name = textName.getText().toString();
-                                      String chitiet = textChitiet.getText().toString();
-                                      Double giaban = Double.parseDouble(textGiaban.getText().toString());
-                                      Double gianhap = Double.parseDouble(textGianhap.getText().toString());
-                                      Integer soluong = Integer.parseInt(textSoluong.getText().toString());
-                                      String nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
-                                      String img = taskSnapshot.getUploadSessionUri().toString();
-                                      String status = "Còn";
-                                      Boolean addTocard = false;
-                                      product = new Product(id, name,chitiet,nhomsanpham,gianhap,giaban,soluong,img,addTocard,status);
-                                      mDatabase1.child(nhomsanpham).child(id).setValue(product);
-                                  }
+                                  fileRefence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                      @Override
+                                      public void onSuccess(Uri uri) {
+                                          Toast.makeText(AddProduct.this, "Upload successfull", Toast.LENGTH_SHORT).show();
+                                          if (textName.getText().toString().isEmpty()){
+                                              Toast.makeText(AddProduct.this,"Hãy nhập tên sản phẩm",Toast.LENGTH_LONG).show();
+                                          }else if (textChitiet.getText().toString().isEmpty()){
+                                              Toast.makeText(AddProduct.this,"Hãy nhập chi tiết sản phẩm",Toast.LENGTH_LONG).show();
+                                          }else if(textGiaban.getText().toString().isEmpty()){
+                                              Toast.makeText(AddProduct.this,"Hãy nhập giá bán sản phẩm",Toast.LENGTH_LONG).show();
+                                          }else if(textGianhap.getText().toString().isEmpty()){
+                                              Toast.makeText(AddProduct.this,"Hãy nhập giá nhập sản phẩm",Toast.LENGTH_LONG).show();
+                                          }else if(textSoluong.getText().toString().isEmpty()){
+                                              Toast.makeText(AddProduct.this,"Hãy nhập số lượng sản phẩm",Toast.LENGTH_LONG).show();
+                                          }else if(spnNhomsanpham.getSelectedItem().toString().isEmpty()){
+                                              Toast.makeText(AddProduct.this,"Hãy chọn nhóm sản phẩm",Toast.LENGTH_LONG).show();
+                                          }else {
+                                              String id = mDatabase1.push().getKey();
+                                              String name = textName.getText().toString();
+                                              String chitiet = textChitiet.getText().toString();
+                                              Double giaban = Double.parseDouble(textGiaban.getText().toString());
+                                              Double gianhap = Double.parseDouble(textGianhap.getText().toString());
+                                              Integer soluong = Integer.parseInt(textSoluong.getText().toString());
+                                              String nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
+                                              String img = uri.toString();
+                                              String status = "Còn";
+                                              Boolean addTocard = false;
+                                              product = new Product(id, name,chitiet,nhomsanpham,gianhap,giaban,soluong,img,addTocard,status);
+                                              mDatabase1.child(nhomsanpham).child(id).setValue(product);
+                                          }
+
+                                      }
+                                  });
+
+
                               }
                           }).addOnFailureListener(new OnFailureListener() {
                               @Override
@@ -167,8 +175,6 @@ public class AddProduct extends AppCompatActivity {
                                   progressBar.setProgress((int) progress);
                               }
                           });
-
-
                       }
                       else {
                           Toast.makeText(AddProduct.this, "No file upload", Toast.LENGTH_SHORT).show();
