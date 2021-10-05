@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class NhanVien {
     String username;
     String email;
-    ArrayList<Integer> chucVu;
+    ArrayList<Boolean> chucVu;
     CaLam caLam;
     String phone;
     String id;
@@ -21,7 +21,7 @@ public class NhanVien {
         this.id = id;
     }
 
-    public NhanVien(String username, String email, ArrayList<Integer> chucVu, CaLam caLam, String phone, String id) {
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id) {
         this.username = username;
         this.email = email;
         this.chucVu = chucVu;
@@ -30,11 +30,11 @@ public class NhanVien {
         this.id = id;
     }
 
-    public ArrayList<Integer> getChucVu() {
+    public ArrayList<Boolean> getChucVu() {
         return chucVu;
     }
 
-    public void setChucVu(ArrayList<Integer> chucVu) {
+    public void setChucVu(ArrayList<Boolean> chucVu) {
         this.chucVu = chucVu;
     }
 

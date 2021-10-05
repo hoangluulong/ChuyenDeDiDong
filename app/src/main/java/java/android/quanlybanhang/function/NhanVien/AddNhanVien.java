@@ -40,13 +40,13 @@ public class AddNhanVien extends AppCompatActivity {
     private EditText edtTenNhanVien, edtEmail, edtPassword, edtPhone;
     private Button btnTaoNhanVien,checkBoxCaSang, checkBoxCaChieu, checkBoxCaToi;
     private CaLam caLam = new CaLam();
-    private static final int QUANLYSP = 1;
-    private static final int QUANLYNV = 2;
-    private static final int THUCHI = 3;
-    private static final int ODER = 4 ;
-    private static final int BEP = 5;
+    private   Boolean QUANLYSP = false;
+    private  Boolean QUANLYNV = false;
+    private  Boolean THUCHI = false;
+    private  Boolean ODER = false;
+    private  Boolean BEP = false;
     private List<CheckBox> checkBoxes;
-    private ArrayList<Integer> congViec;
+    private ArrayList<Boolean> congViec;
     private  CheckBox Th2,Th3,Th4,Th5,Th6,Th7,chuNhat,checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi;
 
 
@@ -261,22 +261,29 @@ public class AddNhanVien extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(AddNhanVien.this, "SignUp UnSuccessful, plese Try Again ", Toast.LENGTH_SHORT).show();
                             }
+                            //cong viec
                             congViec = new ArrayList<>();
                             if (checkQLNV.isChecked()){
+                                QUANLYNV = true;
                                 congViec.add(QUANLYNV);
                             }
                             if (checkQLSP.isChecked()){
+                                QUANLYSP = true;
                                 congViec.add(QUANLYSP);
                             }
                             if (checkBep.isChecked()){
+                                BEP = true;
                                 congViec.add(BEP);
                             }
                             if (checkOder.isChecked()){
+                                ODER = true;
                                 congViec.add(ODER);
                             }
                             if (checkThuchi.isChecked()){
+                                THUCHI = true;
                                 congViec.add(THUCHI);
                             }
+
                             String id = mData.push().getKey();
                             String name = edtTenNhanVien.getText().toString();
                             String phone = edtPhone.getText().toString();

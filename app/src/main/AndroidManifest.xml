@@ -27,7 +27,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".function.NhanVien.AddNhanVien"
+            android:name=".function.SanPham.ListCategory"
             android:exported="true"
             android:label="Tổng quan"
             android:screenOrientation="portrait"
@@ -42,7 +42,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".function.SanPham.AddCategory" android:screenOrientation="portrait" >
-
+        </activity>
+        <activity android:name=".function.SanPham.AddProduct" android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".function.NhanVien.AddNhanVien" android:screenOrientation="portrait" >
         </activity>
     </application>
 
