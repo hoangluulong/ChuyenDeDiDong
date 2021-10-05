@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-<!--    -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,13 +18,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+        <activity
+            android:name=".function.Account.ChiNhanhSignInActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.MainActivity"
+            android:exported="true" />
 
+        <!-- Sign in, SignUp -->
+        <activity
+            android:name=".function.Account.StoreSetting"
+            android:exported="true" />
+        <activity
+            android:name=".function.Account.SignInActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".function.Account.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.Account.ForgotPasswordActivity"
+            android:exported="true" />
+
+        <!-- Báo cáo -->
+        <activity
+            android:name=".function.BaoCao.BaoCaoSanPhamActivity"
+            android:exported="true" >
+
+        </activity>
         <activity
             android:name=".function.BaoCao.BaoCaoTongQuanActivity"
             android:exported="true"
@@ -38,12 +57,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".function.BaoCao.ChiTietNhapKhoActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity android:name=".function.BaoCao.BaoCaoKhoActivity" android:screenOrientation="portrait" >
+        <activity
+            android:name=".function.BaoCao.ChiTietNhapKhoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".function.BaoCao.BaoCaoKhoActivity"
+            android:screenOrientation="portrait" />
 
-        </activity>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

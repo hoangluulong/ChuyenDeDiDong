@@ -112,7 +112,7 @@ public class ChiSoSanPhamFragment extends Fragment {
         labels.add( "Redbull");
         labels.add( "Trà sữa mimi");
         labels.add( "Hello kus");
-        labels.add( "hiiiiiiiiiiiiiiiiiiiiii");
+        labels.add( "aa");
         labels.add( "MAY");
         labels.add( "JUN");
 

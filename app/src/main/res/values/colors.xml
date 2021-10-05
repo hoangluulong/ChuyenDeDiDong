@@ -16,9 +16,11 @@
 
     <color name="black1">#CCCCCC</color>
     <color name="bar">#11AEA9</color>
+
     <color name="background_baocao">#f0f4f6</color>
     <color name="btn_gio">#EE97C4DA</color>
     <color name="link">#EE2F708F</color>
     <color name="colorbackgroundShimmer">#fff</color>
     <color name="colorShimmer">#E4E2E2</color>
+    <color name="color_google">#dc473a</color>
 </resources>

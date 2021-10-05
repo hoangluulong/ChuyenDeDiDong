@@ -17,13 +17,48 @@
     <string name="no_phai_tra">Nợ phải trả</string>
     <string name="tong_quan">Tổng quan</string>
     <string name="doanh_thu">Doanh thu</string>
+    <string name="chi_phi">Chi tiêu</string>
     <string name="hoa_don">Hóa đơn</string>
     <string name="doanh_so">Doanh số</string>
     <string name="chua_thanh_toan">Chưa thanh toán</string>
     <string name="da_thanh_toan">Đã thanh toán</string>
     <string name="hoa_don_dich_vu">Hóa đơn dịch vụ - phụ thu</string>
-    <string name="hoa_don_co_mon_huy">Hóa đơn có món hủy</string>
+    <string name="hoa_don_bi_huy">Hóa đơn bị hủy</string>
     <string name="hoa_don_online">Hóa đơn online</string>
     <string name="so_luong">Số lượng: </string>
     <string name="so_0">0</string>
+    <string name="chi_nhanh">Chi nhánh</string>
+
+    <!--    Login and signup-->
+    <string name="signIpNow">SignUp to start your new Joueney</string>
+    <string name="signUpGoodle">Sign up with Google</string>
+    <string name="wellcom">Welcome</string>
+    <string name="Username">Username</string>
+    <string name="nameStore">Name of the store</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="password">Password</string>
+    <string name="signup">Sign Up</string>
+    <string name="already_accund">Already have an account? Sign in</string>
+    <string name="signin_continue">Sign In to continue</string>
+    <string name="forget_password">Forget password?</string>
+    <string name="forget_password2">Forgot password</string>
+    <string name="signin">Sign In</string>
+    <string name="noAccount">No account? Signup now</string>
+    <string name="signInGoogle">Sign in with Google</string>
+    <string name="enter_email">Enter correct email to recover password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
+    <!--  Setting store activity  -->
+    <string name="setupStore">Set up Store</string>
+    <string name="name_store">Name of the store</string>
+    <string name="select_item_spinner">Select province</string>
+    <string name="select_item_spinner2">Select district</string>
+    <string name="complete">Complete</string>
+
+    <string name="Choose_a_branch">Choose a branch</string>
+    <string name="start">Start</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

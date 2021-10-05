@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -19,12 +20,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.Account.SignInActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button signout;
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bao_cao_tong_quan);
+        setContentView(R.layout.activity_main);
+
+        signout = findViewById(R.id.signout);
+        auth = FirebaseAuth.getInstance();
+
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auth.signOut();
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }
