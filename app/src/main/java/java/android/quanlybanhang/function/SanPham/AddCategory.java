@@ -22,6 +22,7 @@ public class AddCategory extends AppCompatActivity {
     private Button btnAddCategory;
     private Category category;
     private String STR_NHOMSANPHAM ="danhmucsanpham";
+    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +31,11 @@ public class AddCategory extends AppCompatActivity {
 
         editTextAddCategory = findViewById(R.id.editAdd);
         btnAddCategory = findViewById(R.id.btnAdd);
-        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child(STR_NHOMSANPHAM);
+        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
+        ButtonLuu();
+    }
+
+    public void ButtonLuu(){
         btnAddCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

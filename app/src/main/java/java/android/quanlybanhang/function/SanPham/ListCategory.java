@@ -35,6 +35,8 @@ public class ListCategory extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private RecyclerView recyclerView;
     private AdapterCategory adapterCategory;
+    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_NHOMSANPHAM = "danhmucsanpham";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +45,13 @@ public class ListCategory extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_2);
         floatingActionButton = findViewById(R.id.themnhomsanpham);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabase = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("danhmucsanpham");
-       mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot snapshot) {
-               listCategory = new ArrayList<>();
-               for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                   Category category = postSnapshot.getValue(Category.class);
-                   listCategory.add(category);
-               }
-               adapterCategory = new AdapterCategory(ListCategory.this,listCategory);
-               recyclerView.setAdapter(adapterCategory);
-               LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListCategory.this, LinearLayoutManager.VERTICAL, false);
-               recyclerView.setLayoutManager(linearLayoutManager);
-           }
+        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
+        Danhsachnhomsanpham();
+        Taonhomsanpham();
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError error) {
-
-           }
-       });
+    }
+    //Button tạo nhóm sản phẩm
+    public void Taonhomsanpham(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +68,29 @@ public class ListCategory extends AppCompatActivity {
             }
         });
     }
+    //Danh sách nhóm sản phẩm
+    public void Danhsachnhomsanpham(){
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listCategory = new ArrayList<>();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Category category = postSnapshot.getValue(Category.class);
+                    listCategory.add(category);
+                }
+                adapterCategory = new AdapterCategory(ListCategory.this,listCategory);
+                recyclerView.setAdapter(adapterCategory);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListCategory.this, LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(linearLayoutManager);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    //Xóa nhóm sản phẩm
     public void delete( int position){
 
         new AlertDialog.Builder(ListCategory.this).setMessage(
@@ -94,7 +105,8 @@ public class ListCategory extends AppCompatActivity {
         }).setNegativeButton("No", null)
                 .show();
     }
-//    public void update( int position){
+    //Sửa sản phẩm
+    public void update( int position){
 ////        Toast.makeText(this,mDatabase.getKey()+"",Toast.LENGTH_LONG).show();
 //
 //        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
@@ -118,7 +130,5 @@ public class ListCategory extends AppCompatActivity {
 //        });
 //
 //        builder.create().show();
-//
-//
-//    }
+    }
 }

@@ -49,6 +49,13 @@ public class ListProduct  extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.themsanpham);
         recyclerView = findViewById(R.id.recyclerViewProduct);
         firebaseDatabase =  FirebaseDatabase.getInstance();
+        mDatabase = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
+        Danhsachsanpham();
+        Taosanphamoi();
+
+    }
+    //Button taọ sản phẩm mới
+    public void Taosanphamoi(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +72,9 @@ public class ListProduct  extends AppCompatActivity {
                         }).show();
             }
         });
-        mDatabase = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
+    }
+    //Hiển thị danh sách sản phẩm
+    public void Danhsachsanpham(){
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,9 +97,8 @@ public class ListProduct  extends AppCompatActivity {
 
             }
         });
-
     }
-
+    //Xóa sản phẩm
     public void delete(final int position){
          new AlertDialog.Builder(ListProduct.this).setMessage(
                 "Do you want to delete this item"
@@ -116,7 +124,7 @@ public class ListProduct  extends AppCompatActivity {
         }).setNegativeButton("No", null)
                 .show();
     }
-
+    //Sữa sàn phẩm
     public void update(final int position){
 
     }

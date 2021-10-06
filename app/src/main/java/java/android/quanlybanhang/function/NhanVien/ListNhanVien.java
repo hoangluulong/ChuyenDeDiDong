@@ -31,12 +31,20 @@ public class ListNhanVien  extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<NhanVien> nhanViens;
     private FloatingActionButton floatingActionButton;
+    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_USER = "user";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listnhanvien);
         recyclerView = findViewById(R.id.recyclerViewNhanVien);
         firebaseDatabase =  FirebaseDatabase.getInstance();
         floatingActionButton = findViewById(R.id.themnhanvien);
+        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(STR_USER);
+        Danhsachnhanvien();
+        Taonhanvienmoi();
+    }
+    // Button thêm nhân viên
+    public void Taonhanvienmoi(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,26 +61,26 @@ public class ListNhanVien  extends AppCompatActivity {
                         }).show();
             }
         });
-        mDatabase = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("user");
+    }
+    //Hiển thị nhân viên
+    public void Danhsachnhanvien(){
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 nhanViens = new ArrayList<>();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     NhanVien nhanVien = snapshot1.getValue(NhanVien.class);
-                   nhanViens.add(nhanVien);
+                    nhanViens.add(nhanVien);
                 }
                 adapterNhanVien = new AdapterNhanVien(ListNhanVien.this,nhanViens);
                 recyclerView.setAdapter(adapterNhanVien);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListNhanVien.this, LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(linearLayoutManager);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
     }
 }

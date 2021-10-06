@@ -53,6 +53,8 @@ public class AddProduct extends AppCompatActivity {
     private DatabaseReference mDatabase1;
     private String STR_NHOMSANPHAM = "danhmucsanpham";
     private String STR_SANPHAM = "sanpham";
+    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_UPLOAD = "uploads";
 
 
     @Override
@@ -70,9 +72,9 @@ public class AddProduct extends AppCompatActivity {
         imageView = findViewById(R.id.imgChoose);
         progressBar = findViewById(R.id.progressBar);
         btnAdd = findViewById(R.id.btnAddproduct);
-        mStogref = FirebaseStorage.getInstance().getReference("uploads");
-        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child(STR_NHOMSANPHAM);
-        mDatabase1 = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child(STR_SANPHAM);
+        mStogref = FirebaseStorage.getInstance().getReference(STR_UPLOAD);
+        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
+        mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +93,6 @@ public class AddProduct extends AppCompatActivity {
     }
 
     private void uploadFile() {
-        //
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -106,7 +107,6 @@ public class AddProduct extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                     spnNhomsanpham.setAdapter(adapter);
                 }
-
               btnAdd.setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
@@ -181,21 +181,14 @@ public class AddProduct extends AppCompatActivity {
                       }
                   }
               });
-                //
             }
-            //
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        //
-
-
     }
 
-    private void openFileChoose()
-    {
+    private void openFileChoose() {
         Intent intent=new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);

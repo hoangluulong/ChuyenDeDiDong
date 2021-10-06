@@ -23,13 +23,7 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"></TextView>
-
-
-
-
     </RelativeLayout>
-
-
 
 
 </androidx.cardview.widget.CardView>

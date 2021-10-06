@@ -45,9 +45,12 @@ public class AddNhanVien extends AppCompatActivity {
     private  Boolean THUCHI = false;
     private  Boolean ODER = false;
     private  Boolean BEP = false;
+    private View customLayout;
     private List<CheckBox> checkBoxes;
     private ArrayList<Boolean> congViec;
     private  CheckBox Th2,Th3,Th4,Th5,Th6,Th7,chuNhat,checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi;
+    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_USER = "user";
 
 
     @Override
@@ -56,7 +59,7 @@ public class AddNhanVien extends AppCompatActivity {
         setContentView(R.layout.activity_themnhanvien);
         builder = new android.app.AlertDialog.Builder(AddNhanVien.this);
         LayoutInflater inflater = AddNhanVien.this.getLayoutInflater();
-        View customLayout = inflater.inflate(R.layout.acivity_dailongtu, null);
+        customLayout = inflater.inflate(R.layout.acivity_dailongtu, null);
         builder.setView(customLayout);
         //ca lam
         checkBoxes = new ArrayList<>();
@@ -96,8 +99,15 @@ public class AddNhanVien extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        mData = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("user");
+        mData = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_USER);
 
+        Cachieu();
+        Casang();
+        Catoi();
+        Taonhanvien();
+    }
+
+    public void Casang(){
         checkBoxCaSang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +152,9 @@ public class AddNhanVien extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
 
+    public void Cachieu(){
         checkBoxCaChieu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +201,9 @@ public class AddNhanVien extends AppCompatActivity {
 
             }
         });
+    }
 
+    public void Catoi(){
         checkBoxCaToi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,8 +249,9 @@ public class AddNhanVien extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
 
-
+    public void Taonhanvien(){
         btnTaoNhanVien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -303,6 +318,6 @@ public class AddNhanVien extends AppCompatActivity {
                 }
             }
         });
-
     }
+
 }
