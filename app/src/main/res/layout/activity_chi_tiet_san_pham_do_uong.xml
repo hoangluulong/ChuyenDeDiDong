@@ -85,10 +85,10 @@
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bnt_card" />
+        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
 
     <Button
-        android:id="@+id/bnt_card"
+        android:id="@+id/bnt_luu"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"
@@ -180,7 +180,7 @@
         android:background="@drawable/minus"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/tvtensanpham"
-        app:layout_constraintEnd_toStartOf="@+id/textView16"
+        app:layout_constraintEnd_toStartOf="@+id/tvsoluong"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view6" />
 
@@ -199,7 +199,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/tvsoluong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
@@ -219,7 +219,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/plus"
         android:textSize="34sp"
-        app:layout_constraintStart_toEndOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/tvsoluong"
         app:layout_constraintTop_toBottomOf="@+id/view6" />
 
     <TextView

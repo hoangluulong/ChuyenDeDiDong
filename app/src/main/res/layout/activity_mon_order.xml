@@ -73,10 +73,10 @@
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bnt_card" />
+        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
 
     <Button
-        android:id="@+id/bnt_card"
+        android:id="@+id/bnt_luu"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"

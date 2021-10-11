@@ -27,11 +27,11 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="393dp"
+        android:layout_height="364dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="70dp"
         android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="1dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="1dp"
@@ -48,8 +48,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_1" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_1" >
+
+        </androidx.recyclerview.widget.RecyclerView>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/nocard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginEnd="224dp"
+        android:layout_marginBottom="49dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/bnt_thanhtoan"
@@ -65,10 +79,10 @@
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bnt_card" />
+        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
 
     <Button
-        android:id="@+id/bnt_card"
+        android:id="@+id/bnt_luu"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -144,7 +158,7 @@
         android:background="@drawable/rv_khuvuc_bg"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/bnt_card"
+        app:layout_constraintBottom_toTopOf="@+id/bnt_luu"
         app:layout_constraintStart_toEndOf="@+id/textView11" />
 
 

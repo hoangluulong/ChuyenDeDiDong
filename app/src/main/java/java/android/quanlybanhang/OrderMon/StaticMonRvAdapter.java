@@ -9,10 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +17,6 @@ import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.CategoryMon.StaticCategoryMonModel;
 import java.android.quanlybanhang.ChiTietSanPham.ChiTietSanPham;
-import java.android.quanlybanhang.ChiTietSanPham.ChiTietSanPham_Banh;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.MonOrder;
 import java.util.ArrayList;
@@ -42,25 +37,20 @@ ArrayList<Product> staticMonOrderModels;
     ArrayList<StaticCategoryMonModel> items;
     int pos;
 
-
-
+    String id_khuvuc;
+    String id_ban;
     String tenban;
 
 
-    public StaticMonRvAdapter(ArrayList<Product> staticMonOrderModels, MonOrder monOrder, ArrayList<StaticCategoryMonModel> items, int pos, String tenban){
+    public StaticMonRvAdapter(ArrayList<Product> staticMonOrderModels, MonOrder monOrder, ArrayList<StaticCategoryMonModel> items, int pos, String tenban,String id_ban,String id_khuvuc){
         this.staticMonOrderModels = staticMonOrderModels;
         this.monOrder = monOrder;
         this.items = items;
         this.pos = pos;
         this.tenban = tenban;
+        this.id_ban = id_ban;
+        this.id_khuvuc = id_khuvuc;
     }
-//
-//public void GetTenSp(String str){
-//        this.tenban = str;
-//
-//    }
-
-
     @NonNull
     @Override
     public StaticMonRvAdapter.StaticMonRvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -87,26 +77,17 @@ ArrayList<Product> staticMonOrderModels;
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pos ==0){
-                    Intent intent = new Intent(monOrder, ChiTietSanPham_Banh.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("sp",Crritem);
-                    Log.d("aa",tenban.toString()+"kuku");
-                    bundle.putString("tenban",tenban+"baba");
-                    intent.putExtras(bundle);
-                    monOrder.startActivity(intent);
-                }
-                else if(pos==1){
                     Intent intent1 = new Intent(monOrder, ChiTietSanPham.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("sp",Crritem);
                     intent1.putExtras(bundle);
-                    Log.d("aaa",tenban+"baba");
+                    Log.d("aaa",id_ban+"baba1");
                     intent1.putExtra("tenban",tenban);
+                    intent1.putExtra("id_ban",id_ban);
+                    intent1.putExtra("id_khuvuc",id_khuvuc);
+
                     monOrder.startActivity(intent1);
-//                    launcher.launch(intent1);
-//                   iclickGetMon.clickItent(Crritem);
-                }
+
 
             }
         });

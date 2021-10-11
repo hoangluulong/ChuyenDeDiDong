@@ -14,6 +14,7 @@
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
+    import com.google.firebase.database.ChildEventListener;
     import com.google.firebase.database.DataSnapshot;
     import com.google.firebase.database.DatabaseError;
     import com.google.firebase.database.DatabaseReference;
@@ -39,6 +40,7 @@
      Interface_KhuVuc_ban interfaceKhuVucBan ; //ham get back
      private ArcMenu arcMenu;//arc menu material
         ArrayList<StaticModelKhuVuc> item;
+       private StaticModelKhuVuc product ;
      private Toolbar toolbar;//tool bar khai bao id
 
         @Override
@@ -60,7 +62,7 @@
 //database realtime khu vuc
              mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc");
 //            Log.d("ccc",FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").getKey());
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                      item = new ArrayList<>();
@@ -69,32 +71,26 @@
                         ArrayList<StaticBanModel> mm= new ArrayList<>();
                         String trangthai= postSnapshot.child("trangthai").getValue()+"";
                         String tenkhuvuc=postSnapshot.child("tenkhuvuc").getValue()+"";
-
-//                        Log.d("TENBAN",postSnapshot.child("tenkhuvuc").getValue()+"");
+                        String id_khuvuc = postSnapshot.getKey();
                         DataSnapshot sss = postSnapshot.child("ban");
                         for (DataSnapshot aaa: sss.getChildren()){
-
                             String tenban= aaa.child("tenban").getValue()+"";
                             String trangthai1=aaa.child("trangthai").getValue()+"";
+                            String id_ban = aaa.getKey();
 //                            Log.d("TENBAN",aaa.child("tenban").getValue()+"");
-                            mm.add(new StaticBanModel(tenban,trangthai1));
+                            mm.add(new StaticBanModel(id_ban,tenban,trangthai1,"",""));
+//                            Log.d("keyabc",aaa.getKey()+"abc");
                         }
-                        StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc,trangthai,mm);
-                      Log.d("av",mm.size()+"avv");
+                        StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc,trangthai,id_khuvuc,mm);
+//                      Log.d("av",mm.size()+"avv");
                         item.add(product);
-//                        Log.d("vvv",item.get(0).getStaticBanModels().get(0).getTenban());
+
                     }
                     recyclerView = findViewById(R.id.rv_1);
-                    for(int i=0; i< item.size();i++){
-                        Log.d("vvv",item.get(i).getTenkhuvuc());
-                        for (int x=0;x< item.get(i).getStaticBanModels().size();x++){
-                            Log.d("vvv",item.get(i).getStaticBanModels().get(x).getTenban());
-
-                        }
-                    }
                     staticRvKhuVucAdapter = new StaticRvKhuVucAdapter(item,OrderMenu.this,OrderMenu.this);
                     recyclerView.setLayoutManager(new LinearLayoutManager(OrderMenu.this,LinearLayoutManager.HORIZONTAL,false));
                     recyclerView.setAdapter(staticRvKhuVucAdapter);
+                    staticRvKhuVucAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -102,6 +98,7 @@
 
                 }
             });
+            callback();
 
 //           final ArrayList<StaticModelKhuVuc> item = new ArrayList<>();
 //            item.add(new StaticModelKhuVuc("khu Vuc 2","1"));
@@ -115,15 +112,14 @@
 //            recyclerView.setAdapter(staticRvKhuVucAdapter);
 
             items = new ArrayList<>();
-//            items.add(new StaticBanModel("aaaaa","1","aaaaaaaaa","11h"));
-//            items.add(new StaticBanModel("ban 2","2","Long","2h"));
             recyclerView2 =findViewById(R.id.rv_2);
-            staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item);
+            staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,"");
 
 //            recyclerView2.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.HORIZONTAL,false);
             recyclerView2.setLayoutManager(gridLayoutManager);
             recyclerView2.setAdapter(staticRvAdapter);
+            staticRvAdapter.notifyDataSetChanged();
 
             recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -141,8 +137,9 @@
         }
 
         @Override
-        public void GetBack(int position, ArrayList<StaticBanModel> items) {
-         staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item);
+        public void GetBack(int position, ArrayList<StaticBanModel> items,String id_khuvuc) {
+            id_khuvuc = item.get(position).getId_khuvuc();
+         staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,id_khuvuc);
          staticRvAdapter.notifyDataSetChanged();
          recyclerView2.setAdapter(staticRvAdapter);
 
@@ -159,4 +156,53 @@
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
             return super.onOptionsItemSelected(item);
         }
+        private void callback(){
+            ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getKey()+"longac1");
+                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getValue()+"long");
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("ccc", "onChildChanged:" + dataSnapshot.getKey());
+                Log.d("onChildChanged", "onChildChanged:" + dataSnapshot.getValue()+"longac1");
+//
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
+//
+//                // A comment has changed, use the key to determine if we are displaying this
+//                // comment and if so remove it.
+//                String commentKey = dataSnapshot.getKey();
+//
+//                // ...
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+//                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
+//
+//                // A comment has changed position, use the key to determine if we are
+//                // displaying this comment and if so move it.
+//                Comment movedComment = dataSnapshot.getValue(Comment.class);
+//                String commentKey = dataSnapshot.getKey();
+
+                // ...
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+//                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+//                Toast.makeText(mContext, "Failed to load comments.",
+//                        Toast.LENGTH_SHORT).show();
+            }
+        };
+            mDatabase.addChildEventListener(childEventListener);}
+
     }

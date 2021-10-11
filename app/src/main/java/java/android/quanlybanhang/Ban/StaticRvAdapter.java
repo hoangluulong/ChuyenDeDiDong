@@ -23,11 +23,13 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     ArrayList<StaticModelKhuVuc> items;
     boolean check = true;
     boolean select= true;
+    String Id_khuvuc;
 
-    public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items){
+    public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc){
         this.staticBanModels = staticBanModels;
         this.orderMenu = orderMenu;
         this.items = items;
+        this.Id_khuvuc = Id_khuvuc;
     }
     public class StaticRvHolderBan extends RecyclerView.ViewHolder {
 
@@ -70,6 +72,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.tenBan.setText(CrrItem.getTenban());
         holder.ngayGio.setText(CrrItem.getGioDaOder());
         holder.trangThai.setText(CrrItem.getTrangthai());
+
          if (staticBanModels.get(position).getTrangthai().equals("3")){
 //            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
              holder.view.setBackgroundResource(R.color.red);
@@ -79,15 +82,16 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         if (staticBanModels.get(position).getTrangthai().equals("2")){
 //            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
             holder.view.setBackgroundResource(R.color.maudat);
-
-
         }
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                if(items.get(position).getTenkhuvuc().equals("Khu vuc A")){
                     Intent intent = new Intent(orderMenu,MonOrder.class);
-                    intent.putExtra("tenban",CrrItem.getTenban());
+//                    intent.putExtra("tenban",CrrItem.getTenban());
+                    intent.putExtra("id_ban",CrrItem.getID());
+                    Log.d("id_khuvuc",Id_khuvuc);
+                    intent.putExtra("id_khuvuc",Id_khuvuc);
                     orderMenu.startActivity(intent);
 //                }
 //                else {

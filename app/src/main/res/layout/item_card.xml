@@ -62,6 +62,20 @@
             app:layout_constraintStart_toEndOf="@+id/imgsanpham"
             app:layout_constraintTop_toBottomOf="@+id/tvtensanpham" />
 
+        <TextView
+            android:id="@+id/tvsoluong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginBottom="17dp"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvgiasanpham"
+            app:layout_constraintTop_toBottomOf="@+id/tvtensanpham" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

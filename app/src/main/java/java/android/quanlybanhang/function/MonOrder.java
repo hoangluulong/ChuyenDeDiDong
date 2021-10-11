@@ -3,10 +3,8 @@ package java.android.quanlybanhang.function;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -29,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.android.quanlybanhang.ChiTietSanPham.Card_San_Pham;
 import java.android.quanlybanhang.CategoryMon.StaticCategoryAdapter;
 import java.android.quanlybanhang.CategoryMon.StaticCategoryMonModel;
-import java.android.quanlybanhang.ChiTietSanPham.ChiTietSanPham;
 import java.android.quanlybanhang.ChiTietSanPham.Interface_CategorySp_Sp;
 import java.android.quanlybanhang.OrderMon.Product;
 import java.android.quanlybanhang.OrderMon.StaticMonRvAdapter;
@@ -63,6 +60,8 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     ArrayList<StaticCategoryMonModel> item;
     Product staticMonOrderModel;
     String tenban;
+    String id_ban;
+    String id_khuvuc;
     StaticCardAdapter  staticCardAdapter ;
     ArrayList<Product> listcard= new ArrayList<>();//araylist mon
     Button bnt_card ;
@@ -72,24 +71,23 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mon_order);
         Intent intent = getIntent();
-        tenban = intent.getStringExtra("tenban");
-        Log.d("aaa",tenban+"vvv");
+//        tenban = intent.getStringExtra("tenban");
+        id_ban = intent.getStringExtra("id_ban");
+        id_khuvuc = intent.getStringExtra("id_khuvuc");
+//        Log.d("aaa",tenban+"vvv");
+        Log.d("KKK",id_ban+"KKK");
+        Log.d("KKK",id_khuvuc+"KKK");
+
         //menu toolbar
         listcard = new ArrayList<>();
-        bnt_card = findViewById(R.id.bnt_card);
+        bnt_card = findViewById(R.id.bnt_luu);
         bnt_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MonOrder.this, Card_San_Pham.class);
-//             Bundle  bundle = new Bundle();
-//             bundle.putSerializable("list",listcard);
-////             intent.putExtras(bundle);
-//             if(bundle!= null){
-//                 Log.d("aaa","bbbb");
-//
-//                 Log.d("aaa", listcard.size()+"");
-//             }
-               startActivityForResult(intent,RESULT_OK);
+                intent.putExtra("id_ban",id_ban);
+                intent.putExtra("id_khuvuc",id_khuvuc);
+                startActivity(intent);
 
             }
         });
@@ -102,7 +100,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                  item = new ArrayList<>();
@@ -113,8 +111,9 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                     DataSnapshot aaa = snapshot1;
                     for (DataSnapshot snapshot2 : aaa.getChildren()){
                         staticMonOrderModel=snapshot2.getValue(Product.class);
-                        Log.d("baldum" ,staticMonOrderModel.getImgProduct()+"abc");
-                        Log.d("baldum" ,staticMonOrderModel.getNameProduct()+"abc");
+//                        Log.d("keyabc",staticMonOrderModel.getId()+"abc");
+//                        Log.d("baldum" ,staticMonOrderModel.getImgProduct()+"abc");
+//                        Log.d("baldum" ,staticMonOrderModel.getNameProduct()+"abc");
                         mm.add(staticMonOrderModel);
                     }
                     StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory,mm);
@@ -136,7 +135,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 
         recyclerView2 =findViewById(R.id.rv_2);
 
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc);
 //        staticMonRvAdapter.setData(new StaticMonRvAdapter.IclickGetMon() {
 //            @Override
 //            public void clickItent(Product product) {
@@ -158,7 +157,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 
     @Override
     public void GetBack1(int pos, ArrayList<Product> items) {
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc);
         staticMonRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticMonRvAdapter);
     }

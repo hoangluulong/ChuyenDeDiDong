@@ -13,6 +13,14 @@ public class Product implements Serializable {
     String imgProduct;
     boolean addToCart;
 
+    public Product(String id, String nameProduct,  int soluong, String imgProduct,Double giaBan) {
+        this.id = id;
+        this.nameProduct = nameProduct;
+        this.giaBan = giaBan;
+        this.soluong = soluong;
+        this.imgProduct = imgProduct;
+    }
+
     public void setStatus(String status) {
         this.status = status;
     }

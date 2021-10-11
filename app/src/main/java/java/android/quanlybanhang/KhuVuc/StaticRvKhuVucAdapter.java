@@ -28,13 +28,14 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
     Activity activity;
     boolean check = true;
     boolean select= true;
-    private  String ID;
+    private  String id_khuvuc;
     private DatabaseReference kvDatabase;//khai bao database
     public StaticRvKhuVucAdapter(ArrayList<StaticModelKhuVuc> items, Activity activity, Interface_KhuVuc_ban interfacekhuVucban) {
         this.items = items;
         this.activity= activity;
         this.interfacekhuVucban = interfacekhuVucban;
 //        this.context = context;
+        this.id_khuvuc= id_khuvuc;
 
     }
 //
@@ -54,7 +55,7 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
         holder.textview1.setText(CrItem.getTrangthai());
         if(check){
 
-            interfacekhuVucban.GetBack(0,items.get(0).getStaticBanModels());
+            interfacekhuVucban.GetBack(0,items.get(0).getStaticBanModels(),items.get(0).getId_khuvuc());
             check= false;
         }
 
@@ -68,13 +69,13 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
                 notifyDataSetChanged();
 
 
-        Log.d("khungaa",item.size()+"");
+                Log.d("khungaa",item.size()+"");
 //                holder.constraintLayouts.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
 //                Log.d("khungaa",items.get(position).getStaticBanModels().get(0).getTrangthai());
                 for(int i=0;i<items.size();i++){
                     if(position==i){
 
-                        interfacekhuVucban.GetBack(position,items.get(position).getStaticBanModels());
+                        interfacekhuVucban.GetBack(position,items.get(position).getStaticBanModels(),items.get(i).getId_khuvuc());
 
                                     }
                               }

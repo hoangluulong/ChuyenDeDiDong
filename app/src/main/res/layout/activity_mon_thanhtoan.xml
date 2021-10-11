@@ -65,10 +65,10 @@
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bnt_card" />
+        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
 
     <Button
-        android:id="@+id/bnt_card"
+        android:id="@+id/bnt_luu"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"
@@ -119,7 +119,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bnt_card"
+        app:layout_constraintEnd_toStartOf="@+id/bnt_luu"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/bachamoo" />
 
@@ -150,7 +150,7 @@
         android:background="@drawable/rv_khuvuc_bg"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/bnt_card"
+        app:layout_constraintBottom_toTopOf="@+id/bnt_luu"
         app:layout_constraintStart_toEndOf="@+id/textView11" />
 
 

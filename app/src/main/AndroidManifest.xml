@@ -36,10 +36,6 @@
         <activity android:name=".function.AddProduct" />
         <activity android:name=".function.AddCategory" />
         <activity
-            android:name=".ChiTietSanPham.ChiTietSanPham_Banh"
-            android:exported="true"
-            android:parentActivityName=".function.MonOrder" />
-        <activity
             android:name=".ChiTietSanPham.ChiTietSanPham"
             android:exported="true"
             android:parentActivityName=".function.MonOrder" />
