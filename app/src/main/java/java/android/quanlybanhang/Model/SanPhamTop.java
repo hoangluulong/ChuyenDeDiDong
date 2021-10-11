@@ -3,21 +3,23 @@ package java.android.quanlybanhang.Model;
 public class SanPhamTop {
     private String name;
     private int soLuong;
+    private String color;
     //private ImageView imageView;
 
     public SanPhamTop() {
+        this.color = "";
     }
 
-//    public SanPhamTop(String name, int soLuong, ImageView imageView) {
-//        this.name = name;
-//        this.soLuong = soLuong;
-//        this.imageView = imageView;
-//    }
+    public SanPhamTop(String name, int soLuong, String color) {
+        this.name = name;
+        this.soLuong = soLuong;
+        this.color = color;
+    }
 
     public SanPhamTop(String name, int soLuong) {
         this.name = name;
         this.soLuong = soLuong;
-        //this.imageView = imageView;
+        this.color = "";
     }
 
     public String getName() {
@@ -36,11 +38,11 @@ public class SanPhamTop {
         this.soLuong = soLuong;
     }
 
-//    public ImageView getImageView() {
-//        return imageView;
-//    }
-//
-//    public void setImageView(ImageView imageView) {
-//        this.imageView = imageView;
-//    }
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

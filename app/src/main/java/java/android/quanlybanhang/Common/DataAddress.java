@@ -1,7 +1,6 @@
 package java.android.quanlybanhang.Common;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;

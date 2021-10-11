@@ -2,26 +2,26 @@ package java.android.quanlybanhang.function.BaoCao.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
+import java.android.quanlybanhang.HelperClasses.ChiSoSanPhamAdapter;
+import java.android.quanlybanhang.Model.SanPhamTop;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +61,6 @@ public class ChiSoSanPhamFragment extends Fragment {
         return fragment;
     }
 
-    private HorizontalBarChart barChart;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,59 +77,63 @@ public class ChiSoSanPhamFragment extends Fragment {
     private FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
     private DatabaseReference mFirebaseDatabase = mFirebaseInstance.getReference();
 
+    //TODO: ID
+    private PieChart pieChart;
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerView2;
+    private ChiSoSanPhamAdapter chiSoSanPhamAdapter;
+    private List<SanPhamTop> list;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chi_so_san_pham, container, false);
-        barChart = view.findViewById(R.id.horizonChar);
+        data(view);
 
-        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+        pieChart = (PieChart) view.findViewById(R.id.piechart);
+        displayItem(view);
 
-        barEntries.add(new BarEntry(0, 1));
-        barEntries.add(new BarEntry(1, 2));
-        barEntries.add(new BarEntry(2, 4));
-        barEntries.add(new BarEntry(3, 6));
-        barEntries.add(new BarEntry(4, 5));
-        barEntries.add(new BarEntry(5, 7));
-
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Contracts");
-        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        barDataSet.setHighlightEnabled(true);
-        barDataSet.setHighLightColor(Color.RED);
-
-        BarData barData = new BarData(barDataSet);
-
-        barChart.getDescription().setText("Top sản phẩm bán chạy nhất");
-        barChart.getDescription().setTextSize(12);
-        barChart.setDrawMarkers(true);
-        barChart.getAxisLeft().setAxisMinimum(0);
-        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED);
-
-        ArrayList<String> labels = new ArrayList<String> ();
-
-        labels.add( "Redbull");
-        labels.add( "Trà sữa mimi");
-        labels.add( "Hello kus");
-        labels.add( "aa");
-        labels.add( "MAY");
-        labels.add( "JUN");
-
-
-        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-        barChart.animateY(1000);
-
-        barChart.getXAxis().setGranularityEnabled(true);
-        barChart.getXAxis().setGranularity(1.0f);
-        barChart.getXAxis().setLabelCount(barDataSet.getEntryCount());
-
-        barChart.setData(barData);
-
-
+        setData();
         return view;
     }
 
-    private void getDataSanPham() {
+    private void setData() {
+        for (int i = 0; i < list.size(); i++) {
+            pieChart.addPieSlice(
+                    new PieModel(
+                            list.get(i).getName(),
+                            Integer.parseInt(list.get(i).getSoLuong() + ""),
+                            Color.parseColor(list.get(i).getColor())));
+        }
+        pieChart.startAnimation();
+    }
 
+    private void displayItem(View view) {
+        recyclerView = view.findViewById(R.id.recycler_chi_so_san_pham);
+
+        chiSoSanPhamAdapter = new ChiSoSanPhamAdapter(view.getContext(), list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setAdapter(chiSoSanPhamAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    private void data(View view) {
+        list = new ArrayList<>();
+
+        Random obj = new Random();
+
+        list.add(new SanPhamTop("Long hoang huu", 10));
+        list.add(new SanPhamTop("Hoang huu long", 30));
+        list.add(new SanPhamTop("Long huu hoang", 10));
+        list.add(new SanPhamTop("Long huu huu", 60));
+        list.add(new SanPhamTop("Long huu tis", 90));
+
+
+        for (int i = 0; i < list.size(); i++) {
+            int rand_num = obj.nextInt(0xffffff + 1);
+            String colorCode = String.format("#%06x", rand_num);
+            list.get(i).setColor(colorCode);
+        }
     }
 }
