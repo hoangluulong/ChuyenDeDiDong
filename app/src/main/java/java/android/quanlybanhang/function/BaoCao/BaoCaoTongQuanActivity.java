@@ -1,24 +1,33 @@
 package java.android.quanlybanhang.function.BaoCao;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.util.Pair;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -26,26 +35,34 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDate;
+import java.android.quanlybanhang.Common.Utils;
 import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+
 
 public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -74,13 +91,23 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
     private int kieuHienThi;
     private String ngayBatDau;
+    private String ngayBD;
+    private String ngayKT;
     private String ngayKetThuc;
+    private Calendar calendar2;
     private int id;
     private ArrayList<PieTongQuan> dsSanPham = new ArrayList<>();
     private ArrayList<String> dsNhomSanPham = new ArrayList<>();
     private ArrayList<String> listDays;
     private ArrayList<DataSnapshot> dataBienLai = new ArrayList<>();
     private ArrayList<PieTongQuan> sanPham = new ArrayList<>();
+    private MaterialDatePicker materialDatePicker;
+    private int tamp = 0;
+
+    //dialog
+    private Dialog dialog;
+    private Button dong;
+    private Button dongy;
 
     //Firebase
     private FirebaseDatabase mFirebaseInstance;
@@ -98,6 +125,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
         DatabaseSQlite();
         bieuDoSanPham();
+//        guiDuLieu();
     }
 
     //
@@ -186,6 +214,10 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         sl_comonhuy = findViewById(R.id.sl_comonhuy);
         sl_hoadononline = findViewById(R.id.sl_hoadononline);
 
+        //button
+        thoiGianLamViec = findViewById(R.id.btnThoiGianLamViec);
+        btnChiNhanh = findViewById(R.id.btnChiNhanh);
+
         pieChart = (PieChart) findViewById(R.id.pieChart);
 
         setOnclick();
@@ -203,6 +235,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         cv_dicvuphuthu.setOnClickListener(this);
         cv_comonhuy.setOnClickListener(this);
         cv_hoadononline.setOnClickListener(this);
+        thoiGianLamViec.setOnClickListener(this);
+        btnChiNhanh.setOnClickListener(this);
 
         //Dialog
         bottomSheetDialog = new BottomSheetDialog(BaoCaoTongQuanActivity.this, R.style.BottomSheetBaoCao);
@@ -284,6 +318,12 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.btnBaoCaoClose:
                 bottomSheetDialog.dismiss();
+                break;
+            case R.id.btnThoiGianLamViec:
+                openFeedbackDialog(Gravity.CENTER);
+                break;
+            case R.id.btnChiNhanh:
+                Toast.makeText(BaoCaoTongQuanActivity.this, "Chi nhánh", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -389,6 +429,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 ngayBatDau = dataHienThiBaoCao.getString(1);
                 ngayKetThuc = dataHienThiBaoCao.getString(2);
                 kieuHienThi = dataHienThiBaoCao.getInt(3);
+                tamp = kieuHienThi;
             }
         } else {
             calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -400,6 +441,18 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             ngayKetThuc = homNay;
 
             dataSql.QueryData("INSERT INTO KieuHienThiBaoCao VALUES(null, '" + homNay + "', '" + homNay + "', 1)");
+        }
+
+        if (kieuHienThi == 1) {
+            thoiGianLamViec.setText("Hôm nay");
+        }else if (kieuHienThi == 2){
+            thoiGianLamViec.setText("Tuần này");
+        }else if (kieuHienThi == 3) {
+            thoiGianLamViec.setText("Tháng này");
+        }else if (kieuHienThi == 4){
+            thoiGianLamViec.setText("Năm nay");
+        }else if (kieuHienThi == 5) {
+            thoiGianLamViec.setText(ngayBatDau + "-"+ngayKetThuc);
         }
 
         listDays = MangNgay();
@@ -438,13 +491,16 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     }
 
     private void getDataBienLai() {
+        listDays.clear();
+        listDays = MangNgay();
+        dataBienLai.clear();
         for (String st : listDays) {
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         for (DataSnapshot a : dataSnapshot.getChildren()) {
-                            Log.d("qqq", a.toString());
                             dataBienLai.add(a);
                         }
                     }
@@ -459,13 +515,16 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         }
     }
 
+    int i = 0;
     private void SetDuLieu() {
+        Log.d("qqq", "SetDuLieu:" + dataBienLai.size());
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 //xoa linearlayout
-                if (dataBienLai.size() != 0 || dataBienLai != null) {
+
+                if (dataBienLai.size() != 0) {
 
                     int slDaThanhToan = 0;
                     double tienDTT = 0;
@@ -492,13 +551,25 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                     tien_doanhthu.setText(formatStr(tienDTT));
 
                     tien_dathanhtoan.setText(formatStr(tienDTT));
-                    sl_dathanhtoan.setText(slDaThanhToan+"");
+                    sl_dathanhtoan.setText(slDaThanhToan + "");
 
                     tien_doanhso.setText(formatStr(tienDTT));
-                    sl_doanhso.setText(slDaThanhToan+"");
+                    sl_doanhso.setText(slDaThanhToan + "");
 
                     tien_chuathanhtoan.setText(formatStr(tienCTT));
-                    sl_chuathanhtoan.setText(slChuaThanhToan+"");
+                    sl_chuathanhtoan.setText(slChuaThanhToan + "");
+
+                    if (kieuHienThi == 1) {
+                        thoiGianLamViec.setText("Hôm nay");
+                    }else if (kieuHienThi == 2){
+                        thoiGianLamViec.setText("Tuần này");
+                    }else if (kieuHienThi == 3) {
+                        thoiGianLamViec.setText("Tháng này");
+                    }else if (kieuHienThi == 4){
+                        thoiGianLamViec.setText("Năm nay");
+                    }else if (kieuHienThi == 5) {
+                        thoiGianLamViec.setText(ngayBatDau + "-"+ngayKetThuc);
+                    }
 
                     for (DataSnapshot sp : listSP) {
                         for (DataSnapshot s : sp.getChildren()) {
@@ -516,15 +587,269 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
                     dsSanPham.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
                     bieuDoSanPham();
+                    i = 0;
+                    dialog.dismiss();
+                    dongy.setEnabled(true);
                 } else {
-                    SetDuLieu();
+                    i++;
+                    if (i <= 500) {
+                        SetDuLieu();
+                    }else {
+                        tien_doanhthu.setText("0");
+                        tien_doanhthu.setText("0");
+
+                        tien_dathanhtoan.setText("0");
+                        sl_dathanhtoan.setText("0");
+
+                        tien_doanhso.setText("0");
+                        sl_doanhso.setText("0");
+
+                        tien_chuathanhtoan.setText("0");
+                        sl_chuathanhtoan.setText("0");
+                        dialog.dismiss();
+                        dongy.setEnabled(true);
+                        i=0;
+                    }
                 }
             }
-        }, 3000);
+        }, 50);
     }
 
-    public String formatStr(double val) {
+    private String formatStr(double val) {
         return String.format(Locale.US, "%,.2f", val);
+    }
+
+    private void openFeedbackDialog(int gravity) {
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_ngay_bao_bao);
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        ngayBD = ngayBatDau;
+        ngayKT = ngayKetThuc;
+
+        Window window = dialog.getWindow();
+
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        if (Gravity.BOTTOM == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+        }
+
+        RadioGroup gRadio = dialog.findViewById(R.id.gRadio);
+        dong = dialog.findViewById(R.id.btn_dong);
+        dongy = dialog.findViewById(R.id.btn_dong_y);
+        Button TuyChonNgay = dialog.findViewById(R.id.btn_chon_ngay);
+        RadioButton rdHomNay = dialog.findViewById(R.id.rdb_homnay);
+        RadioButton rdTuanNay = dialog.findViewById(R.id.rdb_tuannay);
+        RadioButton rdThangNay = dialog.findViewById(R.id.rdb_thangnay);
+        RadioButton rdNamNay = dialog.findViewById(R.id.rdb_namnay);
+
+        if (kieuHienThi == 1) {
+            rdHomNay.setChecked(true);
+            rdTuanNay.setChecked(false);
+            rdThangNay.setChecked(false);
+            rdNamNay.setChecked(false);
+        } else if (kieuHienThi == 2) {
+            rdHomNay.setChecked(false);
+            rdTuanNay.setChecked(true);
+            rdThangNay.setChecked(false);
+            rdNamNay.setChecked(false);
+        } else if (kieuHienThi == 3) {
+            rdHomNay.setChecked(false);
+            rdTuanNay.setChecked(false);
+            rdThangNay.setChecked(true);
+            rdNamNay.setChecked(false);
+        } else if (kieuHienThi == 4) {
+            rdHomNay.setChecked(false);
+            rdTuanNay.setChecked(false);
+            rdThangNay.setChecked(false);
+            rdNamNay.setChecked(true);
+        } else if (kieuHienThi == 5) {
+            rdHomNay.setChecked(false);
+            rdTuanNay.setChecked(false);
+            rdThangNay.setChecked(false);
+            rdNamNay.setChecked(false);
+            TuyChonNgay.setText(ngayBatDau + " - " + ngayKetThuc);
+        }
+
+        Long toDay = MaterialDatePicker.todayInUtcMilliseconds();
+
+        calendar2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar2.clear();
+
+        calendar2.setTimeInMillis(toDay);
+
+        calendar2.set(Calendar.YEAR, 2000);
+        Long year = calendar2.getTimeInMillis();
+
+        CalendarConstraints.Builder contraBuilder = new CalendarConstraints.Builder();
+        contraBuilder.setStart(year);
+        contraBuilder.setEnd(toDay);
+        contraBuilder.setValidator(DateValidatorPointBackward.before(toDay));
+
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+        builder.setTitleText("SELECT A DATE");
+        builder.setCalendarConstraints(contraBuilder.build());
+        materialDatePicker = builder.build();
+
+        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+            @Override
+            public void onPositiveButtonClick(Pair<Long, Long> selection) {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String startDate = formatter.format(selection.first);
+                String endDate = formatter.format(selection.second);
+                TuyChonNgay.setText(startDate + " - " + endDate);
+                ngayBD = startDate;
+                ngayKT = endDate;
+                rdHomNay.setChecked(false);
+                rdTuanNay.setChecked(false);
+                rdThangNay.setChecked(false);
+                rdNamNay.setChecked(false);
+                tamp = 5;
+            }
+        });
+
+        dong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                tamp = kieuHienThi;
+            }
+        });
+
+        dongy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ngayBatDau = ngayBD;
+                ngayKetThuc = ngayKT;
+                dataSql = new DbBaoCao(BaoCaoTongQuanActivity.this, "app_database.sqlite", null, 1);
+                dataSql.QueryData("UPDATE KieuHienThiBaoCao SET NgayBatDau='"+ngayBatDau+"', NgayKetThuc='"+ngayKetThuc+"', KieuHienThi="+tamp+" WHERE id="+id+"");
+                kieuHienThi = tamp;
+
+                getDataBienLai();
+                SetDuLieu();
+                if (kieuHienThi == 1) {
+                    thoiGianLamViec.setText("Hôm nay");
+                }else if (kieuHienThi == 2){
+                    thoiGianLamViec.setText("Tuần này");
+                }else if (kieuHienThi == 3) {
+                    thoiGianLamViec.setText("Tháng này");
+                }else if (kieuHienThi == 4){
+                    thoiGianLamViec.setText("Năm nay");
+                }else if (kieuHienThi == 5) {
+                    thoiGianLamViec.setText(ngayBatDau + "-"+ngayKetThuc);
+                }
+                dongy.setEnabled(false);
+                Toast.makeText(BaoCaoTongQuanActivity.this, ngayBatDau + " -- " + ngayKetThuc, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rdHomNay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rdHomNay.setChecked(true);
+                rdTuanNay.setChecked(false);
+                rdThangNay.setChecked(false);
+                rdNamNay.setChecked(false);
+                TuyChonNgay.setText("Chọn một ngày khác");
+                ngayBD = formatDate(date);
+                ngayKT = formatDate(date);
+                tamp = 1;
+            }
+        });
+
+        rdTuanNay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rdHomNay.setChecked(false);
+                rdTuanNay.setChecked(true);
+                rdThangNay.setChecked(false);
+                rdNamNay.setChecked(false);
+                TuyChonNgay.setText("Chọn một ngày khác");
+
+                // Get calendar set to current date and time
+                Calendar c = GregorianCalendar.getInstance();
+
+                // Set the calendar to monday of the current week
+                c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+                // Print dates of the current week starting on Monday
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                ngayBD = df.format(c.getTime());
+                c.add(Calendar.DATE, 6);
+                ngayKT = df.format(c.getTime());
+                tamp = 2;
+            }
+        });
+
+        rdThangNay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rdHomNay.setChecked(false);
+                rdTuanNay.setChecked(false);
+                rdThangNay.setChecked(true);
+                rdNamNay.setChecked(false);
+                TuyChonNgay.setText("Chọn một ngày khác");
+
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                String thang = (month + 1) + "";
+                if ((month + 1) < 10) {
+                    thang = "0" + (month + 1);
+                }
+
+                ngayBD = "01/" + thang + "/" + year;
+                ngayKT = formatDate(date);
+                tamp = 3;
+            }
+        });
+
+        rdNamNay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rdHomNay.setChecked(false);
+                rdTuanNay.setChecked(false);
+                rdThangNay.setChecked(false);
+                rdNamNay.setChecked(true);
+                TuyChonNgay.setText("Chọn một ngày khác");
+
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                ngayBD = "01/01/" + year;
+                ngayKT = formatDate(date);
+                tamp = 4;
+            }
+        });
+
+        TuyChonNgay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TuyChonNgay.setEnabled(false);
+                materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+                Utils.delay(2, new Utils.DelayCallback() {
+                    @Override
+                    public void afterDelay() {
+                        TuyChonNgay.setEnabled(true);
+                    }
+                });
+            }
+        });
+
+        dialog.show();
+    }
+
+    private String formatDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String strDate = formatter.format(date);
+        return strDate;
     }
 
     private void guiDuLieu() {
@@ -532,24 +857,24 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         for (String a : listDays) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_ban").setValue("b2");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_khuvuc").setValue("k2");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_khachhang").setValue("kh2");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_nhanvien").setValue("nv2");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/khuyenmai/id_khuyenmai").setValue(0);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/khuyenmai/status").setValue(0);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/khuyenmai/value").setValue(0);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/phiphu/id_" + dem + "/mieuta").setValue("null");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/phiphu/id_" + dem + "/tienphi").setValue("null");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/tensanpham").setValue("Readbull");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/nhomsanpham").setValue("Nước có ga");
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/giamgia").setValue(0);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/giatien").setValue(20000);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/soluong").setValue(2);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/thanhtien").setValue(40000);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/status").setValue(1);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/tongthanhtoan").setValue(40000);
-            mFirebaseDatabase.child("CuaHangOder/XDtrGrfpqvZCk5FzyqP896twSwK2/bienlai/thu/" + a + "/" + timestamp.getTime() + "/tongtien").setValue(40000);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_ban").setValue("b2");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_khuvuc").setValue("k2");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_khachhang").setValue("kh2");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_nhanvien").setValue("nv2");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/khuyenmai/id_khuyenmai").setValue(0);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/khuyenmai/status").setValue(0);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/khuyenmai/value").setValue(0);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/phiphu/id_" + dem + "/mieuta").setValue("null");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/phiphu/id_" + dem + "/tienphi").setValue("null");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/tensanpham").setValue("Readbull");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/nhomsanpham").setValue("Nước có ga");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/giamgia").setValue(0);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/giatien").setValue(20000);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/soluong").setValue(2);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/thanhtien").setValue(40000);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/status").setValue(1);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/tongthanhtoan").setValue(40000);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/tongtien").setValue(40000);
             dem++;
         }
     }

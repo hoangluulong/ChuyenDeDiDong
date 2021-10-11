@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +24,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Data.CaLam;
+import java.android.quanlybanhang.Data.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.database.DbBaoCao;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -41,6 +47,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private final String CUA_HANG = "CuaHangOder";
     private final String ACCOUNT_LOGIN = "ACCOUNT_LOGIN";
     private final static String KEY_CHILD_STORE = "KEY_CHILD_STORE";
+
+    private List<CheckBox> checkBoxes;
+    private ArrayList<Boolean> congViec;
+    private CaLam caLam = new CaLam();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +91,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 signup();
                 break;
         }
-
     }
 
     private void signup(){
@@ -128,15 +137,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         String UID = mFirebaseAuth.getUid();
                         mFirebaseInstance = FirebaseDatabase.getInstance();
                         mFirebaseDatabase = mFirebaseInstance.getReference();
-//                        mFirebaseAuth.signOut();
 
-                        //setup account
-                        mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID+"/username").setValue(userName);
-                        mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID+"/email").setValue(mail);
-                        mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID+"/ChucVu").setValue(1);
-                        mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID+"/phone").setValue(mPhone);
-                        mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID+"/CaLam").setValue(1);
+                        congViec = new ArrayList<>();
+                        congViec.add(true);
+                        congViec.add(true);
+                        congViec.add(true);
+                        congViec.add(true);
+                        congViec.add(true);
+
                         mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/ThongTinCuaHang/ThietLap").setValue(false);
+
+                        NhanVien nhanVien = new NhanVien(userName, mail, congViec ,caLam ,mPhone , UID);
+                        mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID).setValue(nhanVien);
 
                         String KEY_CUAHANG = mFirebaseDatabase.push().getKey();
                         Log.d("KEY", KEY_CUAHANG);

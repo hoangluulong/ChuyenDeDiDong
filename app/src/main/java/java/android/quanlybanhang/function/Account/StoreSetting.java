@@ -23,6 +23,7 @@ import org.json.JSONException;
 import java.android.quanlybanhang.Common.DataAddress;
 import java.android.quanlybanhang.Model.Address;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.database.DbBaoCao;
 import java.android.quanlybanhang.function.MainActivity;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class StoreSetting extends AppCompatActivity {
     private String tenHuyen;
     private String KEY_CHILD = "";
     private String ID_USER = "";
+    private DbBaoCao dataSql;
 
     //Firebase
     private DatabaseReference mFirebaseDatabase;
@@ -131,12 +133,16 @@ public class StoreSetting extends AppCompatActivity {
                         setUpStore();
                         Toast.makeText(StoreSetting.this,"Complete", Toast.LENGTH_SHORT).show();
                     }else{
-                        Intent intent1 = new Intent(StoreSetting.this, MainActivity.class);
-                        startActivity(intent1);
+                        dataSql = new DbBaoCao(StoreSetting.this, "app_database.sqlite", null, 1);
+                        dataSql.QueryData("CREATE TABLE IF NOT EXISTS cuahang(" +
+                                "id_cuahnag INTEGER PRIMARY KEY, " +
+                                "tencuahang VARCHAR(200));");
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/TenCuaHang").setValue(nameStore);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/DiaChi_Tinh").setValue(tenTinh);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/DiaChi_Huyen").setValue(tenHuyen);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/ThietLap").setValue(true);
+                        Intent intent1 = new Intent(StoreSetting.this, MainActivity.class);
+                        startActivity(intent1);
                     }
 
 

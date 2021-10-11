@@ -29,9 +29,10 @@
         <activity
             android:name=".function.Account.StoreSetting"
             android:exported="true" />
+
         <activity
             android:name=".function.Account.SignInActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".function.Account.SignUpActivity"
             android:exported="true" />
@@ -53,7 +54,6 @@
             android:theme="@style/thameActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

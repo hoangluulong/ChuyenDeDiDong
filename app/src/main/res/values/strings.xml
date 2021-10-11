@@ -28,6 +28,7 @@
     <string name="so_luong">Số lượng: </string>
     <string name="so_0">0</string>
     <string name="chi_nhanh">Chi nhánh</string>
+    <string name="chon_ngay">Chọn ngày</string>
 
     <!--    Login and signup-->
     <string name="signIpNow">SignUp to start your new Joueney</string>
