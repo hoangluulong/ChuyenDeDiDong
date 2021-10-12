@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.OrderMon.Product;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
-import java.android.quanlybanhang.function.MonOrder;
 import java.util.ArrayList;
 
 public class ChiTietSanPham extends AppCompatActivity {
@@ -28,12 +30,13 @@ public class ChiTietSanPham extends AppCompatActivity {
     String id;
     private  int sl;
     private Database_order database_order;
-    Button bnt_xacnhan;
-private  String tensps;
-private   String image;
-private Double giasanphams;
-private  int soluong;
-private  TextView soluong2;
+    private Button bnt_xacnhan;
+    private  String tensps;
+    private   String image;
+    private Double giasanphams;
+    private  int soluong;
+    private  TextView soluong2,tonggiasp;
+    private ImageView imgsp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,7 @@ private  TextView soluong2;
 
         getData();
 
-        setContentView(R.layout.activity_chi_tiet_san_pham_do_uong);
+        setContentView(R.layout.activity_chi_tiet_san_pham_card);
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
 //             viet su kien cho toolbar
@@ -64,9 +67,14 @@ private  TextView soluong2;
         Log.d("bbb","tensp"+tensps+"giasanpham"+giasanphams+"soluong"+soluong+"");
         tensp = findViewById(R.id.tvtensanpham);
         giasp = findViewById(R.id.tvgiasanpham);
-        giatongsp = findViewById(R.id.tvgiatongsanpham);
+        tonggiasp = findViewById(R.id.tvtonggiasanpham);
+        imgsp = findViewById(R.id.imgproduct);
+//        do du lieu vao trang
         tensp.setText(tensps);
+        Picasso.get().load(image).into(imgsp);
         giasp.setText(giasanphams+"");
+        sl=Integer.parseInt(soluong2.getText()+"");
+        tonggiasp.setText((giasanphams*sl)+"");
 //        tenban = bundle.getString("tenban") ;
         id_ban = bundle.getString("id_ban");
         id_khuvuc= bundle.getString("id_khuvuc");
@@ -79,21 +87,7 @@ private  TextView soluong2;
         bnt_xacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                        AddFirebasedata(new StaticMonOrderModel(tensps,soluong));
-//                database_order.QueryData("INSERT INTO databaseorder VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+soluong+",'"+image+"',"+giasanphams+");");
-//                Intent intent1 = new Intent(ChiTietSanPham.this, MonOrder.class);
-//                intent.putExtra("id_ban",id_ban);
-//                intent.putExtra("id_khuvuc",id_khuvuc);
-//                Log.d("id_ban",id_ban+"acbank");
-//                Log.d("id_khuvuc",id_ban+"acbank");
                 onBackPressed();
-//                startActivity(intent1);
-//                Bundle bundle1= new Bundle();
-//                bundle1.putSerializable("card",new Product(tensps,soluong));
-//                intent1.putExtras(bundle1);
-////                        intent1.putExtra("tenban",tenban);
-//                startActivityForResult(intent1,RESULT_OK);
-
 
             }
         });
@@ -150,18 +144,5 @@ private  TextView soluong2;
         super.onBackPressed();
 
     }
-    //        database_order.QueryData("CREATE TABLE IF NOT EXISTS database1(" +
-//                "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                "NgayBatDau VARCHAR(200), " +
-//                "NgayKetThuc VARCHAR(200), " +
-//                "KieuHienThi INTEGER DEFAULT 1);");
-//    }
-//
-//    public void AddFirebasedata(StaticMonOrderModel  staticMonOrderModel){
-//
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder");
-//        databaseReference.child(tenban).child("sanpham").push().setValue(staticMonOrderModel);
-//
-//    }
 
 }

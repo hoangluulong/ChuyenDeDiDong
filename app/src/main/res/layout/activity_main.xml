@@ -7,7 +7,7 @@
     android:id="@+id/drawable_layout"
     android:background="#FFFFFF"
     android:elevation="10dp"
-    tools:context=".function.BaoCaoTongQuan"
+    tools:context=".function.MainActivity"
     android:fitsSystemWindows="true"
     tools:openDrawer="end"
     android:orientation="vertical"
