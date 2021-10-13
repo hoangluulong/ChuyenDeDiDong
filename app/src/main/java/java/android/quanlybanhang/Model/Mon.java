@@ -1,9 +1,13 @@
-package java.android.quanlybanhang.Model;
+package com.example.myapplication;
+
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class Mon {
     String tensanpham;
 
-    public Mon(String tensanpham, String soluong) {
+    public Mon(String tensanpham, int soluong) {
         this.tensanpham = tensanpham;
         this.soluong = soluong;
     }
@@ -19,13 +23,13 @@ public class Mon {
         this.tensanpham = tensanpham;
     }
 
-    public String getSoluong() {
+    public int getSoluong() {
         return soluong;
     }
 
-    public void setSoluong(String soluong) {
+    public void setSoluong(int soluong) {
         this.soluong = soluong;
     }
 
-    String soluong;
+    int soluong;
 }

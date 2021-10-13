@@ -1,5 +1,7 @@
-package java.android.quanlybanhang.Model;
+package com.example.myapplication;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Table {
@@ -20,8 +22,7 @@ public class Table {
 
 
 
-    public Table(String nameTable, String yeuCau, String date) {
-        this.nameTable = nameTable;
+    public Table( String yeuCau, String date) {
         this.yeuCau = yeuCau;
         this.date = date;
     }

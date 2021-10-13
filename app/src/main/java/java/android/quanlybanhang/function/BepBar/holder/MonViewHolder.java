@@ -1,4 +1,4 @@
-package java.android.quanlybanhang.function.BepBar.holder;
+package com.example.myapplication;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.android.quanlybanhang.Model.Mon;
-import java.android.quanlybanhang.R;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MonViewHolder extends RecyclerView.Adapter<MonViewHolder.ViewHolder>{
@@ -50,7 +49,7 @@ public class MonViewHolder extends RecyclerView.Adapter<MonViewHolder.ViewHolder
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View heroView = inflater.inflate(R.layout.design_mon, parent, false);
-        return new ViewHolder(heroView);
+        return new MonViewHolder.ViewHolder(heroView);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package java.android.quanlybanhang.function.BepBar.Fragment;
+package com.example.myapplication;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,11 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.android.quanlybanhang.Model.Mon;
-import java.android.quanlybanhang.Model.Table;
-import java.android.quanlybanhang.Model.TestChangProduct;
-import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.BepBar.holder.TableViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +65,7 @@ public class TableFragment extends Fragment {
         List<Mon> mons=new ArrayList<>();
         stringList=new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("sanphamorder").addChildEventListener(new ChildEventListener() {
+        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 stringList.add(snapshot.getKey());
@@ -105,33 +101,32 @@ public class TableFragment extends Fragment {
     {
 
 
-        mDatabase.child("sanphamorder").child(list_key).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(list_key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                mons = getListProductFromTable(list_key);
-                Log.d("gg",snapshot.getKey());
+                Log.d("aaaa",snapshot.getKey());
+//                boolean flag=snapshot.child("flag").getValue(Boolean.class);
                 TestChangProduct testChangProduct=snapshot.getValue(TestChangProduct.class);
-                if(testChangProduct.isFlag()==true)
-                {
-
-                    keyListSelected.add(list_key);
-                    Table category = snapshot.getValue(Table.class);
-                    tableList.add(new Table(list_key,mons,category.getYeuCau(),category.getDate()));
-                    tableViewHolder.setData(tableList);
-
-                }
-                else {
-
-                    for (int i=0;i<keyListSelected.size();i++)
-                    {
-                        if(keyListSelected.get(i).equals(list_key))
-                        {
-                            tableList.remove(i);
-                            keyListSelected.remove(i);
+                if(testChangProduct!=null){
+                        if (testChangProduct.isFlag() == true) {
+                            keyListSelected.add(list_key);
+                            Table category = snapshot.getValue(Table.class);
+                            tableList.add(new Table(list_key, mons, category.getYeuCau(), category.getDate()));
                             tableViewHolder.setData(tableList);
+
+                        } else {
+
+                            for (int i = 0; i < keyListSelected.size(); i++) {
+                                if (keyListSelected.get(i).equals(list_key)) {
+                                    tableList.remove(i);
+                                    keyListSelected.remove(i);
+                                    tableViewHolder.setData(tableList);
+                                }
+                            }
+
                         }
-                    }
 
                 }
 
@@ -154,7 +149,7 @@ public class TableFragment extends Fragment {
 
 
 
-        mDatabase.child("sanphamorder").child(key).child("sanpham").addChildEventListener(new ChildEventListener() {
+        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(key).child("sanpham").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Mon mon=snapshot.getValue(Mon.class);
@@ -182,24 +177,6 @@ public class TableFragment extends Fragment {
 
             }
         });
-
-
-//        mDatabase.child("sanphamorder").child(key).child("sanpham").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Log.d("gg",key);
-////                Log.d("gg",snapshot.getKey());
-//
-////                Mon mon=snapshot.getValue(Mon.class);
-////                mons.add(mon);
-////                tableViewHolder.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
         return  mons;
     }

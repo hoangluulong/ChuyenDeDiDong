@@ -1,19 +1,24 @@
-package java.android.quanlybanhang.function.BepBar.holder;
+package com.example.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.android.quanlybanhang.Model.Table;
-import java.android.quanlybanhang.R;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TableViewHolder extends RecyclerView.Adapter<TableViewHolder.ViewHolderBan> {
@@ -39,7 +44,7 @@ public class TableViewHolder extends RecyclerView.Adapter<TableViewHolder.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolderBan holder, int position) {
+    public void onBindViewHolder(TableViewHolder.ViewHolderBan holder, int position) {
         Table table = tableList.get(position);
         holder.examName.setText(table.getNameTable());
         holder.examMessage.setText(table.getYeuCau());

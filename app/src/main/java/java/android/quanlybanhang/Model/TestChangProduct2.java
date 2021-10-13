@@ -1,4 +1,4 @@
-package java.android.quanlybanhang.Model;
+package com.example.myapplication;
 
 import java.util.List;
 

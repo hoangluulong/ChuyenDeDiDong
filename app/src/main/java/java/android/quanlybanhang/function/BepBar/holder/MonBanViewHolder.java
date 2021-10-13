@@ -1,14 +1,14 @@
-package java.android.quanlybanhang.function.BepBar.holder;
+package com.example.myapplication;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.android.quanlybanhang.Model.Mon;
-import java.android.quanlybanhang.R;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,17 +22,17 @@ public class MonBanViewHolder extends RecyclerView.Adapter<MonBanViewHolder.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.design_monban,parent,false);
-        return new ViewHolder(v);
+        return new MonBanViewHolder.ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(MonBanViewHolder.ViewHolder holder, int position) {
         Mon mon=mList.get(position);
         if (mon==null){
             return;
         }
         holder.tvMon.setText(mon.getTensanpham());
-        holder.tvSoLuong.setText(mon.getSoluong());
+        holder.tvSoLuong.setText(mon.getSoluong()+"");
 
 
     }
