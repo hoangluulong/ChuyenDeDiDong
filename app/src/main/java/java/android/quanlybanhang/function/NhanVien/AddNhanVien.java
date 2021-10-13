@@ -63,13 +63,13 @@ public class AddNhanVien extends AppCompatActivity {
         builder.setView(customLayout);
         //ca lam
         checkBoxes = new ArrayList<>();
-        Th2 = customLayout.findViewById(R.id.checkTh2);
-        Th3 = customLayout.findViewById(R.id.checkTh3);
-        Th4 = customLayout.findViewById(R.id.checkTh4);
-        Th5 = customLayout.findViewById(R.id.checkTh5);
-        Th6 = customLayout.findViewById(R.id.checkTh6);
-        Th7 = customLayout.findViewById(R.id.checkTh7);
-        chuNhat = customLayout.findViewById(R.id.checkCN);
+        Th2 = customLayout.findViewById(R.id.checkBox2);
+        Th3 = customLayout.findViewById(R.id.checkBox3);
+        Th4 = customLayout.findViewById(R.id.checkBox4);
+        Th5 = customLayout.findViewById(R.id.checkBox5);
+        Th6 = customLayout.findViewById(R.id.checkBox6);
+        Th7 = customLayout.findViewById(R.id.checkBox7);
+        chuNhat = customLayout.findViewById(R.id.checkBox8);
         checkBoxes.add(Th2);
         checkBoxes.add(Th3);
         checkBoxes.add(Th4);

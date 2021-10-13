@@ -3,12 +3,14 @@ package java.android.quanlybanhang.function.SanPham;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 
 import java.android.quanlybanhang.Adapter.AdapterProduct;
+import java.android.quanlybanhang.Data.DonGia;
 import java.android.quanlybanhang.Data.Product;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
@@ -78,18 +81,19 @@ public class ListProduct  extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<DonGia> donGias = new ArrayList();
                 listProduct = new ArrayList<>();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     DataSnapshot aaa = snapshot1;
                     for (DataSnapshot snapshot2 : aaa.getChildren()){
                         Product product = snapshot2.getValue(Product.class);
                         listProduct.add(product);
+                        DataSnapshot aaa1 = snapshot2;
                     }
-                    adapterProduct = new AdapterProduct(ListProduct.this,listProduct);
-                    recyclerView.setAdapter(adapterProduct);
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListProduct.this, LinearLayoutManager.VERTICAL, false);
-                    recyclerView.setLayoutManager(linearLayoutManager);
-
+                        adapterProduct = new AdapterProduct(ListProduct.this, listProduct);
+                        recyclerView.setAdapter(adapterProduct);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListProduct.this, LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(linearLayoutManager);
                 }
             }
             @Override

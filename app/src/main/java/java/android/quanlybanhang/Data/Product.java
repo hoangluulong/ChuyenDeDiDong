@@ -1,24 +1,26 @@
 package java.android.quanlybanhang.Data;
 
+import java.util.ArrayList;
+
 public class Product {
     String id;
     String nameProduct;
     String chitiet;
     String Nhomsanpham;
     Double giaNhap;
-    Double giaBan;
+    ArrayList<DonGia> donGia;
     int soluong;
     String imgProduct;
     boolean addToCart;
     String status;
 
-    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, Double giaBan, int soluong, String imgProduct, boolean addToCart, String status) {
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, ArrayList<DonGia> donGia, int soluong, String imgProduct, boolean addToCart, String status) {
         this.id = id;
         this.nameProduct = nameProduct;
         this.chitiet = chitiet;
         Nhomsanpham = nhomsanpham;
         this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
+        this.donGia = donGia;
         this.soluong = soluong;
         this.imgProduct = imgProduct;
         this.addToCart = addToCart;
@@ -33,15 +35,23 @@ public class Product {
         return status;
     }
 
-    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, Double giaBan, int soluong, String imgProduct) {
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap,   ArrayList<DonGia> donGia, int soluong, String imgProduct) {
         this.id = id;
         this.nameProduct = nameProduct;
         this.chitiet = chitiet;
         Nhomsanpham = nhomsanpham;
         this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
+        this.donGia = donGia;
         this.soluong = soluong;
         this.imgProduct = imgProduct;
+    }
+
+    public ArrayList<DonGia> getDonGia() {
+        return donGia;
+    }
+
+    public void setDonGia(ArrayList<DonGia> donGia) {
+        this.donGia = donGia;
     }
 
     public String getImgProduct() {
@@ -66,32 +76,27 @@ public class Product {
         this.imgProduct = imgProduct;
     }
 
-    public Product(String nameProduct, Double giaBan, String imgProduct) {
-        this.nameProduct = nameProduct;
-        this.giaBan = giaBan;
-        this.imgProduct = imgProduct;
-    }
 
 
-    public Product(String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, Double giaBan, int soluong) {
+    public Product(String nameProduct, String chitiet, String nhomsanpham, Double giaNhap,  ArrayList<DonGia> donGia, int soluong) {
         this.nameProduct = nameProduct;
         this.chitiet = chitiet;
         Nhomsanpham = nhomsanpham;
         this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
+        this.donGia = donGia;
         this.soluong = soluong;
     }
 
     public Product() {
     }
 
-    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, Double giaBan, int soluong) {
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap,  ArrayList<DonGia> donGia, int soluong) {
         this.id = id;
         this.nameProduct = nameProduct;
         this.chitiet = chitiet;
         Nhomsanpham = nhomsanpham;
         this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
+        this.donGia = donGia;
         this.soluong = soluong;
     }
 
@@ -133,14 +138,6 @@ public class Product {
 
     public void setGiaNhap(Double giaNhap) {
         this.giaNhap = giaNhap;
-    }
-
-    public Double getGiaBan() {
-        return giaBan;
-    }
-
-    public void setGiaBan(Double giaBan) {
-        this.giaBan = giaBan;
     }
 
     public int getSoluong() {

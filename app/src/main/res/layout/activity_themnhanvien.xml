@@ -58,8 +58,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -78,31 +77,36 @@
         <androidx.cardview.widget.CardView
             style="@style/cardview_calam1">
           <LinearLayout
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              >
 
-              <Button
-                  android:id="@+id/checkCaSang"
-                  android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:text="@string/casang" />
+              <TableRow
+                 android:layout_width="match_parent"
+                  android:layout_height="50dp">
+                  <Button
+                      android:id="@+id/checkCaSang"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:text="@string/casang" />
 
-              <Button
-                  android:id="@+id/checkCaChieu"
-                  android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:text="@string/catrua"
-                  />
+                  <Button
+                      android:id="@+id/checkCaChieu"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:text="@string/catrua"
+                      />
 
-              <Button
-                  android:id="@+id/checkCaToi"
-                  android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:text="@string/catoi" />
+                  <Button
+                      android:id="@+id/checkCaToi"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:text="@string/catoi" />
+              </TableRow>
           </LinearLayout>
 
         </androidx.cardview.widget.CardView>

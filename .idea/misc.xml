@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/delete_24.xml" value="0.2203125" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/xoa.xml" value="0.2203125" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/acivity_dailongtu.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_addcategory.xml" value="0.20416666666666666" />
-        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_addproduct.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_addproduct.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_kho.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_tong_quan.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_dailongdonvitinh.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_dailongthemdonvitinh.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_itemlistdongia.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_list_category.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_list_product.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_listnhanvien.xml" value="0.19947916666666668" />

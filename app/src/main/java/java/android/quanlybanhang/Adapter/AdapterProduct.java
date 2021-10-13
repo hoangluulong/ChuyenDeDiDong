@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.android.quanlybanhang.Data.DonGia;
 import java.android.quanlybanhang.Data.Product;
 import java.android.quanlybanhang.R;
 
@@ -40,8 +42,8 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = arrayList.get(position);
+        holder.textViewStatus.setText(product.getStatus());
         holder.textViewName.setText(product.getNameProduct());
-        holder.textViewGia.setText(product.getGiaBan()+"");
         Picasso.get().load(product.getImgProduct()).into(holder.imageView);
 
     }
@@ -54,16 +56,14 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
     public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textViewName;
-        private TextView textViewGia;
+        private TextView textViewStatus;
         private CircleImageView imageView;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewStatus = itemView.findViewById(R.id.textnameStatus);
             textViewName = itemView.findViewById(R.id.textnameProduct);
-            textViewGia = itemView.findViewById(R.id.textgiaProduct);
             imageView = itemView.findViewById(R.id.circle_imgView);
-
-
         }
     }
 }
