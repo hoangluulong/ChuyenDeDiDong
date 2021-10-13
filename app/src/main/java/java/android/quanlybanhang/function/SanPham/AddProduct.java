@@ -187,7 +187,10 @@ public class AddProduct extends AppCompatActivity {
                                           }else if(textSoluong.getText().toString().isEmpty()){
                                               textSoluong.setError("Hãy nhập số lượng sản phẩm");
                                               textSoluong.requestFocus();
-                                          }else {
+                                          }else if(listDonGia.size() != 0) {
+                                             Toast.makeText(AddProduct.this,"Hãy tạo đơn giá cho sản phẩm",Toast.LENGTH_LONG).show();
+                                          }
+                                          else {
                                               String id = mDatabase1.push().getKey();
                                               String name = textName.getText().toString();
                                               String chitiet = textChitiet.getText().toString();
@@ -200,6 +203,15 @@ public class AddProduct extends AppCompatActivity {
                                               product = new Product(id,name,chitiet,nhomsanpham,gianhap,listDonGia,soluong,img,addTocard,status);
                                               mDatabase1.child(nhomsanpham).child(id).setValue(product);
                                           }
+                                          textName.setText("");
+                                          textSoluong.setText("");
+                                          textChitiet.setText("");
+                                          textGianhap.setText("");
+                                          listDonGia.clear();
+                                          Intent intent = new Intent();
+                                          intent = new Intent(AddProduct.this,ListProduct.class);
+                                          startActivity(intent);
+                                          finish();
 
                                       }
                                   });

@@ -2,6 +2,7 @@ package java.android.quanlybanhang.function.NhanVien;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.android.quanlybanhang.Data.CaLam;
 import java.android.quanlybanhang.Data.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.AddCategory;
+import java.android.quanlybanhang.function.SanPham.ListCategory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -309,6 +312,10 @@ public class AddNhanVien extends AppCompatActivity {
                             edtPassword.setText("");
                             edtTenNhanVien.setText("");
                             edtPhone.setText("");
+                            Intent intent = new Intent();
+                            intent = new Intent(AddNhanVien.this, ListNhanVien.class);
+                            startActivity(intent);
+                            finish();
 
                         }
 
