@@ -23,39 +23,40 @@
             android:exported="true" />
         <activity
             android:name=".function.MainActivity"
-            android:exported="true" />
-
-        <!-- Sign in, SignUp -->
+            android:exported="true" /> <!-- Sign in, SignUp -->
         <activity
             android:name=".function.Account.StoreSetting"
             android:exported="true" />
-
         <activity
             android:name=".function.Account.SignInActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".function.Account.SignUpActivity"
             android:exported="true" />
         <activity
             android:name=".function.Account.ForgotPasswordActivity"
-            android:exported="true" />
+            android:exported="true" /> <!-- Báo cáo -->
 
-        <!-- Báo cáo -->
+        <activity
+            android:name=".function.BaoCao.DanhSachBienLaiActivity"
+            android:exported="true"
+            android:theme="@style/thameActionbar"/>
+
         <activity
             android:name=".function.BaoCao.BaoCaoSanPhamActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".function.BaoCao.BaoCaoTongQuanActivity"
             android:exported="true"
             android:label="Tổng quan"
             android:screenOrientation="portrait"
             android:theme="@style/thameActionbar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".function.BaoCao.ChiTietNhapKhoActivity"

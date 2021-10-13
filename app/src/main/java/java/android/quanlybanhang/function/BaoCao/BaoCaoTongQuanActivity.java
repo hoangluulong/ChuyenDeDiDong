@@ -59,7 +59,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 
@@ -126,15 +128,15 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         getIDLayout();
 
         DatabaseSQlite();
-        bieuDoSanPham();
-//        guiDuLieu();
     }
 
     //
     private void bieuDoSanPham() {
         ArrayList<PieEntry> pieE = new ArrayList<>();
+
         if (dsSanPham.size() == 0) {
             pieE.add(new PieEntry(0, "Chưa có dữ liệu"));
+            Log.d("xxxa", "a");
         } else {
             pieE.clear();
             int tongSPKhac = 0;
@@ -145,6 +147,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                     sanPham.add(dsSanPham.get(i));
                 }
             }
+
+            Log.d("xxxb", dsSanPham.get(0).getSoLuong()+"");
 
             if (sanPham.size() >= 5) {
                 for (int i = 0; i < sanPham.size(); i++) {
@@ -175,6 +179,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         pieChart.setCenterText("Top 5 sản phẩm bán chạy nhất");
         pieChart.animate();
         pieChart.invalidate();
+
+//        guiDuLieu();
     }
 
     //get id layout
@@ -311,6 +317,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.viewHoaDon:
                 Toast.makeText(BaoCaoTongQuanActivity.this, "Báo cáo hóa đơn", Toast.LENGTH_LONG).show();
+                intent = new Intent(BaoCaoTongQuanActivity.this, DanhSachBienLaiActivity.class);
+                startActivity(intent);
                 bottomSheetDialog.dismiss();
                 break;
             case R.id.viewKho:
@@ -462,7 +470,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         }
 
         listDays = MangNgay();
-        getDataDSSanPham();
         getDataBienLai();
         SetDuLieu();
         swipeRefreshLayout.setOnRefreshListener(BaoCaoTongQuanActivity.this);
@@ -474,28 +481,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
      * - get data danh sach sản phẩm
      * Data
      */
-    private void getDataDSSanPham() {
-        FirebaseDatabase mFBInstance = FirebaseDatabase.getInstance();
-        DatabaseReference mFBDatabase = mFBInstance.getReference();
-
-        mFBDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
-        mFBDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    dsNhomSanPham.add(snap.getKey());
-                    for (DataSnapshot s : snap.getChildren()) {
-                        dsSanPham.add(new PieTongQuan(s.child("nameProduct").getValue() + "", 0));
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     private ArrayList<Integer> checkThu = new ArrayList<Integer>();
     private ArrayList<Integer> checkChi = new ArrayList<Integer>();
@@ -509,7 +494,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         checkChi.clear();
 
         for (String st : listDays) {
-
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + st).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -552,6 +536,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
     int i = 0;
     private void SetDuLieu() {
+        dsSanPham.clear();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -585,6 +570,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                         tien_chitieu.setText("0");
 
                         swipeRefreshLayout.setRefreshing(false);
+                        bieuDoSanPham();
                         dialog.dismiss();
                     } else {
 
@@ -635,10 +621,26 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                             thoiGianLamViec.setText(ngayBatDau + "-" + ngayKetThuc);
                         }
 
+                        ArrayList<String> list = new ArrayList<>();
                         for (DataSnapshot sp : listSP) {
                             for (DataSnapshot s : sp.getChildren()) {
                                 sanPham.add(new PieTongQuan(s.child("tensanpham").getValue().toString(), Integer.parseInt(s.child("soluong").getValue().toString())));
+                                list.add(s.child("tensanpham").getValue().toString());
                             }
+                        }
+
+                        int count = list.size();
+                        for (int i = 0; i < count; i++){
+                            for (int j = i + 1; j < count; j++){
+                                if (list.get(i).equals(list.get(j))){
+                                    list.remove(j--);
+                                    count--;
+                                }
+                            }
+                        }
+
+                        for (int i = 0; i < list.size(); i++){
+                            dsSanPham.add(new PieTongQuan(list.get(i), 0));
                         }
 
                         for (int i = 0; i < dsSanPham.size(); i++) {
@@ -676,6 +678,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                         tien_chitieu.setText("0");
 
                         swipeRefreshLayout.setRefreshing(false);
+                        bieuDoSanPham();
                         dialog.dismiss();
                     }
 
@@ -816,6 +819,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 } else if (kieuHienThi == 5) {
                     thoiGianLamViec.setText(ngayBatDau + "-" + ngayKetThuc);
                 }
+
                 dongy.setEnabled(false);
                 Toast.makeText(BaoCaoTongQuanActivity.this, ngayBatDau + " -- " + ngayKetThuc, Toast.LENGTH_SHORT).show();
             }
@@ -928,8 +932,39 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     }
 
     private void guiDuLieu() {
-        int dem = 4;
+        int dem = 1;
+        String tenSP = "Bánh kếp";
+        String nhomSP = "Bánh";
+
+        int min = 5;
+        int max = 10;
+
+        Random r = new Random();
+        int sl = r.nextInt(max - min + 1) + min;
+        Double gia = sl * 20000.0;
         for (String a : listDays) {
+            if (dem == 2) {
+                tenSP = "Trà chanh";
+                nhomSP = "Nước uống";
+                sl = r.nextInt(max - min + 1) + min;
+                gia = sl * 20000.0;
+            }else if (dem == 3) {
+                tenSP = "Bia Tiger";
+                nhomSP = "Nước uống";
+
+                sl = r.nextInt(max - min + 1) + min;
+                gia = sl * 20000.0;
+            }else if (dem == 4) {
+                tenSP = "Bia Heineken";
+                nhomSP = "abcxyz";
+                sl = r.nextInt(max - min + 1) + min;
+                gia = sl * 20000.0;
+            }else {
+                tenSP = "RedBull";
+                sl = r.nextInt(max - min + 1) + min;
+                gia = sl * 20000.0;
+            }
+
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_ban").setValue("b2");
@@ -941,16 +976,44 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/khuyenmai/value").setValue(0);
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/phiphu/id_" + dem + "/mieuta").setValue("null");
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/phiphu/id_" + dem + "/tienphi").setValue("null");
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/tensanpham").setValue("Readbull");
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/nhomsanpham").setValue("Nước có ga");
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/tensanpham").setValue(tenSP);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/nhomsanpham").setValue(nhomSP);
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/giamgia").setValue(0);
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/giatien").setValue(20000);
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/soluong").setValue(2);
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/thanhtien").setValue(40000);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/soluong").setValue(sl);
+            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/sanpham/id_" + dem + "/thanhtien").setValue(gia);
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/status").setValue(1);
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/tongthanhtoan").setValue(40000);
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/tongtien").setValue(40000);
             dem++;
         }
+    }
+
+    private void setArray() {
+        ArrayList<PieTongQuan> setArray = new ArrayList<>();
+        setArray.add(new PieTongQuan("a", 0));
+        if (sanPham.size() > 0) {
+            for (int i = 0; i < sanPham.size(); i++) {
+                for (int j = 0; j < setArray.size(); j++) {
+                    if (sanPham.get(i).getName().equals(setArray.get(j).getName())) {
+
+                        setArray.add(new PieTongQuan(sanPham.get(i).getName(), 0));
+                    }else {
+                        Log.d("ccc", sanPham.get(i).getName());
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < setArray.size(); i++) {
+
+            for (int j = 0; j < sanPham.size(); j++) {
+                if (setArray.get(i).getName().equals(sanPham.get(j).getName())) {
+                    setArray.get(i).setSoLuong(setArray.get(i).getSoLuong() + sanPham.get(j).getSoLuong());
+                }
+            }
+        }
+
+        setArray.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
     }
 }
