@@ -17,7 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
-
+        <activity
+            android:name=".function.DuyetDonHangActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".function.Account.ChiNhanhSignInActivity"
             android:exported="true" />
@@ -29,35 +36,26 @@
             android:exported="true" />
         <activity
             android:name=".function.Account.SignInActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".function.Account.SignUpActivity"
             android:exported="true" />
         <activity
             android:name=".function.Account.ForgotPasswordActivity"
             android:exported="true" /> <!-- Báo cáo -->
-
         <activity
             android:name=".function.BaoCao.DanhSachBienLaiActivity"
             android:exported="true"
-            android:theme="@style/thameActionbar"/>
-
+            android:theme="@style/thameActionbar" />
         <activity
             android:name=".function.BaoCao.BaoCaoSanPhamActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".function.BaoCao.BaoCaoTongQuanActivity"
             android:exported="true"
             android:label="Tổng quan"
             android:screenOrientation="portrait"
-            android:theme="@style/thameActionbar">
-        </activity>
+            android:theme="@style/thameActionbar"></activity>
         <activity
             android:name=".function.BaoCao.ChiTietNhapKhoActivity"
             android:screenOrientation="portrait" />
