@@ -72,7 +72,9 @@ ArrayList<Product> staticMonOrderModels;
 //        Log.d("aa",tenban.toString()+"kuku");
 //        holder.imgsanpham(Crritem.getImgProduct());
         Picasso.get().load(Crritem.getImgProduct()).into(holder.imgsanpham);
+
         holder.tvgiaSanpham.setText(Crritem.getGiaBan()+"");
+//        holder.tvgiaSanpham.setText(staticMonOrderModels.get(position).getDonGia().get(0)+"");
         holder.tvstatus.setText(Crritem.getStatus());
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,6 +28,7 @@ import java.android.quanlybanhang.ChiTietSanPham.Card_San_Pham;
 import java.android.quanlybanhang.CategoryMon.StaticCategoryAdapter;
 import java.android.quanlybanhang.CategoryMon.StaticCategoryMonModel;
 import java.android.quanlybanhang.ChiTietSanPham.Interface_CategorySp_Sp;
+import java.android.quanlybanhang.OrderMon.DonGia;
 import java.android.quanlybanhang.OrderMon.Product;
 import java.android.quanlybanhang.OrderMon.StaticMonRvAdapter;
 import java.android.quanlybanhang.R;
@@ -59,6 +60,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     private Toolbar toolbar;//tool bar khai bao id
     ArrayList<StaticCategoryMonModel> item;
     Product staticMonOrderModel;
+    DonGia dongia;
     String tenban;
     String id_ban;
     String id_khuvuc;
@@ -66,6 +68,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     ArrayList<Product> listcard= new ArrayList<>();//araylist mon
     Button bnt_card ;
     Interface_CategorySp_Sp interface_categorySp_sp ;
+    ArrayList<DonGia> donGias;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +107,45 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                  item = new ArrayList<>();
+//                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+//                    ArrayList<Product> mm= new ArrayList<>();
+//                    String tencategory= snapshot1.getKey()+"";
+//                    Log.d("aoihayate",snapshot1.getKey()+"");
+//                    DataSnapshot aaa = snapshot1;
+//                    for (DataSnapshot snapshot2 : aaa.getChildren()){
+////                        staticMonOrderModel=snapshot2.getValue(Product.class);
+//////                        Log.d("keyabc",staticMonOrderModel.getId()+"abc");
+//////                        Log.d("baldum" ,staticMonOrderModel.getImgProduct()+"abc");
+//////                        Log.d("baldum" ,staticMonOrderModel.getNameProduct()+"abc");
+////                        Log.d("snapshot2",snapshot2.getValue()+"kkk");
+////                        mm.add(staticMonOrderModel);
+//                        String nameProudct= snapshot2.child("nameProduct").getValue()+"";
+//                        String imgProduct=snapshot2.child("imgProduct").getValue()+"";
+//                        String status=snapshot2.child("status").getValue()+"";
+//                            Log.d("snapshot2",nameProudct+"kkk");
+//                        for(DataSnapshot snapshot3:snapshot2.getChildren()){
+//                           donGias = new ArrayList<>();
+////                            Log.d("snapshot3",snapshot3.getValue()+"");
+////                            DonGia donGia = snapshot3.getValue(DonGia.class);
+////                            Log.d("snapshot1",donGia.getGiaBan()+"");
+//                            for(DataSnapshot snapshot4:snapshot3.getChildren()){
+//
+//                                dongia = snapshot4.getValue(DonGia.class);
+//                                 donGias.add(dongia);
+//                             Log.d("snapshot1",dongia.getGiaBan()+"");
+//                                Log.d("snapshot1",dongia.getTenDonGia()+"snapshot1");
+//
+//                            }
+//
+//                        }
+//                        mm.add(new Product(nameProudct,donGias,imgProduct,status));
+//                    }
+//
+//                    StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory,mm);
+//                    item.add(product);
+//                    Log.d("cccc",item.size()+"");
+//                }
+
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     ArrayList<Product> mm= new ArrayList<>();
                     String tencategory= snapshot1.getKey()+"";

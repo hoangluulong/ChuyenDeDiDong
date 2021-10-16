@@ -17,20 +17,30 @@ public class PushToFire {
         this.soluong = soluong;
     }
 
-    public boolean isAddToCart() {
-        return addToCart;
-    }
 
-    public void setAddToCart(boolean addToCart) {
-        this.addToCart = addToCart;
-    }
 
     String nameProduct;
+    String yeuCau;
 
-    public PushToFire(String nameProduct, int soluong, boolean addToCart) {
+    public String getYeuCau() {
+        return yeuCau;
+    }
+
+    public PushToFire(String nameProduct, int soluong ,String yeuCau) {
+        this.nameProduct = nameProduct;
+        this.yeuCau = yeuCau;
+        this.soluong = soluong;
+    }
+
+    public void setYeuCau(String yeuCau) {
+        this.yeuCau = yeuCau;
+    }
+
+
+
+    public PushToFire(String nameProduct,int soluong) {
         this.nameProduct = nameProduct;
         this.soluong = soluong;
-        this.addToCart = addToCart;
     }
 
     int soluong;

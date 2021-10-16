@@ -164,10 +164,10 @@
             app:layout_constraintTop_toBottomOf="@+id/imgproduct">
 
             <ImageView
-                android:id="@+id/imageView9"
+                android:id="@+id/bnt_minus"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/icons8plus" />
+                android:background="@drawable/icons8minus" />
 
             <TextView
                 android:id="@+id/tvsoluong"
@@ -175,15 +175,14 @@
                 android:layout_height="50dp"
                 android:fontFamily="@font/baloo"
                 android:gravity="center"
-                android:text="2"
+                android:text="1"
                 android:textSize="24sp"
                 android:textStyle="bold" />
-
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/bnt_plus"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/icons8minus" />
+                android:background="@drawable/icons8plus" />
         </TableRow>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

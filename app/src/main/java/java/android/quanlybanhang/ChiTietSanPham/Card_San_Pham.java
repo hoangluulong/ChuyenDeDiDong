@@ -18,9 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.OrderMon.Product;
+import java.android.quanlybanhang.OrderMon.PushToFire1;
 import java.android.quanlybanhang.PushToFire;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,7 @@ public class Card_San_Pham extends AppCompatActivity {
      ArrayList<Product> listcard;
     PushToFire list;
     ArrayList<PushToFire> listSP;
+     private  PushToFire1 pushToFire1;
      String id_ban;
      String id_khuvuc;
      String id;
@@ -39,6 +43,8 @@ public class Card_San_Pham extends AppCompatActivity {
      Button bntluu,bntthanhtoan;
     private Database_order database_order;
     private PushToFire pushToFire;
+     private boolean flag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +72,17 @@ public class Card_San_Pham extends AppCompatActivity {
         listcard = new ArrayList<Product>();
 //        list = new ArrayList<PushToFire>();
         listSP = new ArrayList<>();
+        boolean flag = true;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+//        int date1=Integer.parseInt(timestamp+"");
+        Log.d("datess",timestamp+"");
+        long date =Long.parseLong(timestamp.getTime()+"");
+
+//        if()
         getDulieuSql();
 
-        pushData(listSP);
+        pushData(listSP,date,flag);
 //        listcard.add(new Product("aaa",30000.0,"aaa","1"));
         staticCartAdapter = new StaticCardAdapter();
         staticCartAdapter.Setdata(listcard);
@@ -80,6 +94,12 @@ public class Card_San_Pham extends AppCompatActivity {
     private  void getDulieuSql( ){
         database_order= new Database_order(this,"app_database.sqlite",null,1);
 //        database_order.GetData("SELECT * FROM databaseorder2 ");
+        database_order.QueryData("CREATE TABLE IF NOT EXISTS databaseorder2(" +
+                "Id VARCHAR(20)," +
+                "tensanpham VARCHAR(50), " +
+                "soluong INTEGER DEFAULT 0, " +
+                "image TEXT, " +
+                "gia DOUBLE);");
         ArrayList<Product> arrayList = new ArrayList<>();
         String S="SELECT * FROM databaseorder2 WHERE Id='"+id+"'";
         Cursor cursor =  database_order.GetData(S,null);
@@ -92,14 +112,15 @@ public class Card_San_Pham extends AppCompatActivity {
                 a = cursor.getString(0);
                 Log.d("cosql",a);
 //                Log.d("cosql",id+"nn");
-                    boolean addtocart = true;
+
 
                     String tensp= cursor.getString(1);
                     int  soluong= cursor.getInt(2);
                     String img= cursor.getString(3);
                     double  gia= cursor.getInt(4);
                     listcard.add(new Product(a,tensp,soluong,img,gia));
-                    listSP.add(new PushToFire(tensp,soluong,addtocart));
+                    listSP.add(new PushToFire(tensp,soluong,"khong duong"));
+
 //                list =new PushToFire(tensp,soluong,addtocart);
             }
             Log.d("arr1",arrayList.size()+"");
@@ -120,7 +141,7 @@ public class Card_San_Pham extends AppCompatActivity {
             staticCartAdapter.notifyDataSetChanged();
         }
     }
-    private  void pushData(ArrayList<PushToFire> list){
+    private  void pushData(ArrayList<PushToFire> list,long date,boolean flag){
         bntluu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,10 +150,14 @@ public class Card_San_Pham extends AppCompatActivity {
                 if(list.size()>0){
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
                 }
-                for(int i =0; i < list.size();i++){
-                    String id_sp =databaseReference.push().getKey();
-                    databaseReference.child(id).child("sanpham").child(id_sp).setValue(list.get(i));
-                }
+//                for(int i =0; i < list.size();i++){
+//                    String id_sp =databaseReference.push().getKey();
+//                    databaseReference.child(id).child("sanpham").child(id_sp).setValue(list.get(i));
+//                }
+//                databaseReference.child(id).child("sanpham").child().setValue();
+
+                pushToFire1 = new  PushToFire1(date,flag,list);
+                databaseReference.child(id).setValue(pushToFire1);
 
             }
         });

@@ -28,7 +28,7 @@ public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.St
     public StaticCardAdapter() {
             this.items = new ArrayList<>();
     }
-public void Setdata(ArrayList<Product> staticMonOrderModel){
+    public void Setdata(ArrayList<Product> staticMonOrderModel){
     this.items = staticMonOrderModel;
         notifyDataSetChanged();
 

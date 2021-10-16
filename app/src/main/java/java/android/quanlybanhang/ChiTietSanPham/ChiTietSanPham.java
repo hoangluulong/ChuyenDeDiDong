@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +37,8 @@ public class ChiTietSanPham extends AppCompatActivity {
     private Double giasanphams;
     private  int soluong;
     private  TextView soluong2,tonggiasp;
-    private ImageView imgsp;
+    private ImageView imgsp,plus,minus;
+    private  int sluong=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,16 +67,18 @@ public class ChiTietSanPham extends AppCompatActivity {
          soluong = staticMonOrderModel.getSoluong();
          soluong2 = findViewById(R.id.tvsoluong);
         Log.d("bbb","tensp"+tensps+"giasanpham"+giasanphams+"soluong"+soluong+"");
+//        lay id
         tensp = findViewById(R.id.tvtensanpham);
         giasp = findViewById(R.id.tvgiasanpham);
         tonggiasp = findViewById(R.id.tvtonggiasanpham);
         imgsp = findViewById(R.id.imgproduct);
+        minus = findViewById(R.id.bnt_minus);
+        plus = findViewById(R.id.bnt_plus);
 //        do du lieu vao trang
         tensp.setText(tensps);
         Picasso.get().load(image).into(imgsp);
         giasp.setText(giasanphams+"");
-        sl=Integer.parseInt(soluong2.getText()+"");
-        tonggiasp.setText((giasanphams*sl)+"");
+
 //        tenban = bundle.getString("tenban") ;
         id_ban = bundle.getString("id_ban");
         id_khuvuc= bundle.getString("id_khuvuc");
@@ -82,12 +86,49 @@ public class ChiTietSanPham extends AppCompatActivity {
 //        Log.d("id_ban",id_ban+"acbank");
 //        Log.d("id_khuvuc",id_ban+"acbank");
 //        Log.d("aaa",tenban+"acbank");
-        getDulieuSql();
+
+        sl=Integer.parseInt(soluong2.getText()+"");
+        tonggiasp.setText((giasanphams*sl)+"");
+//              nút cộng
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sl=Integer.parseInt(soluong2.getText()+"");
+//                int sluong=0;
+                sluong= sl+1;
+
+                soluong2.setText(sluong+"");
+//                Toast.makeText(ChiTietSanPham.this,soluong2.getText()+"",Toast.LENGTH_LONG).show();
+                tonggiasp.setText((giasanphams*sluong)+"");
+            }
+        });
+//        nut trừ
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sl=Integer.parseInt(soluong2.getText()+"");
+
+                if(sl>1){
+                    sluong= sl-1;
+                    soluong2.setText(sluong+"");
+//                    Toast.makeText(ChiTietSanPham.this,soluong2.getText()+"",Toast.LENGTH_LONG).show();
+                    tonggiasp.setText((giasanphams*sluong)+"");
+                }
+                else {
+                    sl=Integer.parseInt(soluong2.getText()+"");
+                }
+
+
+            }
+        });
+
+
         bnt_xacnhan = findViewById(R.id.bnt_xacnhan);
         bnt_xacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                getDulieuSql();
 
             }
         });
@@ -113,7 +154,7 @@ public class ChiTietSanPham extends AppCompatActivity {
 
         if (cursor.getCount() > 0) {
             int  soluong1=0;
-             sl=Integer.parseInt(soluong2.getText()+"");
+            sluong=Integer.parseInt(soluong2.getText()+"");
             Log.d("sllll",sl+"");
             while (cursor.moveToNext()) {
 
@@ -127,12 +168,15 @@ public class ChiTietSanPham extends AppCompatActivity {
                 double  gia= cursor.getInt(4);
                 arrayList.add(new Product(a,tensp,soluong1,img,gia));
             }
-            database_order.QueryData("UPDATE databaseorder2 SET soluong = "+(soluong1+sl)+" WHERE id= '"+id+"' AND tensanpham='"+tensps+"'");
-            Log.d("arr1",arrayList.size()+"");
+            database_order.QueryData("UPDATE databaseorder2 SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham='"+tensps+"'");
+//            Log.d("arr1",arrayList.size()+"");
+//            Log.d("logsoluong",(soluong1+sluong)+"a");
 
         } else {
-            sl=Integer.parseInt(soluong2.getText()+"");
-            database_order.QueryData("INSERT INTO databaseorder2 VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+sl+",'"+image+"',"+giasanphams+");");
+            sluong=Integer.parseInt(soluong2.getText()+"");
+
+            database_order.QueryData("INSERT INTO databaseorder2 VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+sluong+",'"+image+"',"+giasanphams+");");
+//            Log.d("logsoluong",(sluong)+"");
         }
 
     }

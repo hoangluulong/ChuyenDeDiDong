@@ -4,24 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-hdpi/bnt_huy.xml" value="0.34933605720122574" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-mdpi/rv_khuvuc_bg.xml" value="0.22916666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/border.xml" value="0.34933605720122574" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/borderghichu.xml" value="0.34933605720122574" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/cardviewsp.xml" value="0.34933605720122574" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/cardviewsp1.xml" value="0.34933605720122574" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/dialog_baocao_bg.xml" value="0.22916666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_kho.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_tong_quan.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_card_san_pham.xml" value="0.20520833333333333" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_chi_tiet_nhap_kho.xml" value="0.20520833333333333" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_chi_tiet_san_pham_banh.xml" value="0.36666666666666664" />
-        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_chi_tiet_san_pham_card.xml" value="0.25" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_chi_tiet_san_pham_card.xml" value="0.5" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_chi_tiet_san_pham_do_uong.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_error.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_facebook_auth.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_forget_password.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_mon_order.xml" value="0.20520833333333333" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_mon_thanhtoan.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_ban.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_category.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_danhmucsanpham.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_khuvuc.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_product.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_quan_li_kho.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_sanpham.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_top_san_pham.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/slide_pie.xml" value="0.35260416666666666" />
