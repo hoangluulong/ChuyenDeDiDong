@@ -10,9 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +39,8 @@ public class ChiTietSanPham extends AppCompatActivity {
     private  TextView soluong2,tonggiasp;
     private ImageView imgsp,plus,minus;
     private  int sluong=1;
+    private EditText yeuCau;
+    String YeuCau1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +62,12 @@ public class ChiTietSanPham extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         staticMonOrderModel = (Product) bundle.getSerializable("sp");
 
-         tensps = staticMonOrderModel.getNameProduct();
+        tensps = staticMonOrderModel.getNameProduct();
 
         image = staticMonOrderModel.getImgProduct();
         giasanphams= staticMonOrderModel.getGiaBan();
-         soluong = staticMonOrderModel.getSoluong();
-         soluong2 = findViewById(R.id.tvsoluong);
+        soluong = staticMonOrderModel.getSoluong();
+        soluong2 = findViewById(R.id.tvsoluong);
         Log.d("bbb","tensp"+tensps+"giasanpham"+giasanphams+"soluong"+soluong+"");
 //        lay id
         tensp = findViewById(R.id.tvtensanpham);
@@ -74,6 +76,7 @@ public class ChiTietSanPham extends AppCompatActivity {
         imgsp = findViewById(R.id.imgproduct);
         minus = findViewById(R.id.bnt_minus);
         plus = findViewById(R.id.bnt_plus);
+        yeuCau =(EditText) findViewById(R.id.edt_ghichu);
 //        do du lieu vao trang
         tensp.setText(tensps);
         Picasso.get().load(image).into(imgsp);
@@ -86,7 +89,9 @@ public class ChiTietSanPham extends AppCompatActivity {
 //        Log.d("id_ban",id_ban+"acbank");
 //        Log.d("id_khuvuc",id_ban+"acbank");
 //        Log.d("aaa",tenban+"acbank");
+//        yeuCau.setText("nhập bất cứ cái gì vào đây xem sao");
 
+        Log.d("yeucau",yeuCau.getText().toString()+"yeuCaun");
         sl=Integer.parseInt(soluong2.getText()+"");
         tonggiasp.setText((giasanphams*sl)+"");
 //              nút cộng
@@ -127,12 +132,18 @@ public class ChiTietSanPham extends AppCompatActivity {
         bnt_xacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//
+//                Intent intent = new Intent(ChiTietSanPham.this, OrderMenu.class);
+//                intent.putExtra("Key_1", "Truyền một String");  // Truyền một String
+                YeuCau1= yeuCau.getText().toString();
                 onBackPressed();
-                getDulieuSql();
+                getDulieuSql();// Truyền một Boolean
+//                startActivity(intent);
+                Log.d("yeucau",yeuCau.getText().toString()+"yeuCaune");
 
             }
         });
-
+        Log.d("yeucau",yeuCau.getText().toString()+"yeuCaunem");
 
     }
     private void getData(){

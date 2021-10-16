@@ -80,6 +80,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 //        Log.d("aaa",tenban+"vvv");
         Log.d("KKK",id_ban+"KKK");
         Log.d("KKK",id_khuvuc+"KKK");
+//
+
+//        String value1 = intent.getStringExtra("Key_1");
+//        Log.d("value1",value1);
 
         //menu toolbar
         listcard = new ArrayList<>();

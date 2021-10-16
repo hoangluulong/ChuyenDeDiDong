@@ -61,33 +61,32 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/bnt_save"
-        android:layout_width="220dp"
+        android:id="@+id/bnt_luu"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/shadow"
+        android:background="@drawable/triple"
         android:fontFamily="@font/baloo"
-        android:text="save"
+        android:text="CART"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/bnt_luu"
-        android:layout_width="100dp"
+        android:id="@+id/bnt_huy"
+        android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/shadow"
+        android:background="@drawable/triple"
         android:fontFamily="@font/baloo"
-        android:text="Cards"
+        android:text="HỦY"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bnt_save"
         app:layout_constraintStart_toStartOf="parent" />
 
 

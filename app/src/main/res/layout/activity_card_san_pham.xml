@@ -27,10 +27,12 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="393dp"
-        android:layout_height="364dp"
+        android:layout_width="409dp"
+        android:layout_height="481dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="136dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="9dp"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -48,53 +50,39 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_1" >
+            app:layout_constraintTop_toBottomOf="@+id/rv_1">
 
         </androidx.recyclerview.widget.RecyclerView>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/nocard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginEnd="224dp"
-        android:layout_marginBottom="49dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/bnt_thanhtoan"
-        android:layout_width="200dp"
+        android:layout_width="175dp"
         android:layout_height="60dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/shadow"
+        android:background="@drawable/triple"
         android:fontFamily="@font/baloo"
         android:text="THANH TOÁN"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/bnt_luu"
-        android:layout_width="120dp"
+        android:layout_width="175dp"
         android:layout_height="60dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/shadow"
+        android:background="@drawable/triple"
+
         android:fontFamily="@font/baloo"
         android:text="Order"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bnt_thanhtoan"
-        app:layout_constraintStart_toEndOf="@+id/imageView6" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -125,14 +113,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbars" />
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bachamoo" />
+<!--    <Button-->
+<!--        android:id="@+id/imageView6"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:background="@drawable/icons8bacham"-->
+<!--        tools:layout_editor_absoluteY="726dp" />-->
 
     <TextView
         android:id="@+id/textView11"
@@ -141,12 +127,12 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/rv_khuvuc_bg"
         android:fontFamily="@font/baloo"
         android:text="Giá Tổng :"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:background="@drawable/rv_khuvuc_bg"
-        app:layout_constraintBottom_toTopOf="@+id/imageView6"
+        app:layout_constraintBottom_toTopOf="@+id/bnt_luu"
         app:layout_constraintEnd_toStartOf="@+id/textView12"
         app:layout_constraintStart_toStartOf="parent" />
 

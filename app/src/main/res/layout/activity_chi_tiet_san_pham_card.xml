@@ -19,10 +19,12 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbars">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/edt_ghichu"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="150dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/borderghichu"
             android:ems="20"
             android:gravity="top|left"
@@ -201,25 +203,28 @@
 
     <Button
         android:id="@+id/bnt_xacnhan"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="5dp"
+
         android:layout_marginBottom="10dp"
-        android:background="@drawable/cardviewsp1"
+        android:background="@drawable/triple"
         android:fontFamily="@font/baloo"
         android:text="Xác Nhận"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
 
     <Button
         android:id="@+id/bnt_luu"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/cardviewsp"
+        android:background="@drawable/triple"
         android:fontFamily="@font/baloo"
         android:text="Hủy"
         android:textSize="24sp"
