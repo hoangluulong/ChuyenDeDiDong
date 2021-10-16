@@ -132,7 +132,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()){
-                        Toast.makeText(SignUpActivity.this, "SignUp UnSuccessful, plese Try Again ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "SignUp UnSuccessful, plese Try Again", Toast.LENGTH_SHORT).show();
                     }else{
                         String UID = mFirebaseAuth.getUid();
                         mFirebaseInstance = FirebaseDatabase.getInstance();

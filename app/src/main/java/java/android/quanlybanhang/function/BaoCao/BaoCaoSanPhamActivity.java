@@ -33,10 +33,8 @@ public class BaoCaoSanPhamActivity extends AppCompatActivity {
         adapter = new FragmentAdapter(fm, getLifecycle());
         pager.setAdapter(adapter);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Sản phẩm"));
-        tabLayout.addTab(tabLayout.newTab().setText("Biểu đồ so sánh sản phẩm "));
-        tabLayout.addTab(tabLayout.newTab().setText("Nhóm sản phẩm"));
-        tabLayout.addTab(tabLayout.newTab().setText("Biểu đồ so sánh nhóm sản phẩm"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sản phẩm tuần"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sản phẩm tháng/năm"));
 
 //        tabLayout.setTabIndicatorFullWidth(false);
 

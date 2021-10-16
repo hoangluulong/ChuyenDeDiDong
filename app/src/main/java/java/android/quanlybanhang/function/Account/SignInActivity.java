@@ -163,37 +163,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-//                    LoadingDialog loadingDialog = new LoadingDialog(LoginActivity.this);
-//                    loadingDialog.startLoadingDialog();
-//                    Handler handler = new Handler();
                     if (!task.isSuccessful()) {
-//                        handler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//
-////                                loadingDialog.dismissDialog();
-////                                Toast.makeText(LoginActivity.this, "Login Error, Plese login Again!", Toast.LENGTH_LONG).show();
-//                            }
-//                        }, 1000);
+                        Toast.makeText(SignInActivity.this, "Signin error", Toast.LENGTH_SHORT).show();
                     } else {
-                        //                                loadingDialog.dismissDialog();
                         idUser = mAuth.getUid();
 
                         getDataAccount(idUser);
 
                         delaySignin(idUser);
-//                        Log.d("BBB key", dem+"");
-
-//                        Intent intent = new Intent(SignInActivity.this, ChiNhanhSignInActivity.class);
-//                        intent.putExtras(intent);
-//                        startActivity(intent);
-//                        finish();
-
-//                        handler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                         }
-//                        }, 1000);
                     }
 
                 }

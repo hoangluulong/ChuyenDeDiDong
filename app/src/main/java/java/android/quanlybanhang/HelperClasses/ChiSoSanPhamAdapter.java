@@ -11,20 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.Model.SanPhamTop;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.BaoCao.SanPhamBaoCao;
 import java.util.List;
 
 public class ChiSoSanPhamAdapter extends RecyclerView.Adapter<ChiSoSanPhamAdapter.CustomChiSoSanPham> {
 
     private Context context;
-    private List<SanPhamTop> list;
+    private List<PieTongQuan> list;
 
-    public ChiSoSanPhamAdapter(Context context, List<SanPhamTop> sanPham){
+    public ChiSoSanPhamAdapter(Context context, List<PieTongQuan> sanPham){
         this.context = context;
         this.list = sanPham;
     }
-
 
     @NonNull
     @Override
@@ -34,9 +35,8 @@ public class ChiSoSanPhamAdapter extends RecyclerView.Adapter<ChiSoSanPhamAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomChiSoSanPham holder, int position) {
-        Log.d("qqq", list.size()+"");
-        holder.title.setText(list.get(position).getName()+"hoang huu long");
-        holder.soLuong.setText(list.get(position).getSoLuong()+"0000");
+        holder.title.setText(list.get(position).getName());
+        holder.soLuong.setText(list.get(position).getSoLuong()+"");
         holder.soLuong.setTextColor(Color.parseColor(list.get(position).getColor()));
     }
 

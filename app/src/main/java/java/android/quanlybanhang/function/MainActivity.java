@@ -21,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.Account.SignInActivity;
+import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     Button signout;
     FirebaseAuth auth;
+    RelativeLayout baocao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         signout = findViewById(R.id.signout);
         auth = FirebaseAuth.getInstance();
+        baocao= findViewById(R.id.baocao);
 
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        baocao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BaoCaoTongQuanActivity.class);
+                startActivity(intent);
             }
         });
     }
