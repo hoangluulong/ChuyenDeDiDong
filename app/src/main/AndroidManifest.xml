@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
-            android:name=".function.Card_Da_Order"
+            android:name=".function.ThanhToanActivity"
             android:exported="false" />
 
         <meta-data

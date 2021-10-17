@@ -73,7 +73,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/img_order"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
@@ -83,7 +83,7 @@
         app:srcCompat="@drawable/icons8card" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/tvtenactivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -97,7 +97,7 @@
         android:textSize="30sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@+id/img_order"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbars" />
 

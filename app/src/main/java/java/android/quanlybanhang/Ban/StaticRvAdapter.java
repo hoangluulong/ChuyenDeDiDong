@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -19,10 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.KhuVuc.StaticModelKhuVuc;
-import java.android.quanlybanhang.OrderMon.CardDaOrderAdapter;
 import java.android.quanlybanhang.OrderMon.PushToFire1;
 import java.android.quanlybanhang.PushToFire;
-import java.android.quanlybanhang.function.Card_Da_Order;
+import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.OrderMenu;
@@ -138,7 +136,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue()!=null){
-                    Intent intent = new Intent(orderMenu, Card_Da_Order.class);
+                    Intent intent = new Intent(orderMenu, ThanhToanActivity.class);
                     intent.putExtra("id_ban",CrrItem.getID());
                     Log.d("id_khuvuc",Id_khuvuc);
                     intent.putExtra("id_khuvuc",Id_khuvuc);
