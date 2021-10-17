@@ -89,7 +89,7 @@ ArrayList<Product> staticMonOrderModels;
                     intent1.putExtra("id_khuvuc",id_khuvuc);
 
                     monOrder.startActivity(intent1);
-
+//                    startActivityForResult(intent1,1);
 
             }
         });

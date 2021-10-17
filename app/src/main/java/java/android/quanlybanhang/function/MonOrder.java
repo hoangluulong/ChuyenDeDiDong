@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 
 public class MonOrder extends AppCompatActivity implements Interface_CategorySp_Sp {
     public ArrayList<MonOrder> listmon = new ArrayList<>();
+
     private ActivityResultLauncher<Intent> launcher =registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -69,6 +71,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     Button bnt_card ;
     Interface_CategorySp_Sp interface_categorySp_sp ;
     ArrayList<DonGia> donGias;
+    String value1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +84,15 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         Log.d("KKK",id_ban+"KKK");
         Log.d("KKK",id_khuvuc+"KKK");
 //
-
-//        String value1 = intent.getStringExtra("Key_1");
-//        Log.d("value1",value1);
-
+//        Bundle bundle = intent.getExtras();
+//        if (bundle != null) {
+//             value1  = bundle.getString("Key_1", "");
+//                 Log.d("value1",value1);
+//            int value2 = bundle.getInt("Key_2", 0);
+//            boolean value3 = bundle.getBoolean("Key_3", false);
+//        }
+//        String strEditText = getIntent().getStringExtra("MyData");
+//        Log.d("MyData",strEditText);
         //menu toolbar
         listcard = new ArrayList<>();
         bnt_card = findViewById(R.id.bnt_luu);
@@ -94,7 +102,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                 Intent intent = new Intent(MonOrder.this, Card_San_Pham.class);
                 intent.putExtra("id_ban",id_ban);
                 intent.putExtra("id_khuvuc",id_khuvuc);
-                startActivity(intent);
+//                intent.putExtra("yeuCau",value1);
+//                Log.d("value1",value1+"value1");
+//                startActivity(intent);
+                startActivityForResult(intent, 1);
 
             }
         });
@@ -111,44 +122,6 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                  item = new ArrayList<>();
-//                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-//                    ArrayList<Product> mm= new ArrayList<>();
-//                    String tencategory= snapshot1.getKey()+"";
-//                    Log.d("aoihayate",snapshot1.getKey()+"");
-//                    DataSnapshot aaa = snapshot1;
-//                    for (DataSnapshot snapshot2 : aaa.getChildren()){
-////                        staticMonOrderModel=snapshot2.getValue(Product.class);
-//////                        Log.d("keyabc",staticMonOrderModel.getId()+"abc");
-//////                        Log.d("baldum" ,staticMonOrderModel.getImgProduct()+"abc");
-//////                        Log.d("baldum" ,staticMonOrderModel.getNameProduct()+"abc");
-////                        Log.d("snapshot2",snapshot2.getValue()+"kkk");
-////                        mm.add(staticMonOrderModel);
-//                        String nameProudct= snapshot2.child("nameProduct").getValue()+"";
-//                        String imgProduct=snapshot2.child("imgProduct").getValue()+"";
-//                        String status=snapshot2.child("status").getValue()+"";
-//                            Log.d("snapshot2",nameProudct+"kkk");
-//                        for(DataSnapshot snapshot3:snapshot2.getChildren()){
-//                           donGias = new ArrayList<>();
-////                            Log.d("snapshot3",snapshot3.getValue()+"");
-////                            DonGia donGia = snapshot3.getValue(DonGia.class);
-////                            Log.d("snapshot1",donGia.getGiaBan()+"");
-//                            for(DataSnapshot snapshot4:snapshot3.getChildren()){
-//
-//                                dongia = snapshot4.getValue(DonGia.class);
-//                                 donGias.add(dongia);
-//                             Log.d("snapshot1",dongia.getGiaBan()+"");
-//                                Log.d("snapshot1",dongia.getTenDonGia()+"snapshot1");
-//
-//                            }
-//
-//                        }
-//                        mm.add(new Product(nameProudct,donGias,imgProduct,status));
-//                    }
-//
-//                    StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory,mm);
-//                    item.add(product);
-//                    Log.d("cccc",item.size()+"");
-//                }
 
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     ArrayList<Product> mm= new ArrayList<>();
@@ -157,9 +130,6 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                     DataSnapshot aaa = snapshot1;
                     for (DataSnapshot snapshot2 : aaa.getChildren()){
                         staticMonOrderModel=snapshot2.getValue(Product.class);
-//                        Log.d("keyabc",staticMonOrderModel.getId()+"abc");
-//                        Log.d("baldum" ,staticMonOrderModel.getImgProduct()+"abc");
-//                        Log.d("baldum" ,staticMonOrderModel.getNameProduct()+"abc");
                         mm.add(staticMonOrderModel);
                     }
                     StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory,mm);
@@ -182,24 +152,13 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         recyclerView2 =findViewById(R.id.rv_2);
 
         staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc);
-//        staticMonRvAdapter.setData(new StaticMonRvAdapter.IclickGetMon() {
-//            @Override
-//            public void clickItent(Product product) {
-//                Intent intent1 = new Intent(MonOrder.this, ChiTietSanPham.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("sp",product);
-//                intent1.putExtras(bundle);
-////                Log.d("aaa",tenban+"baba");
-////                intent1.putExtra("tenban",tenban);
-//                launcher.launch(intent1);
-//            }
-//        });
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.HORIZONTAL,false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticMonRvAdapter);
 
 
     }
+
 
     @Override
     public void GetBack1(int pos, ArrayList<Product> items) {
@@ -208,5 +167,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         recyclerView2.setAdapter(staticMonRvAdapter);
     }
 
-
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent intent = new Intent(MonOrder.this,OrderMenu.class);
+        startActivity(intent);
+    }
 }

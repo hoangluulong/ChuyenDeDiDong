@@ -44,7 +44,8 @@ public class Card_San_Pham extends AppCompatActivity {
     private Database_order database_order;
     private PushToFire pushToFire;
      private boolean flag;
-
+     String yeuCau;
+    private final String TEN_BANG="ProductSQL";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,6 @@ public class Card_San_Pham extends AppCompatActivity {
         Intent intent = getIntent();
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
-        Log.d("mama",id_ban + id_khuvuc+"suboi");
         id=id_ban+"_"+id_khuvuc;
         Log.d("mama",id+"suboi");
         rv_3 = findViewById(R.id.rv_3);
@@ -92,16 +92,22 @@ public class Card_San_Pham extends AppCompatActivity {
 
     }
     private  void getDulieuSql( ){
-        database_order= new Database_order(this,"app_database.sqlite",null,1);
+
+        database_order= new Database_order(this,"app_database.sqlite",null,2);
 //        database_order.GetData("SELECT * FROM databaseorder2 ");
-        database_order.QueryData("CREATE TABLE IF NOT EXISTS databaseorder2(" +
+        Log.d("aaaaa","aaaas");
+        database_order.QueryData("CREATE TABLE IF NOT EXISTS "+TEN_BANG+"(" +
                 "Id VARCHAR(20)," +
                 "tensanpham VARCHAR(50), " +
                 "soluong INTEGER DEFAULT 0, " +
                 "image TEXT, " +
-                "gia DOUBLE);");
+                "gia DOUBLE, " +
+                "yeuCau TEXT);");
+        Log.d("aaaaa","aaaa");
+
+
         ArrayList<Product> arrayList = new ArrayList<>();
-        String S="SELECT * FROM databaseorder2 WHERE Id='"+id+"'";
+        String S="SELECT * FROM "+TEN_BANG+" WHERE Id='"+id+"'";
         Cursor cursor =  database_order.GetData(S,null);
         Log.d("11111",cursor+"1111");
 
@@ -118,8 +124,10 @@ public class Card_San_Pham extends AppCompatActivity {
                     int  soluong= cursor.getInt(2);
                     String img= cursor.getString(3);
                     double  gia= cursor.getInt(4);
+                    String yeuCau = cursor.getString(5);
+                    Log.d("yeuCauSQL1",yeuCau);
                     listcard.add(new Product(a,tensp,soluong,img,gia));
-                    listSP.add(new PushToFire(tensp,soluong,"khong duong"));
+                    listSP.add(new PushToFire(tensp,soluong,yeuCau));
 
 //                list =new PushToFire(tensp,soluong,addtocart);
             }
@@ -131,16 +139,7 @@ public class Card_San_Pham extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==RESULT_OK&& data != null){
-            Log.d("aaa","aaaaaaaaaaaab");
-                Bundle bundle = data.getExtras();
-           this.listcard = (ArrayList<Product>) bundle.getSerializable("list");
-            staticCartAdapter.notifyDataSetChanged();
-        }
-    }
+
     private  void pushData(ArrayList<PushToFire> list,long date,boolean flag){
         bntluu.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 import java.android.quanlybanhang.OrderMon.Product;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
+import java.android.quanlybanhang.function.MonOrder;
+import java.android.quanlybanhang.function.OrderMenu;
 import java.util.ArrayList;
 
 public class ChiTietSanPham extends AppCompatActivity {
@@ -41,6 +43,7 @@ public class ChiTietSanPham extends AppCompatActivity {
     private  int sluong=1;
     private EditText yeuCau;
     String YeuCau1;
+     private final String TEN_BANG="ProductSQL";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,60 +136,55 @@ public class ChiTietSanPham extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //
-//                Intent intent = new Intent(ChiTietSanPham.this, OrderMenu.class);
-//                intent.putExtra("Key_1", "Truyền một String");  // Truyền một String
-                YeuCau1= yeuCau.getText().toString();
-                onBackPressed();
-                getDulieuSql();// Truyền một Boolean
-//                startActivity(intent);
-                Log.d("yeucau",yeuCau.getText().toString()+"yeuCaune");
+                    onBackPressed();
+                getDulieuSql();
+
 
             }
         });
-        Log.d("yeucau",yeuCau.getText().toString()+"yeuCaunem");
 
     }
     private void getData(){
-        database_order= new Database_order(this,"app_database.sqlite",null,1);
-        database_order.QueryData("CREATE TABLE IF NOT EXISTS databaseorder2(" +
+        Log.d("aaaaa","aaaa");
+        database_order= new Database_order(this,"app_database.sqlite",null,2);
+        Log.d("aaaaa","aaaas");
+        database_order.QueryData("CREATE TABLE IF NOT EXISTS "+TEN_BANG+"(" +
                 "Id VARCHAR(20)," +
                 "tensanpham VARCHAR(50), " +
                 "soluong INTEGER DEFAULT 0, " +
                 "image TEXT, " +
-                "gia DOUBLE);");
+                "gia DOUBLE, " +
+                "yeuCau TEXT);");
+        Log.d("aaaaa","aaaa");
     }
     private  void getDulieuSql( ){
-        database_order= new Database_order(this,"app_database.sqlite",null,1);
-//        database_order.GetData("SELECT * FROM databaseorde1r ");
+        database_order= new Database_order(this,"app_database.sqlite",null,2);
         ArrayList<Product> arrayList = new ArrayList<>();
-        String S="SELECT * FROM databaseorder2 WHERE Id='"+id+"' AND tensanpham='"+tensps+"'";
-        Cursor cursor =  database_order.GetData(S,null);
-        Log.d("11111",cursor+"1111");
-
+        String S="SELECT * FROM "+TEN_BANG+" WHERE Id='"+id+"' AND tensanpham='"+tensps+"'";
+            Cursor cursor =  database_order.GetData(S,null);
+        Log.d("sllll",cursor.getCount()+"couser");
         if (cursor.getCount() > 0) {
             int  soluong1=0;
+        Log.d("yeuCaumss",yeuCau.getText().toString()+"ne");
             sluong=Integer.parseInt(soluong2.getText()+"");
             Log.d("sllll",sl+"");
             while (cursor.moveToNext()) {
-
                String a = cursor.getString(0);
-                Log.d("cosql",a);
-//                Log.d("cosql",id+"nn");
-
                 String tensp= cursor.getString(1);
                 soluong1= cursor.getInt(2);
                 String img= cursor.getString(3);
                 double  gia= cursor.getInt(4);
                 arrayList.add(new Product(a,tensp,soluong1,img,gia));
             }
-            database_order.QueryData("UPDATE databaseorder2 SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham='"+tensps+"'");
-//            Log.d("arr1",arrayList.size()+"");
-//            Log.d("logsoluong",(soluong1+sluong)+"a");
-
+            Log.d("bbbs","aaaaaabbs");
+            database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham='"+tensps+"'");
         } else {
+            Log.d("yeuCau","aaaaaabb");
             sluong=Integer.parseInt(soluong2.getText()+"");
 
-            database_order.QueryData("INSERT INTO databaseorder2 VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+sluong+",'"+image+"',"+giasanphams+");");
+            YeuCau1 =yeuCau.getText().toString();
+            Log.d("yeuCaumss",yeuCau.getText().toString()+"nen");
+            database_order.QueryData("INSERT INTO "+TEN_BANG+" VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+sluong+",'"+image+"',"+giasanphams+",'"+yeuCau.getText().toString()+"');");
 //            Log.d("logsoluong",(sluong)+"");
         }
 
@@ -195,9 +193,6 @@ public class ChiTietSanPham extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
-
     }
-
 }

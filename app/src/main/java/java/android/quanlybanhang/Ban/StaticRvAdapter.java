@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.android.quanlybanhang.KhuVuc.StaticModelKhuVuc;
+import java.android.quanlybanhang.function.Card_Da_Order;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.OrderMenu;
@@ -24,6 +27,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     boolean check = true;
     boolean select= true;
     String Id_khuvuc;
+
 
         public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc){
         this.staticBanModels = staticBanModels;
@@ -83,16 +87,24 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 //            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
             holder.view.setBackgroundResource(R.color.maudat);
         }
+
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                if(items.get(position).getTenkhuvuc().equals("Khu vuc A")){
-                    Intent intent = new Intent(orderMenu,MonOrder.class);
+
+//                    Intent intent = new Intent(orderMenu,MonOrder.class);
+////                    intent.putExtra("tenban",CrrItem.getTenban());
+//                    intent.putExtra("id_ban",CrrItem.getID());
+//                    Log.d("id_khuvuc",Id_khuvuc);
+//                    intent.putExtra("id_khuvuc",Id_khuvuc);
+//                    orderMenu.startActivity(intent);
+                Intent intent = new Intent(orderMenu, Card_Da_Order.class);
 //                    intent.putExtra("tenban",CrrItem.getTenban());
-                    intent.putExtra("id_ban",CrrItem.getID());
-                    Log.d("id_khuvuc",Id_khuvuc);
-                    intent.putExtra("id_khuvuc",Id_khuvuc);
-                    orderMenu.startActivity(intent);
+                intent.putExtra("id_ban",CrrItem.getID());
+                Log.d("id_khuvuc",Id_khuvuc);
+                intent.putExtra("id_khuvuc",Id_khuvuc);
+                orderMenu.startActivity(intent);
 //                }
 //                else {
 //                    return;
