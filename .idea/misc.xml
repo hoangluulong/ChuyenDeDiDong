@@ -3,6 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-mdpi/bg_tab_don_online2.xml" value="0.3375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/bg_tab_don_online.xml" value="0.3769230769230769" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/ic_baseline_date_range_24.xml" value="0.3769230769230769" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/font/alike.xml" value="0.33958333333333335" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/font/armata.xml" value="0.33958333333333335" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/font/baloo.xml" value="0.33958333333333335" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/font/basic.xml" value="0.33958333333333335" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/font/belgrano.xml" value="0.33958333333333335" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/font/finger_paint.xml" value="0.33958333333333335" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/font/fontlong.xml" value="0.33958333333333335" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_tong_quan.xml" value="0.23385416666666667" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_duyet_don_hang.xml" value="0.33" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_main.xml" value="0.309375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_cho_xac_nhan.xml" value="0.24583333333333332" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_danh_sach_don_hang.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_recycleview_tab_don_hang_online.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_spinner1_setup_store.xml" value="0.309375" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/delete_24.xml" value="0.25" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/edit_24.xml" value="0.25" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable/bg_layout.xml" value="0.25" />

@@ -18,19 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
-            android:name=".function.DuyetDonHangActivity"
+            android:name=".function.Account.ChiNhanhSignInActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".function.Account.ChiNhanhSignInActivity"
-            android:exported="true" />
-        <activity
-            android:name=".function.MainActivity"
-            android:exported="true" /> <!-- Sign in, SignUp -->
+        </activity><!-- Sign in, SignUp -->
         <activity
             android:name=".function.Account.StoreSetting"
             android:exported="true" />
@@ -46,7 +43,7 @@
         <activity
             android:name=".function.BaoCao.DanhSachBienLaiActivity"
             android:exported="true"
-            android:theme="@style/thameActionbar" />
+            android:theme="@style/thameActionbar2" />
         <activity
             android:name=".function.BaoCao.BaoCaoSanPhamActivity"
             android:exported="true" />
@@ -55,13 +52,21 @@
             android:exported="true"
             android:label="Tổng quan"
             android:screenOrientation="portrait"
-            android:theme="@style/thameActionbar"></activity>
+            android:parentActivityName=".function.Account.SignUpActivity"
+            android:theme="@style/thameActionbar2"></activity>
         <activity
             android:name=".function.BaoCao.ChiTietNhapKhoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".function.BaoCao.BaoCaoKhoActivity"
             android:screenOrientation="portrait" />
+
+        <!--    Đơn online    -->
+        <activity android:name=".function.DonHangOnline.DuyetDonHangActivity"
+            android:theme="@style/thameActionbar"
+            android:label="Đơn hàng online"
+            android:parentActivityName=".function.Account.SignInActivity">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

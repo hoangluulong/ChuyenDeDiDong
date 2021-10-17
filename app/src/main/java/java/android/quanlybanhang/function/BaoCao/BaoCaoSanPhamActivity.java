@@ -27,11 +27,12 @@ public class BaoCaoSanPhamActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
         pager = findViewById(R.id.viewpager);
 
-        DanhSachTopSanPhamFragment ds = DanhSachTopSanPhamFragment.newInstance("long1", "long2");
+//        DanhSachTopSanPhamFragment ds = DanhSachTopSanPhamFragment.newInstance("long1", "long2");
 
         FragmentManager fm = getSupportFragmentManager();
         adapter = new FragmentAdapter(fm, getLifecycle());
         pager.setAdapter(adapter);
+
 
         tabLayout.addTab(tabLayout.newTab().setText("Sản phẩm tuần"));
         tabLayout.addTab(tabLayout.newTab().setText("Sản phẩm tháng/năm"));
