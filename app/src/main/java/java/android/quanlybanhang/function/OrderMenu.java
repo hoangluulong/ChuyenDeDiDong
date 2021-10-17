@@ -1,5 +1,6 @@
     package java.android.quanlybanhang.function;
 
+    import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.Menu;
@@ -205,4 +206,10 @@
         };
             mDatabase.addChildEventListener(childEventListener);}
 
+//        @Override
+//        public void onBackPressed() {
+//            Intent intent = new Intent(OrderMenu.this,MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
     }

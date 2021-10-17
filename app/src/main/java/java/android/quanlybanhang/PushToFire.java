@@ -22,6 +22,43 @@ public class PushToFire {
     String nameProduct;
     String yeuCau;
 
+    public String getImgProduct() {
+        return imgProduct;
+    }
+
+    public void setImgProduct(String imgProduct) {
+        this.imgProduct = imgProduct;
+    }
+
+    public PushToFire(String nameProduct, String yeuCau, String imgProduct, String giaProduct, int soluong, boolean addToCart) {
+        this.nameProduct = nameProduct;
+        this.yeuCau = yeuCau;
+        this.imgProduct = imgProduct;
+        this.giaProduct = giaProduct;
+        this.soluong = soluong;
+        this.addToCart = addToCart;
+    }
+
+    public String getGiaProduct() {
+        return giaProduct;
+    }
+
+    public void setGiaProduct(String giaProduct) {
+        this.giaProduct = giaProduct;
+    }
+
+    public boolean isAddToCart() {
+        return addToCart;
+    }
+
+    public void setAddToCart(boolean addToCart) {
+        this.addToCart = addToCart;
+    }
+
+    String imgProduct;
+    String giaProduct;
+
+
     public String getYeuCau() {
         return yeuCau;
     }

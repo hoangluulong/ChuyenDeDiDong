@@ -47,7 +47,7 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
         id_khuvuc = intent1.getStringExtra("id_khuvuc");
         list= new ArrayList<>();
         getData();
-        kiemtra();
+//        kiemtra();
         Log.d("ListDate_yc",ListDate_yc.size()+"getabc");
 
 
@@ -57,12 +57,12 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               if(snapshot.getValue()!=null){
+//               if(snapshot.getValue()!=null){
                    ListDate_yc = new ArrayList<>();
                    listmon = new  ArrayList<PushToFire>();
                    Log.d("getkeyabc",snapshot.getKey()+"getabc");
                    Log.d("dateFirebase",snapshot.child("date").getValue()+"");
-                   Long date=Long.parseLong(snapshot.child("date").getValue()+"") ;
+//                   Long date=Long.parseLong(snapshot.child("date").getValue()+"") ;
                    String flag=snapshot.child("flag").getValue()+"";
                    DataSnapshot sss = snapshot.child("sanpham");
                    for (DataSnapshot postSnapshot: sss.getChildren()) {
@@ -75,7 +75,7 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
                        Log.d("listmon",listmon+"listmon");
 
                    }
-                   ListDate_yc.add(new PushToFire1(date,true,listmon));
+                   ListDate_yc.add(new PushToFire1(1,true,listmon));
 
                    recyclerView = findViewById(R.id.rv_3);
                    Log.d("listmon",listmon.size()+"getabc");
@@ -85,10 +85,10 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
                    recyclerView.setAdapter(cardDaOrderAdapter);
                    cardDaOrderAdapter.notifyDataSetChanged();
                         kt=1;
-               }
-               else {
-                   kt=0;
-               }
+//               }
+//               else {
+//                   kt=0;
+//               }
 
             }
 
@@ -101,27 +101,33 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
 
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent(Card_Da_Order.this,OrderMenu.class);
+//        startActivity(intent);
+//        finish();
+//    }
 
-    public void kiemtra(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(kt==1){
-
-                    Toast.makeText(Card_Da_Order.this,"Card đã có sản phẩm",Toast.LENGTH_LONG).show();
-                }
-                else if(kt==0){
-                    Intent intent = new Intent(Card_Da_Order.this,MonOrder.class);
-                    intent.putExtra("id_khuvuc",id_khuvuc);
-                    intent.putExtra("id_ban",id_ban);
-                    startActivity(intent);
-                    Toast.makeText(Card_Da_Order.this,"Card chua có sản phẩm",Toast.LENGTH_LONG).show();
-                }else {
-                    kiemtra();
-                }
-            }
-        },-20);
-
-    }
+//    public void kiemtra(){
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(kt==1){
+//
+//                    Toast.makeText(Card_Da_Order.this,"Card đã có sản phẩm",Toast.LENGTH_LONG).show();
+//                }
+//                else if(kt==0){
+//                    Intent intent = new Intent(Card_Da_Order.this,MonOrder.class);
+//                    intent.putExtra("id_khuvuc",id_khuvuc);
+//                    intent.putExtra("id_ban",id_ban);
+//                    startActivity(intent);
+//                    Toast.makeText(Card_Da_Order.this,"Card chua có sản phẩm",Toast.LENGTH_LONG).show();
+//                }else {
+//                    kiemtra();
+//                }
+//            }
+//        },0);
+//
+//    }
 }

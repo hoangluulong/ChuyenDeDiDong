@@ -9,11 +9,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.KhuVuc.StaticModelKhuVuc;
+import java.android.quanlybanhang.OrderMon.CardDaOrderAdapter;
+import java.android.quanlybanhang.OrderMon.PushToFire1;
+import java.android.quanlybanhang.PushToFire;
 import java.android.quanlybanhang.function.Card_Da_Order;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.R;
@@ -26,7 +34,10 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     ArrayList<StaticModelKhuVuc> items;
     boolean check = true;
     boolean select= true;
+    private  ArrayList<PushToFire> listmon = new ArrayList<>();
+    private  ArrayList<PushToFire1> ListDate_yc = new ArrayList<>();
     String Id_khuvuc;
+    private DatabaseReference mDatabase;
 
 
         public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc){
@@ -91,24 +102,9 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(items.get(position).getTenkhuvuc().equals("Khu vuc A")){
 
-//                    Intent intent = new Intent(orderMenu,MonOrder.class);
-////                    intent.putExtra("tenban",CrrItem.getTenban());
-//                    intent.putExtra("id_ban",CrrItem.getID());
-//                    Log.d("id_khuvuc",Id_khuvuc);
-//                    intent.putExtra("id_khuvuc",Id_khuvuc);
-//                    orderMenu.startActivity(intent);
-                Intent intent = new Intent(orderMenu, Card_Da_Order.class);
-//                    intent.putExtra("tenban",CrrItem.getTenban());
-                intent.putExtra("id_ban",CrrItem.getID());
-                Log.d("id_khuvuc",Id_khuvuc);
-                intent.putExtra("id_khuvuc",Id_khuvuc);
-                orderMenu.startActivity(intent);
-//                }
-//                else {
-//                    return;
-//                }
+                getData(CrrItem);
+
 
             }
         });
@@ -136,5 +132,37 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         return staticBanModels.size() ;
     }
 
+    public  void getData(StaticBanModel CrrItem ){
+        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID()+"_"+Id_khuvuc);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue()!=null){
+                    Intent intent = new Intent(orderMenu, Card_Da_Order.class);
+                    intent.putExtra("id_ban",CrrItem.getID());
+                    Log.d("id_khuvuc",Id_khuvuc);
+                    intent.putExtra("id_khuvuc",Id_khuvuc);
+                    orderMenu.startActivity(intent);
+                    }
+                else {
 
+                    Intent intent = new Intent(orderMenu,MonOrder.class);
+                    intent.putExtra("id_ban",CrrItem.getID());
+                    Log.d("id_khuvuc",Id_khuvuc);
+                    intent.putExtra("id_khuvuc",Id_khuvuc);
+                    orderMenu.startActivity(intent);
+                }
+
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 }
