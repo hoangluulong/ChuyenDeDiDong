@@ -29,7 +29,7 @@ public class DuyetDonHangActivity extends AppCompatActivity {
 
         title = new ArrayList<String>();
         title.add("Chờ xác nhận");
-        title.add("Đã xác nhật");
+        title.add("Đã xác nhận");
         title.add("Đang thực hiện");
         title.add("Đơn đang giao");
         title.add("Đơn hoàn thành");

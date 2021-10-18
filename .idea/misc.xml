@@ -30,15 +30,21 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_sign_up.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_store_setting.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/bao_cao_sheet_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialog_don_hang_da_xac_nhan.xml" value="0.25729166666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialog_don_hang_online.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialog_ngay_bao_bao.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_chi_so_san_pham.xml" value="0.23125" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_cho_xac_nhan.xml" value="0.24583333333333332" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_da_xac_nhan.xml" value="0.36666666666666664" />
-        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_don_hoan_thanh.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_dang_giao_hang_online.xml" value="0.25729166666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_dang_xu_ly_online.xml" value="0.25729166666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_danh_sach_top_san_pham.xml" value="0.25729166666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_don_hoan_thanh.xml" value="0.25" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_don_huy.xml" value="0.25729166666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_chi_so_san_pham.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_chi_so_san_pham2.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_chi_tiet_cap_nhat_kho.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_dang_xu_ly_do_online.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_danh_sach_bien_lai.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_danh_sach_don_hang.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_dialog_don_online.xml" value="0.33" />

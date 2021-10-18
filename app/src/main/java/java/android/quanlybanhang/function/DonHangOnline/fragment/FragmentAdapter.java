@@ -23,10 +23,13 @@ public class FragmentAdapter extends FragmentStateAdapter {
             case 1:
                 return new DaXacNhanFragment();
             case 2:
-                return new DonHoanThanhFragment();
+                return new DangXuLyOnlineFragment();
             case 3:
+                return new DangGiaoHangOnlineFragment();
+            case 4:
+                return new DonHoanThanhFragment();
+            case 5:
                 return new DonHuyFragment();
-
         }
 
         return null;
@@ -34,6 +37,6 @@ public class FragmentAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 6;
     }
 }

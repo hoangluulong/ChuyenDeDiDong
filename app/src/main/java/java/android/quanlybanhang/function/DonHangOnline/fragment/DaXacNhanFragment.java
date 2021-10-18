@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.function.DonHangOnline.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -66,6 +67,7 @@ public class DaXacNhanFragment extends Fragment {
     private RecyclerView recyclerView;
     private DaXacNhanAdapter daXacNhanAdapter;
     private ArrayList<String> list;
+    private Dialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class DaXacNhanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_da_xac_nhan, container, false);
 
         recyclerView = view.findViewById(R.id.recycleview);
+        dialog = new Dialog(view.getContext());
         displayItem(view);
 
         return view;
@@ -82,7 +85,7 @@ public class DaXacNhanFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
 
-        daXacNhanAdapter = new DaXacNhanAdapter(view.getContext(), list);
+        daXacNhanAdapter = new DaXacNhanAdapter(view.getContext(), list, dialog);
         recyclerView.setAdapter(daXacNhanAdapter);
 
         daXacNhanAdapter.notifyDataSetChanged();

@@ -126,7 +126,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:textSize="10sp"
+            android:textSize="13sp"
             android:fontFamily="@font/alike"
             android:text="Tên sản phẩm" />
 
@@ -134,7 +134,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:textSize="10sp"
+            android:textSize="13sp"
             android:fontFamily="@font/alike"
             android:text="loại" />
 
@@ -143,7 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:gravity="left"
-            android:textSize="10sp"
+            android:textSize="13sp"
             android:text="số lượng" />
 
         <TextView
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="right"
-            android:textSize="10sp"
+            android:textSize="13sp"
             android:paddingRight="10dp"
             android:text="Đơn giá" />
     </LinearLayout>
@@ -221,9 +221,9 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/bg_huy"
+            android:background="@drawable/bg_ngay_baocao_close"
             android:fontFamily="@font/finger_paint"
-            android:text="Hủy"
+            android:text="Đóng"
             android:textColor="@color/white"
             android:textSize="10sp" />
 
