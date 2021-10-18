@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,9 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.android.quanlybanhang.OrderMon.CardDaOrderAdapter;
-import java.android.quanlybanhang.OrderMon.PushToFire1;
-import java.android.quanlybanhang.PushToFire;
+import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
+import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
+import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
 
@@ -32,15 +31,15 @@ public class ThanhToanActivity extends AppCompatActivity {
 private ArrayList<String> list ;
 private String id_ban,id_khuvuc;
 private DatabaseReference mDatabase;
-private CardDaOrderAdapter cardDaOrderAdapter;
+private ThanhToanAdapter thanhToanAdapter;
 private RecyclerView recyclerView;
 private ImageView imgCart;
 private TextView nameactivity;
 private Button bnt_thanhThoan;
 private int kt=-1;
-private  ArrayList<PushToFire> listmon = new ArrayList<>();
+private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
     private Toolbar toolbar;//tool bar khai bao id
-    private  ArrayList<PushToFire1> ListDate_yc = new ArrayList<>();
+    private  ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +47,7 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
         setContentView(R.layout.activity_thanhtoan);
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-//             viet su kien cho toolbar
+//viet su kien cho toolbar
         ActionBar actionBar = getSupportActionBar();
 //Thiết lập tiêu đề nếu muốn
         actionBar.setTitle("Thanh Toán");
@@ -94,7 +93,7 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                if(snapshot.getValue()!=null) {
                    ListDate_yc = new ArrayList<>();
-                   listmon = new ArrayList<PushToFire>();
+                   listmon = new ArrayList<ProuductPushFB1>();
                    Log.d("getkeyabc", snapshot.getKey() + "getabc");
                    Log.d("dateFirebase", snapshot.child("date").getValue() + "");
 //                   Long date=Long.parseLong(snapshot.child("date").getValue()+"") ;
@@ -105,19 +104,19 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
                        Log.d("dateFirebase", nameProduct + "nameProduct");
                        int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
                        String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
-                       listmon.add(new PushToFire(nameProduct, soluong, yeuCau));
+                       listmon.add(new ProuductPushFB1(nameProduct, soluong, yeuCau));
                        Log.d("listmon", listmon + "listmon");
 
                    }
-                   ListDate_yc.add(new PushToFire1(1, true, listmon));
+                   ListDate_yc.add(new ProductPushFB(1, true, listmon));
 
                    recyclerView = findViewById(R.id.rv_3);
                    Log.d("listmon", listmon.size() + "getabc");
-                   cardDaOrderAdapter = new CardDaOrderAdapter(listmon);
+                   thanhToanAdapter = new ThanhToanAdapter(listmon);
                    recyclerView.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
                    recyclerView.setFocusable(false);
-                   recyclerView.setAdapter(cardDaOrderAdapter);
-                   cardDaOrderAdapter.notifyDataSetChanged();
+                   recyclerView.setAdapter(thanhToanAdapter);
+                   thanhToanAdapter.notifyDataSetChanged();
                }
                else {
                    bnt_thanhThoan.setEnabled(false);

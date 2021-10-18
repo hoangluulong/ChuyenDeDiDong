@@ -5,7 +5,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,15 +24,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.android.quanlybanhang.ChiTietSanPham.Card_San_Pham;
-import java.android.quanlybanhang.CategoryMon.StaticCategoryAdapter;
-import java.android.quanlybanhang.CategoryMon.StaticCategoryMonModel;
-import java.android.quanlybanhang.ChiTietSanPham.Interface_CategorySp_Sp;
-import java.android.quanlybanhang.OrderMon.DonGia;
-import java.android.quanlybanhang.OrderMon.Product;
-import java.android.quanlybanhang.OrderMon.StaticMonRvAdapter;
+import java.android.quanlybanhang.function.CardProductSQL.CardProduct;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterDanhMuc_Mon.StaticCategoryAdapter;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterDanhMuc_Mon.StaticCategoryMonModel;
+import java.android.quanlybanhang.Common.Interface_CategorySp_Sp;
+import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
+import java.android.quanlybanhang.Model.Product;
+import java.android.quanlybanhang.HelperClasses.Package_AdapterMon.StaticMonRvAdapter;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.ChiTietSanPham.StaticCardAdapter;
+import java.android.quanlybanhang.HelperClasses.Package_CartAdapter_SQL.StaticCardAdapter;
 import java.util.ArrayList;
 
 public class MonOrder extends AppCompatActivity implements Interface_CategorySp_Sp {
@@ -100,7 +99,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MonOrder.this, Card_San_Pham.class);
+                Intent intent = new Intent(MonOrder.this, CardProduct.class);
                 intent.putExtra("id_ban",id_ban);
                 intent.putExtra("id_khuvuc",id_khuvuc);
               startActivity(intent);

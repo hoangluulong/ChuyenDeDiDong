@@ -5,44 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ChiTietSanPham.ChiTietSanPham">
+    tools:context=".function.ChiTietOrder.ChiTietSanPham">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
+        android:background="@drawable/borderghichu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbars">
 
-        <EditText
-            android:id="@+id/edt_ghichu"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginEnd="2dp"
-            android:background="@drawable/borderghichu"
-            android:ems="20"
-            android:gravity="top|left"
-            android:hint="nhập ghi chú"
-            android:inputType="textMultiLine|text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableRow" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView1"
-            android:layout_width="175dp"
-            android:layout_height="100dp"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
 
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="5dp"
             app:cardElevation="8dp"
             app:cardMaxElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
             app:layout_constraintTop_toBottomOf="@+id/tableRow">
 
             <LinearLayout
@@ -54,7 +40,7 @@
                 <TextView
                     android:id="@+id/textView11"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:fontFamily="@font/baloo"
                     android:gravity="center"
                     android:text="Tổng Tiền"
@@ -63,7 +49,7 @@
                 <TextView
                     android:id="@+id/tvtonggiasanpham"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:background="@drawable/border"
                     android:gravity="center"
                     android:text="30.000"
@@ -75,12 +61,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="175dp"
-            android:layout_height="100dp"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="15dp"
+
             app:cardElevation="8dp"
             app:cardMaxElevation="8dp"
-
+            app:layout_constraintEnd_toStartOf="@+id/cardView1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tableRow">
 
@@ -93,21 +81,35 @@
                 <TextView
                     android:id="@+id/textView14"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:fontFamily="@font/baloo"
                     android:gravity="center"
                     android:text="Đơn Vị Tính"
                     android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/tvloaisanpham"
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvloaisanpham"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="70dp"-->
+                <!--                    android:background="@drawable/border"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:text="Lon"-->
+                <!--                    android:textSize="24sp"-->
+                <!--                    android:textStyle="bold" />-->
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:background="@drawable/border"
-                    android:gravity="center"
-                    android:text="Lon"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:scrollbars="none">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </ScrollView>
+
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -145,11 +147,11 @@
             android:id="@+id/imgproduct"
             android:layout_width="300dp"
             android:layout_height="200dp"
-
             android:layout_marginStart="55dp"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="56dp"
             android:layout_marginBottom="10dp"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toTopOf="@+id/tableRow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -199,15 +201,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/back" />
+         />
 
     <Button
         android:id="@+id/bnt_xacnhan"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="150dp"
-        android:layout_marginEnd="5dp"
 
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/triple"
         android:fontFamily="@font/baloo"
@@ -228,9 +230,24 @@
         android:fontFamily="@font/baloo"
         android:text="Hủy"
         android:textSize="24sp"
+
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <EditText
+        android:id="@+id/edt_ghichu"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/borderghichu"
+        android:ems="20"
+        android:gravity="top|left"
+        android:hint="nhập ghi chú"
+        android:inputType="textMultiLine|text"
+        app:layout_constraintBottom_toTopOf="@+id/bnt_xacnhan"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 

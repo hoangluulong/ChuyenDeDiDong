@@ -1,6 +1,5 @@
     package java.android.quanlybanhang.function;
 
-    import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.Menu;
@@ -23,13 +22,13 @@
     import com.google.firebase.database.ValueEventListener;
     import com.sa90.materialarcmenu.ArcMenu;
 
-    import java.android.quanlybanhang.Ban.StaticBanModel;
-    import java.android.quanlybanhang.Ban.StaticRvAdapter;
-    import java.android.quanlybanhang.ChiTietSanPham.Interface_KhuVuc_ban;
-    import java.android.quanlybanhang.KhuVuc.StaticModelKhuVuc;
+    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
+    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticRvAdapter;
+    import java.android.quanlybanhang.Common.Interface_KhuVuc_ban;
+    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 
     import java.android.quanlybanhang.R;
-    import java.android.quanlybanhang.KhuVuc.StaticRvKhuVucAdapter;
+    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
     import java.util.ArrayList;
 
     public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban {

@@ -13,8 +13,12 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/borderghichu.xml" value="0.34933605720122574" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/cardviewsp.xml" value="0.34933605720122574" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/cardviewsp1.xml" value="0.34933605720122574" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/card_background.xml" value="0.35625" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/cart_button_bg.xml" value="0.35625" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/dialog_baocao_bg.xml" value="0.22916666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/shadow.xml" value="1.11875" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_account_information.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_addproduct.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_kho.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_tong_quan.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_card_da_order.xml" value="0.3359375" />
@@ -26,13 +30,25 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_error.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_facebook_auth.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_forget_password.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_income.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_introductory.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_list_product.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_login.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_mon_order.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_mon_thanhtoan.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_onboarding_screen.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_order_menu.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_processing.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_sign_up.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_thanhtoan.xml" value="0.23697916666666666" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/bao_cao_sheet_dialog.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/custom_loading.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dailong_updatecategory.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dailong_updateproduct.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/header_menu.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_ban.xml" value="0.36666666666666664" />
-        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card.xml" value="0.5" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card_fordsell.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_cardfirebase.xml" value="0.16354166666666667" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_category.xml" value="0.3359375" />
@@ -43,6 +59,7 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_sanpham.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_top_san_pham.xml" value="0.35260416666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/slide_pie.xml" value="0.35260416666666666" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/slides_layout.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/menu/menu_main2.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/menu/menu_save.xml" value="0.35260416666666666" />
         <entry key="..\:/HK5_2021-2022/QuanLyBanHang/app/src/main/res/drawable-xxxhdpi/back_24.xml" value="0.2630208333333333" />

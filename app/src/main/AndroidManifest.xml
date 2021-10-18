@@ -29,21 +29,16 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".ChiTietSanPham.Card_San_Pham"
+            android:name=".function.CardProductSQL.CardProduct"
             android:exported="true"></activity>
-        <activity android:name=".function.ListProduct" />
-        <activity android:name=".function.ListCategory" />
-        <activity android:name=".function.AddProduct" />
-        <activity android:name=".function.AddCategory" />
         <activity
-            android:name=".ChiTietSanPham.ChiTietSanPham"
+            android:name=".function.ChiTietOrder.ChiTietSanPham"
             android:exported="true"
             android:parentActivityName=".function.MonOrder" />
         <activity
             android:name=".function.MonOrder"
             android:exported="true"
             android:parentActivityName=".function.OrderMenu" />
-        <activity android:name=".function.AccountInformationActivity" />
         <activity android:name=".function.Manager" />
         <activity android:name=".function.Income" />
         <activity android:name=".function.Processing" />
