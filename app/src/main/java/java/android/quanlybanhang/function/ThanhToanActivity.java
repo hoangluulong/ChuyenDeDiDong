@@ -115,6 +115,7 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
                    Log.d("listmon", listmon.size() + "getabc");
                    cardDaOrderAdapter = new CardDaOrderAdapter(listmon);
                    recyclerView.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
+                   recyclerView.setFocusable(false);
                    recyclerView.setAdapter(cardDaOrderAdapter);
                    cardDaOrderAdapter.notifyDataSetChanged();
                }

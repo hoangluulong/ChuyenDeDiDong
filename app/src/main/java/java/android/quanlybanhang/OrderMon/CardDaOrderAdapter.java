@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ramotion.foldingcell.FoldingCell;
+
 import org.w3c.dom.Text;
 
 import java.android.quanlybanhang.KhuVuc.StaticModelKhuVuc;
@@ -22,10 +24,14 @@ public class CardDaOrderAdapter extends RecyclerView.Adapter<CardDaOrderAdapter.
    public CardDaOrderAdapter( ArrayList<PushToFire> items){
        this.items = items;
    }
+   public void setData(ArrayList<PushToFire> item){
+                items= item;
+                notifyDataSetChanged();
+   }
     @NonNull
     @Override
     public CardDaOrderHoler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardfirebase,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_fordsell,parent,false);
         CardDaOrderAdapter.CardDaOrderHoler card = new CardDaOrderAdapter.CardDaOrderHoler(view);
         return card;
     }
@@ -35,7 +41,13 @@ public class CardDaOrderAdapter extends RecyclerView.Adapter<CardDaOrderAdapter.
         PushToFire CrItem=items.get(position);
         holder.tensanpham.setText(CrItem.getNameProduct()+"");
         holder.giasanpham.setText(CrItem.getYeuCau()+"");
-        holder.soluongSanpham.setText(CrItem.getSoluong()+"");
+//        holder.soluongSanpham.setText(CrItem.getSoluong()+"");
+        holder.foldingCell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.foldingCell.toggle(false);
+            }
+        });
     }
 
     @Override
@@ -47,12 +59,14 @@ public class CardDaOrderAdapter extends RecyclerView.Adapter<CardDaOrderAdapter.
     public class CardDaOrderHoler extends RecyclerView.ViewHolder {
         TextView tensanpham ;
         TextView giasanpham;
-        TextView soluongSanpham;
+//        TextView soluongSanpham;
+        FoldingCell foldingCell;
         public CardDaOrderHoler(@NonNull View itemView) {
             super(itemView);
+            foldingCell= itemView.findViewById(R.id.folding_cell);
             tensanpham= itemView.findViewById(R.id.tvtensanpham);
             giasanpham = itemView.findViewById(R.id.tvgiasanpham);
-            soluongSanpham = itemView.findViewById(R.id.tvsoluong);
+//            soluongSanpham = itemView.findViewById(R.id.tvsoluong);
 
         }
     }
