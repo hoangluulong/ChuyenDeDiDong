@@ -1,17 +1,26 @@
 package java.android.quanlybanhang.function.DonHangOnline.fragment;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.android.quanlybanhang.HelperClasses.DanhSachHoaDonAdapter;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.util.ArrayList;
 
@@ -56,6 +65,7 @@ public class ChoXacNhanFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<String> list = new ArrayList<>();
     private ChoXacNhanAdapter choXacNhanAdapter;
+    private Dialog dialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +80,7 @@ public class ChoXacNhanFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cho_xac_nhan, container, false);
         recyclerView = view.findViewById(R.id.recycleview);
+        dialog = new Dialog(view.getContext());
         getData();
         displayItem(view);
 
@@ -77,16 +88,14 @@ public class ChoXacNhanFragment extends Fragment {
     }
 
     private void getData() {
-        list.add("a");
-        list.add("b");
-        list.add("c");
+
     }
 
     private void displayItem(View view){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
 
-        choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), list);
+        choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), list, dialog);
         recyclerView.setAdapter(choXacNhanAdapter);
 
         choXacNhanAdapter.notifyDataSetChanged();

@@ -63,7 +63,7 @@
 
         <!--    Đơn online    -->
         <activity android:name=".function.DonHangOnline.DuyetDonHangActivity"
-            android:theme="@style/thameActionbar"
+            android:theme="@style/thameActionbar2"
             android:label="Đơn hàng online"
             android:parentActivityName=".function.Account.SignInActivity">
         </activity>

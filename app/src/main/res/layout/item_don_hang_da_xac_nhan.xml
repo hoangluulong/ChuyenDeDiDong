@@ -3,24 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="5dp">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black1" />
+    android:background="@drawable/item_layout_donhang_online"
+    android:layout_margin="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="5dp">
+        android:gravity="center"
+        >
 
         <LinearLayout
-            android:id="@+id/layoutThongTin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="3"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -44,18 +42,7 @@
                     android:paddingLeft="7dp"
                     android:textColor="@color/black"
                     android:text="20-10-2021 12:30:14"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/lblChoXuli"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:textColor="@color/black"
-                    android:gravity="right"
-                    android:paddingRight="20dp"
-                    android:text="Chờ xử lý ◷"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -66,7 +53,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:textColor="@color/Java"
+                    android:textColor="@color/purple_200"
+                    android:text="Khách hàng"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/lblKhachang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="14dp"
+                    android:text="Hoàng Hữu Long gg"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/purple_200"
                     android:text="Tổng đơn: "
                     android:textSize="13sp" />
 
@@ -74,52 +83,63 @@
                     android:id="@+id/lblDonGia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="14dp"
                     android:text="1,000,000,00"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="ĐC/: "
-                    android:textColor="@color/Java"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/lblDiaChi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="116/24/đường 17 - linh trung - thử đức - thành phố hồ chí minh"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:gravity="center_horizontal"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đang chuẩn bị..."
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/Python"
+                android:textSize="9sp"/>
+            <TextView
+                android:id="@+id/trangthai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chờ chế biến"
+                android:layout_marginTop="5dp"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/lblhuy"
-                android:layout_width="60dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:id="@+id/lblXacNhan"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:gravity="center"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:background="@color/background_baocao"
+                android:background="@drawable/bg_don_online"
+                android:layout_marginBottom="2dp"
+                android:text="Hàng chờ ⤾"
+                android:textSize="10sp"
+                android:fontFamily="@font/baloo"
+                android:textColor="@color/Python" />
+
+            <TextView
+                android:id="@+id/lblhuy"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:gravity="center"
+                android:background="@drawable/bg_don_online"
                 android:layout_marginTop="2dp"
                 android:text="Hủy đơn ✘"
                 android:textSize="10sp"

@@ -3,12 +3,17 @@ package java.android.quanlybanhang.function.DonHangOnline.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
+import java.android.quanlybanhang.function.DonHangOnline.adapter.DaXacNhanAdapter;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +62,29 @@ public class DaXacNhanFragment extends Fragment {
         }
     }
 
+
+    private RecyclerView recyclerView;
+    private DaXacNhanAdapter daXacNhanAdapter;
+    private ArrayList<String> list;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_da_xac_nhan, container, false);
+        View view = inflater.inflate(R.layout.fragment_da_xac_nhan, container, false);
+
+        recyclerView = view.findViewById(R.id.recycleview);
+        displayItem(view);
+
+        return view;
+    }
+
+    private void displayItem(View view){
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
+
+        daXacNhanAdapter = new DaXacNhanAdapter(view.getContext(), list);
+        recyclerView.setAdapter(daXacNhanAdapter);
+
+        daXacNhanAdapter.notifyDataSetChanged();
     }
 }

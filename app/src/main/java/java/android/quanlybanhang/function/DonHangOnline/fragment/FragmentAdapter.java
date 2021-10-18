@@ -21,7 +21,7 @@ public class FragmentAdapter extends FragmentStateAdapter {
             case 0:
                 return new ChoXacNhanFragment();
             case 1:
-                return new DanhSachTopSanPhamFragment();
+                return new DaXacNhanFragment();
             case 2:
                 return new DonHoanThanhFragment();
             case 3:
