@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ private CardDaOrderAdapter cardDaOrderAdapter;
 private RecyclerView recyclerView;
 private ImageView imgCart;
 private TextView nameactivity;
+private Button bnt_thanhThoan;
 private int kt=-1;
 private  ArrayList<PushToFire> listmon = new ArrayList<>();
     private Toolbar toolbar;//tool bar khai bao id
@@ -59,10 +61,12 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
 //        Log.d("getkeyabc",id_ban+"getabc");
         id_khuvuc = intent1.getStringExtra("id_khuvuc");
         imgCart = findViewById(R.id.img_order);
+        bnt_thanhThoan = findViewById(R.id.bnt_luu);
+
+
 //        nameactivity = findViewById(R.id.tvtenactivity);
 //        String tenActivity="Card"+id_ban;
 //        nameactivity.setText(tenActivity);
-
         list= new ArrayList<>();
         OrderCart();
         getData();
@@ -88,33 +92,35 @@ private  ArrayList<PushToFire> listmon = new ArrayList<>();
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//               if(snapshot.getValue()!=null){
+               if(snapshot.getValue()!=null) {
                    ListDate_yc = new ArrayList<>();
-                   listmon = new  ArrayList<PushToFire>();
-                   Log.d("getkeyabc",snapshot.getKey()+"getabc");
-                   Log.d("dateFirebase",snapshot.child("date").getValue()+"");
+                   listmon = new ArrayList<PushToFire>();
+                   Log.d("getkeyabc", snapshot.getKey() + "getabc");
+                   Log.d("dateFirebase", snapshot.child("date").getValue() + "");
 //                   Long date=Long.parseLong(snapshot.child("date").getValue()+"") ;
-                   String flag=snapshot.child("flag").getValue()+"";
+                   String flag = snapshot.child("flag").getValue() + "";
                    DataSnapshot sss = snapshot.child("sanpham");
-                   for (DataSnapshot postSnapshot: sss.getChildren()) {
-
-                       String nameProduct= postSnapshot.child("nameProduct").getValue()+"";
-                       Log.d("dateFirebase",nameProduct+"nameProduct");
-                       int soluong=Integer.parseInt(postSnapshot.child("soluong").getValue()+"");
-                       String yeuCau=postSnapshot.child("yeuCau").getValue()+"";
-                       listmon.add( new PushToFire(nameProduct,soluong,yeuCau));
-                       Log.d("listmon",listmon+"listmon");
+                   for (DataSnapshot postSnapshot : sss.getChildren()) {
+                       String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
+                       Log.d("dateFirebase", nameProduct + "nameProduct");
+                       int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
+                       String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
+                       listmon.add(new PushToFire(nameProduct, soluong, yeuCau));
+                       Log.d("listmon", listmon + "listmon");
 
                    }
-                   ListDate_yc.add(new PushToFire1(1,true,listmon));
+                   ListDate_yc.add(new PushToFire1(1, true, listmon));
 
                    recyclerView = findViewById(R.id.rv_3);
-                   Log.d("listmon",listmon.size()+"getabc");
+                   Log.d("listmon", listmon.size() + "getabc");
                    cardDaOrderAdapter = new CardDaOrderAdapter(listmon);
-                   recyclerView.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this,LinearLayoutManager.VERTICAL,false));
+                   recyclerView.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
                    recyclerView.setAdapter(cardDaOrderAdapter);
                    cardDaOrderAdapter.notifyDataSetChanged();
-
+               }
+               else {
+                   bnt_thanhThoan.setEnabled(false);
+               }
             }
 
 

@@ -71,6 +71,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    //ford sell
+    implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
 
 }
 

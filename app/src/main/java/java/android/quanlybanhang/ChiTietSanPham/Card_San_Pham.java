@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -45,6 +46,7 @@ public class Card_San_Pham extends AppCompatActivity {
     private PushToFire pushToFire;
      private boolean flag;
      String yeuCau;
+     private TextView tvkhongsanpham,tvtentongsp;
     private final String TEN_BANG="ProductSQL";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,10 @@ public class Card_San_Pham extends AppCompatActivity {
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        tvkhongsanpham = findViewById(R.id.tv_khongsanpham);
+        tvtentongsp = findViewById(R.id.tvtentongsp);
         //
-
-
         Intent intent = getIntent();
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
@@ -128,14 +131,15 @@ public class Card_San_Pham extends AppCompatActivity {
                     Log.d("yeuCauSQL1",yeuCau);
                     listcard.add(new Product(a,tensp,soluong,img,gia));
                     listSP.add(new PushToFire(tensp,soluong,yeuCau));
-
+                tvtentongsp.setVisibility(View.VISIBLE);
 //                list =new PushToFire(tensp,soluong,addtocart);
             }
             Log.d("arr1",arrayList.size()+"");
         } else {
-//            Log.d("bnm","bnm");
+
             bntluu.setEnabled(false);
-            bntthanhtoan.setEnabled(false);
+            tvkhongsanpham.setVisibility(View.VISIBLE);
+
         }
     }
 

@@ -99,13 +99,11 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         bnt_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MonOrder.this, Card_San_Pham.class);
                 intent.putExtra("id_ban",id_ban);
                 intent.putExtra("id_khuvuc",id_khuvuc);
-//                intent.putExtra("yeuCau",value1);
-//                Log.d("value1",value1+"value1");
-//                startActivity(intent);
-                startActivityForResult(intent, 1);
+              startActivity(intent);
 
             }
         });
