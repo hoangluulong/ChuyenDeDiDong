@@ -57,7 +57,7 @@
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
 //arc menu them ban
-            arcMenu = findViewById(R.id.arcmenu);
+//            arcMenu = findViewById(R.id.arcmenu);
 
 //database realtime khu vuc
              mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc");
@@ -121,18 +121,18 @@
             recyclerView2.setAdapter(staticRvAdapter);
             staticRvAdapter.notifyDataSetChanged();
 
-            recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    if(dy>0){
-                        arcMenu.setVisibility(View.GONE);
-                    }
-                    else {
-                        arcMenu.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
+//            recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                @Override
+//                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                    super.onScrolled(recyclerView, dx, dy);
+//                    if(dy>0){
+//                        arcMenu.setVisibility(View.GONE);
+//                    }
+//                    else {
+//                        arcMenu.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            });
 
         }
 
