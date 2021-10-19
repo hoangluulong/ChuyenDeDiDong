@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,17 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.HelperClasses.DanhSachHoaDonAdapter;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
+import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.util.ArrayList;
 
 /**
@@ -63,9 +70,12 @@ public class ChoXacNhanFragment extends Fragment {
     }
 
     private RecyclerView recyclerView;
-    private ArrayList<String> list = new ArrayList<>();
     private ChoXacNhanAdapter choXacNhanAdapter;
     private Dialog dialog;
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
+    private ArrayList<DonHang> donHangs;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,24 +90,43 @@ public class ChoXacNhanFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cho_xac_nhan, container, false);
         recyclerView = view.findViewById(R.id.recycleview);
+        donHangs = new ArrayList<>();
         dialog = new Dialog(view.getContext());
-        getData();
-        displayItem(view);
 
+        getDataFireBase(view);
         return view;
     }
 
-    private void getData() {
-
-    }
 
     private void displayItem(View view){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
-
-        choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), list, dialog);
+        choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), donHangs, dialog);
         recyclerView.setAdapter(choXacNhanAdapter);
 
         choXacNhanAdapter.notifyDataSetChanged();
+    }
+
+    private void getDataFireBase(View view) {
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                donHangs = new ArrayList<>();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    DonHang donHang = postSnapshot.getValue(DonHang.class);
+                    donHangs.add(donHang);
+                }
+
+                displayItem(view);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
     }
 }

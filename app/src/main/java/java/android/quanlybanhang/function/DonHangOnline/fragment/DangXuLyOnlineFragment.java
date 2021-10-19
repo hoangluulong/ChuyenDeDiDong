@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.function.DonHangOnline.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -64,11 +65,13 @@ public class DangXuLyOnlineFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private DangXuLiAdapter dangXuLy;
+    private Dialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dang_xu_ly_online, container, false);
         recyclerView = view.findViewById(R.id.recycleview);
+        dialog = new Dialog(view.getContext());
         displayItem(view);
 
         return view;
@@ -78,7 +81,7 @@ public class DangXuLyOnlineFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
         ArrayList<String> list = new ArrayList<>();
-        dangXuLy = new DangXuLiAdapter(view.getContext(), list);
+        dangXuLy = new DangXuLiAdapter(view.getContext(), list, dialog);
         recyclerView.setAdapter(dangXuLy);
 
         dangXuLy.notifyDataSetChanged();
