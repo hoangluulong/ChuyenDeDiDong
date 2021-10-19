@@ -2,9 +2,12 @@ package com.example.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+import android.view.Choreographer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,11 +28,13 @@ public class TableViewHolder extends RecyclerView.Adapter<TableViewHolder.ViewHo
     public TableViewHolder(Activity activity, Context context) {
         this.activity = activity;
         this.context = context;
+        this.coLor=0;
     }
     public void setData(List<Table> list){
         this.tableList=list;
         notifyDataSetChanged();
     }
+    int coLor;
     private DatabaseReference mDatabase;
     Activity activity;
     Context context;
@@ -47,13 +52,27 @@ public class TableViewHolder extends RecyclerView.Adapter<TableViewHolder.ViewHo
     public void onBindViewHolder(TableViewHolder.ViewHolderBan holder, int position) {
         Table table = tableList.get(position);
         holder.examName.setText(table.getNameTable());
-        holder.examMessage.setText(table.getYeuCau());
-        holder.examDate.setText(table.getDate());
-
+        holder.examDate.setText(table.getDate()+"");
         MonBanViewHolder monBanViewHolder=new MonBanViewHolder();
         monBanViewHolder.setmList(table.getDanhSachMon());
         holder.monBan.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
         holder.monBan.setAdapter(monBanViewHolder);
+        holder.aceept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                Log.d("póition", "onClick "+table.getTrangThai());
+                if(table.getTrangThai()==0){
+                    mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(table.getNameTable()).child("trangthai").setValue(1);
+                    holder.danglam.setBackgroundResource(R.color.trangthai);
+                    table.setTrangThai(1);
+                }else if(table.getTrangThai()==1){
+                    mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(table.getNameTable()).child("trangthai").setValue(2);
+                    holder.done.setBackgroundResource(R.color.trangthai);
+                    table.setTrangThai(2);
+                }
+            }
+        });
     }
 
     @Override
@@ -64,9 +83,11 @@ public class TableViewHolder extends RecyclerView.Adapter<TableViewHolder.ViewHo
 
     public class ViewHolderBan extends RecyclerView.ViewHolder {
         private TextView examName;
-        private TextView examMessage;
         private TextView examDate;
         private RecyclerView monBan;
+        private LinearLayout danglam;
+        private LinearLayout done;
+        private Button aceept;
 
         public ViewHolderBan(View itemView) {
             super(itemView);
@@ -76,12 +97,18 @@ public class TableViewHolder extends RecyclerView.Adapter<TableViewHolder.ViewHo
             examDate
                     = itemView
                     .findViewById(R.id.examDate);
-            examMessage
-                    = itemView
-                    .findViewById(R.id.examMessage);
             monBan
                     =itemView
                     .findViewById(R.id.monBan);
+            danglam
+                    =itemView
+                    .findViewById(R.id.danglam);
+            done
+                    =itemView
+                    .findViewById(R.id.done);
+            aceept
+                    =itemView
+                    .findViewById(R.id.accept);
 
         }
 

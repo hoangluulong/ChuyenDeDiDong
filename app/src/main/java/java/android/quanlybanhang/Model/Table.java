@@ -7,10 +7,16 @@ import java.util.List;
 public class Table {
     private String  nameTable;
     private List<Mon> danhSachMon;
-    private String yeuCau;
-    private String date;
+    private long date;
+    private int trangThai;
 
+    public int getTrangThai() {
+        return trangThai;
+    }
 
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
 
     public List<Mon> getDanhSachMon() {
         return danhSachMon;
@@ -22,19 +28,20 @@ public class Table {
 
 
 
-    public Table( String yeuCau, String date) {
-        this.yeuCau = yeuCau;
+    public Table(  long date) {
         this.date = date;
     }
 
     public Table() {
 
     }
+    public Table(int trangThai){
+        this.trangThai=trangThai;
+    }
 
-    public Table(String nameTable, List<Mon> danhSachMon, String yeuCau, String date) {
+    public Table(String nameTable, List<Mon> danhSachMon, long date) {
         this.nameTable = nameTable;
         this.danhSachMon = danhSachMon;
-        this.yeuCau = yeuCau;
         this.date = date;
     }
 
@@ -43,11 +50,8 @@ public class Table {
     }
 
 
-    public void setYeuCau(String yeuCau) {
-        this.yeuCau = yeuCau;
-    }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -56,11 +60,7 @@ public class Table {
     }
 
 
-    public String getYeuCau() {
-        return yeuCau;
-    }
-
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 

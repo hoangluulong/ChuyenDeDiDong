@@ -5,31 +5,43 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Mon {
-    String tensanpham;
+    String nameProduct;
 
-    public Mon(String tensanpham, int soluong) {
-        this.tensanpham = tensanpham;
+    public String getYeuCau() {
+        return yeuCau;
+    }
+
+    public void setYeuCau(String yeuCau) {
+        this.yeuCau = yeuCau;
+    }
+
+    String yeuCau;
+
+    public Mon(String nameProduct, long soluong,String yeuCau) {
+        this.nameProduct = nameProduct;
         this.soluong = soluong;
+        this.yeuCau=yeuCau;
     }
     public Mon()
     {
 
     }
-    public String getTensanpham() {
-        return tensanpham;
+
+    public String getNameProduct() {
+        return nameProduct;
     }
 
-    public void setTensanpham(String tensanpham) {
-        this.tensanpham = tensanpham;
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
     }
 
-    public int getSoluong() {
+    public long getSoluong() {
         return soluong;
     }
 
-    public void setSoluong(int soluong) {
+    public void setSoluong(long soluong) {
         this.soluong = soluong;
     }
 
-    int soluong;
+    long soluong;
 }

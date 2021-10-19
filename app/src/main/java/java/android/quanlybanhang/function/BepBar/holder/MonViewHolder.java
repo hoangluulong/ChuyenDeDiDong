@@ -55,8 +55,8 @@ public class MonViewHolder extends RecyclerView.Adapter<MonViewHolder.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Mon mon = monArrayList.get(position);
-        holder.monName.setText(mon.getTensanpham());
-        holder.core.setText(mon.getSoluong());
+        holder.monName.setText(mon.getNameProduct());
+        holder.core.setText(mon.getSoluong()+"");
 
     }
 

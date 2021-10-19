@@ -31,8 +31,9 @@ public class MonBanViewHolder extends RecyclerView.Adapter<MonBanViewHolder.View
         if (mon==null){
             return;
         }
-        holder.tvMon.setText(mon.getTensanpham());
+        holder.tvMon.setText(mon.getNameProduct());
         holder.tvSoLuong.setText(mon.getSoluong()+"");
+        holder.yeuCau.setText(mon.getYeuCau());
 
 
     }
@@ -48,12 +49,15 @@ public class MonBanViewHolder extends RecyclerView.Adapter<MonBanViewHolder.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvMon;
         private TextView tvSoLuong;
+        private TextView yeuCau;
         public ViewHolder(View itemView) {
             super(itemView);
             tvMon
                     =itemView.findViewById(R.id.Mon);
             tvSoLuong
                     =itemView.findViewById(R.id.soLuong);
+            yeuCau
+                    =itemView.findViewById(R.id.yeuCau);
         }
     }
 }
