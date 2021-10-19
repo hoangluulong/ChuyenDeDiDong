@@ -180,15 +180,16 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginRight="20dp"
-            android:text="Khuyến mại/giảm giá"/>
+            android:text="Tổng cộng "/>
         <TextView
-            android:id="@+id/khuyenmai"
+            android:id="@+id/tongtien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginRight="20dp"
             android:text="2,000,000,0"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -199,9 +200,29 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginRight="20dp"
-            android:text="Tổng: "/>
+            android:text="Khuyến mại/giảm giá"/>
         <TextView
-            android:id="@+id/tongtien"
+            android:id="@+id/khuyenmai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginRight="20dp"
+            android:text="2,000,000,0"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginRight="20dp"
+            android:text="Thanh toán"/>
+        <TextView
+            android:id="@+id/thanhTien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"

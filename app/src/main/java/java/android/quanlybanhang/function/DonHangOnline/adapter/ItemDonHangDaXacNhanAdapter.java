@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
 import java.util.ArrayList;
 
 public class ItemDonHangDaXacNhanAdapter extends RecyclerView.Adapter<ItemDonHangDaXacNhanAdapter.DonCho> {
     private Dialog dialog;
-    private ArrayList<String> list;
+    private ArrayList<SanPham> list;
 
-    public ItemDonHangDaXacNhanAdapter(Dialog dialog, ArrayList<String> list) {
+    public ItemDonHangDaXacNhanAdapter(Dialog dialog, ArrayList<SanPham> list) {
         this.dialog = dialog;
         this.list = list;
     }

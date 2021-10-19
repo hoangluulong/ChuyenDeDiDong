@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.DonHangOnline.data;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DonHang {
     private String diaChi;
@@ -11,6 +12,8 @@ public class DonHang {
     private ArrayList<SanPham> sanpham;
     private double donGia;
     private String key;
+    private Date date;
+    private String tenKhachHang;
 
     public DonHang() {
     }
@@ -24,6 +27,36 @@ public class DonHang {
         this.sanpham = sanpham;
         this.donGia = 0;
         this.key = "";
+        this.date = null;
+    }
+
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang) {
+        this.diaChi = diaChi;
+        this.time = time;
+        this.trangthai = trangthai;
+        this.idKhachhang = idKhachhang;
+        this.giaKhuyenMai = giaKhuyenMai;
+        this.sanpham = sanpham;
+        this.donGia = donGia;
+        this.key = key;
+        this.date = date;
+        this.tenKhachHang = tenKhachHang;
+    }
+
+    public String getTenKhachHang() {
+        return tenKhachHang;
+    }
+
+    public void setTenKhachHang(String tenKhachHang) {
+        this.tenKhachHang = tenKhachHang;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getDiaChi() {

@@ -10,24 +10,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.util.ArrayList;
 
 public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiaoAdapter.DonHangXuLy>{
     private Context context;
-    private ArrayList<String> list;
+    private ArrayList<DonHang> list;
     private Dialog dialog;
     private ItemDonHangDangGiaoAdapter itemDonHangAdapter;
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
 
-    public DonHangDangGiaoAdapter(Context context, ArrayList<String> list, Dialog dialog) {
+    public DonHangDangGiaoAdapter(Context context, ArrayList<DonHang> list, Dialog dialog) {
         this.context = context;
         this.list = list;
         this.dialog = dialog;
@@ -109,5 +119,61 @@ public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiao
         recyclerView.setAdapter(itemDonHangAdapter);
 
         itemDonHangAdapter.notifyDataSetChanged();
+    }
+
+    private void openFeedbackDialogHuy(int gravity, int positon) {
+        Dialog dialogHuy = new Dialog(context);
+        dialogHuy.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogHuy.setContentView(R.layout.dialog_huy_don);
+
+        Window window = dialogHuy.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button btn_dong = dialogHuy.findViewById(R.id.btn_dong);
+        Button btn_huy = dialogHuy.findViewById(R.id.btn_huy);
+
+
+
+        if (Gravity.BOTTOM == gravity) {
+            dialogHuy.setCancelable(true);
+        } else {
+            dialogHuy.setCancelable(false);
+        }
+
+        btn_huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFirebaseHuyDonDonHang(list.get(positon).getKey());
+                dialogHuy.dismiss();
+            }
+        });
+
+        btn_dong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogHuy.dismiss();
+            }
+        });
+
+        dialogHuy.show();
+    }
+
+
+    //TODO: setDuLieu Firebase hủy đơn
+    private void setFirebaseHuyDonDonHang (String IdDonHang) {
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "Hủy thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

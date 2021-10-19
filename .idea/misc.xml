@@ -32,6 +32,7 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/bao_cao_sheet_dialog.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialog_don_hang_da_xac_nhan.xml" value="0.25729166666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialog_don_hang_online.xml" value="0.33" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialog_huy_don.xml" value="0.25729166666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialog_ngay_bao_bao.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_chi_so_san_pham.xml" value="0.23125" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/fragment_cho_xac_nhan.xml" value="0.24583333333333332" />
@@ -48,7 +49,7 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_danh_sach_bien_lai.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_danh_sach_don_hang.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_dialog_don_online.xml" value="0.33" />
-        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_don_hang_cho_xac_nhan.xml" value="0.33" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_don_hang_cho_xac_nhan.xml" value="0.25" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_don_hang_da_xac_nhan.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_quan_li_kho.xml" value="0.36666666666666664" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_recycleview_tab_don_hang_online.xml" value="0.36666666666666664" />

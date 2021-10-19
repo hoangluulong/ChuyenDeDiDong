@@ -133,7 +133,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/lblXacNhan"
+                android:id="@+id/lblHangCho"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:gravity="center"

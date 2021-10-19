@@ -29,7 +29,11 @@ import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +76,8 @@ public class ChoXacNhanFragment extends Fragment {
     private RecyclerView recyclerView;
     private ChoXacNhanAdapter choXacNhanAdapter;
     private Dialog dialog;
+    private Dialog dialogHuy;
+
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
     private ArrayList<DonHang> donHangs;
@@ -92,6 +98,8 @@ public class ChoXacNhanFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycleview);
         donHangs = new ArrayList<>();
         dialog = new Dialog(view.getContext());
+        dialogHuy = new Dialog(view.getContext());
+
 
         getDataFireBase(view);
         return view;
@@ -101,7 +109,7 @@ public class ChoXacNhanFragment extends Fragment {
     private void displayItem(View view){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
-        choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), donHangs, dialog);
+        choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), donHangs, dialog, dialogHuy);
         recyclerView.setAdapter(choXacNhanAdapter);
 
         choXacNhanAdapter.notifyDataSetChanged();
@@ -115,17 +123,43 @@ public class ChoXacNhanFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
+                int i = 0;
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     DonHang donHang = postSnapshot.getValue(DonHang.class);
-                    donHangs.add(donHang);
+                    if (donHang.getTrangthai() == 0) {
+                        donHangs.add(donHang);
+                        Date date = formatDate(donHangs.get(i).getTime());
+                        donHangs.get(i).setDate(date);
+                        i++;
+                    }
                 }
-
+                SapXepDate(donHangs);
                 displayItem(view);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
+    }
+
+    private Date formatDate(String strDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+
+        try {
+            Date date = simpleDateFormat.parse(strDate);
+            return date;
+        }catch (Exception e){
+            Date date = new Date();
+            return date;
+        }
+    }
+
+    private void SapXepDate(ArrayList<DonHang> donHangs) {
+        Collections.sort(donHangs, new Comparator<DonHang>() {
+            public int compare(DonHang o1, DonHang o2) {
+                return o1.getDate().compareTo(o2.getDate());
             }
         });
     }
