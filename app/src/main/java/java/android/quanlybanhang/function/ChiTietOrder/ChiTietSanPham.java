@@ -3,6 +3,8 @@ package java.android.quanlybanhang.function.ChiTietOrder;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,9 +18,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.android.quanlybanhang.HelperClasses.Package_ApdaterLoaiDonGIa.AdapterDonGia;
+import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterDanhMuc_Mon.StaticCategoryAdapter;
+import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
+import java.android.quanlybanhang.function.MonOrder;
+import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.util.ArrayList;
 
 public class ChiTietSanPham extends AppCompatActivity {
@@ -40,8 +48,15 @@ public class ChiTietSanPham extends AppCompatActivity {
     private ImageView imgsp,plus,minus;
     private  int sluong=1;
     private EditText yeuCau;
+    ArrayList<DonGia> donGias;
     String YeuCau1;
-     private final String TEN_BANG="ProductSQL";
+    Double numcheck=0.0;
+    String Loai;
+    Double gia;
+
+   private RecyclerView recyclerView;
+   private AdapterDonGia adapterDonGia;
+     private final String TEN_BANG="ProductSQL1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,61 +79,83 @@ public class ChiTietSanPham extends AppCompatActivity {
         staticMonOrderModel = (Product) bundle.getSerializable("sp");
 
         tensps = staticMonOrderModel.getNameProduct();
-
         image = staticMonOrderModel.getImgProduct();
-        giasanphams= staticMonOrderModel.getGiaBan();
+//        giasanphams= staticMonOrderModel.getGiaBan();
+
         soluong = staticMonOrderModel.getSoluong();
+        donGias= staticMonOrderModel.getDonGia();
+
+        //get serrlizealbe
+
+// khoi
         soluong2 = findViewById(R.id.tvsoluong);
         Log.d("bbb","tensp"+tensps+"giasanpham"+giasanphams+"soluong"+soluong+"");
 //        lay id
         tensp = findViewById(R.id.tvtensanpham);
-        giasp = findViewById(R.id.tvgiasanpham);
+//        giasp = findViewById(R.id.tvgiasanpham);
         tonggiasp = findViewById(R.id.tvtonggiasanpham);
         imgsp = findViewById(R.id.imgproduct);
         minus = findViewById(R.id.bnt_minus);
         plus = findViewById(R.id.bnt_plus);
         yeuCau =(EditText) findViewById(R.id.edt_ghichu);
+        recyclerView = findViewById(R.id.rv_3);
+//
+
+        adapterDonGia = new AdapterDonGia(donGias,numcheck,tonggiasp,soluong2,Loai,gia);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ChiTietSanPham.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapterDonGia);
+        adapterDonGia.notifyDataSetChanged();
+
+
 //        do du lieu vao trang
         tensp.setText(tensps);
         Picasso.get().load(image).into(imgsp);
-        giasp.setText(giasanphams+"");
 
-//        tenban = bundle.getString("tenban") ;
         id_ban = bundle.getString("id_ban");
         id_khuvuc= bundle.getString("id_khuvuc");
         id=id_ban+"_"+id_khuvuc;
-//        Log.d("id_ban",id_ban+"acbank");
-//        Log.d("id_khuvuc",id_ban+"acbank");
-//        Log.d("aaa",tenban+"acbank");
-//        yeuCau.setText("nhập bất cứ cái gì vào đây xem sao");
+
 
         Log.d("yeucau",yeuCau.getText().toString()+"yeuCaun");
         sl=Integer.parseInt(soluong2.getText()+"");
-        tonggiasp.setText((giasanphams*sl)+"");
+//        tonggiasp.setText((giasanphams*sl)+"");
 //              nút cộng
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Double num=0.0;
+                for(int i=0;i<donGias.size();i++){
+                    if(donGias.get(i).getCheck()){
+                        num=donGias.get(i).getGiachung();
+
+                    }
+                }
                 sl=Integer.parseInt(soluong2.getText()+"");
 //                int sluong=0;
                 sluong= sl+1;
-
+                tonggiasp.setText((sluong*num)+"");
                 soluong2.setText(sluong+"");
 //                Toast.makeText(ChiTietSanPham.this,soluong2.getText()+"",Toast.LENGTH_LONG).show();
-                tonggiasp.setText((giasanphams*sluong)+"");
+//                tonggiasp.setText((giasanphams*sluong)+"");
             }
         });
 //        nut trừ
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Double num=0.0;
+                for(int i=0;i<donGias.size();i++){
+                    if(donGias.get(i).getCheck()){
+                        num=donGias.get(i).getGiachung();
+
+                    }
+                }
                 sl=Integer.parseInt(soluong2.getText()+"");
 
                 if(sl>1){
                     sluong= sl-1;
+                    tonggiasp.setText((sluong*num)+"");
                     soluong2.setText(sluong+"");
-//                    Toast.makeText(ChiTietSanPham.this,soluong2.getText()+"",Toast.LENGTH_LONG).show();
-                    tonggiasp.setText((giasanphams*sluong)+"");
                 }
                 else {
                     sl=Integer.parseInt(soluong2.getText()+"");
@@ -127,15 +164,21 @@ public class ChiTietSanPham extends AppCompatActivity {
 
             }
         });
-
+Log.d("gia_loai",gia+"_"+Loai);
 
         bnt_xacnhan = findViewById(R.id.bnt_xacnhan);
         bnt_xacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //
+                for(int i=0;i<donGias.size();i++){
+                    if(donGias.get(i).getCheck()){
+                        Loai=donGias.get(i).getTenLoaiChung();
+                        gia=donGias.get(i).getGiachung();
+                    }
+                }
                     onBackPressed();
-                getDulieuSql();
+                getDulieuSql(Loai,gia);
 
 
             }
@@ -152,13 +195,14 @@ public class ChiTietSanPham extends AppCompatActivity {
                 "soluong INTEGER DEFAULT 0, " +
                 "image TEXT, " +
                 "gia DOUBLE, " +
+                "loai TEXT, " +
                 "yeuCau TEXT);");
         Log.d("aaaaa","aaaa");
     }
-    private  void getDulieuSql( ){
+    private  void getDulieuSql( String Loai,Double gia){
         database_order= new Database_order(this,"app_database.sqlite",null,2);
         ArrayList<Product> arrayList = new ArrayList<>();
-        String S="SELECT * FROM "+TEN_BANG+" WHERE Id='"+id+"' AND tensanpham='"+tensps+"'";
+        String S="SELECT * FROM "+TEN_BANG+" WHERE Id='"+id+"' AND tensanpham='"+tensps+"'  AND loai='"+Loai+"' ";
             Cursor cursor =  database_order.GetData(S,null);
         Log.d("sllll",cursor.getCount()+"couser");
         if (cursor.getCount() > 0) {
@@ -171,18 +215,17 @@ public class ChiTietSanPham extends AppCompatActivity {
                 String tensp= cursor.getString(1);
                 soluong1= cursor.getInt(2);
                 String img= cursor.getString(3);
-                double  gia= cursor.getInt(4);
-                arrayList.add(new Product(a,tensp,soluong1,img,gia));
+                double  gias= cursor.getInt(4);
+                arrayList.add(new Product(a,tensp,soluong1,img,gias));
             }
             Log.d("bbbs","aaaaaabbs");
-            database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham='"+tensps+"'");
+            database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
         } else {
             Log.d("yeuCau","aaaaaabb");
             sluong=Integer.parseInt(soluong2.getText()+"");
-
             YeuCau1 =yeuCau.getText().toString();
             Log.d("yeuCaumss",yeuCau.getText().toString()+"nen");
-            database_order.QueryData("INSERT INTO "+TEN_BANG+" VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+sluong+",'"+image+"',"+giasanphams+",'"+yeuCau.getText().toString()+"');");
+            database_order.QueryData("INSERT INTO "+TEN_BANG+" VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+sluong+",'"+image+"',"+gia+",'"+Loai+"','"+yeuCau.getText().toString()+"');");
 //            Log.d("logsoluong",(sluong)+"");
         }
 

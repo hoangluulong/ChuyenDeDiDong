@@ -10,7 +10,24 @@ public class ProductPushFB {
 
     private long date;
     private boolean flag;
+
+    public int getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        TrangThai = trangThai;
+    }
+
+    private int TrangThai;
     private ArrayList<ProuductPushFB1> sanpham;
+
+    public ProductPushFB(long date, boolean flag, int trangThai, ArrayList<ProuductPushFB1> sanpham) {
+        this.date = date;
+        this.flag = flag;
+        TrangThai = trangThai;
+        this.sanpham = sanpham;
+    }
 
     public ProductPushFB(long date, boolean flag, ArrayList<ProuductPushFB1> sanpham) {
         this.date = date;

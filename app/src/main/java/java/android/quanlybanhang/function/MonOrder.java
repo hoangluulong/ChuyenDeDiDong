@@ -119,15 +119,40 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                  item = new ArrayList<>();
-
+                 donGias= new ArrayList<>();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     ArrayList<Product> mm= new ArrayList<>();
                     String tencategory= snapshot1.getKey()+"";
                     Log.d("aoihayate",snapshot1.getKey()+"");
                     DataSnapshot aaa = snapshot1;
                     for (DataSnapshot snapshot2 : aaa.getChildren()){
+
                         staticMonOrderModel=snapshot2.getValue(Product.class);
-                        mm.add(staticMonOrderModel);
+                        String nameProduct = staticMonOrderModel.getNameProduct();
+                        int soluong = Integer.parseInt(staticMonOrderModel.getSoluong()+"");
+                        String imgProduct = staticMonOrderModel.getImgProduct();
+                        String status = staticMonOrderModel.getStatus();
+//                        donGias = staticMonOrderModel.getDonGia();
+                        Log.d("Truongkkk",snapshot2.getValue()+"");
+                        DataSnapshot sss = snapshot2.child("donGia");
+                        for (DataSnapshot snapshot3 : sss.getChildren()){
+                            Log.d("Truongnana",snapshot3.getValue()+"");
+                            DonGia donGia = snapshot3.getValue(DonGia.class);
+//                            String tenDonGia=snapshot3.child("tenDonGia").getValue()+"";
+                            Log.d("nameT",donGia.getTenDonGia()+"");
+//                            Double giaBan=Double.parseDouble(snapshot3.child("giaBan").getValue()+"");
+//                            Log.d("nameT",giaBan+"");
+
+
+                            donGias.add(donGia);
+                            Log.d("dongia.size",donGias.size()+"");
+
+                        }
+                        mm.add(new Product(nameProduct,soluong,imgProduct,donGias,status));
+                        Log.d("mm.size",mm.size()+"");
+
+
+
                     }
                     StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory,mm);
                     item.add(product);

@@ -18,6 +18,17 @@ public class ProuductPushFB1 {
     }
 
 
+    public String getLoai() {
+        return Loai;
+    }
+
+    public void setLoai(String loai) {
+        Loai = loai;
+    }
+
+
+
+    String Loai;
 
     String nameProduct;
     String yeuCau;
@@ -25,6 +36,14 @@ public class ProuductPushFB1 {
     Double giaProudct;
     int soluong;
 
+    public ProuductPushFB1(String loai, String nameProduct, String yeuCau, String imgProduct, Double giaProudct, int soluong) {
+        Loai = loai;
+        this.nameProduct = nameProduct;
+        this.yeuCau = yeuCau;
+        this.imgProduct = imgProduct;
+        this.giaProudct = giaProudct;
+        this.soluong = soluong;
+    }
 
     public String getImgProduct() {
         return imgProduct;

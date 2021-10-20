@@ -1,6 +1,8 @@
 package java.android.quanlybanhang.Model;
 
+import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Product implements Serializable {
     String id;
@@ -11,9 +13,27 @@ public class Product implements Serializable {
     Double giaBan;
     int soluong;
     String imgProduct;
+
+    public ArrayList<DonGia> getDonGia() {
+        return donGia;
+    }
+
+    public void setDonGia(ArrayList<DonGia> donGia) {
+        this.donGia = donGia;
+    }
+
+    ArrayList<DonGia> donGia;
     boolean addToCart;
 
-    public Product(String id, String nameProduct,  int soluong, String imgProduct,Double giaBan) {
+    public Product(String nameProduct, int soluong, String imgProduct, ArrayList<DonGia> donGia, String status) {
+        this.nameProduct = nameProduct;
+        this.soluong = soluong;
+        this.imgProduct = imgProduct;
+        this.donGia = donGia;
+        this.status = status;
+    }
+
+    public Product(String id, String nameProduct, int soluong, String imgProduct, Double giaBan) {
         this.id = id;
         this.nameProduct = nameProduct;
         this.giaBan = giaBan;

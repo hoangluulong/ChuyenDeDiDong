@@ -8,7 +8,6 @@
     android:background="@color/white"
     >
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbars"
         android:layout_width="match_parent"
@@ -236,7 +235,7 @@
                 android:id="@+id/totalTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$10.000000000000"
+                android:text="$10.0000"
                 android:textColor="#373b54"
                 android:textSize="30sp"
                 android:textStyle="bold" />

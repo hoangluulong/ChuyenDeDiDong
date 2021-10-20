@@ -45,8 +45,9 @@ public class CardProduct extends AppCompatActivity {
     private ProuductPushFB1 prouductPushFB1;
      private boolean flag;
      String yeuCau;
+     int trangThai=0;
      private TextView tvkhongsanpham,tvtentongsp;
-    private final String TEN_BANG="ProductSQL";
+    private final String TEN_BANG="ProductSQL1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +85,7 @@ public class CardProduct extends AppCompatActivity {
 //        if()
         getDulieuSql();
 
-        pushData(listSP,date,flag);
+        pushData(listSP,date,flag,trangThai);
 //        listcard.add(new Product("aaa",30000.0,"aaa","1"));
         staticCartAdapter = new StaticCardAdapter();
         staticCartAdapter.Setdata(listcard);
@@ -104,6 +105,7 @@ public class CardProduct extends AppCompatActivity {
                 "soluong INTEGER DEFAULT 0, " +
                 "image TEXT, " +
                 "gia DOUBLE, " +
+                "loai TEXT, " +
                 "yeuCau TEXT);");
         Log.d("aaaaa","aaaa");
 
@@ -126,10 +128,12 @@ public class CardProduct extends AppCompatActivity {
                     int  soluong= cursor.getInt(2);
                     String img= cursor.getString(3);
                     double  gia= cursor.getDouble(4);
-                    String yeuCau = cursor.getString(5);
+                    String Loai = cursor.getString(5);
+                    String yeuCau = cursor.getString(6);
                     Log.d("yeuCauSQL1",yeuCau);
+                    Log.d("loai_gia",Loai+"+"+gia+"");
                     listcard.add(new Product(a,tensp,soluong,img,gia));
-                    listSP.add(new ProuductPushFB1(tensp,yeuCau,img,gia,soluong));
+                    listSP.add(new ProuductPushFB1(Loai,tensp,yeuCau,img,gia,soluong));
                 tvtentongsp.setVisibility(View.VISIBLE);
 //                list =new PushToFire(tensp,soluong,addtocart);
             }
@@ -143,7 +147,7 @@ public class CardProduct extends AppCompatActivity {
     }
 
 
-    private  void pushData(ArrayList<ProuductPushFB1> list, long date, boolean flag){
+    private  void pushData(ArrayList<ProuductPushFB1> list, long date, boolean flag,int trangThai){
         bntluu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +162,7 @@ public class CardProduct extends AppCompatActivity {
 //                }
 //                databaseReference.child(id).child("sanpham").child().setValue();
 
-                productPushFB = new ProductPushFB(date,flag,list);
+                productPushFB = new ProductPushFB(date,flag,trangThai,list);
                 databaseReference.child(id).setValue(productPushFB);
 
             }
