@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,12 +59,23 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
         private TextView textViewName;
         private TextView textViewStatus;
         private CircleImageView imageView;
+        private ImageView imgXoa;
+        private ImageView imgSua;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewStatus = itemView.findViewById(R.id.textnameStatus);
             textViewName = itemView.findViewById(R.id.textnameProduct);
             imageView = itemView.findViewById(R.id.circle_imgView);
+            imgXoa = itemView.findViewById(R.id.btnXoaSP);
+
+            imgXoa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context.delete(position);
+                }
+            });
         }
     }
 }

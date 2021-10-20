@@ -70,7 +70,7 @@ public class ListCategory extends AppCompatActivity {
     }
     //Danh sách nhóm sản phẩm
     public void Danhsachnhomsanpham(){
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listCategory = new ArrayList<>();
@@ -108,27 +108,28 @@ public class ListCategory extends AppCompatActivity {
     //Sửa sản phẩm
     public void update( int position){
 ////        Toast.makeText(this,mDatabase.getKey()+"",Toast.LENGTH_LONG).show();
-//
-//        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-//        LayoutInflater inflater = this.getLayoutInflater();
-////        View customLayout = inflater.inflate(R.layout.dailong_updatecategory, null);
-////        EditText editText = customLayout.findViewById(R.id.editUpdateCategory);
-//        builder.setView(customLayout);
-//        editText.setText(listCategory.get(position).getNameCategory());
-//
-//        builder.setNegativeButton("Thoat", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });  builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                mDatabase.child(listCategory.get(position).getId()).child("nameCategory").setValue(editText.getText().toString());
-//              }
-//
-//        });
-//
-//        builder.create().show();
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View customLayout = inflater.inflate(R.layout.dailong_updatecategory, null);
+        EditText editText = customLayout.findViewById(R.id.editUpdateCategory);
+        builder.setView(customLayout);
+        builder.setTitle("Sửa nhóm sản phẩm");
+        editText.setText(listCategory.get(position).getNameCategory());
+
+        builder.setNegativeButton("Thoat", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });  builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDatabase.child(listCategory.get(position).getId()).child("nameCategory").setValue(editText.getText().toString());
+              }
+
+        });
+
+        builder.create().show();
     }
 }

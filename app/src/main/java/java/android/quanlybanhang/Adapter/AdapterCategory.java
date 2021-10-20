@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,7 +39,6 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Catego
         Category category = arrayList.get(position);
         holder.nameCategory.setText(category.getNameCategory());
 
-
     }
 
     @Override
@@ -48,14 +48,31 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Catego
 
     class CategoryAdater extends RecyclerView.ViewHolder  {
         private TextView nameCategory;
-
-
+        private ImageView imgXoa;
+        private  ImageView imgSua;
 
         public CategoryAdater(View itemView) {
             super(itemView);
 
             nameCategory = (TextView) itemView.findViewById(R.id.text_name);
-            
+            imgSua = itemView.findViewById(R.id.btnSuaNSP);
+            imgXoa = itemView.findViewById(R.id.btnXoaNSP);
+
+            imgXoa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context.delete(position);
+                }
+            });
+
+            imgSua.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context.update(position);
+                }
+            });
 
         }
 

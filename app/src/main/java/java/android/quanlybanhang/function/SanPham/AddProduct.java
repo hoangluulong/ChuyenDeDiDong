@@ -187,8 +187,6 @@ public class AddProduct extends AppCompatActivity {
                                           }else if(textSoluong.getText().toString().isEmpty()){
                                               textSoluong.setError("Hãy nhập số lượng sản phẩm");
                                               textSoluong.requestFocus();
-                                          }else if(listDonGia.size() != 0) {
-                                             Toast.makeText(AddProduct.this,"Hãy tạo đơn giá cho sản phẩm",Toast.LENGTH_LONG).show();
                                           }
                                           else {
                                               String id = mDatabase1.push().getKey();

@@ -103,7 +103,6 @@ public class AddNhanVien extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         mData = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_USER);
-
         Cachieu();
         Casang();
         Catoi();

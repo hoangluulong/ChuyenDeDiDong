@@ -1,13 +1,17 @@
 package java.android.quanlybanhang.function.SanPham;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.LongDef;
@@ -44,6 +48,9 @@ public class ListProduct  extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private ArrayList<Product> listProduct;
     private RecyclerView recyclerView;
+    private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
+    private Spinner spnNhomsanpham, spnDonViTinh;
+    private Button btnChoose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +77,6 @@ public class ListProduct  extends AppCompatActivity {
                                 intent = new Intent(ListProduct.this, AddProduct.class);
                                 startActivity(intent);
                                 finish();
-
                             }
                         }).show();
             }
@@ -78,7 +84,7 @@ public class ListProduct  extends AppCompatActivity {
     }
     //Hiển thị danh sách sản phẩm
     public void Danhsachsanpham(){
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<DonGia> donGias = new ArrayList();
@@ -90,12 +96,14 @@ public class ListProduct  extends AppCompatActivity {
                         listProduct.add(product);
                         DataSnapshot aaa1 = snapshot2;
                     }
-                        adapterProduct = new AdapterProduct(ListProduct.this, listProduct);
-                        recyclerView.setAdapter(adapterProduct);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListProduct.this, LinearLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(linearLayoutManager);
+                    adapterProduct = new AdapterProduct(ListProduct.this, listProduct);
+                    recyclerView.setAdapter(adapterProduct);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListProduct.this, LinearLayoutManager.VERTICAL, false);
+                    recyclerView.setLayoutManager(linearLayoutManager);
                 }
+
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -130,6 +138,14 @@ public class ListProduct  extends AppCompatActivity {
     }
     //Sữa sàn phẩm
     public void update(final int position){
+        Activity suaspactivity = new Activity();
+        suaspactivity.setContentView(R.layout.activity_addproduct);
+        textName = findViewById(R.id.textTensanpham);
+        textChitiet = findViewById(R.id.textChitietsanpham);
+        textGianhap = findViewById(R.id.textGianhap);
+        textSoluong = findViewById(R.id.textSoluong);
+        spnNhomsanpham = findViewById(R.id.spnNhomsanpham);
+        btnChoose = findViewById(R.id.btnChoose);
 
     }
 
