@@ -54,22 +54,35 @@ public class TableViewHolder extends RecyclerView.Adapter<TableViewHolder.ViewHo
         holder.examName.setText(table.getNameTable());
         holder.examDate.setText(table.getDate()+"");
         MonBanViewHolder monBanViewHolder=new MonBanViewHolder();
-        monBanViewHolder.setmList(table.getDanhSachMon());
+        monBanViewHolder.setmList(table.getSanpham());
         holder.monBan.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
         holder.monBan.setAdapter(monBanViewHolder);
+        if(table.getTrangThai()==1){
+            holder.danglam.setBackgroundResource(R.color.trangthai);
+            holder.aceept.setText("Da Lam");
+        }else if(table.getTrangThai()==2){
+            holder.danglam.setBackgroundResource(R.color.trangthai);
+            holder.done.setBackgroundResource(R.color.trangthai);
+            holder.aceept.setText("Xoa");
+        }
         holder.aceept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase = FirebaseDatabase.getInstance().getReference();
-                Log.d("póition", "onClick "+table.getTrangThai());
+                mDatabase = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder");
                 if(table.getTrangThai()==0){
-                    mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(table.getNameTable()).child("trangthai").setValue(1);
+                    mDatabase.child(table.getNameTable()).child("trangThai").setValue(1);
                     holder.danglam.setBackgroundResource(R.color.trangthai);
+                    holder.aceept.setText("Da Lam");
                     table.setTrangThai(1);
                 }else if(table.getTrangThai()==1){
-                    mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(table.getNameTable()).child("trangthai").setValue(2);
+                    mDatabase.child(table.getNameTable()).child("trangThai").setValue(2);
                     holder.done.setBackgroundResource(R.color.trangthai);
+                    holder.aceept.setText("Xoa");
                     table.setTrangThai(2);
+                }else if(table.getTrangThai()==2){
+                    mDatabase.child(table.getNameTable()).child("trangThai").setValue(3);
+                    table.setTrangThai(3);
+                    holder.aceept.setEnabled(false);
                 }
             }
         });

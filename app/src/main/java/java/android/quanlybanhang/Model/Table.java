@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Table {
     private String  nameTable;
-    private List<Mon> danhSachMon;
+    private List<Mon> sanpham;
     private long date;
     private int trangThai;
 
@@ -18,17 +18,22 @@ public class Table {
         this.trangThai = trangThai;
     }
 
-    public List<Mon> getDanhSachMon() {
-        return danhSachMon;
+    public Table(String nameTable, List<Mon> sanpham, long date, int trangthai) {
+        this.nameTable = nameTable;
+        this.sanpham = sanpham;
+        this.date = date;
+        this.trangThai=trangthai;
     }
 
-    public void setDanhSachMon(List<Mon> danhSachMon) {
-        this.danhSachMon = danhSachMon;
+    public List<Mon> getSanpham() {
+        return sanpham;
     }
 
+    public void setSanpham(List<Mon> sanpham) {
+        this.sanpham = sanpham;
+    }
 
-
-    public Table(  long date) {
+    public Table(long date) {
         this.date = date;
     }
 
@@ -39,11 +44,7 @@ public class Table {
         this.trangThai=trangThai;
     }
 
-    public Table(String nameTable, List<Mon> danhSachMon, long date) {
-        this.nameTable = nameTable;
-        this.danhSachMon = danhSachMon;
-        this.date = date;
-    }
+
 
     public void setNameTable(String nameTable) {
         this.nameTable = nameTable;

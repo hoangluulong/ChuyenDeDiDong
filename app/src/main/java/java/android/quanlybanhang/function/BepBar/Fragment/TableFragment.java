@@ -26,11 +26,8 @@ import java.util.List;
 public class TableFragment extends Fragment {
     private RecyclerView recyclerViewTable;
     private DatabaseReference mDatabase;
-    private List<Table> tableList;
+    private ArrayList<Table> tableList;
     private TableViewHolder tableViewHolder;
-    private List<String> stringList;
-    private List<String> keyListSelected;
-    private   List<Mon> mons = new ArrayList<>();
 
 
     View v;
@@ -43,14 +40,11 @@ public class TableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        tables();
+        onDataChange();
+        tableList=new ArrayList<>();
         v= inflater.inflate(R.layout.frag_ban, container, false);
         recyclerViewTable= v.findViewById(R.id.recycler);
         tableViewHolder=new TableViewHolder(getActivity(),getContext());
-        tableViewHolder.setData(tableList);
-        recyclerViewTable.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewTable.setAdapter(tableViewHolder);
-        keyListSelected=new ArrayList<>();
         return v;
 
     }
@@ -58,78 +52,34 @@ public class TableFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tableList=new ArrayList<>();
-
     }
-    public void tables(){
-        List<Mon> mons=new ArrayList<>();
-        stringList=new ArrayList<>();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                stringList.add(snapshot.getKey());
-                //xet xem co su thay doi cua Firebase
-                onDataChange(snapshot.getKey());
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-    private void onDataChange(String list_key)
+    private void onDataChange()
     {
-
-
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(list_key).addValueEventListener(new ValueEventListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-               mons = getListProductFromTable(list_key);
-                Log.d("aaaa",snapshot.getKey());
-//                boolean flag=snapshot.child("flag").getValue(Boolean.class);
-                TestChangProduct testChangProduct=snapshot.getValue(TestChangProduct.class);
-                if(testChangProduct!=null){
-                        if (testChangProduct.isFlag() == true) {
-                            keyListSelected.add(list_key);
-                            Table category = snapshot.getValue(Table.class);
-                            tableList.add(new Table(list_key, mons, category.getYeuCau(), category.getDate()));
+                int i=0;
+                tableList=new ArrayList<>();
+                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                        Table table = postSnapshot.getValue(Table.class);
+                        String key=postSnapshot.getKey();
+                        if(table.getTrangThai()!=3){
+                            tableList.add(table);
+                            tableList.get(i).setNameTable(key);
                             tableViewHolder.setData(tableList);
-
-                        } else {
-
-                            for (int i = 0; i < keyListSelected.size(); i++) {
-                                if (keyListSelected.get(i).equals(list_key)) {
-                                    tableList.remove(i);
-                                    keyListSelected.remove(i);
-                                    tableViewHolder.setData(tableList);
-                                }
-                            }
-
+                            i++;
                         }
+//                           for(int j=0;j<tableList.size();j++){
+//                               if(tableList.get(j).getTrangThai()==3){
+//                                   tableList.remove(j);
+//                               }
+//                           }
 
-                }
-
+                    }
+                tableViewHolder.setData(tableList);
+                recyclerViewTable.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerViewTable.setAdapter(tableViewHolder);
             }
 
             @Override
@@ -142,42 +92,4 @@ public class TableFragment extends Fragment {
 
     }
 
-
-    private List<Mon> getListProductFromTable(String key)
-    {
-        List<Mon> mons=new ArrayList<>();
-
-
-
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(key).child("sanpham").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Mon mon=snapshot.getValue(Mon.class);
-                mons.add(mon);
-                tableViewHolder.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return  mons;
-    }
 }

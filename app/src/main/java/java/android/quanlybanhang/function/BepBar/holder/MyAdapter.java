@@ -1,14 +1,10 @@
-package java.android.quanlybanhang.function.BepBar.holder;
+package com.example.myapplication;
 
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import java.android.quanlybanhang.function.BepBar.BepActivity;
-import java.android.quanlybanhang.function.BepBar.Fragment.TableFragment;
-import java.android.quanlybanhang.function.BepBar.Fragment.TableFragment1;
 
 public class MyAdapter extends FragmentPagerAdapter {
     private Context myContext;
@@ -32,13 +28,12 @@ public class MyAdapter extends FragmentPagerAdapter {
             case 0:
                 TableFragment tableFragment = new TableFragment();
                 return tableFragment;
-//            case 1:
-//                MonFragment monFragment = new MonFragment(bepActivity);
-//                return monFragment;
+            case 1:
+                MonFragment monFragment = new MonFragment(bepActivity);
+                return monFragment;
 
             default:
-                TableFragment1 tableFragment1 = new TableFragment1();
-                tableFragment1.detData(myContext);
+                TableFragment tableFragment1 = new TableFragment();
                 return tableFragment1;
         }
     }
