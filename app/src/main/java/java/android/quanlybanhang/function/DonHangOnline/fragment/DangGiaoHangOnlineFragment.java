@@ -78,7 +78,6 @@ public class DangGiaoHangOnlineFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private DonHangDangGiaoAdapter donHangDangGiaoAdapter;
-    private Dialog dialog;
     private ArrayList<DonHang> donHangs;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
@@ -88,19 +87,16 @@ public class DangGiaoHangOnlineFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dang_giao_hang_online, container, false);
         recyclerView = view.findViewById(R.id.recycleview);
-        dialog = new Dialog(view.getContext());
 
-        displayItem(view);
+        getDataFireBase(view);
         return view;
     }
 
     private void displayItem(View view){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
-        donHangDangGiaoAdapter = new DonHangDangGiaoAdapter(view.getContext(), donHangs, dialog);
+        donHangDangGiaoAdapter = new DonHangDangGiaoAdapter(view.getContext(), donHangs);
         recyclerView.setAdapter(donHangDangGiaoAdapter);
-
-        getDataFireBase(view);
 
         donHangDangGiaoAdapter.notifyDataSetChanged();
     }
@@ -115,7 +111,7 @@ public class DangGiaoHangOnlineFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     DonHang donHang = postSnapshot.getValue(DonHang.class);
-                    if (donHang.getTrangthai() == 3) {
+                    if (donHang.getTrangthai() == 4) {
                         donHangs.add(donHang);
                         Date date = formatDate(donHangs.get(i).getTime());
                         donHangs.get(i).setDate(date);
@@ -134,7 +130,6 @@ public class DangGiaoHangOnlineFragment extends Fragment {
     }
 
     private Date formatDate(String strDate) {
-//        String stringDate = "08:27 22/01/2016";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
         try {

@@ -82,6 +82,11 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
             }
         });
 
+        if (list.get(position).getPhuongThucThanhToan() == 0){
+            holder.thanhtoan.setText("Thanh toán khi nhận");
+        }else {
+            holder.thanhtoan.setText("Chuyển khoản");
+        }
         holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
         holder.lblKhachang.setText(list.get(position).getTenKhachHang());
@@ -102,7 +107,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     }
 
     public class DonChoXacNhan extends RecyclerView.ViewHolder {
-        private TextView lblThoiGian,lblDonGia, lblDiaChi, lblXacNhan, lblHuy, lblKhachang;
+        private TextView lblThoiGian,lblDonGia, lblDiaChi, lblXacNhan, lblHuy, lblKhachang, thanhtoan;
         private LinearLayout layoutThongTin;
         public DonChoXacNhan(@NonNull View ItemView) {
             super(ItemView);
@@ -113,6 +118,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
             lblHuy = ItemView.findViewById(R.id.lblhuy);
             layoutThongTin = ItemView.findViewById(R.id.layoutThongTin);
             lblKhachang = ItemView.findViewById(R.id.lblKhachang);
+            thanhtoan = ItemView.findViewById(R.id.thanhtoan);
         }
     }
 
@@ -278,7 +284,6 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     private String formartDate(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy HH:mm");
         String dt = formatter.format(date);
-
         return dt;
     }
 

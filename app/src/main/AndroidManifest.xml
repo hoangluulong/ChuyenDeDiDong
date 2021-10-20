@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="java.android.quanlybanhang">
+    package="java.android.quanlybanhang" >
 
     <queries>
         <package android:name="com.facebook.katana" />
@@ -16,7 +16,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.QuanLyBanHang">
+        android:theme="@style/Theme.QuanLyBanHang" >
+        <activity
+            android:name=".function.BaoCao.BaoCaoChiSoActivity"
+            android:exported="true"
+            android:theme="@style/thameActionbar2"/>
         <activity
             android:name=".function.Account.ChiNhanhSignInActivity"
             android:exported="true" />
@@ -25,9 +29,10 @@
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity><!-- Sign in, SignUp -->
+        </activity> <!-- Sign in, SignUp -->
         <activity
             android:name=".function.Account.StoreSetting"
             android:exported="true" />
@@ -51,22 +56,20 @@
             android:name=".function.BaoCao.BaoCaoTongQuanActivity"
             android:exported="true"
             android:label="Tổng quan"
-            android:screenOrientation="portrait"
             android:parentActivityName=".function.Account.SignUpActivity"
-            android:theme="@style/thameActionbar2"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/thameActionbar2" />
         <activity
             android:name=".function.BaoCao.ChiTietNhapKhoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".function.BaoCao.BaoCaoKhoActivity"
-            android:screenOrientation="portrait" />
-
-        <!--    Đơn online    -->
-        <activity android:name=".function.DonHangOnline.DuyetDonHangActivity"
-            android:theme="@style/thameActionbar2"
+            android:screenOrientation="portrait" /> <!-- Đơn online -->
+        <activity
+            android:name=".function.DonHangOnline.DuyetDonHangActivity"
             android:label="Đơn hàng online"
-            android:parentActivityName=".function.Account.SignInActivity">
-        </activity>
+            android:parentActivityName=".function.Account.SignInActivity"
+            android:theme="@style/thameActionbar2" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -14,11 +14,14 @@ public class DonHang {
     private String key;
     private Date date;
     private String tenKhachHang;
+    private String nhanVien;
+    private String shipper;
+    private String phoneShipper;
+    private int phuongThucThanhToan;
 
-    public DonHang() {
-    }
+    public DonHang() { }
 
-    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham) {
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, int phuongThucThanhToan) {
         this.diaChi = diaChi;
         this.time = time;
         this.trangthai = trangthai;
@@ -26,11 +29,33 @@ public class DonHang {
         this.giaKhuyenMai = giaKhuyenMai;
         this.sanpham = sanpham;
         this.donGia = 0;
+        this.phuongThucThanhToan = phuongThucThanhToan;
         this.key = "";
         this.date = null;
+        this.tenKhachHang = "";
+        this.nhanVien = "";
+        this.phoneShipper = "";
+        this.shipper = "";
     }
 
-    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang) {
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang, int phuongThucThanhToan) {
+        this.diaChi = diaChi;
+        this.time = time;
+        this.trangthai = trangthai;
+        this.idKhachhang = idKhachhang;
+        this.giaKhuyenMai = giaKhuyenMai;
+        this.sanpham = sanpham;
+        this.donGia = donGia;
+        this.key = key;
+        this.date = date;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.tenKhachHang = tenKhachHang;
+        this.nhanVien = "";
+        this.phoneShipper = "";
+        this.shipper = "";
+    }
+
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang, String nhanVien, int phuongThucThanhToan) {
         this.diaChi = diaChi;
         this.time = time;
         this.trangthai = trangthai;
@@ -41,6 +66,51 @@ public class DonHang {
         this.key = key;
         this.date = date;
         this.tenKhachHang = tenKhachHang;
+        this.nhanVien = nhanVien;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.phoneShipper = "";
+        this.shipper = "";
+    }
+
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan) {
+        this.diaChi = diaChi;
+        this.time = time;
+        this.trangthai = trangthai;
+        this.idKhachhang = idKhachhang;
+        this.giaKhuyenMai = giaKhuyenMai;
+        this.sanpham = sanpham;
+        this.donGia = donGia;
+        this.key = key;
+        this.date = date;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.tenKhachHang = tenKhachHang;
+        this.nhanVien = nhanVien;
+        this.shipper = shipper;
+        this.phoneShipper = phoneShipper;
+    }
+
+    public String getNhanVien() {
+        return nhanVien;
+    }
+
+    public void setNhanVien(String nhanVien) {
+        this.nhanVien = nhanVien;
+    }
+
+    public String getShipper() {
+        return shipper;
+    }
+
+    public void setShipper(String shipper) {
+        this.shipper = shipper;
+    }
+
+    public String getPhoneShipper() {
+        return phoneShipper;
+    }
+
+    public void setPhoneShipper(String phoneShipper) {
+        this.phoneShipper = phoneShipper;
     }
 
     public String getTenKhachHang() {
@@ -121,5 +191,13 @@ public class DonHang {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public int getPhuongThucThanhToan() {
+        return phuongThucThanhToan;
+    }
+
+    public void setPhuongThucThanhToan(int phuongThucThanhToan) {
+        this.phuongThucThanhToan = phuongThucThanhToan;
     }
 }

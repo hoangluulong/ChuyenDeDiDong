@@ -1,0 +1,21 @@
+Đơn hàng online:
+    0: chưa xác nhận
+    1: đã xác nhận, đang chờ ship
+    2: đã xác nhận, đang chờ bếp
+    3: đang xửa lý
+    4: đang giao
+    5: thành công
+    6: đơn hủy
+Thanh toán:
+    0: thanh toán khi nhận
+    1: chyển khoản
+
+ #-------------------------------------------------
+ BÁO CÁO
+    1: Đã thanh toán
+    2: Chưa thanh toán
+    3: Đã thanh toán
+    4: Hóa đơn bị hủy
+    5: Hóa đơn online
+
+    + Phụ thu: 4: Hóa đơn - dịch vụ

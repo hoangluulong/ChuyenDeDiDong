@@ -67,6 +67,8 @@ import java.util.TimeZone;
 
 public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+
+    private final String ID_CUAHNAG = "Meskv6p2bkf89ferNygy5Kp1aAA3";
     private Locale localeVN = new Locale("vi", "VN");
     private NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
@@ -136,7 +138,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
         if (dsSanPham.size() == 0) {
             pieE.add(new PieEntry(0, "Chưa có dữ liệu"));
-            Log.d("xxxa", "a");
         } else {
             pieE.clear();
             int tongSPKhac = 0;
@@ -147,8 +148,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                     sanPham.add(dsSanPham.get(i));
                 }
             }
-
-            Log.d("xxxb", dsSanPham.get(0).getSoLuong()+"");
 
             if (sanPham.size() >= 5) {
                 for (int i = 0; i < sanPham.size(); i++) {
@@ -494,7 +493,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         checkChi.clear();
 
         for (String st : listDays) {
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + st).addValueEventListener(new ValueEventListener() {
+            mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHNAG+"/bienlai/thu/" + st).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
@@ -514,7 +513,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
             });
 
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/chi/" + st).addValueEventListener(new ValueEventListener() {
+            mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHNAG+"/bienlai/chi/" + st).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
@@ -532,6 +531,21 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 }
             });
         }
+
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHNAG+"/bienlai/taichinh").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    tien_tongtien.setText(formatStr(Double.parseDouble(dataSnapshot.child("tongTien").getValue().toString())));
+                    tien_nophaithu.setText(formatStr(Double.parseDouble(dataSnapshot.child("noPhaiTra").getValue().toString())));
+                    tien_nophaitra.setText(formatStr(Double.parseDouble(dataSnapshot.child("noPhaiThu").getValue().toString())));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     int i = 0;
@@ -576,36 +590,49 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
                         int slDaThanhToan = 0;
                         double tienDTT = 0;
-                        double tienDoanhThu = 0;
                         int slChuaThanhToan = 0;
                         int tienCTT = 0;
+                        int slDichVuPhuThu = 0;
+                        double tienDVPT = 0;
+                        int slBiHuy = 0;
+                        double tienHoaDonBiHuy = 0;
+
 
                         ArrayList<DataSnapshot> listSP = new ArrayList<>();
 
                         for (DataSnapshot a : dataBienLai) {
-                            tienDoanhThu += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
-
                             listSP.add(a.child("sanpham"));
-
                             if (Integer.parseInt(a.child("status").getValue() + "") == 1) {
                                 slDaThanhToan++;
                                 tienDTT += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
                             } else if (Integer.parseInt(a.child("status").getValue() + "") == 2) {
                                 slChuaThanhToan++;
                                 tienCTT += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
+                            } else if (Integer.parseInt(a.child("status").getValue() + "") == 3) {
+                            } if (Integer.parseInt(a.child("status").getValue() + "") == 4) {
+                                slBiHuy++;
+                                tienHoaDonBiHuy += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
+                            } if (Integer.parseInt(a.child("status").getValue() + "") == 5) {
+
                             }
                         }
 
-                        tien_doanhthu.setText(formatStr(tienDTT));
+                        tien_doanhthu.setText(formatStr(tienDTT - tongChi));
 
-                        tien_dathanhtoan.setText(formatStr(tienDTT));
-                        sl_dathanhtoan.setText(slDaThanhToan + "");
+                        tien_dathanhtoan.setText(formatStr(tienDTT - tienCTT));
+                        sl_dathanhtoan.setText((slDaThanhToan - slChuaThanhToan)+"");
 
                         tien_doanhso.setText(formatStr(tienDTT));
                         sl_doanhso.setText(slDaThanhToan + "");
 
                         tien_chuathanhtoan.setText(formatStr(tienCTT));
                         sl_chuathanhtoan.setText(slChuaThanhToan + "");
+
+                        sl_dichvuphuthu.setText(slDichVuPhuThu+"");
+                        tien_dichvuphuthu.setText(formatStr(tienDVPT));
+
+                        sl_comonhuy.setText(slBiHuy+"");
+                        tien_comonhuy.setText(tienHoaDonBiHuy+"");
 
                         tien_chitieu.setText(formatStr(tongChi));
 

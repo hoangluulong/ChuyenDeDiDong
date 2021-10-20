@@ -25,22 +25,26 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
+import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiaoAdapter.DonHangXuLy>{
     private Context context;
     private ArrayList<DonHang> list;
-    private Dialog dialog;
     private ItemDonHangDangGiaoAdapter itemDonHangAdapter;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
+    private FormatDouble formatDouble;
 
-    public DonHangDangGiaoAdapter(Context context, ArrayList<DonHang> list, Dialog dialog) {
+    public DonHangDangGiaoAdapter(Context context, ArrayList<DonHang> list) {
         this.context = context;
         this.list = list;
-        this.dialog = dialog;
+        formatDouble = new FormatDouble();
     }
     @NonNull
     @Override
@@ -51,34 +55,44 @@ public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiao
     @Override
     public void onBindViewHolder(@NonNull DonHangXuLy holder, int position) {
         holder.trangthaidonhang.setText("Đang giao");
-        holder.nguoiThucHien.setText("Ship: Nguyễn Văn A");
+        holder.nguoiThucHien.setText("Ship: "+ list.get(position).getShipper());
+        holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
+        holder.lblDonGia.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        holder.lblKhachang.setText(list.get(position).getTenKhachHang());
+        holder.lblDiaChi.setText(list.get(position).getDiaChi());
 
         holder.layoutThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFeedbackDialog(Gravity.CENTER);
+                openFeedbackDialog(Gravity.CENTER, position);
+
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return list.size();
     }
 
     public class DonHangXuLy extends RecyclerView.ViewHolder {
-        private TextView trangthaidonhang, nguoiThucHien;
+        private TextView trangthaidonhang, nguoiThucHien, lblDonGia, lblThoiGian, thoigian_denhientai, lblKhachang, lblDiaChi;
         private LinearLayout layoutThongTin;
         public DonHangXuLy(@NonNull View ItemView) {
             super(ItemView);
             trangthaidonhang = ItemView.findViewById(R.id.trangthaidonhang);
             nguoiThucHien = ItemView.findViewById(R.id.nguoiThucHien);
             layoutThongTin = ItemView.findViewById(R.id.layoutThongTin);
+            lblDonGia = ItemView.findViewById(R.id.lblDonGia);
+            lblThoiGian = ItemView.findViewById(R.id.lblThoiGian);
+            thoigian_denhientai = ItemView.findViewById(R.id.thoigian_denhientai);
+            lblKhachang = ItemView.findViewById(R.id.lblKhachang);
+            lblDiaChi = ItemView.findViewById(R.id.lblDiaChi);
         }
     }
 
-    private void openFeedbackDialog(int gravity) {
-        dialog = new Dialog(context);
+    private void openFeedbackDialog(int gravity, int position) {
+        Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_don_hang_da_xac_nhan);
 
@@ -88,11 +102,20 @@ public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiao
 
         TextView tenkhachhang = dialog.findViewById(R.id.tenkhachhang);
         TextView diachi = dialog.findViewById(R.id.diachi);
+        TextView khuyenmai = dialog.findViewById(R.id.khuyenmai);
         RecyclerView recycleview = dialog.findViewById(R.id.recycleview);
         TextView tongtien = dialog.findViewById(R.id.tongtien);
         ImageView close = dialog.findViewById(R.id.close);
+        TextView thanhTien = dialog.findViewById(R.id.thanhTien);
 
-        displayItem(recycleview, dialog);
+        tenkhachhang.setText(list.get(position).getTenKhachHang());
+        diachi.setText(list.get(position).getDiaChi());
+        tongtien.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham())));
+        khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));
+        thanhTien.setText(formatDouble.formatStr((TinhTongTien(list.get(position).getSanpham())) - list.get(position).getTrangthai()));
+
+
+        displayItem(recycleview, dialog, list.get(position).getSanpham());
 
         if (Gravity.BOTTOM == gravity) {
             dialog.setCancelable(true);
@@ -110,70 +133,29 @@ public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiao
         dialog.show();
     }
 
-    private void displayItem(RecyclerView recyclerView , Dialog dialog){
+    private void displayItem(RecyclerView recyclerView , Dialog dialog, ArrayList<SanPham> sanPhams){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(dialog.getContext(), 1));
-        ArrayList<String> arrayList = new ArrayList<>();
 
-        itemDonHangAdapter = new ItemDonHangDangGiaoAdapter(dialog, arrayList);
+        itemDonHangAdapter = new ItemDonHangDangGiaoAdapter(dialog, sanPhams);
         recyclerView.setAdapter(itemDonHangAdapter);
 
         itemDonHangAdapter.notifyDataSetChanged();
     }
 
-    private void openFeedbackDialogHuy(int gravity, int positon) {
-        Dialog dialogHuy = new Dialog(context);
-        dialogHuy.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogHuy.setContentView(R.layout.dialog_huy_don);
+    private String formartDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy HH:mm");
+        String dt = formatter.format(date);
 
-        Window window = dialogHuy.getWindow();
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        Button btn_dong = dialogHuy.findViewById(R.id.btn_dong);
-        Button btn_huy = dialogHuy.findViewById(R.id.btn_huy);
-
-
-
-        if (Gravity.BOTTOM == gravity) {
-            dialogHuy.setCancelable(true);
-        } else {
-            dialogHuy.setCancelable(false);
-        }
-
-        btn_huy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFirebaseHuyDonDonHang(list.get(positon).getKey());
-                dialogHuy.dismiss();
-            }
-        });
-
-        btn_dong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogHuy.dismiss();
-            }
-        });
-
-        dialogHuy.show();
+        return dt;
     }
 
+    private Double TinhTongTien(ArrayList<SanPham> sanPhams) {
 
-    //TODO: setDuLieu Firebase hủy đơn
-    private void setFirebaseHuyDonDonHang (String IdDonHang) {
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Hủy thất bại", Toast.LENGTH_SHORT).show();
-            }
-        });
+        double tongGia = 0;
+        for (int i = 0; i < sanPhams.size(); i++) {
+            tongGia += sanPhams.get(i).getGiaProudct();
+        }
+        return tongGia;
     }
 }
