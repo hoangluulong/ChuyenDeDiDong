@@ -138,14 +138,7 @@ public class ListProduct  extends AppCompatActivity {
     }
     //Sữa sàn phẩm
     public void update(final int position){
-        Activity suaspactivity = new Activity();
-        suaspactivity.setContentView(R.layout.activity_addproduct);
-        textName = findViewById(R.id.textTensanpham);
-        textChitiet = findViewById(R.id.textChitietsanpham);
-        textGianhap = findViewById(R.id.textGianhap);
-        textSoluong = findViewById(R.id.textSoluong);
-        spnNhomsanpham = findViewById(R.id.spnNhomsanpham);
-        btnChoose = findViewById(R.id.btnChoose);
+       
 
     }
 

@@ -68,12 +68,20 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
             textViewName = itemView.findViewById(R.id.textnameProduct);
             imageView = itemView.findViewById(R.id.circle_imgView);
             imgXoa = itemView.findViewById(R.id.btnXoaSP);
-
+            imgSua = itemView.findViewById(R.id.btnSuaSP);
             imgXoa.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
                     context.delete(position);
+                }
+            });
+
+            imgSua.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context.update(position);
                 }
             });
         }
