@@ -304,8 +304,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.viewChiSo:
                 Toast.makeText(BaoCaoTongQuanActivity.this, "Báo cáo chỉ số", Toast.LENGTH_LONG).show();
-//                intent = new Intent(BaoCaoTongQuanActivity.this, ChiSoKinhDoanhActivity.class);
-//                startActivity(intent);
+                intent = new Intent(BaoCaoTongQuanActivity.this, BaoCaoChiSoActivity.class);
+                startActivity(intent);
                 bottomSheetDialog.dismiss();
                 break;
             case R.id.viewBanChay:
@@ -392,29 +392,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             arrNgay.add(ngay);
         }
         return arrNgay;
-    }
-
-    public String CustomNgay(Calendar calendar, int amount) {
-        String dinhDang = "dd/MM/yyyy";
-        calendar.add(Calendar.DAY_OF_YEAR, amount);
-        Date date = calendar.getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
-        String startDate = formatter.format(date);
-        return startDate;
-    }
-
-    //get date today +-n
-    private String CustomNgay2(Calendar calendar, int amount) {
-        String dinhDang = "dd/MM/yyyy";
-
-        Long toDay = MaterialDatePicker.todayInUtcMilliseconds();
-        calendar.setTimeInMillis(toDay);
-        Calendar cal = calendar;
-        cal.add(Calendar.DAY_OF_YEAR, amount);
-        Date date = cal.getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
-        String startDate = formatter.format(date);
-        return startDate;
     }
 
 
@@ -1042,5 +1019,28 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         }
 
         setArray.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
+    }
+
+    public String CustomNgay(Calendar calendar, int amount) {
+        String dinhDang = "dd/MM/yyyy";
+        calendar.add(Calendar.DAY_OF_YEAR, amount);
+        Date date = calendar.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
+        String startDate = formatter.format(date);
+        return startDate;
+    }
+
+    //get date today +-n
+    private String CustomNgay2(Calendar calendar, int amount) {
+        String dinhDang = "dd/MM/yyyy";
+
+        Long toDay = MaterialDatePicker.todayInUtcMilliseconds();
+        calendar.setTimeInMillis(toDay);
+        Calendar cal = calendar;
+        cal.add(Calendar.DAY_OF_YEAR, amount);
+        Date date = cal.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
+        String startDate = formatter.format(date);
+        return startDate;
     }
 }

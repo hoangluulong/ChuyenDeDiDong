@@ -33,7 +33,7 @@
                     app:cardCornerRadius="8dp">
 
                     <org.eazegraph.lib.charts.BarChart
-                        android:id="@+id/doanhThuTuan"
+                        android:id="@+id/doanhThuNgay"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:layout_marginTop="40dp" />
@@ -66,7 +66,7 @@
                     app:cardCornerRadius="8dp">
 
                     <org.eazegraph.lib.charts.ValueLineChart
-                        android:id="@+id/pieChar"
+                        android:id="@+id/lineChart"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:layout_marginTop="40dp" />
@@ -113,10 +113,17 @@
                             android:textColor="@color/white" />
                     </LinearLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tốc độ tăng trưởng: 0.3"
+                        android:layout_marginBottom="50dp"
+                        android:layout_gravity="bottom"/>
+
                     <Button
                         android:id="@+id/btn_chon_ngay"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_gravity="bottom"
                         android:background="@color/white"
                         android:text="Tháng này" />

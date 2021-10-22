@@ -105,14 +105,14 @@
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/baloo"
                         android:text="@string/so_0"
-                        android:textColor="@color/R"
+                        android:textColor="@color/so_hoa_don"
                         android:textSize="20sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/R"/>
+                        android:background="@color/so_hoa_don"/>
 
                 </androidx.cardview.widget.CardView>
 
