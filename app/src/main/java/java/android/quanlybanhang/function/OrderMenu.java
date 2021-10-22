@@ -116,7 +116,7 @@
             staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,"");
 
 //            recyclerView2.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.HORIZONTAL,false);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
             recyclerView2.setLayoutManager(gridLayoutManager);
             recyclerView2.setAdapter(staticRvAdapter);
             staticRvAdapter.notifyDataSetChanged();

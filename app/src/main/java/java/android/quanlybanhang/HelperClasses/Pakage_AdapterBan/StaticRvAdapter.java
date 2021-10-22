@@ -5,9 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,8 +55,9 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         public TextView ngayGio;
         public TextView trangThai;
         View view ;
+            LinearLayout cardview_ban;
 
-        ConstraintLayout constraintLayout;
+        CardView constraintLayout;
 
         public StaticRvHolderBan(@NonNull View itemView) {
             super(itemView);
@@ -62,7 +65,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
             tenBan = itemView.findViewById(R.id.tvtenban);
             ngayGio = itemView.findViewById(R.id.tvngaygio);
             trangThai = itemView.findViewById(R.id.tvtrangthai);
-            view = itemView.findViewById(R.id.view2);
+//            view = itemView.findViewById(R.id.view2);
+            cardview_ban = itemView.findViewById(R.id.cardview_ban);
             constraintLayout = itemView.findViewById(R.id.constraintLayouts);
         }
     }
@@ -88,13 +92,14 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
          if (staticBanModels.get(position).getTrangthai().equals("3")){
 //            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
-             holder.view.setBackgroundResource(R.color.red);
+             holder.cardview_ban.setBackgroundResource(R.color.red);
             holder.constraintLayout.setEnabled(false);
 
         }
         if (staticBanModels.get(position).getTrangthai().equals("2")){
 //            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
-            holder.view.setBackgroundResource(R.color.maudat);
+            holder.cardview_ban.setBackgroundResource(R.color.maudat);
+
         }
 
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
