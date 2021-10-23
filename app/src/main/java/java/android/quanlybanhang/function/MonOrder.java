@@ -174,7 +174,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         recyclerView2 =findViewById(R.id.rv_2);
 
         staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.HORIZONTAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticMonRvAdapter);
 

@@ -74,7 +74,7 @@ ArrayList<Product> staticMonOrderModels;
 //        holder.imgsanpham(Crritem.getImgProduct());
         Picasso.get().load(Crritem.getImgProduct()).into(holder.imgsanpham);
 
-        holder.tvgiaSanpham.setText(Crritem.getGiaBan()+"");
+//        holder.tvgiaSanpham.setText(Crritem.getGiaBan()+"");
 //        holder.tvgiaSanpham.setText(staticMonOrderModels.get(position).getDonGia().get(0)+"");
         holder.tvstatus.setText(Crritem.getStatus());
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ ArrayList<Product> staticMonOrderModels;
     public class StaticMonRvViewHolder extends RecyclerView.ViewHolder {
         public ImageView imgsanpham;
         public TextView tvtensanpham;
-        public TextView tvgiaSanpham;
+//        public TextView tvgiaSanpham;
         public  TextView tvstatus;
         ConstraintLayout constraintLayout;
         public StaticMonRvViewHolder(@NonNull View itemView) {
@@ -114,7 +114,7 @@ ArrayList<Product> staticMonOrderModels;
             super(itemView);
             imgsanpham = itemView.findViewById(R.id.imgsanpham);
             tvtensanpham = itemView.findViewById(R.id.tvtensanpham);
-            tvgiaSanpham = itemView.findViewById(R.id.tvgiasanpham);
+//            tvgiaSanpham = itemView.findViewById(R.id.tvgiasanpham);
             tvstatus = itemView.findViewById(R.id.tvstatus);
             constraintLayout = itemView.findViewById(R.id.constraintLayouts);
 

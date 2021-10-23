@@ -114,19 +114,6 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         for(int i =0; i<staticBanModels.size();i++) {
             Log.d("mnn", i + "mm");
         }
-//        Log.d("khungaa",items.get(position).getStaticBanModels().get(0).getTrangthai());
-//        }        if(items.get(position).getStaticBanModels().get(0).getTrangthai().equals("aaa")) {
-//            holder.constraintLayout.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
-//        }
-//        })items.get(position).getStaticBanModels().get(0).getTrangthai().equals("aaa")
-//        holder.constraintLayout.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
-//        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-
 
     }
 

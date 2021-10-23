@@ -153,21 +153,23 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
-            android:layout_width="301dp"
+            android:layout_width="221dp"
             android:layout_height="200dp"
-            android:layout_marginStart="55dp"
-            android:layout_marginEnd="55dp"
+            android:layout_marginStart="95dp"
+            android:layout_marginEnd="95dp"
             app:cardCornerRadius="50dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvgiasanpham">
 
             <ImageView
                 android:id="@+id/imgproduct"
-                android:layout_width="301dp"
+                android:layout_width="221dp"
                 android:layout_height="200dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 app:cardCornerRadius="50dp"
+
                 tools:layout_editor_absoluteX="55dp"
                 tools:layout_editor_absoluteY="62dp" />
         </androidx.cardview.widget.CardView>
@@ -274,6 +276,7 @@
         android:layout_width="match_parent"
         android:layout_height="22.5dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/bnt_xacnhan"
         app:layout_constraintEnd_toEndOf="parent"
@@ -293,9 +296,11 @@
             android:id="@+id/tvtonggiasanpham"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$10.0000"
+
+            android:text="$10.00000000"
             android:textColor="#373b54"
             android:textSize="20sp"
+            android:gravity="right"
             android:textStyle="bold" />
     </LinearLayout>
 

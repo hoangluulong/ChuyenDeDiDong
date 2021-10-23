@@ -78,7 +78,7 @@
                             String trangthai1=aaa.child("trangthai").getValue()+"";
                             String id_ban = aaa.getKey();
 //                            Log.d("TENBAN",aaa.child("tenban").getValue()+"");
-                            mm.add(new StaticBanModel(id_ban,tenban,trangthai1,"",""));
+                            mm.add(new StaticBanModel(id_ban,tenban,trangthai1,"Trường","1h30p"));
 //                            Log.d("keyabc",aaa.getKey()+"abc");
                         }
                         StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc,trangthai,id_khuvuc,mm);

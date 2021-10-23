@@ -30,7 +30,7 @@
                 android:layout_gravity="center"
                 android:elevation="20dp"
                 android:fontFamily="@font/baloo"
-                android:text="Tên Phục Vụ"
+                android:text="Xuân Trường"
                 android:textSize="16sp"
                 android:textStyle="bold|italic"
                 tools:layout_editor_absoluteY="2dp"
@@ -70,7 +70,7 @@
                 android:layout_gravity="center"
                 android:gravity="bottom"
                 android:fontFamily="@font/baloo"
-                android:text="tvngaygio"
+                android:text="1h30p"
                 android:textSize="16sp"
 
                 tools:layout_editor_absoluteY="94dp"
