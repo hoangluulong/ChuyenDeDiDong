@@ -84,7 +84,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
         });
 
         holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
-        holder.lblKhachang.setText(list.get(position).getTenKhachHang());
+        holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDonGia.setText(formatDouble.formatStr(list.get(position).getDonGia()));
     }
 

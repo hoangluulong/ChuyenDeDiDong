@@ -1,32 +1,23 @@
 package java.android.quanlybanhang.function.DonHangOnline.fragment;
 
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.android.quanlybanhang.HelperClasses.DanhSachHoaDonAdapter;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.text.SimpleDateFormat;
@@ -106,7 +97,7 @@ public class ChoXacNhanFragment extends Fragment {
     }
 
 
-    private void displayItem(View view){
+    private void displayItem(View view) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
         choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), donHangs, dialog, dialogHuy);
@@ -124,13 +115,15 @@ public class ChoXacNhanFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
                 int i = 0;
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    DonHang donHang = postSnapshot.getValue(DonHang.class);
-                    if (donHang.getTrangthai() == 0) {
-                        donHangs.add(donHang);
-                        Date date = formatDate(donHangs.get(i).getTime());
-                        donHangs.get(i).setDate(date);
-                        i++;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot snap : postSnapshot.getChildren()) {
+                        DonHang donHang = snap.getValue(DonHang.class);
+                        if (donHang.getTrangthai() == 0) {
+                            donHangs.add(donHang);
+                            Date date = formatDate(donHangs.get(i).getTime());
+                            donHangs.get(i).setDate(date);
+                            i++;
+                        }
                     }
                 }
                 SapXepDate(donHangs);
@@ -145,12 +138,12 @@ public class ChoXacNhanFragment extends Fragment {
     }
 
     private Date formatDate(String strDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 
         try {
             Date date = simpleDateFormat.parse(strDate);
             return date;
-        }catch (Exception e){
+        } catch (Exception e) {
             Date date = new Date();
             return date;
         }

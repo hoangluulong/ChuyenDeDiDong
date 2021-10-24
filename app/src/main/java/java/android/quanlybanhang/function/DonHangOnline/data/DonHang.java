@@ -13,7 +13,8 @@ public class DonHang {
     private double donGia;
     private String key;
     private Date date;
-    private String tenKhachHang;
+//    private String tenKhachHang;
+    private String tenKhachhang;
     private String nhanVien;
     private String shipper;
     private String phoneShipper;
@@ -32,13 +33,13 @@ public class DonHang {
         this.phuongThucThanhToan = phuongThucThanhToan;
         this.key = "";
         this.date = null;
-        this.tenKhachHang = "";
+        this.tenKhachhang = "";
         this.nhanVien = "";
         this.phoneShipper = "";
         this.shipper = "";
     }
 
-    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang, int phuongThucThanhToan) {
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, int phuongThucThanhToan) {
         this.diaChi = diaChi;
         this.time = time;
         this.trangthai = trangthai;
@@ -49,13 +50,13 @@ public class DonHang {
         this.key = key;
         this.date = date;
         this.phuongThucThanhToan = phuongThucThanhToan;
-        this.tenKhachHang = tenKhachHang;
+        this.tenKhachhang = tenKhachhang;
         this.nhanVien = "";
         this.phoneShipper = "";
         this.shipper = "";
     }
 
-    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang, String nhanVien, int phuongThucThanhToan) {
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, String nhanVien, int phuongThucThanhToan) {
         this.diaChi = diaChi;
         this.time = time;
         this.trangthai = trangthai;
@@ -65,14 +66,14 @@ public class DonHang {
         this.donGia = donGia;
         this.key = key;
         this.date = date;
-        this.tenKhachHang = tenKhachHang;
+        this.tenKhachhang = tenKhachhang;
         this.nhanVien = nhanVien;
         this.phuongThucThanhToan = phuongThucThanhToan;
         this.phoneShipper = "";
         this.shipper = "";
     }
 
-    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachHang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan) {
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan) {
         this.diaChi = diaChi;
         this.time = time;
         this.trangthai = trangthai;
@@ -83,7 +84,7 @@ public class DonHang {
         this.key = key;
         this.date = date;
         this.phuongThucThanhToan = phuongThucThanhToan;
-        this.tenKhachHang = tenKhachHang;
+        this.tenKhachhang = tenKhachhang;
         this.nhanVien = nhanVien;
         this.shipper = shipper;
         this.phoneShipper = phoneShipper;
@@ -113,12 +114,12 @@ public class DonHang {
         this.phoneShipper = phoneShipper;
     }
 
-    public String getTenKhachHang() {
-        return tenKhachHang;
+    public String getTenKhachhang() {
+        return tenKhachhang;
     }
 
-    public void setTenKhachHang(String tenKhachHang) {
-        this.tenKhachHang = tenKhachHang;
+    public void setTenKhachhang(String tenKhachhang) {
+        this.tenKhachhang = tenKhachhang;
     }
 
     public Date getDate() {

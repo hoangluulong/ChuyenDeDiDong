@@ -58,7 +58,7 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
         holder.nguoiThucHien.setText("Ship: "+ list.get(position).getShipper());
         holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
         holder.lblDonGia.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
-        holder.lblKhachang.setText(list.get(position).getTenKhachHang());
+        holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
 
         holder.layoutThongTin.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +108,7 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
         ImageView close = dialog.findViewById(R.id.close);
         TextView thanhTien = dialog.findViewById(R.id.thanhTien);
 
-        tenkhachhang.setText(list.get(position).getTenKhachHang());
+        tenkhachhang.setText(list.get(position).getTenKhachhang());
         diachi.setText(list.get(position).getDiaChi());
         tongtien.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham())));
         khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));

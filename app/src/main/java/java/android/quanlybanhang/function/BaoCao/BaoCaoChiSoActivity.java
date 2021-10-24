@@ -37,21 +37,14 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
         series2.setColor(getColor(R.color.doanh_so));
         Random rd = new Random();
 
+        for (int i = 0 ; i < 50; i++) {
+            int number1 = rd.nextInt(50);
+            series.addPoint(new ValueLinePoint(i+"", number1));
+            series2.addPoint(new ValueLinePoint(i+"", number1));
+        }
 
-//        for (int i = 0 ; i < 50; i++) {
-////            int number = rd.nextInt();  // trả về 1 số nguyên bất kỳ
-//            int number1 = rd.nextInt(50);
-//
-//            series.addPoint(new ValueLinePoint(i+"", number1));
-//            series2.addPoint(new ValueLinePoint(i+"", number1));
-//        }
-
-//        series.addPoint(new ValueLinePoint("24", 2f));
-//        series2.addPoint(new ValueLinePoint("1", 1f));
-
-
-        
-
+        series.addPoint(new ValueLinePoint("24", 2f));
+        series2.addPoint(new ValueLinePoint("1", 1f));
 
         lineChart.addSeries(series);
         lineChart.addSeries(series2);

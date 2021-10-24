@@ -67,7 +67,6 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
 
     @Override
     public void onBindViewHolder(@NonNull DonChoXacNhan holder, int position) {
-
         holder.layoutThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +88,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         }
         holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
-        holder.lblKhachang.setText(list.get(position).getTenKhachHang());
+        holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDonGia.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
         holder.lblXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +97,6 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 setFirebaseXacNhanDonHang(list.get(select).getKey(), select);
             }
         });
-
     }
 
     @Override
@@ -251,7 +249,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     private void setFirebaseXacNhanDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+IdDonHang+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+ngayHientai()+"/"+IdDonHang+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã xác nhận đơn", Toast.LENGTH_SHORT).show();
@@ -282,17 +280,24 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     }
 
     private String formartDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String dt = formatter.format(date);
         return dt;
     }
 
     private Double TinhTongTien(ArrayList<SanPham> sanPhams) {
-
         double tongGia = 0;
         for (int i = 0; i < sanPhams.size(); i++) {
-            tongGia += sanPhams.get(i).getGiaProudct();
+            tongGia += sanPhams.get(i).getGiaBan();
         }
         return tongGia;
+    }
+
+    private String ngayHientai() {
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String dt = formatter.format(formatter);
+        return dt;
     }
 }
