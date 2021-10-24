@@ -27,6 +27,7 @@ import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.function.ThanhToanActivity;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 
 public class ChiTietSanPham extends AppCompatActivity {
@@ -52,8 +53,11 @@ public class ChiTietSanPham extends AppCompatActivity {
     String YeuCau1;
     Double numcheck=0.0;
     String Loai;
+    ArrayList<Product> items;
     Double gia;
-
+    String key_sp;
+    private int position;
+    private ArrayList<DonGia>arrdongia;
    private RecyclerView recyclerView;
    private AdapterDonGia adapterDonGia;
      private final String TEN_BANG="ProductSQL1";
@@ -76,14 +80,16 @@ public class ChiTietSanPham extends AppCompatActivity {
 //        StaticMonOrderModel staticMonOrderModel = getIntent().getSerializableExtra("sp");
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+//        id_khuvuc = intent.getStringExtra("id_khuvuc");
+        key_sp = intent.getStringExtra("key_sanpham");
+        Log.d("key_sanpham",key_sp+"Truong");
         staticMonOrderModel = (Product) bundle.getSerializable("sp");
 
         tensps = staticMonOrderModel.getNameProduct();
         image = staticMonOrderModel.getImgProduct();
-//        giasanphams= staticMonOrderModel.getGiaBan();
-
         soluong = staticMonOrderModel.getSoluong();
         donGias= staticMonOrderModel.getDonGia();
+
 
         //get serrlizealbe
 
@@ -100,12 +106,30 @@ public class ChiTietSanPham extends AppCompatActivity {
         yeuCau =(EditText) findViewById(R.id.edt_ghichu);
         recyclerView = findViewById(R.id.rv_3);
 //
+        arrdongia = new  ArrayList<>();
+        Log.d("keyss",key_sp+"111");
+        for(int i=0;i<donGias.size();i++){
 
-        adapterDonGia = new AdapterDonGia(donGias,numcheck,tonggiasp,soluong2,Loai,gia);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ChiTietSanPham.this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapterDonGia);
-        adapterDonGia.notifyDataSetChanged();
+            if(donGias.get(i).getId().equals( staticMonOrderModel.getId())){
+                Log.d("keyss",donGias.get(i).getId()+"KKK");
+                Log.d("keyTenDongia",donGias.get(i).getTenDonGia());
+                Log.d("keyTenGiaBan",donGias.get(i).getGiaBan()+"");
 
+//                arrdongia.add(new DonGia(donGias.get(i).getTenDonGia(),donGias.get(i).getGiaBan()));
+                arrdongia.add(new DonGia(donGias.get(i).getTenDonGia(),donGias.get(i).getGiaBan()));
+                Log.d("arrdongia.size",arrdongia.size()+"");
+
+            }
+
+
+        }
+
+//        items.add(new Product())
+//        Log.d("LoaiMM",Loai);
+        adapterDonGia = new AdapterDonGia(arrdongia,numcheck,tonggiasp,soluong2,Loai,gia,position);
+           recyclerView.setLayoutManager(new LinearLayoutManager(ChiTietSanPham.this, LinearLayoutManager.VERTICAL, false));
+           recyclerView.setAdapter(adapterDonGia);
+           adapterDonGia.notifyDataSetChanged();
 
 //        do du lieu vao trang
         tensp.setText(tensps);
@@ -116,6 +140,7 @@ public class ChiTietSanPham extends AppCompatActivity {
         id=id_ban+"_"+id_khuvuc;
 
 
+
         Log.d("yeucau",yeuCau.getText().toString()+"yeuCaun");
         sl=Integer.parseInt(soluong2.getText()+"");
 //        tonggiasp.setText((giasanphams*sl)+"");
@@ -124,9 +149,9 @@ public class ChiTietSanPham extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Double num=0.0;
-                for(int i=0;i<donGias.size();i++){
-                    if(donGias.get(i).getCheck()){
-                        num=donGias.get(i).getGiachung();
+                for(int i=0;i<arrdongia.size();i++){
+                    if(arrdongia.get(i).getCheck()){
+                        num=arrdongia.get(i).getGiachung();
 
                     }
                 }
@@ -144,9 +169,11 @@ public class ChiTietSanPham extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Double num=0.0;
-                for(int i=0;i<donGias.size();i++){
-                    if(donGias.get(i).getCheck()){
-                        num=donGias.get(i).getGiachung();
+                for(int i=0;i<arrdongia.size();i++){
+                    if(arrdongia.get(i).getCheck()){
+
+                        num=arrdongia.get(i).getGiachung();
+                        Log.d("numm", num+"aaaaaaaaaaaaaaaaaaaa");
 
                     }
                 }
@@ -174,6 +201,7 @@ Log.d("gia_loai",gia+"_"+Loai);
                 for(int i=0;i<donGias.size();i++){
                     if(donGias.get(i).getCheck()){
                         Loai=donGias.get(i).getTenLoaiChung();
+                        Log.d("loaiMM",Loai);
                         gia=donGias.get(i).getGiachung();
                     }
                 }

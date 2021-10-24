@@ -71,6 +71,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     Interface_CategorySp_Sp interface_categorySp_sp ;
     ArrayList<DonGia> donGias;
     String value1;
+    String key_SanPham;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,23 +124,29 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     ArrayList<Product> mm= new ArrayList<>();
                     String tencategory= snapshot1.getKey()+"";
-                    Log.d("aoihayate",snapshot1.getKey()+"");
+//                    Log.d("aoihayate",snapshot1.getKey()+"");
                     DataSnapshot aaa = snapshot1;
                     for (DataSnapshot snapshot2 : aaa.getChildren()){
-
+                        Log.d("aoihayate1",snapshot2.getKey()+"");
+                        key_SanPham =snapshot2.getKey();
+                        Log.d("aoihayate1",key_SanPham+"11");
                         staticMonOrderModel=snapshot2.getValue(Product.class);
                         String nameProduct = staticMonOrderModel.getNameProduct();
                         int soluong = Integer.parseInt(staticMonOrderModel.getSoluong()+"");
                         String imgProduct = staticMonOrderModel.getImgProduct();
                         String status = staticMonOrderModel.getStatus();
+                        String id = staticMonOrderModel.getId();
 //                        donGias = staticMonOrderModel.getDonGia();
                         Log.d("Truongkkk",snapshot2.getValue()+"");
                         DataSnapshot sss = snapshot2.child("donGia");
                         for (DataSnapshot snapshot3 : sss.getChildren()){
+
                             Log.d("Truongnana",snapshot3.getValue()+"");
                             DonGia donGia = snapshot3.getValue(DonGia.class);
 //                            String tenDonGia=snapshot3.child("tenDonGia").getValue()+"";
                             Log.d("nameT",donGia.getTenDonGia()+"");
+                            Log.d("iddongia",donGia.getId()+"");
+                            Log.d("getkeykey",snapshot3.getKey()+"");
 //                            Double giaBan=Double.parseDouble(snapshot3.child("giaBan").getValue()+"");
 //                            Log.d("nameT",giaBan+"");
 
@@ -147,10 +154,18 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                             donGias.add(donGia);
                             Log.d("dongia.size",donGias.size()+"");
 
-                        }
-                        mm.add(new Product(nameProduct,soluong,imgProduct,donGias,status));
-                        Log.d("mm.size",mm.size()+"");
 
+                        }
+//                        for(int i=0;i<items.size();i++){
+//
+//                            Log.d("namrrr", items.get(i).getDonGia().get(i).getTenDonGia()+"susu3303");
+//                            ArrayList<DonGia>donGias1 = new ArrayList<>();
+//                            donGias1.add(new DonGia(items.get(i).getDonGia().get(i).getTenDonGia(),items.get(i).getDonGia().get(i).getGiaBan()));
+//                            mm.add(new Product(nameProduct,soluong,imgProduct,donGias1 ,status));
+//
+//                        }
+
+                        mm.add(new Product(nameProduct,soluong,imgProduct,donGias ,status,id));
 
 
                     }
@@ -162,6 +177,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                 staticCategoryAdapter = new StaticCategoryAdapter(item,MonOrder.this,MonOrder.this,0);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MonOrder.this,LinearLayoutManager.HORIZONTAL,false));
                 recyclerView.setAdapter(staticCategoryAdapter);
+
             }
 
             @Override
@@ -173,7 +189,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 
         recyclerView2 =findViewById(R.id.rv_2);
 
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc,key_SanPham);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticMonRvAdapter);
@@ -184,7 +200,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 
     @Override
     public void GetBack1(int pos, ArrayList<Product> items) {
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc,key_SanPham);
         staticMonRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticMonRvAdapter);
     }

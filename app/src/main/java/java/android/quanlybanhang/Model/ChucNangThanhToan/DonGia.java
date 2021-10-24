@@ -6,7 +6,7 @@ public class DonGia implements Serializable {
     String TenDonGia;
     Double GiaBan;
     String TenLoaiChung;
-
+    String id;
 
     public String getTenLoaiChung() {
         return TenLoaiChung;
@@ -19,9 +19,24 @@ public class DonGia implements Serializable {
 
 
     Boolean Check = false;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     Double giachung=0.0;
     public Boolean getCheck() {
         return Check;
+    }
+
+    public DonGia(String tenDonGia, Double giaBan, String id) {
+        TenDonGia = tenDonGia;
+        GiaBan = giaBan;
+        this.id = id;
     }
 
     public Double getGiachung() {

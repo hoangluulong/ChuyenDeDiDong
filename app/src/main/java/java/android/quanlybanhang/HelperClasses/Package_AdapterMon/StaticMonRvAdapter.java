@@ -41,9 +41,10 @@ ArrayList<Product> staticMonOrderModels;
     String id_khuvuc;
     String id_ban;
     String tenban;
+    String key_SanPham;
 
 
-    public StaticMonRvAdapter(ArrayList<Product> staticMonOrderModels, MonOrder monOrder, ArrayList<StaticCategoryMonModel> items, int pos, String tenban,String id_ban,String id_khuvuc){
+    public StaticMonRvAdapter(ArrayList<Product> staticMonOrderModels, MonOrder monOrder, ArrayList<StaticCategoryMonModel> items, int pos, String tenban,String id_ban,String id_khuvuc,String key_SanPham){
         this.staticMonOrderModels = staticMonOrderModels;
         this.monOrder = monOrder;
         this.items = items;
@@ -51,6 +52,7 @@ ArrayList<Product> staticMonOrderModels;
         this.tenban = tenban;
         this.id_ban = id_ban;
         this.id_khuvuc = id_khuvuc;
+        this.key_SanPham = key_SanPham;
     }
     @NonNull
     @Override
@@ -88,9 +90,9 @@ ArrayList<Product> staticMonOrderModels;
                     intent1.putExtra("tenban",tenban);
                     intent1.putExtra("id_ban",id_ban);
                     intent1.putExtra("id_khuvuc",id_khuvuc);
-
+                    intent1.putExtra("key_sanpham",key_SanPham);
+//                    Log.d("key_sanpham113",Crritem.getDonGia().get(position).getId() );
                     monOrder.startActivity(intent1);
-//                    startActivityForResult(intent1,1);
 
             }
         });

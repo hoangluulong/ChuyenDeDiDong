@@ -26,8 +26,9 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.DonGiaHode
     TextView soluong2;
     String Loai;
     Double gia;
+    int position;
 
-    public AdapterDonGia(ArrayList<DonGia> donGias,Double numcheck , TextView tonggiap,TextView soluong2,String Loai,Double gia) {
+    public AdapterDonGia(ArrayList<DonGia> donGias,Double numcheck , TextView tonggiap,TextView soluong2,String Loai,Double gia,int position) {
         this.items= donGias;
         this.numcheck = numcheck;
         this.tonggiasp = tonggiap;
@@ -35,6 +36,7 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.DonGiaHode
         this.soluong2 =soluong2;
         this.Loai = Loai;
         this.gia= gia;
+        this.position = position;
     }
 
 
@@ -52,6 +54,7 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.DonGiaHode
     @Override
     public void onBindViewHolder(@NonNull DonGiaHodel holder, int position) {
         DonGia Crritem = items.get(position);
+
         holder.tvloaisanpham.setText(Crritem.getTenDonGia());
         holder.tvgialoaisanpham.setText(Crritem.getGiaBan()+"");
 
@@ -87,6 +90,9 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.DonGiaHode
 
     @Override
     public int getItemCount() {
+        if (items.size()==0){
+               return 0;
+        }
         return items.size();
     }
 

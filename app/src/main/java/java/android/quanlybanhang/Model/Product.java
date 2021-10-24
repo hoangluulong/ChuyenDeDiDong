@@ -25,12 +25,13 @@ public class Product implements Serializable {
     ArrayList<DonGia> donGia;
     boolean addToCart;
 
-    public Product(String nameProduct, int soluong, String imgProduct, ArrayList<DonGia> donGia, String status) {
+    public Product(String nameProduct, int soluong, String imgProduct, ArrayList<DonGia> donGia, String status,String id) {
         this.nameProduct = nameProduct;
         this.soluong = soluong;
         this.imgProduct = imgProduct;
         this.donGia = donGia;
         this.status = status;
+        this.id = id;
     }
 
     public Product(String id, String nameProduct, int soluong, String imgProduct, Double giaBan) {
