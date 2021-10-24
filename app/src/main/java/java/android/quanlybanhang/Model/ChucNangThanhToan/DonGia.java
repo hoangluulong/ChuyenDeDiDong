@@ -28,7 +28,7 @@ public class DonGia implements Serializable {
         this.id = id;
     }
 
-    Double giachung=0.0;
+    Double giachung=222222220.0;
     public Boolean getCheck() {
         return Check;
     }

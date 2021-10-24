@@ -83,16 +83,6 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 //        Log.d("aaa",tenban+"vvv");
         Log.d("KKK",id_ban+"KKK");
         Log.d("KKK",id_khuvuc+"KKK");
-//
-//        Bundle bundle = intent.getExtras();
-//        if (bundle != null) {
-//             value1  = bundle.getString("Key_1", "");
-//                 Log.d("value1",value1);
-//            int value2 = bundle.getInt("Key_2", 0);
-//            boolean value3 = bundle.getBoolean("Key_3", false);
-//        }
-//        String strEditText = getIntent().getStringExtra("MyData");
-//        Log.d("MyData",strEditText);
         //menu toolbar
         listcard = new ArrayList<>();
         bnt_card = findViewById(R.id.bnt_luu);
@@ -127,43 +117,24 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 //                    Log.d("aoihayate",snapshot1.getKey()+"");
                     DataSnapshot aaa = snapshot1;
                     for (DataSnapshot snapshot2 : aaa.getChildren()){
-                        Log.d("aoihayate1",snapshot2.getKey()+"");
+//                        Log.d("aoihayate1",snapshot2.getKey()+"");
                         key_SanPham =snapshot2.getKey();
-                        Log.d("aoihayate1",key_SanPham+"11");
+//                        Log.d("aoihayate1",key_SanPham+"11");
                         staticMonOrderModel=snapshot2.getValue(Product.class);
                         String nameProduct = staticMonOrderModel.getNameProduct();
                         int soluong = Integer.parseInt(staticMonOrderModel.getSoluong()+"");
                         String imgProduct = staticMonOrderModel.getImgProduct();
                         String status = staticMonOrderModel.getStatus();
                         String id = staticMonOrderModel.getId();
-//                        donGias = staticMonOrderModel.getDonGia();
-                        Log.d("Truongkkk",snapshot2.getValue()+"");
                         DataSnapshot sss = snapshot2.child("donGia");
                         for (DataSnapshot snapshot3 : sss.getChildren()){
 
-                            Log.d("Truongnana",snapshot3.getValue()+"");
+
                             DonGia donGia = snapshot3.getValue(DonGia.class);
-//                            String tenDonGia=snapshot3.child("tenDonGia").getValue()+"";
-                            Log.d("nameT",donGia.getTenDonGia()+"");
-                            Log.d("iddongia",donGia.getId()+"");
-                            Log.d("getkeykey",snapshot3.getKey()+"");
-//                            Double giaBan=Double.parseDouble(snapshot3.child("giaBan").getValue()+"");
-//                            Log.d("nameT",giaBan+"");
-
-
                             donGias.add(donGia);
                             Log.d("dongia.size",donGias.size()+"");
 
-
                         }
-//                        for(int i=0;i<items.size();i++){
-//
-//                            Log.d("namrrr", items.get(i).getDonGia().get(i).getTenDonGia()+"susu3303");
-//                            ArrayList<DonGia>donGias1 = new ArrayList<>();
-//                            donGias1.add(new DonGia(items.get(i).getDonGia().get(i).getTenDonGia(),items.get(i).getDonGia().get(i).getGiaBan()));
-//                            mm.add(new Product(nameProduct,soluong,imgProduct,donGias1 ,status));
-//
-//                        }
 
                         mm.add(new Product(nameProduct,soluong,imgProduct,donGias ,status,id));
 
@@ -196,19 +167,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 
 
     }
-
-
     @Override
     public void GetBack1(int pos, ArrayList<Product> items) {
         staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc,key_SanPham);
         staticMonRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticMonRvAdapter);
     }
-
-//    @Override
-//    public void onBackPressed() {
-////        super.onBackPressed();
-//        Intent intent = new Intent(MonOrder.this,OrderMenu.class);
-//        startActivity(intent);
-//    }
 }

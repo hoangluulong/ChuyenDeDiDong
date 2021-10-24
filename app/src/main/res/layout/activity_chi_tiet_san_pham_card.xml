@@ -286,7 +286,7 @@
             android:id="@+id/tv14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:text="Total:"
             android:textColor="#373b54"
             android:textSize="20sp"
@@ -296,11 +296,11 @@
             android:id="@+id/tvtonggiasanpham"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_weight="0.2"
             android:text="$10.00000000"
             android:textColor="#373b54"
             android:textSize="20sp"
-            android:gravity="right"
+            android:gravity="center"
             android:textStyle="bold" />
     </LinearLayout>
 

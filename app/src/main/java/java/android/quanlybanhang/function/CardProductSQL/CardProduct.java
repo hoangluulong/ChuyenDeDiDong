@@ -130,8 +130,8 @@ public class CardProduct extends AppCompatActivity {
                     double  gia= cursor.getDouble(4);
                     String Loai = cursor.getString(5);
                     String yeuCau = cursor.getString(6);
-                    Log.d("yeuCauSQL1",yeuCau);
-                    Log.d("loai_gia",Loai+"+"+gia+"");
+//                    Log.d("yeuCauSQL1",yeuCau);
+//                    Log.d("loai_gia",Loai+"+"+gia+"");
                     listcard.add(new Product(a,tensp,soluong,img,gia));
                     listSP.add(new ProuductPushFB1(Loai,tensp,yeuCau,img,gia,soluong));
                 tvtentongsp.setVisibility(View.VISIBLE);
@@ -155,12 +155,8 @@ public class CardProduct extends AppCompatActivity {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder");
                 if(list.size()>0){
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
+                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
                 }
-//                for(int i =0; i < list.size();i++){
-//                    String id_sp =databaseReference.push().getKey();
-//                    databaseReference.child(id).child("sanpham").child(id_sp).setValue(list.get(i));
-//                }
-//                databaseReference.child(id).child("sanpham").child().setValue();
 
                 productPushFB = new ProductPushFB(date,flag,trangThai,list);
                 databaseReference.child(id).setValue(productPushFB);

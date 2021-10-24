@@ -26,7 +26,10 @@ import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.OrderMenu;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.StaticRvHolderBan> {
     private OrderMenu orderMenu;
@@ -45,6 +48,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         this.orderMenu = orderMenu;
         this.items = items;
         this.Id_khuvuc = Id_khuvuc;
+           changeDate("1635089841590");
     }
     public class StaticRvHolderBan extends RecyclerView.ViewHolder {
 
@@ -87,7 +91,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
         holder.tenPhucVu.setText(CrrItem.getTenNhanVien());
         holder.tenBan.setText(CrrItem.getTenban());
-        holder.ngayGio.setText(CrrItem.getGioDaOder());
+        holder.ngayGio.setText(changeDate(CrrItem.getGioDaOder()));
         holder.trangThai.setText(CrrItem.getTrangthai());
 
          if (staticBanModels.get(position).getTrangthai().equals("3")){
@@ -114,6 +118,21 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         for(int i =0; i<staticBanModels.size();i++) {
             Log.d("mnn", i + "mm");
         }
+
+    }
+    //chuyeenr doii String sang ngay
+    public String changeDate(String date){
+            long dates = Long.parseLong(date);
+        java.sql.Timestamp timestamp = new java.sql.Timestamp(dates);
+if(dates ==0){
+    return "";
+}
+        Date date1 =new Date(timestamp.getTime());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
+        String aaa = simpleDateFormat.format(date1);
+        Log.d("timestamp",aaa);
+        return  aaa;
 
     }
 

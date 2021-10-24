@@ -30,6 +30,7 @@
     import java.android.quanlybanhang.R;
     import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
     import java.util.ArrayList;
+    import java.util.Date;
 
     public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban {
     private RecyclerView recyclerView,recyclerView2;//rv khu vuc ban
@@ -76,9 +77,13 @@
                         for (DataSnapshot aaa: sss.getChildren()){
                             String tenban= aaa.child("tenban").getValue()+"";
                             String trangthai1=aaa.child("trangthai").getValue()+"";
+                            String tennhanvien = aaa.child("tenNhanVien").getValue()+"";
+                            String gioDaorder = aaa.child("gioDaOder").getValue()+"";
+//                                              Log.d("TENBAN",aaa.child("tennhanvien").getValue()+"");
                             String id_ban = aaa.getKey();
 //                            Log.d("TENBAN",aaa.child("tenban").getValue()+"");
-                            mm.add(new StaticBanModel(id_ban,tenban,trangthai1,"Trường","1h30p"));
+
+                            mm.add(new StaticBanModel(id_ban,tenban,trangthai1,tennhanvien,gioDaorder));
 //                            Log.d("keyabc",aaa.getKey()+"abc");
                         }
                         StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc,trangthai,id_khuvuc,mm);

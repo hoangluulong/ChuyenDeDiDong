@@ -198,11 +198,11 @@ Log.d("gia_loai",gia+"_"+Loai);
             @Override
             public void onClick(View v) {
 //
-                for(int i=0;i<donGias.size();i++){
-                    if(donGias.get(i).getCheck()){
-                        Loai=donGias.get(i).getTenLoaiChung();
+                for(int i=0;i<arrdongia.size();i++){
+                    if(arrdongia.get(i).getCheck()){
+                        Loai=arrdongia.get(i).getTenLoaiChung();
                         Log.d("loaiMM",Loai);
-                        gia=donGias.get(i).getGiachung();
+                        gia=arrdongia.get(i).getGiachung();
                     }
                 }
                     onBackPressed();
