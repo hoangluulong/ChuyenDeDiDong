@@ -16,7 +16,7 @@ public class SanPham {
     public SanPham() {
     }
 
-    public SanPham(Boolean addToCart, String chitiet, Double giaBan, Double giaNhap, String imgProduct, String nameProduct, String nhomsanpham, int soluong, String loai, String yeuCau, Double giaProudct) {
+    public SanPham(Boolean addToCart, String chitiet, Double giaBan, Double giaNhap, String imgProduct, String nameProduct, String nhomsanpham, int soluong, String loai, String yeuCau) {
         this.addToCart = addToCart;
         this.chitiet = chitiet;
         this.giaBan = giaBan;
@@ -27,7 +27,7 @@ public class SanPham {
         this.soluong = soluong;
         this.loai = loai;
         this.yeuCau = yeuCau;
-        this.giaProudct = giaProudct;
+        this.giaProudct = giaBan;
     }
 
     public Boolean getAddToCart() {

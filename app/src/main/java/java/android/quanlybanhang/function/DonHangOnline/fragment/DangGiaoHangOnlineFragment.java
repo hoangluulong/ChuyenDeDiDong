@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDouble;
+import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DangXuLiAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DonHangDangGiaoAdapter;
@@ -81,6 +82,7 @@ public class DangGiaoHangOnlineFragment extends Fragment {
     private ArrayList<DonHang> donHangs;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
+    private SupportFragmentDonOnline support = new SupportFragmentDonOnline();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,42 +111,24 @@ public class DangGiaoHangOnlineFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
                 int i = 0;
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    DonHang donHang = postSnapshot.getValue(DonHang.class);
-                    if (donHang.getTrangthai() == 4) {
-                        donHangs.add(donHang);
-                        Date date = formatDate(donHangs.get(i).getTime());
-                        donHangs.get(i).setDate(date);
-                        i++;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot snap : postSnapshot.getChildren()) {
+                        DonHang donHang = snap.getValue(DonHang.class);
+                        if (donHang.getTrangthai() == 4) {
+                            donHangs.add(donHang);
+                            Date date = support.formatDate(donHangs.get(i).getTime());
+                            donHangs.get(i).setDate(date);
+                            i++;
+                        }
                     }
                 }
-                SapXepDate(donHangs);
+                support.SapXepDate(donHangs);
                 displayItem(view);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
-            }
-        });
-    }
-
-    private Date formatDate(String strDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-
-        try {
-            Date date = simpleDateFormat.parse(strDate);
-            return date;
-        }catch (Exception e){
-            Date date = new Date();
-            return date;
-        }
-    }
-
-    private void SapXepDate(ArrayList<DonHang> donHangs) {
-        Collections.sort(donHangs, new Comparator<DonHang>() {
-            public int compare(DonHang o1, DonHang o2) {
-                return o1.getDate().compareTo(o2.getDate());
             }
         });
     }

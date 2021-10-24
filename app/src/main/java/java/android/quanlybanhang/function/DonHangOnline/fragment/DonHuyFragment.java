@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 
 /**
@@ -57,6 +58,7 @@ public class DonHuyFragment extends Fragment {
         }
     }
 
+    private SupportFragmentDonOnline support = new SupportFragmentDonOnline();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

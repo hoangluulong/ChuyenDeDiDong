@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.FormatDouble;
+import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
@@ -39,11 +40,13 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
     private FormatDouble formatDouble;
+    private SupportFragmentDonOnline support;
 
     public DangXuLiAdapter(Context context, ArrayList<DonHang> list) {
         this.context = context;
         this.list = list;
         formatDouble = new FormatDouble();
+        support = new SupportFragmentDonOnline();
     }
 
     @NonNull
@@ -56,8 +59,8 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
     public void onBindViewHolder(@NonNull DangXuLiAdapter.DonHangXuLy holder, int position) {
         holder.trangthaidonhang.setText("Đang giao");
         holder.nguoiThucHien.setText("Ship: "+ list.get(position).getShipper());
-        holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
-        holder.lblDonGia.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
+        holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
 
@@ -110,9 +113,9 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
 
         tenkhachhang.setText(list.get(position).getTenKhachhang());
         diachi.setText(list.get(position).getDiaChi());
-        tongtien.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham())));
+        tongtien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham())));
         khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));
-        thanhTien.setText(formatDouble.formatStr((TinhTongTien(list.get(position).getSanpham())) - list.get(position).getTrangthai()));
+        thanhTien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
 
 
         displayItem(recycleview, dialog, position);
@@ -141,21 +144,5 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
         recyclerView.setAdapter(itemDonHangAdapter);
 
         itemDonHangAdapter.notifyDataSetChanged();
-    }
-
-    private String formartDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy HH:mm");
-        String dt = formatter.format(date);
-
-        return dt;
-    }
-
-    private Double TinhTongTien(ArrayList<SanPham> sanPhams) {
-
-        double tongGia = 0;
-        for (int i = 0; i < sanPhams.size(); i++) {
-            tongGia += sanPhams.get(i).getGiaProudct();
-        }
-        return tongGia;
     }
 }

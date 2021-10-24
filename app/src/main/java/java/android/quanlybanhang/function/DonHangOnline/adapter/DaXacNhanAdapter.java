@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.FormatDouble;
+import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
@@ -43,6 +44,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     private DatabaseReference mFirebaseDatabase;
     private FormatDouble formatDouble;
     private int select;
+    private SupportFragmentDonOnline support;
 
 
     public DaXacNhanAdapter(Context context, ArrayList<DonHang> list, Dialog dialog) {
@@ -51,6 +53,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
         this.dialog = dialog;
         this.select = 0;
         formatDouble = new FormatDouble();
+        support = new SupportFragmentDonOnline();
     }
 
     @NonNull
@@ -68,6 +71,12 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             }
         });
 
+        if (list.get(position).getTrangthai() == 1) {
+            holder.trangthai.setText("Chờ shipper");
+        }else if (list.get(position).getTrangthai() == 2) {
+            holder.trangthai.setText("Chờ bếp");
+        }
+
 
         holder.lblHuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,14 +85,15 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             }
         });
 
-        holder.lblHangCho.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFirebaseXacNhanDonHang(list.get(position).getKey(), position);
-            }
-        });
+//        holder.lblHangCho.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setFirebaseXacNhanDonHang(list.get(position).getKey(), position);
+//            }
+//        });
+        holder.lblHangCho.setEnabled(true);
 
-        holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
+        holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDonGia.setText(formatDouble.formatStr(list.get(position).getDonGia()));
     }
@@ -94,7 +104,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     }
 
     public class DaXacNhan extends RecyclerView.ViewHolder {
-        private TextView lblThoiGian,lblDonGia, lblXacNhan, lblHuy, lblHangCho, lblKhachang;
+        private TextView lblThoiGian,lblDonGia, lblHuy, lblHangCho, lblKhachang,trangthai;
         private LinearLayout layoutThongTin;
         public DaXacNhan(@NonNull View ItemView) {
             super(ItemView);
@@ -104,6 +114,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             layoutThongTin = ItemView.findViewById(R.id.layoutThongTin);
             lblHangCho = ItemView.findViewById(R.id.lblHangCho);
             lblKhachang = ItemView.findViewById(R.id.lblKhachang);
+            trangthai = ItemView.findViewById(R.id.trangthai);
         }
     }
 
@@ -121,6 +132,16 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
         RecyclerView recycleview = dialog.findViewById(R.id.recycleview);
         TextView tongtien = dialog.findViewById(R.id.tongtien);
         ImageView close = dialog.findViewById(R.id.close);
+        TextView khuyenmai = dialog.findViewById(R.id.khuyenmai);
+        TextView thanhTien = dialog.findViewById(R.id.thanhTien);
+
+        tenkhachhang.setText(list.get(position).getTenKhachhang());
+        diachi.setText(list.get(position).getDiaChi());
+        tongtien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham())));
+        khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));
+        thanhTien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+
+
 
         displayItem(recycleview, dialog, position);
 
@@ -152,6 +173,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
         Button btn_dong = dialogHuy.findViewById(R.id.btn_dong);
         Button btn_huy = dialogHuy.findViewById(R.id.btn_huy);
 
+
         if (Gravity.BOTTOM == gravity) {
             dialogHuy.setCancelable(true);
         } else {
@@ -161,7 +183,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
         btn_huy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFirebaseHuyDonDonHang(list.get(positon).getKey());
+                setFirebaseHuyDonDonHang(list.get(positon).getKey(), positon);
                 dialogHuy.dismiss();
             }
         });
@@ -181,7 +203,6 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
 
         itemDonHangAdapter = new ItemDonHangDaXacNhanAdapter(dialog, list.get(position).getSanpham());
         recyclerView.setAdapter(itemDonHangAdapter);
-
         itemDonHangAdapter.notifyDataSetChanged();
     }
 
@@ -189,7 +210,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     private void setFirebaseXacNhanDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+IdDonHang+"/trangthai").setValue(0).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang+"/trangthai").setValue(0).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã xác nhận đơn", Toast.LENGTH_SHORT).show();
@@ -203,10 +224,10 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     }
 
     //TODO: setDuLieu Firebase hủy đơn
-    private void setFirebaseHuyDonDonHang (String IdDonHang) {
+    private void setFirebaseHuyDonDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();
@@ -217,21 +238,5 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
                 Toast.makeText(context, "Hủy thất bại", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private String formartDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy HH:mm");
-        String dt = formatter.format(date);
-
-        return dt;
-    }
-
-        private Double TinhTongTien(ArrayList<SanPham> sanPhams) {
-
-        double tongGia = 0;
-        for (int i = 0; i < sanPhams.size(); i++) {
-            tongGia += sanPhams.get(i).getGiaProudct();
-        }
-        return tongGia;
     }
 }

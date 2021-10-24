@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDouble;
+import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
@@ -49,6 +50,8 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     private int select;
     private Dialog dialogHuy;
     private FormatDouble formatDouble;
+    private SupportFragmentDonOnline support;
+
 
     public ChoXacNhanAdapter (Context context, ArrayList<DonHang> list, Dialog dialog, Dialog dialogHuy) {
         this.context = context;
@@ -57,6 +60,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         this.select = 0;
         this.dialogHuy = dialogHuy;
         formatDouble = new FormatDouble();
+        support = new SupportFragmentDonOnline();
     }
 
     @NonNull
@@ -86,10 +90,10 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         }else {
             holder.thanhtoan.setText("Chuyển khoản");
         }
-        holder.lblThoiGian.setText(formartDate(list.get(position).getDate()));
+        holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
-        holder.lblDonGia.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
         holder.lblXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,9 +143,9 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         TextView khuyenmai = dialog.findViewById(R.id.khuyenmai);
         TextView thanhTien = dialog.findViewById(R.id.thanhTien);
 
-        tongtien.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham())));
+        tongtien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham())));
         khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));
-        thanhTien.setText(formatDouble.formatStr(TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        thanhTien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
 
         displayItem(recycleview, dialog, position);
         Log.d("www", list.get(position).getSanpham().size()+"");
@@ -199,7 +203,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         btn_huy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFirebaseHuyDonDonHang(list.get(positon).getKey());
+                setFirebaseHuyDonDonHang(list.get(positon).getKey(), positon);
                 dialogHuy.dismiss();
             }
         });
@@ -249,7 +253,8 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     private void setFirebaseXacNhanDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+ngayHientai()+"/"+IdDonHang+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Log.d("abc", support.ngayHientai(list.get(position).getDate()));
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã xác nhận đơn", Toast.LENGTH_SHORT).show();
@@ -263,10 +268,10 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     }
 
     //TODO: setDuLieu Firebase hủy đơn
-    private void setFirebaseHuyDonDonHang (String IdDonHang) {
+    private void setFirebaseHuyDonDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();
@@ -277,27 +282,5 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 Toast.makeText(context, "Hủy thất bại", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private String formartDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String dt = formatter.format(date);
-        return dt;
-    }
-
-    private Double TinhTongTien(ArrayList<SanPham> sanPhams) {
-        double tongGia = 0;
-        for (int i = 0; i < sanPhams.size(); i++) {
-            tongGia += sanPhams.get(i).getGiaBan();
-        }
-        return tongGia;
-    }
-
-    private String ngayHientai() {
-
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String dt = formatter.format(formatter);
-        return dt;
     }
 }
