@@ -56,7 +56,8 @@ import java.util.List;
 public class AddProduct extends AppCompatActivity {
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
     private Spinner spnNhomsanpham, spnDonViTinh;
-    private Button btnAdd, btnChoose, btnThemDonViTinh, btnDonViTinhSanPham;
+    private Button btnAdd, btnThemDonViTinh, btnDonViTinhSanPham;
+    private  ImageView btnChoose;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Product product;
     private ArrayList<String> arrayList;
@@ -199,8 +200,7 @@ public class AddProduct extends AppCompatActivity {
                                               String nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
                                               String img = uri.toString();
                                               String status = "Còn";
-                                              Boolean addTocard = false;
-                                              product = new Product(id,name,chitiet,nhomsanpham,gianhap,listDonGia,soluong,img,addTocard,status);
+                                              product = new Product(id,name,chitiet,nhomsanpham,gianhap,listDonGia,soluong,img,status);
                                               mDatabase1.child(nhomsanpham).child(id).setValue(product);
                                           }
                                           textName.setText("");

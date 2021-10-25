@@ -1,5 +1,8 @@
 package java.android.quanlybanhang.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import java.android.quanlybanhang.Data.Product;
 import java.android.quanlybanhang.R;
 
 import java.android.quanlybanhang.function.SanPham.ListProduct;
+import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -25,10 +29,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductViewHolder> {
     private ArrayList<Product> arrayList;
     private ListProduct context;
+    private Context context2;
 
-    public AdapterProduct( ListProduct context,ArrayList<Product> arrayList) {
+    public AdapterProduct(Context context2, ListProduct context,ArrayList<Product> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
+        this.context2 =context2;
     }
 
     @NonNull
@@ -81,7 +87,11 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
-                    context.update(position);
+//                    context.update(position);
+                    Intent intent = new Intent(context2, SuaSanPhamActivity.class);
+                    intent.putExtra("Key_aray",arrayList.get(position));
+                    context2.startActivity(intent);
+
                 }
             });
         }

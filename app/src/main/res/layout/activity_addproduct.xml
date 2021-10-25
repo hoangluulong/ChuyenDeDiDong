@@ -48,7 +48,9 @@
                   android:id="@+id/textTensanpham"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:hint="@string/tensanpham"></EditText>
+                  android:hint="@string/tensanpham"
+                  android:background="#00000000"
+                  android:padding="10dp"></EditText>
               <View
                   style="@style/view" />
           </androidx.cardview.widget.CardView>
@@ -59,7 +61,9 @@
                   android:id="@+id/textChitietsanpham"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:hint="@string/chitietsanpham"></EditText>
+                  android:hint="@string/chitietsanpham"
+                  android:background="#00000000"
+                  android:padding="10dp"></EditText>
               <View
                   style="@style/view" />
           </androidx.cardview.widget.CardView>
@@ -80,11 +84,18 @@
                       android:fontFamily="@font/baloo"
                       android:textColor="@color/black"
                       android:gravity="center"></TextView>
+
                   <Spinner
                       android:id="@+id/spnNhomsanpham"
                       android:layout_weight="1"
                       android:layout_width="0dp"
-                      android:layout_height="match_parent"></Spinner>
+                      android:layout_height="match_parent"
+                      android:layout_centerVertical="true"
+                      android:layout_gravity="center"
+                      android:background="@android:color/transparent"
+                      android:gravity="center"
+                      android:layout_marginLeft="5dp"
+                      android:spinnerMode="dropdown"></Spinner>
               </LinearLayout>
               <View
                   android:layout_width="match_parent"
@@ -100,7 +111,9 @@
                   android:id="@+id/textGianhap"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:hint="@string/gianhapsanpham"></EditText>
+                  android:hint="@string/gianhapsanpham"
+                  android:background="#00000000"
+                  android:padding="10dp"></EditText>
               <View
                   style="@style/view" />
           </androidx.cardview.widget.CardView>
@@ -112,19 +125,20 @@
                   android:id="@+id/textSoluong"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:hint="@string/soluongsanpham"></EditText>
+                  android:hint="@string/soluongsanpham"
+                  android:background="#00000000"
+                  android:padding="10dp"></EditText>
               <View
                   style="@style/view" />
           </androidx.cardview.widget.CardView>
 
-          <androidx.cardview.widget.CardView
-              style="@style/image">
-
+          <androidx.cardview.widget.CardView style="@style/image">
               <ImageView
                   android:id="@+id/imgChoose"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"></ImageView>
           </androidx.cardview.widget.CardView>
+
           <ProgressBar
               android:id="@+id/progressBar"
               style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -134,13 +148,13 @@
               android:layout_alignParentBottom="true"
               />
 
-          <Button
+          <ImageView
               android:id="@+id/btnChoose"
               android:layout_marginLeft="10dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginBottom="10dp"
-              android:text="@string/chose"></Button>
+              android:src="@drawable/icons8image"></ImageView>
 
           <androidx.cardview.widget.CardView
               style="@style/cardview_nhomsanpham">
@@ -148,27 +162,32 @@
                   android:layout_weight="2"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
+                  android:gravity="left"
                   android:orientation="horizontal">
                   <Button
                       android:id="@+id/themDonViTinh"
                       android:layout_weight="0.75"
-                      android:layout_width="0dp"
+                      android:layout_width="10dp"
                       android:layout_height="match_parent"
                       android:text="Thêm đơn vị tính"
                       android:textSize="15sp"
                       android:fontFamily="@font/baloo"
                       android:textColor="@color/black"
-                      android:gravity="center"></Button>
+                      android:background="@color/white"
+                      android:gravity="center_vertical"
+                      android:drawableLeft="@drawable/icons8plus"></Button>
                   <Button
                       android:id="@+id/DonViTinhSanPham"
                       android:layout_weight="0.75"
-                      android:layout_width="0dp"
+                      android:layout_width="10dp"
                       android:layout_height="match_parent"
                       android:text="Đơn vị sản phẩm"
                       android:textSize="15sp"
                       android:fontFamily="@font/baloo"
                       android:textColor="@color/black"
-                      android:gravity="center"></Button>
+                      android:background="@color/white"
+                      android:gravity="center_vertical"
+                      android:drawableLeft="@drawable/icons8plus"></Button>
               </LinearLayout>
               <View
                   android:layout_width="match_parent"
@@ -188,6 +207,8 @@
                   android:layout_height="match_parent"
                   android:layout_weight="10">
               </androidx.recyclerview.widget.RecyclerView>
+
+
 
           </LinearLayout>
       </LinearLayout>

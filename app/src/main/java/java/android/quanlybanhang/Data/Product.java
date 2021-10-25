@@ -1,8 +1,9 @@
 package java.android.quanlybanhang.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Product {
+public class Product  implements Serializable {
     String id;
     String nameProduct;
     String chitiet;
@@ -11,10 +12,9 @@ public class Product {
     ArrayList<DonGia> donGia;
     int soluong;
     String imgProduct;
-    boolean addToCart;
     String status;
 
-    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, ArrayList<DonGia> donGia, int soluong, String imgProduct, boolean addToCart, String status) {
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, ArrayList<DonGia> donGia, int soluong, String imgProduct, String status) {
         this.id = id;
         this.nameProduct = nameProduct;
         this.chitiet = chitiet;
@@ -23,7 +23,6 @@ public class Product {
         this.donGia = donGia;
         this.soluong = soluong;
         this.imgProduct = imgProduct;
-        this.addToCart = addToCart;
         this.status = status;
     }
 
@@ -62,13 +61,6 @@ public class Product {
         this.imgProduct = imgProduct;
     }
 
-    public boolean isAddToCart() {
-        return addToCart;
-    }
-
-    public void setAddToCart(boolean addToCart) {
-        this.addToCart = addToCart;
-    }
 
     public Product(String nameProduct, int soluong, String imgProduct) {
         this.nameProduct = nameProduct;

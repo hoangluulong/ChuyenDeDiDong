@@ -1,6 +1,8 @@
 package java.android.quanlybanhang.Data;
 
-public class DonGia {
+import java.io.Serializable;
+
+public class DonGia implements Serializable {
     String id;
     String TenDonGia;
     Double GiaBan;

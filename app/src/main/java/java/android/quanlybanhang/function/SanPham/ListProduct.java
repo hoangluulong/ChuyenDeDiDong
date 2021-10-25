@@ -96,7 +96,7 @@ public class ListProduct  extends AppCompatActivity {
                         listProduct.add(product);
                         DataSnapshot aaa1 = snapshot2;
                     }
-                    adapterProduct = new AdapterProduct(ListProduct.this, listProduct);
+                    adapterProduct = new AdapterProduct(ListProduct.this,ListProduct.this, listProduct);
                     recyclerView.setAdapter(adapterProduct);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListProduct.this, LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(linearLayoutManager);
@@ -141,5 +141,6 @@ public class ListProduct  extends AppCompatActivity {
        
 
     }
+
 
 }
