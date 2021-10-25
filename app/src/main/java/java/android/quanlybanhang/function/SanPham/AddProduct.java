@@ -84,6 +84,7 @@ public class AddProduct extends AppCompatActivity {
     private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
     private String STR_UPLOAD = "uploads";
     private String STR_DONVITINH = "donvitinh";
+    private String id;
 
 
     @Override
@@ -109,6 +110,7 @@ public class AddProduct extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
         mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
         mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
+        id = mDatabase1.push().getKey();
         //dailong
         builder = new android.app.AlertDialog.Builder(AddProduct.this);
         inflater = AddProduct.this.getLayoutInflater();
@@ -189,7 +191,7 @@ public class AddProduct extends AppCompatActivity {
                                               textSoluong.requestFocus();
                                           }
                                           else {
-                                              String id = mDatabase1.push().getKey();
+
                                               String name = textName.getText().toString();
                                               String chitiet = textChitiet.getText().toString();
                                               Double gianhap = Double.parseDouble(textGianhap.getText().toString());
@@ -293,6 +295,7 @@ public class AddProduct extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         DonGia donGia = new DonGia();
                         donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
+                        donGia.setId(id);
                         if (textGiaSanPham.getText().toString().isEmpty()){
                            textGiaSanPham.setError("Hãy nhập giá !!!");
                            textGiaSanPham.requestFocus();

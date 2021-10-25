@@ -1,13 +1,28 @@
 package java.android.quanlybanhang.Data;
 
 public class DonGia {
+    String id;
     String TenDonGia;
     Double GiaBan;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public DonGia() {
     }
 
     public DonGia(String tenDonGia, Double giaBan) {
+        TenDonGia = tenDonGia;
+        GiaBan = giaBan;
+    }
+
+    public DonGia(String id, String tenDonGia, Double giaBan) {
+        this.id = id;
         TenDonGia = tenDonGia;
         GiaBan = giaBan;
     }
