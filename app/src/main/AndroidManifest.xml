@@ -19,7 +19,7 @@
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
             android:name=".function.ThanhToanActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -34,17 +34,17 @@
         <activity
             android:name=".function.ChiTietOrder.ChiTietSanPham"
             android:exported="true"
-            android:parentActivityName=".function.MonOrder" />
+            />
         <activity
             android:name=".function.MonOrder"
             android:exported="true"
-            android:parentActivityName=".function.OrderMenu" />
+             />
         <activity android:name=".function.Manager" />
         <activity android:name=".function.Income" />
         <activity android:name=".function.Processing" />
         <activity
             android:name=".function.OrderMenu"
-            android:parentActivityName=".function.MainActivity" />
+           />
         <activity android:name=".function.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

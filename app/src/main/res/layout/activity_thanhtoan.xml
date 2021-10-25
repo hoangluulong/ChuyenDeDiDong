@@ -35,7 +35,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/bnt_luu"
+        android:id="@+id/bnt_thanhtoan"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="5dp"
@@ -117,9 +117,9 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:orientation="vertical"
         android:background="@drawable/rv_khuvuc_bg"
-        app:layout_constraintBottom_toTopOf="@+id/bnt_luu"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bnt_thanhtoan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 

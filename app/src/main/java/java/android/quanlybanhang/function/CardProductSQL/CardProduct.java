@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +26,7 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 
+import java.android.quanlybanhang.function.MainActivity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -66,7 +69,9 @@ public class CardProduct extends AppCompatActivity {
         tvkhongsanpham = findViewById(R.id.tv_khongsanpham);
         tvtentongsp = findViewById(R.id.tvtentongsp);
         //
+        Log.d("id_khuvuc_Truong","K");
         Intent intent = getIntent();
+        Log.d("id_khuvuc_Truong","KS");
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
         id=id_ban+"_"+id_khuvuc;
@@ -152,14 +157,18 @@ public class CardProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder");
+
+                 productPushFB = new ProductPushFB(date,flag,trangThai,list);
+                 FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
                 if(list.size()>0){
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
                 }
 
-                productPushFB = new ProductPushFB(date,flag,trangThai,list);
-                databaseReference.child(id).setValue(productPushFB);
+
+//                Intent intent= new Intent(CardProduct.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
 
             }
         });

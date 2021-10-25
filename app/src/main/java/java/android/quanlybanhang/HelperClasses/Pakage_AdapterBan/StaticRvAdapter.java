@@ -40,6 +40,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
     private  ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
     String Id_khuvuc;
+    boolean xacdinh = true;
     private DatabaseReference mDatabase;
 
 
@@ -149,7 +150,7 @@ if(dates ==0){
                 if(snapshot.getValue()!=null){
                     Intent intent = new Intent(orderMenu, ThanhToanActivity.class);
                     intent.putExtra("id_ban",CrrItem.getID());
-                    Log.d("id_khuvuc",Id_khuvuc);
+                    Log.d("id_khuvuc_Truong",Id_khuvuc);
                     intent.putExtra("id_khuvuc",Id_khuvuc);
                     orderMenu.startActivity(intent);
                     }
@@ -157,7 +158,7 @@ if(dates ==0){
 
                     Intent intent = new Intent(orderMenu,MonOrder.class);
                     intent.putExtra("id_ban",CrrItem.getID());
-                    Log.d("id_khuvuc",Id_khuvuc);
+                    Log.d("id_khuvuc_Truong1",Id_khuvuc);
                     intent.putExtra("id_khuvuc",Id_khuvuc);
                     orderMenu.startActivity(intent);
                 }
@@ -174,4 +175,6 @@ if(dates ==0){
         });
 
     }
+
+
 }

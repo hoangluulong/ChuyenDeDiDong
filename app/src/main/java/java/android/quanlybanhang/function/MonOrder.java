@@ -77,12 +77,12 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mon_order);
         Intent intent = getIntent();
+        Log.d("qq", intent+"");
 //        tenban = intent.getStringExtra("tenban");
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
 //        Log.d("aaa",tenban+"vvv");
-        Log.d("KKK",id_ban+"KKK");
-        Log.d("KKK",id_khuvuc+"KKK");
+
         //menu toolbar
         listcard = new ArrayList<>();
         bnt_card = findViewById(R.id.bnt_luu);
@@ -90,10 +90,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MonOrder.this, CardProduct.class);
-                intent.putExtra("id_ban",id_ban);
-                intent.putExtra("id_khuvuc",id_khuvuc);
-              startActivity(intent);
+                Intent intent1 = new Intent(MonOrder.this, CardProduct.class);
+                intent1.putExtra("id_ban",id_ban);
+                intent1.putExtra("id_khuvuc",id_khuvuc);
+                startActivity(intent1);
 
             }
         });
@@ -114,12 +114,9 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     ArrayList<Product> mm= new ArrayList<>();
                     String tencategory= snapshot1.getKey()+"";
-//                    Log.d("aoihayate",snapshot1.getKey()+"");
                     DataSnapshot aaa = snapshot1;
                     for (DataSnapshot snapshot2 : aaa.getChildren()){
-//                        Log.d("aoihayate1",snapshot2.getKey()+"");
                         key_SanPham =snapshot2.getKey();
-//                        Log.d("aoihayate1",key_SanPham+"11");
                         staticMonOrderModel=snapshot2.getValue(Product.class);
                         String nameProduct = staticMonOrderModel.getNameProduct();
                         int soluong = Integer.parseInt(staticMonOrderModel.getSoluong()+"");
@@ -172,5 +169,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc,key_SanPham);
         staticMonRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticMonRvAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

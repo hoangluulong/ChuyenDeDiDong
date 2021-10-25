@@ -1,5 +1,6 @@
     package java.android.quanlybanhang.function;
 
+    import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.Menu;
@@ -149,6 +150,13 @@
          recyclerView2.setAdapter(staticRvAdapter);
 
         }
+//
+//        @Override
+//        public void onBackPressed() {
+//            Intent intent = new Intent(OrderMenu.this,MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
