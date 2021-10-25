@@ -307,11 +307,11 @@ public class AddProduct extends AppCompatActivity {
                             listDonGia.add(donGia);
                         }
                         textGiaSanPham.setText("");
-                        adapterDonGia = new AdapterDonGia(listDonGia);
+                        adapterDonGia = new AdapterDonGia(AddProduct.this,listDonGia,inflater1,builder1,customLayout1);
                         listView.setLayoutManager(new LinearLayoutManager(AddProduct.this,LinearLayoutManager.VERTICAL,false));
                         listView.setAdapter(adapterDonGia);
                         adapterDonGia.notifyDataSetChanged();
-//                        adapterDonGia = new AdapterDonGia(AddProduct.this,R.layout.activity_itemlistdongia,listDonGia);
+//                        adapterDonGia = new AdapterDonGia(AddProduct.this,listDonGia);
 //                        listView.setAdapter(adapterDonGia);
                     }
 

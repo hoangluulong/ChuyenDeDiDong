@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -66,12 +67,12 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabase1;
     private DatabaseReference mDatabase2;
+    private String nhomsanpham;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addproduct);
         product = (Product) getIntent().getSerializableExtra("Key_aray");
-        Log.d("product",product.getNameProduct()+"");
         textName = findViewById(R.id.textTensanpham);
         textChitiet = findViewById(R.id.textChitietsanpham);
         textGianhap = findViewById(R.id.textGianhap);
@@ -89,13 +90,15 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         textChitiet.setText(product.getChitiet());
         textGianhap.setText(product.getGiaNhap()+"");
         textSoluong.setText(product.getSoluong()+"");
+
         Picasso.get().load(product.getImgProduct()).into(imageView);
         donGias = product.getDonGia();
-        adapterDonGia = new AdapterDonGia(donGias);
+        adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this,donGias);
         listView.setLayoutManager(new LinearLayoutManager(SuaSanPhamActivity.this,LinearLayoutManager.VERTICAL,false));
         listView.setAdapter(adapterDonGia);
         adapterDonGia.notifyDataSetChanged();
         //firebase
+        mStogref = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
         mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
         mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
@@ -112,12 +115,18 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SuaSanPhamActivity.this, R.layout.support_simple_spinner_dropdown_item, arrayListCatagoty);
                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                            spnNhomsanpham.setAdapter(adapter);
+                           if(product.getNhomsanpham() != null){
+                               int com = adapter.getPosition(product.getNhomsanpham());
+                               spnNhomsanpham.setSelection(com);
+                           }
                 }
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(product.getImgProduct());
                         if (ImageUri != null) {
                             StorageReference fileRefence = mStogref.child("uploads/" + System.currentTimeMillis() + "." + getFileExtenstion(ImageUri));
+                            storageReference.delete();
                             fileRefence.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -154,17 +163,17 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                                                 String chitiet = textChitiet.getText().toString();
                                                 Double gianhap = Double.parseDouble(textGianhap.getText().toString());
                                                 Integer soluong = Integer.parseInt(textSoluong.getText().toString());
-                                                String nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
+                                                nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
                                                 String img = uri.toString();
                                                 String status = "Còn";
-                                                mDatabase1.child(product.getId()).child("nameProduct").setValue(name);
-                                                mDatabase1.child(product.getId()).child("chitiet").setValue(chitiet);
-                                                mDatabase1.child(product.getId()).child("imgProduct").setValue(img);
-                                                mDatabase1.child(product.getId()).child("nhomsanpham").setValue(nhomsanpham);
-                                                mDatabase1.child(product.getId()).child("soluong").setValue(soluong);
-                                                mDatabase1.child(product.getId()).child("status").setValue(status);
-                                                mDatabase1.child(product.getId()).child("giaNhap").setValue(gianhap);
-                                                mDatabase1.child(product.getId()).child("giaNhap").setValue(donGias);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nameProduct").setValue(name);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("chitiet").setValue(chitiet);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("imgProduct").setValue(img);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nhomsanpham").setValue(nhomsanpham);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("soluong").setValue(soluong);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("status").setValue(status);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("giaNhap").setValue(gianhap);
+                                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("donGia").setValue(donGias);
 
                                             }
 
@@ -193,7 +202,19 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                             });
                         }
                         else {
-                            Toast.makeText(SuaSanPhamActivity.this, "No file upload", Toast.LENGTH_SHORT).show();
+                            String name = textName.getText().toString();
+                            String chitiet = textChitiet.getText().toString();
+                            Double gianhap = Double.parseDouble(textGianhap.getText().toString());
+                            Integer soluong = Integer.parseInt(textSoluong.getText().toString());
+                            nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
+                            String status = "Còn";
+                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nameProduct").setValue(name);
+                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("chitiet").setValue(chitiet);
+                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nhomsanpham").setValue(nhomsanpham);
+                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("soluong").setValue(soluong);
+                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("status").setValue(status);
+                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("giaNhap").setValue(gianhap);
+                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("donGia").setValue(donGias);
                         }
                     }
                 });
@@ -210,9 +231,8 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                 openFileChoose();
             }
         });
-
-
     }
+
 
     private void openFileChoose() {
         Intent intent=new Intent();

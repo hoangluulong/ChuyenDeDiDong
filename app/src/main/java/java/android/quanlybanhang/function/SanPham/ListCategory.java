@@ -107,7 +107,6 @@ public class ListCategory extends AppCompatActivity {
     }
     //Sửa sản phẩm
     public void update( int position){
-////        Toast.makeText(this,mDatabase.getKey()+"",Toast.LENGTH_LONG).show();
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
