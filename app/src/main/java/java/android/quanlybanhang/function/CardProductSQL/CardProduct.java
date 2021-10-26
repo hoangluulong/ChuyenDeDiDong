@@ -27,6 +27,7 @@ import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 
 import java.android.quanlybanhang.function.MainActivity;
+import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -157,7 +158,6 @@ public class CardProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                  productPushFB = new ProductPushFB(date,flag,trangThai,list);
                  FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
                 if(list.size()>0){
@@ -165,13 +165,15 @@ public class CardProduct extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
                 }
 
-
-//                Intent intent= new Intent(CardProduct.this, MainActivity.class);
-//                startActivity(intent);
-//                finish();
+                Intent intent = new Intent(CardProduct.this, ThanhToanActivity.class);
+                intent.putExtra("id_ban",id_ban);
+                intent.putExtra("id_khuvuc",id_khuvuc);
+                startActivity(intent);
+                Toast.makeText(CardProduct.this,"Order Thành Công",Toast.LENGTH_LONG).show();
 
             }
         });
+
     }
 
 }

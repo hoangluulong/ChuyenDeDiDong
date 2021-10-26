@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,6 +73,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     ArrayList<DonGia> donGias;
     String value1;
     String key_SanPham;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +84,8 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
 //        Log.d("aaa",tenban+"vvv");
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         //menu toolbar
         listcard = new ArrayList<>();
         bnt_card = findViewById(R.id.bnt_luu);
@@ -141,6 +144,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                     item.add(product);
                     Log.d("cccc",item.size()+"");
                 }
+                progressBar.setVisibility(View.INVISIBLE);
                 recyclerView = findViewById(R.id.rv_1);
                 staticCategoryAdapter = new StaticCategoryAdapter(item,MonOrder.this,MonOrder.this,0);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MonOrder.this,LinearLayoutManager.HORIZONTAL,false));

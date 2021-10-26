@@ -164,9 +164,10 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(ThanhToanActivity.this,"Thanh Toán Thanh công",Toast.LENGTH_LONG).show();
-//                        Intent intent = new Intent(ThanhToanActivity.this,OrderMenu.class);
-//                        startActivity(intent);
-//                        finish();
+                         Intent intent = new Intent(ThanhToanActivity.this,OrderMenu.class);
+                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -195,6 +196,9 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(ThanhToanActivity.this,OrderMenu.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

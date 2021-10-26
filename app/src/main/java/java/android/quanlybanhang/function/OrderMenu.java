@@ -6,6 +6,7 @@
     import android.view.Menu;
     import android.view.MenuItem;
     import android.view.View;
+    import android.widget.ProgressBar;
 
     import androidx.annotation.NonNull;
     import androidx.appcompat.app.ActionBar;
@@ -44,6 +45,7 @@
         ArrayList<StaticModelKhuVuc> item;
        private StaticModelKhuVuc product ;
      private Toolbar toolbar;//tool bar khai bao id
+        ProgressBar progressBar;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,11 @@
             actionBar.setTitle("");
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+
+//            progressBar.setProgress(80);
+
 //arc menu them ban
 //            arcMenu = findViewById(R.id.arcmenu);
 
@@ -92,11 +99,13 @@
                         item.add(product);
 
                     }
+                    progressBar.setVisibility(View.INVISIBLE);
                     recyclerView = findViewById(R.id.rv_1);
                     staticRvKhuVucAdapter = new StaticRvKhuVucAdapter(item,OrderMenu.this,OrderMenu.this);
                     recyclerView.setLayoutManager(new LinearLayoutManager(OrderMenu.this,LinearLayoutManager.HORIZONTAL,false));
                     recyclerView.setAdapter(staticRvKhuVucAdapter);
                     staticRvKhuVucAdapter.notifyDataSetChanged();
+
                 }
 
                 @Override
