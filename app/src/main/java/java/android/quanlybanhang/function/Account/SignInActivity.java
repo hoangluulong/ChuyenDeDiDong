@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.android.quanlybanhang.Model.CuaHangSignIn;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
+import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.android.quanlybanhang.function.MainActivity;
 import java.util.ArrayList;
 
@@ -47,6 +48,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private String idUser;
     private Boolean thietLap;
     private Boolean checkThietLap = false;
+    private String tenCuaHang;
 
     //Firebase
     private FirebaseAuth mAuth;
@@ -167,9 +169,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText(SignInActivity.this, "Signin error", Toast.LENGTH_SHORT).show();
                     } else {
                         idUser = mAuth.getUid();
-
                         getDataAccount(idUser);
-
                         delaySignin(idUser);
                     }
 
@@ -186,12 +186,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mFirebaseDatabase.child("ACCOUNT_LOGIN/" + UID + "/CuaHang").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     String name = snap.child("name").getValue().toString();
                     String chucvu = snap.child("ChucVu").getValue().toString();
                     String ID = snap.child("ID").getValue().toString();
-
                     dataAccount.add(new CuaHangSignIn(chucvu, ID, name));
                 }
             }
@@ -237,12 +235,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void getDataThietLap() {
-        mFirebaseDatabase.child("CuaHangOder/"+dataAccount.get(0).getID()+"/ThongTinCuaHang/ThietLap").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/"+dataAccount.get(0).getID()+"/ThongTinCuaHang").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                thietLap = (Boolean) snapshot.getValue();
+                thietLap = (Boolean) snapshot.child("ThietLap").getValue();
                 Log.d("AAA", thietLap+"");
                 checkThietLap = true;
+                tenCuaHang = snapshot.child("TenCuaHang").getValue().toString();
             }
 
             @Override
@@ -263,6 +262,18 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         checkThietLap = false;
                         Bundle bundle = new Bundle();
                         bundle.putString("ID_STORE", UID);
+                        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(SignInActivity.this, "app_database.sqlite", null, 1);
+                        thongTinCuaHangSql.createTable();
+                        Cursor cursor = thongTinCuaHangSql.selectThongTin();
+                        if (cursor.getCount() > 0){
+                            String IdOld = "";
+                            while (cursor.moveToNext()) {
+                                IdOld = cursor.getString(0);
+                            }
+                            thongTinCuaHangSql.UpdateCuaHang(UID, IdOld, tenCuaHang);
+                        }else {
+                            thongTinCuaHangSql.InsertThonTin(UID, tenCuaHang);
+                        }
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                         intent.putExtras(intent);
                         startActivity(intent);

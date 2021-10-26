@@ -1,11 +1,13 @@
 package java.android.quanlybanhang.function;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.android.quanlybanhang.function.Account.SignInActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
@@ -38,6 +41,19 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         baocao= findViewById(R.id.baocao);
         bi = findViewById(R.id.bi);
+
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(MainActivity.this, "app_database.sqlite", null, 1);
+        thongTinCuaHangSql.createTable();
+        Cursor cursor = thongTinCuaHangSql.selectThongTin();
+        if (cursor.getCount() > 0){
+            String IdOld = "";
+            while (cursor.moveToNext()) {
+                IdOld = cursor.getString(0);
+            }
+            Toast.makeText(this, IdOld + "   có", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this, "Không có", Toast.LENGTH_LONG).show();
+        }
 
         signout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,6 +3,7 @@ package java.android.quanlybanhang.function.Account;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.android.quanlybanhang.Common.DataAddress;
 import java.android.quanlybanhang.Model.Address;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
+import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.android.quanlybanhang.function.MainActivity;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -141,6 +143,20 @@ public class StoreSetting extends AppCompatActivity {
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/DiaChi_Tinh").setValue(tenTinh);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/DiaChi_Huyen").setValue(tenHuyen);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/ThietLap").setValue(true);
+
+                        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(StoreSetting.this, "app_database.sqlite", null, 1);
+                        thongTinCuaHangSql.createTable();
+                        Cursor cursor = thongTinCuaHangSql.selectThongTin();
+                        if (cursor.getCount() > 0){
+                            String IdOld = "";
+                            while (cursor.moveToNext()) {
+                                IdOld = cursor.getString(0);
+                            }
+                            thongTinCuaHangSql.UpdateCuaHang(ID_USER, IdOld, nameStore);
+                        }else {
+                            thongTinCuaHangSql.InsertThonTin(ID_USER, nameStore);
+                        }
+
                         Intent intent1 = new Intent(StoreSetting.this, MainActivity.class);
                         startActivity(intent1);
                     }

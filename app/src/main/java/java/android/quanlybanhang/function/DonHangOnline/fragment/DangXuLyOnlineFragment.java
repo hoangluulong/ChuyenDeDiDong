@@ -6,11 +6,14 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +37,7 @@ import java.util.Date;
  * Use the {@link DangXuLyOnlineFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DangXuLyOnlineFragment extends Fragment {
+public class DangXuLyOnlineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,12 +85,21 @@ public class DangXuLyOnlineFragment extends Fragment {
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
     private SupportFragmentDonOnline support = new SupportFragmentDonOnline();
+    private TextView lblThongBao;
+    private ProgressBar progressBar;
+    private View view;
+    private SwipeRefreshLayout refreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dang_xu_ly_online, container, false);
+        view = inflater.inflate(R.layout.fragment_dang_xu_ly_online, container, false);
         recyclerView = view.findViewById(R.id.recycleview);
+        lblThongBao = view.findViewById(R.id.lblThongBao);
+        progressBar = view.findViewById(R.id.progressBar);
+        refreshLayout = view.findViewById(R.id.swipeRefreshlayout);
 
+        progressBar.setVisibility(View.VISIBLE);
+        refreshLayout.setOnRefreshListener(this);
         getDataFireBase(view);
         return view;
     }
@@ -120,6 +132,13 @@ public class DangXuLyOnlineFragment extends Fragment {
                         }
                     }
                 }
+                refreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.INVISIBLE);
+                if (donHangs.size() > 0) {
+                    lblThongBao.setText("");
+                }else {
+                    lblThongBao.setText("Không có đơn hàng đang xử lí");
+                }
                 support.SapXepDate(donHangs);
                 displayItem(view);
             }
@@ -129,5 +148,10 @@ public class DangXuLyOnlineFragment extends Fragment {
                 Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        getDataFireBase(view);
     }
 }

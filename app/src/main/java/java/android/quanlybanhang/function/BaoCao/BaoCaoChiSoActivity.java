@@ -40,7 +40,6 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
     private String ngayKetThuc;
     private ArrayList<String> listNgay;
 
-
     //Firebase
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;

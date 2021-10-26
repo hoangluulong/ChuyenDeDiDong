@@ -1,11 +1,37 @@
+#### - Việc cần làm
+
+I - Đăng ký đăng nhập
+   1. Lấy thông tin user đăng ký.
+   2. Lưu user vào sql
+                                    Hoàn thành 3. Lưu Id của hàng vào sql
+
+II - Đơn hàng online
+    1. Danh sách đơn hoàn thành
+    2. Danh sách đơn hủy
+
+III - Báo cáo
+    1. Chỉ số kinh doanh
+    2. Sản phẩm
+    3. Báo cáo kho
+    4. Nhân viên
+    5. Hóa đơn
+
+
+
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Đơn hàng online:
     0: chưa xác nhận
     1: đã xác nhận, đang chờ ship
     2: đã xác nhận, đang chờ bếp
     3: đang xửa lý
-    4: đang giao
-    5: thành công
-    6: đơn hủy
+    4: xử lý xong, chờ giao
+    5: đang giao
+    6: thành công
+    7: đơn hủy
 Thanh toán:
     0: thanh toán khi nhận
     1: chyển khoản

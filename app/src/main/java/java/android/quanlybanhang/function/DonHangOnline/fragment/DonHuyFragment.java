@@ -3,6 +3,7 @@ package java.android.quanlybanhang.function.DonHangOnline.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import java.android.quanlybanhang.R;
  * Use the {@link DonHuyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DonHuyFragment extends Fragment {
+public class DonHuyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,7 +63,11 @@ public class DonHuyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_don_huy, container, false);
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }
