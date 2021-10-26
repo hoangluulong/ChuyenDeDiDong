@@ -10,7 +10,6 @@ public class NhanVien {
     String phone;
     String id;
 
-
     public NhanVien() {
     }
 
@@ -77,5 +76,4 @@ public class NhanVien {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
 }

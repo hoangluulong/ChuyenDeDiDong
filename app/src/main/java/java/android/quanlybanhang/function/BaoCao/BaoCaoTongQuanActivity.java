@@ -18,12 +18,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.util.Pair;
@@ -46,10 +46,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDate;
+import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.Common.Utils;
 import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
+import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -59,7 +61,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
@@ -67,6 +68,8 @@ import java.util.TimeZone;
 
 public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+
+    private final String ID_CUAHNAG = "Meskv6p2bkf89ferNygy5Kp1aAA3";
     private Locale localeVN = new Locale("vi", "VN");
     private NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
@@ -79,6 +82,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     private View sheetView;
     private PieChart pieChart;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout layoutProgressBar;
 
     private int doanhThu = 0;
     private int chiTieu = 0;
@@ -128,6 +132,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         getIDLayout();
 
         DatabaseSQlite();
+
+        getDataFireBase();
     }
 
     //
@@ -136,7 +142,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
         if (dsSanPham.size() == 0) {
             pieE.add(new PieEntry(0, "Chưa có dữ liệu"));
-            Log.d("xxxa", "a");
         } else {
             pieE.clear();
             int tongSPKhac = 0;
@@ -147,8 +152,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                     sanPham.add(dsSanPham.get(i));
                 }
             }
-
-            Log.d("xxxb", dsSanPham.get(0).getSoLuong()+"");
 
             if (sanPham.size() >= 5) {
                 for (int i = 0; i < sanPham.size(); i++) {
@@ -231,6 +234,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
         pieChart = (PieChart) findViewById(R.id.pieChart);
         swipeRefreshLayout = findViewById(R.id.refresh);
+        layoutProgressBar = findViewById(R.id.layoutProgressBar);
 
         setOnclick();
     }
@@ -305,8 +309,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.viewChiSo:
                 Toast.makeText(BaoCaoTongQuanActivity.this, "Báo cáo chỉ số", Toast.LENGTH_LONG).show();
-//                intent = new Intent(BaoCaoTongQuanActivity.this, ChiSoKinhDoanhActivity.class);
-//                startActivity(intent);
+                intent = new Intent(BaoCaoTongQuanActivity.this, BaoCaoChiSoActivity.class);
+                startActivity(intent);
                 bottomSheetDialog.dismiss();
                 break;
             case R.id.viewBanChay:
@@ -395,29 +399,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         return arrNgay;
     }
 
-    public String CustomNgay(Calendar calendar, int amount) {
-        String dinhDang = "dd/MM/yyyy";
-        calendar.add(Calendar.DAY_OF_YEAR, amount);
-        Date date = calendar.getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
-        String startDate = formatter.format(date);
-        return startDate;
-    }
-
-    //get date today +-n
-    private String CustomNgay2(Calendar calendar, int amount) {
-        String dinhDang = "dd/MM/yyyy";
-
-        Long toDay = MaterialDatePicker.todayInUtcMilliseconds();
-        calendar.setTimeInMillis(toDay);
-        Calendar cal = calendar;
-        cal.add(Calendar.DAY_OF_YEAR, amount);
-        Date date = cal.getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
-        String startDate = formatter.format(date);
-        return startDate;
-    }
-
 
     /**
      * SQLite
@@ -425,7 +406,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
      */
     private void DatabaseSQlite() {
         // Tạo database
-        dataSql = new DbBaoCao(this, "app_database.sqlite", null, 1);
+        dataSql = new DbBaoCao(this, "app_database.sqlite", null, 2);
         dataSql.QueryData("CREATE TABLE IF NOT EXISTS KieuHienThiBaoCao(" +
                 "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "NgayBatDau VARCHAR(200), " +
@@ -494,7 +475,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         checkChi.clear();
 
         for (String st : listDays) {
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + st).addValueEventListener(new ValueEventListener() {
+            mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHNAG + "/bienlai/thu/" + st).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
@@ -514,7 +495,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
             });
 
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/chi/" + st).addValueEventListener(new ValueEventListener() {
+            mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHNAG + "/bienlai/chi/" + st).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
@@ -532,9 +513,27 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 }
             });
         }
+
+        mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHNAG + "/bienlai/taichinh").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    tien_tongtien.setText(formatStr(Double.parseDouble(dataSnapshot.child("tongTien").getValue().toString())));
+                    tien_nophaithu.setText(formatStr(Double.parseDouble(dataSnapshot.child("noPhaiTra").getValue().toString())));
+                    tien_nophaitra.setText(formatStr(Double.parseDouble(dataSnapshot.child("noPhaiThu").getValue().toString())));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        getDataFireBase();
     }
 
     int i = 0;
+
     private void SetDuLieu() {
         dsSanPham.clear();
         Handler handler = new Handler();
@@ -544,6 +543,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 int demChi = 0;
                 int demThu = 0;
                 if (checkChi.size() == listDays.size() && checkThu.size() == listDays.size()) {
+                    layoutProgressBar.setVisibility(View.GONE);
                     for (int i = 0; i < listDays.size(); i++) {
                         if (checkThu.get(i) == 0) {
                             demThu++;
@@ -576,36 +576,51 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
                         int slDaThanhToan = 0;
                         double tienDTT = 0;
-                        double tienDoanhThu = 0;
                         int slChuaThanhToan = 0;
                         int tienCTT = 0;
+                        int slDichVuPhuThu = 0;
+                        double tienDVPT = 0;
+                        int slBiHuy = 0;
+                        double tienHoaDonBiHuy = 0;
+
 
                         ArrayList<DataSnapshot> listSP = new ArrayList<>();
 
                         for (DataSnapshot a : dataBienLai) {
-                            tienDoanhThu += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
-
                             listSP.add(a.child("sanpham"));
-
                             if (Integer.parseInt(a.child("status").getValue() + "") == 1) {
                                 slDaThanhToan++;
                                 tienDTT += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
                             } else if (Integer.parseInt(a.child("status").getValue() + "") == 2) {
                                 slChuaThanhToan++;
                                 tienCTT += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
+                            } else if (Integer.parseInt(a.child("status").getValue() + "") == 3) {
+                            }
+                            if (Integer.parseInt(a.child("status").getValue() + "") == 4) {
+                                slBiHuy++;
+                                tienHoaDonBiHuy += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
+                            }
+                            if (Integer.parseInt(a.child("status").getValue() + "") == 5) {
+
                             }
                         }
 
-                        tien_doanhthu.setText(formatStr(tienDTT));
+                        tien_doanhthu.setText(formatStr(tienDTT - tongChi));
 
-                        tien_dathanhtoan.setText(formatStr(tienDTT));
-                        sl_dathanhtoan.setText(slDaThanhToan + "");
+                        tien_dathanhtoan.setText(formatStr(tienDTT - tienCTT));
+                        sl_dathanhtoan.setText((slDaThanhToan - slChuaThanhToan) + "");
 
                         tien_doanhso.setText(formatStr(tienDTT));
                         sl_doanhso.setText(slDaThanhToan + "");
 
                         tien_chuathanhtoan.setText(formatStr(tienCTT));
                         sl_chuathanhtoan.setText(slChuaThanhToan + "");
+
+                        sl_dichvuphuthu.setText(slDichVuPhuThu + "");
+                        tien_dichvuphuthu.setText(formatStr(tienDVPT));
+
+                        sl_comonhuy.setText(slBiHuy + "");
+                        tien_comonhuy.setText(tienHoaDonBiHuy + "");
 
                         tien_chitieu.setText(formatStr(tongChi));
 
@@ -630,16 +645,16 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                         }
 
                         int count = list.size();
-                        for (int i = 0; i < count; i++){
-                            for (int j = i + 1; j < count; j++){
-                                if (list.get(i).equals(list.get(j))){
+                        for (int i = 0; i < count; i++) {
+                            for (int j = i + 1; j < count; j++) {
+                                if (list.get(i).equals(list.get(j))) {
                                     list.remove(j--);
                                     count--;
                                 }
                             }
                         }
 
-                        for (int i = 0; i < list.size(); i++){
+                        for (int i = 0; i < list.size(); i++) {
                             dsSanPham.add(new PieTongQuan(list.get(i), 0));
                         }
 
@@ -679,6 +694,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
                         swipeRefreshLayout.setRefreshing(false);
                         bieuDoSanPham();
+                        layoutProgressBar.setVisibility(View.GONE);
                         dialog.dismiss();
                     }
 
@@ -802,7 +818,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             public void onClick(View v) {
                 ngayBatDau = ngayBD;
                 ngayKetThuc = ngayKT;
-                dataSql = new DbBaoCao(BaoCaoTongQuanActivity.this, "app_database.sqlite", null, 1);
+                dataSql = new DbBaoCao(BaoCaoTongQuanActivity.this, "app_database.sqlite", null, 2);
                 dataSql.QueryData("UPDATE KieuHienThiBaoCao SET NgayBatDau='" + ngayBatDau + "', NgayKetThuc='" + ngayKetThuc + "', KieuHienThi=" + tamp + " WHERE id=" + id + "");
                 kieuHienThi = tamp;
 
@@ -948,24 +964,25 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 nhomSP = "Nước uống";
                 sl = r.nextInt(max - min + 1) + min;
                 gia = sl * 20000.0;
-            }else if (dem == 3) {
+            } else if (dem == 3) {
                 tenSP = "Bia Tiger";
                 nhomSP = "Nước uống";
 
                 sl = r.nextInt(max - min + 1) + min;
                 gia = sl * 20000.0;
-            }else if (dem == 4) {
+            } else if (dem == 4) {
                 tenSP = "Bia Heineken";
                 nhomSP = "abcxyz";
                 sl = r.nextInt(max - min + 1) + min;
                 gia = sl * 20000.0;
-            }else {
+            } else {
                 tenSP = "RedBull";
                 sl = r.nextInt(max - min + 1) + min;
                 gia = sl * 20000.0;
             }
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            timestamp.getTime();
 
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_ban").setValue("b2");
             mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + a + "/" + timestamp.getTime() + "/id_khuvuc").setValue("k2");
@@ -998,7 +1015,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                     if (sanPham.get(i).getName().equals(setArray.get(j).getName())) {
 
                         setArray.add(new PieTongQuan(sanPham.get(i).getName(), 0));
-                    }else {
+                    } else {
                         Log.d("ccc", sanPham.get(i).getName());
                     }
                 }
@@ -1015,5 +1032,67 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         }
 
         setArray.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
+    }
+
+    public String CustomNgay(Calendar calendar, int amount) {
+        String dinhDang = "dd/MM/yyyy";
+        calendar.add(Calendar.DAY_OF_YEAR, amount);
+        Date date = calendar.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
+        String startDate = formatter.format(date);
+        return startDate;
+    }
+
+    //get date today +-n
+    private String CustomNgay2(Calendar calendar, int amount) {
+        String dinhDang = "dd/MM/yyyy";
+
+        Long toDay = MaterialDatePicker.todayInUtcMilliseconds();
+        calendar.setTimeInMillis(toDay);
+        Calendar cal = calendar;
+        cal.add(Calendar.DAY_OF_YEAR, amount);
+        Date date = cal.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
+        String startDate = formatter.format(date);
+        return startDate;
+    }
+
+    private ArrayList<DonHang> donHangs;
+    private SupportFragmentDonOnline support = new SupportFragmentDonOnline();
+
+    private void getDataFireBase() {
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                donHangs = new ArrayList<>();
+                listDays = MangNgay();
+                int i = 0;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    for (int j = 0; j < listDays.size(); j++) {
+                        if (listDays.get(j).equals(key)) {
+                            for (DataSnapshot snap : postSnapshot.getChildren()) {
+                                DonHang donHang = snap.getValue(DonHang.class);
+                                if (donHang.getTrangthai() == 6) {
+                                    donHangs.add(donHang);
+                                    Date date = support.formatDate(donHangs.get(i).getTime());
+                                    donHangs.get(i).setDate(date);
+                                    i++;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                support.SapXepDate(donHangs);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
     }
 }

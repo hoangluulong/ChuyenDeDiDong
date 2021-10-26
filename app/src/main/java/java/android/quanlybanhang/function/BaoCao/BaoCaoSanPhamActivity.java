@@ -1,16 +1,14 @@
 package java.android.quanlybanhang.function.BaoCao;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.os.Bundle;
-import android.util.Log;
-
 import com.google.android.material.tabs.TabLayout;
 
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.BaoCao.fragment.DanhSachTopSanPhamFragment;
 import java.android.quanlybanhang.function.BaoCao.fragment.FragmentAdapter;
 
 public class BaoCaoSanPhamActivity extends AppCompatActivity {
@@ -27,11 +25,12 @@ public class BaoCaoSanPhamActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
         pager = findViewById(R.id.viewpager);
 
-        DanhSachTopSanPhamFragment ds = DanhSachTopSanPhamFragment.newInstance("long1", "long2");
+//        DanhSachTopSanPhamFragment ds = DanhSachTopSanPhamFragment.newInstance("long1", "long2");
 
         FragmentManager fm = getSupportFragmentManager();
         adapter = new FragmentAdapter(fm, getLifecycle());
         pager.setAdapter(adapter);
+
 
         tabLayout.addTab(tabLayout.newTab().setText("Sản phẩm tuần"));
         tabLayout.addTab(tabLayout.newTab().setText("Sản phẩm tháng/năm"));

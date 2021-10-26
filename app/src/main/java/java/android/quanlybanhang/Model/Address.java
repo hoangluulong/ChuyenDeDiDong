@@ -1,7 +1,5 @@
 package java.android.quanlybanhang.Model;
 
-import java.util.ArrayList;
-
 public class Address {
     private int soThuTu;
     private String tinh;

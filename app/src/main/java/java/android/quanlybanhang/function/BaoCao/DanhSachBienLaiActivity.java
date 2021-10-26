@@ -1,12 +1,11 @@
 package java.android.quanlybanhang.function.BaoCao;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-
-import java.android.quanlybanhang.HelperClasses.ChiTietNhapKhoAdapter;
 import java.android.quanlybanhang.HelperClasses.DanhSachHoaDonAdapter;
 import java.android.quanlybanhang.R;
 
