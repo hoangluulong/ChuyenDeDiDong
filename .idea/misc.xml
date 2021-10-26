@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-hdpi/bg_button_10.xml" value="0.2203125" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-hdpi/bg_button_16.xml" value="0.2203125" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-hdpi/bg_titel_16.xml" value="0.2203125" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-hdpi/bg_white_edittext.xml" value="0.2203125" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-hdpi/bg_white_spn.xml" value="0.2203125" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/delete_24.xml" value="0.2203125" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/bg_white_16.xml" value="0.2203125" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/xoa.xml" value="0.2203125" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/acivity_dailongtu.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_addcategory.xml" value="0.20416666666666666" />
@@ -17,7 +23,9 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_list_product.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_listnhanvien.xml" value="0.19947916666666668" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_themnhanvien.xml" value="0.33" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activiy_updatenhanvien.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dailong_updatecategory.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dailongdonvitinh.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_category.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_listnhanvien.xml" value="0.19947916666666668" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_product.xml" value="0.20416666666666666" />
