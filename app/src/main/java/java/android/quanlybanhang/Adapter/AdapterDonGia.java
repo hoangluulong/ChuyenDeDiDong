@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -30,18 +33,20 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
     private View customLayout1;
     private AlertDialog.Builder builder1;
     private LayoutInflater inflater;
-
-
-
+    private EditText editTextGia;
+    private Spinner spinnerTenDonVIiTinh;
+    private ArrayAdapter<String> adapter;
     public AdapterDonGia(Context context1,ArrayList<DonGia> donGias){
         this.donGias = donGias;
         this.context1 = context1;
     }
-    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias, LayoutInflater inflater,AlertDialog.Builder builder1,View customLayout1 ){
+    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias, LayoutInflater inflater,AlertDialog.Builder builder1,View customLayout1,Spinner spinnerTenDonVIiTinh ,ArrayAdapter<String> adapter){
         this.donGias = donGias;
         this.context1 = context1;
         this.inflater = inflater;
        this.builder1 = builder1;
+       this.adapter =adapter;
+       this.spinnerTenDonVIiTinh = spinnerTenDonVIiTinh;
        this.customLayout1 = customLayout1;
     }
 
@@ -62,9 +67,9 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
         holder.Xoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                donGias.remove(position);
+                donGias.remove(donGia);
                 notifyDataSetChanged();
-                Log.d("dongia",donGias.size()+"");
+                Log.d("dongia",donGia.getGiaBan()+"");
 
             }
         });
@@ -72,7 +77,17 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
         holder.Sua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                builder1.setTitle("Thêm đơn vị tính");
+                if(customLayout1.getParent() != null){
+                    ((ViewGroup)customLayout1.getParent()).removeView(customLayout1);
+                }
+                editTextGia = customLayout1.findViewById(R.id.tedtGiaDonVi);
+                spinnerTenDonVIiTinh =  customLayout1.findViewById(R.id.spnTenDonViTinh);
+                editTextGia.setText(donGia.getGiaBan()+"");
+                if(donGia.getTenDonGia() != null){
+                    int com = adapter.getPosition(donGia.getTenDonGia());
+                    spinnerTenDonVIiTinh.setSelection(com);
+                }
+                builder1.setTitle("Đơn vị tính");
                 builder1.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -82,7 +97,8 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
                 builder1.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        holder.textView.setText(spinnerTenDonVIiTinh.getSelectedItem().toString());
+                        holder.textViewGia.setText(editTextGia.getText().toString());
                     }
 
                 });

@@ -17,7 +17,9 @@
                 android:id="@+id/edtTenNhanVien"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/tennhanvien"></EditText>
+                android:hint="@string/tennhanvien"
+                android:background="#00000000"
+                android:padding="10dp"></EditText>
             <View
               style="@style/view"></View>
         </androidx.cardview.widget.CardView>
@@ -28,7 +30,9 @@
                 android:id="@+id/edtPhone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/sodienthoai"></EditText>
+                android:hint="@string/sodienthoai"
+                android:background="#00000000"
+                android:padding="10dp"></EditText>
             <View
                 style="@style/view"></View>
         </androidx.cardview.widget.CardView>
@@ -39,7 +43,9 @@
                 android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/email"></EditText>
+                android:hint="@string/email"
+                android:background="#00000000"
+                android:padding="10dp"></EditText>
             <View
                 style="@style/view"></View>
         </androidx.cardview.widget.CardView>
@@ -50,7 +56,9 @@
                 android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/password"></EditText>
+                android:hint="@string/password"
+                android:background="#00000000"
+                android:padding="10dp"></EditText>
             <View
                 style="@style/view"></View>
         </androidx.cardview.widget.CardView>

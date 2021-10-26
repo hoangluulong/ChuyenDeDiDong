@@ -86,6 +86,7 @@ public class AddProduct extends AppCompatActivity {
     private String STR_UPLOAD = "uploads";
     private String STR_DONVITINH = "donvitinh";
     private String id;
+    private   ArrayAdapter<String> adapter;
 
 
     @Override
@@ -272,7 +273,7 @@ public class AddProduct extends AppCompatActivity {
                             listDonViTinh.add(name);
                         }
                         if (listDonViTinh.size() != 0) {
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddProduct.this, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
+                           adapter = new ArrayAdapter<String>(AddProduct.this, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
                             adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                             spnDonViTinh.setAdapter(adapter);
                         }
@@ -307,7 +308,7 @@ public class AddProduct extends AppCompatActivity {
                             listDonGia.add(donGia);
                         }
                         textGiaSanPham.setText("");
-                        adapterDonGia = new AdapterDonGia(AddProduct.this,listDonGia,inflater1,builder1,customLayout1);
+                        adapterDonGia = new AdapterDonGia(AddProduct.this,listDonGia,inflater,builder,customLayout,spnDonViTinh,adapter);
                         listView.setLayoutManager(new LinearLayoutManager(AddProduct.this,LinearLayoutManager.VERTICAL,false));
                         listView.setAdapter(adapterDonGia);
                         adapterDonGia.notifyDataSetChanged();

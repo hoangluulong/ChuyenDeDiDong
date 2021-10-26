@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
@@ -39,6 +41,7 @@ import com.squareup.picasso.Picasso;
 import java.android.quanlybanhang.Adapter.AdapterDonGia;
 import java.android.quanlybanhang.Data.Category;
 import java.android.quanlybanhang.Data.DonGia;
+import java.android.quanlybanhang.Data.DonViTinh;
 import java.android.quanlybanhang.Data.Product;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
@@ -68,6 +71,11 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private DatabaseReference mDatabase1;
     private DatabaseReference mDatabase2;
     private String nhomsanpham;
+    private View customLayout;
+    private AlertDialog.Builder builder;
+    private LayoutInflater inflater;
+    private ArrayList<String> arrayList;
+    private ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,18 +98,48 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         textChitiet.setText(product.getChitiet());
         textGianhap.setText(product.getGiaNhap()+"");
         textSoluong.setText(product.getSoluong()+"");
-
-        Picasso.get().load(product.getImgProduct()).into(imageView);
         donGias = product.getDonGia();
-        adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this,donGias);
-        listView.setLayoutManager(new LinearLayoutManager(SuaSanPhamActivity.this,LinearLayoutManager.VERTICAL,false));
-        listView.setAdapter(adapterDonGia);
-        adapterDonGia.notifyDataSetChanged();
+        Picasso.get().load(product.getImgProduct()).into(imageView);
+        //
+        builder = new android.app.AlertDialog.Builder(SuaSanPhamActivity.this);
+        inflater = SuaSanPhamActivity.this.getLayoutInflater();
+        customLayout = inflater.inflate(R.layout.activity_dailongthemdonvitinh, null);
+        builder.setView(customLayout);
+        spnDonViTinh = customLayout.findViewById(R.id.spnTenDonViTinh);
+        //
+
+
+
         //firebase
         mStogref = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
         mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
         mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
+        mDatabase2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayList = new ArrayList<>();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    DonViTinh category = postSnapshot.getValue(DonViTinh.class);
+                    String name = category.getDonViTinh();
+                    arrayList.add(name);
+                }
+                if (arrayList.size() != 0) {
+                    adapter = new ArrayAdapter<String>(SuaSanPhamActivity.this, R.layout.support_simple_spinner_dropdown_item, arrayList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
+                    spnDonViTinh.setAdapter(adapter);
+                }
+                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this,donGias,inflater,builder,customLayout,spnDonViTinh,adapter);
+                listView.setLayoutManager(new LinearLayoutManager(SuaSanPhamActivity.this,LinearLayoutManager.VERTICAL,false));
+                listView.setAdapter(adapterDonGia);
+                adapterDonGia.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -258,4 +296,6 @@ public class SuaSanPhamActivity extends AppCompatActivity {
 
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
+
+
 }
