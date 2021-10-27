@@ -1,10 +1,12 @@
 package java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
     private ArrayList<Product> arrayList;
     private ListProduct context;
     private Context context2;
+
 
     public AdapterProduct(Context context2, ListProduct context,ArrayList<Product> arrayList) {
         this.arrayList = arrayList;

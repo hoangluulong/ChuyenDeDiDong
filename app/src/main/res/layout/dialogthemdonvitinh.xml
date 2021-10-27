@@ -14,7 +14,7 @@
         android:textSize="16sp"
         android:gravity="center"
         android:background="@drawable/bg_titel_16"
-        android:text="Đơn Vị Tính"></TextView>
+        android:text="Thêm Đơn Vị Tính"></TextView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,30 +25,15 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@color/black"
-            android:text="Đơn vị quy đổi"></TextView>
-
-        <Spinner
-            android:id="@+id/spnTenDonViTinh"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/bg_white_spn"></Spinner>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:text="Giá"></TextView>
+            android:text="Tên đơn vị tính"></TextView>
 
         <EditText
-            android:id="@+id/tedtGiaDonVi"
+            android:id="@+id/edtTenDonViTinh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_edittext"
             android:layout_marginTop="5dp"
             android:padding="12dp"
-            android:inputType="number"
             ></EditText>
 
         <LinearLayout
@@ -57,7 +42,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="16dp">
             <Button
-                android:id="@+id/btnhuyDiaLogDVT"
+                android:id="@+id/btnhuyDiaLogThemDVT"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -67,7 +52,7 @@
                 android:alpha="0.4"
                 android:text="Hủy bỏ"></Button>
             <Button
-                android:id="@+id/btnthemDiaLogDVT"
+                android:id="@+id/btnthemDiaLogThemDVT"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

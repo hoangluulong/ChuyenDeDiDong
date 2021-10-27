@@ -1,13 +1,16 @@
 package java.android.quanlybanhang.function.SanPham;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -70,11 +73,10 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private DatabaseReference mDatabase1;
     private DatabaseReference mDatabase2;
     private String nhomsanpham;
-    private View customLayout;
-    private AlertDialog.Builder builder;
-    private LayoutInflater inflater;
     private ArrayList<String> arrayList;
     private ArrayAdapter<String> adapter;
+    private Dialog dialog;
+    private Window window;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,15 +102,12 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         donGias = product.getDonGia();
         Picasso.get().load(product.getImgProduct()).into(imageView);
         //
-        builder = new AlertDialog.Builder(SuaSanPhamActivity.this);
-        inflater = SuaSanPhamActivity.this.getLayoutInflater();
-        customLayout = inflater.inflate(R.layout.activity_dailongthemdonvitinh, null);
-        builder.setView(customLayout);
-        spnDonViTinh = customLayout.findViewById(R.id.spnTenDonViTinh);
-        //
-
-
-
+        dialog = new Dialog(SuaSanPhamActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailongdonvitinh);
+        window = dialog.getWindow();
+        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        int gravity = Gravity.CENTER;
         //firebase
         mStogref = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
@@ -128,7 +127,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                     spnDonViTinh.setAdapter(adapter);
                 }
-                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this,donGias,inflater,builder,customLayout,spnDonViTinh,adapter);
+                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this,donGias,dialog,window,spnDonViTinh,adapter,gravity);
                 listView.setLayoutManager(new LinearLayoutManager(SuaSanPhamActivity.this,LinearLayoutManager.VERTICAL,false));
                 listView.setAdapter(adapterDonGia);
                 adapterDonGia.notifyDataSetChanged();
