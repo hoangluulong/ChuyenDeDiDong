@@ -1,15 +1,23 @@
 package java.android.quanlybanhang.function.NhanVien;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.AddProduct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,52 +46,79 @@ public class AddNhanVien extends AppCompatActivity {
     private FirebaseUser user;
     private AlertDialog.Builder builder;
     private EditText edtTenNhanVien, edtEmail, edtPassword, edtPhone;
-    private Button btnTaoNhanVien,checkBoxCaSang, checkBoxCaChieu, checkBoxCaToi;
+    private Button btnTaoNhanVien,checkBoxCaSang, checkBoxCaChieu, checkBoxCaToi,btnHuyDiaLogNgay,btnThemDiaLogNgay;
     private CaLam caLam = new CaLam();
     private   Boolean QUANLYSP = false;
     private  Boolean QUANLYNV = false;
     private  Boolean THUCHI = false;
     private  Boolean ODER = false;
     private  Boolean BEP = false;
+    private  Boolean T2 = false;
+    private  Boolean T3 = false;
+    private  Boolean T4 = false;
+    private  Boolean T5 = false;
+    private  Boolean T6 = false;
+    private  Boolean T7 = false;
+    private  Boolean CN = false;
     private View customLayout;
-    private List<CheckBox> checkBoxes;
+    private List<Boolean> listNgay;
     private ArrayList<Boolean> congViec;
-    private  CheckBox Th2,Th3,Th4,Th5,Th6,Th7,chuNhat,checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi;
+    private  CheckBox checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi;
+    private TextView Th2,Th3,Th4,Th5,Th6,Th7,chuNhat;
     private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
     private String STR_USER = "user";
+    private Dialog dialog;
+    private Window window;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_themnhanvien);
-        builder = new AlertDialog.Builder(AddNhanVien.this);
-        LayoutInflater inflater = AddNhanVien.this.getLayoutInflater();
-        customLayout = inflater.inflate(R.layout.acivity_dailongtu, null);
-        builder.setView(customLayout);
+        setContentView(R.layout.activity_addnhanvien);
         //ca lam
-        checkBoxes = new ArrayList<>();
-        Th2 = customLayout.findViewById(R.id.checkBox2);
-        Th3 = customLayout.findViewById(R.id.checkBox3);
-        Th4 = customLayout.findViewById(R.id.checkBox4);
-        Th5 = customLayout.findViewById(R.id.checkBox5);
-        Th6 = customLayout.findViewById(R.id.checkBox6);
-        Th7 = customLayout.findViewById(R.id.checkBox7);
-        chuNhat = customLayout.findViewById(R.id.checkBox8);
-        checkBoxes.add(Th2);
-        checkBoxes.add(Th3);
-        checkBoxes.add(Th4);
-        checkBoxes.add(Th5);
-        checkBoxes.add(Th6);
-        checkBoxes.add(Th7);
-        checkBoxes.add(chuNhat);
-        //congviec
+        listNgay = new ArrayList<>();
 
+        listNgay.add(T2);
+        listNgay.add(T3);
+        listNgay.add(T4);
+        listNgay.add(T5);
+        listNgay.add(T6);
+        listNgay.add(T7);
+        listNgay.add(CN);
+        // dialog
+        dialog = new Dialog(AddNhanVien.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_thutrongtuan);
+        window = dialog.getWindow();
+        //congviec
         checkBep = findViewById(R.id.checkcongviecBep);
         checkQLSP = findViewById(R.id.checkcongviecQuanlysanpham);
         checkQLNV = findViewById(R.id.checkcongviecQuanlynhanvien);
         checkOder = findViewById(R.id.checkcongviecOder);
         checkThuchi =  findViewById(R.id.checkcongviecThuchi);
+
+        Th2 = dialog.findViewById(R.id.checkBox2);
+        Th3 = dialog.findViewById(R.id.checkBox3);
+        Th4 = dialog.findViewById(R.id.checkBox4);
+        Th5 = dialog.findViewById(R.id.checkBox5);
+        Th6 = dialog.findViewById(R.id.checkBox6);
+        Th7 = dialog.findViewById(R.id.checkBox7);
+        chuNhat = dialog.findViewById(R.id.checkBox8);
+
+        Th2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(T2 == false){
+                    T2 = true;
+                    Th2.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T2 = false;
+                    Th2.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+            }
+        });
+
 
         //firebase
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -99,155 +135,147 @@ public class AddNhanVien extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         mData = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_USER);
-        Cachieu();
-        Casang();
-        Catoi();
-        Taonhanvien();
-    }
 
-    public void Casang(){
         checkBoxCaSang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(customLayout.getParent() != null){
-                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
-                }
-                if(caLam.getCaSang().size() > 0){
-                    for(int i =0; i<checkBoxes.size();i++){
-                        if(caLam.getCaSang().get(i)){
-                            checkBoxes.get(i).setChecked(true);
-                        }
-                        else {
-                            checkBoxes.get(i).setChecked(false);
-                        }
-                    }
-                }
-
-                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (int i =0;i<checkBoxes.toArray().length;i++){
-                            if(checkBoxes.get(i).isChecked()){
-                                caLam.getCaSang().add(true);
-                            }
-                            else {
-                                caLam.getCaSang().add(false);
-                            }
-                            checkBoxes.get(i).setChecked(false);
-                        }
-
-                    }
-
-                });
-
-                builder.show();
+                Casang(Gravity.CENTER);
             }
         });
+        Taonhanvien();
     }
 
-    public void Cachieu(){
-        checkBoxCaChieu.setOnClickListener(new View.OnClickListener() {
+    public void Casang(int gravity){
+        btnHuyDiaLogNgay = dialog.findViewById(R.id.btnhuyDiaLogNgay);
+        btnThemDiaLogNgay = dialog.findViewById(R.id.btnthemDiaLogNgay);
+
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        windownAttributes.gravity = gravity;
+        window.setAttributes(windownAttributes);
+        if(Gravity.BOTTOM == gravity){
+            dialog.setCancelable(true);
+        }
+        else {
+            dialog.setCancelable(false);
+        }
+        btnHuyDiaLogNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(customLayout.getParent() != null){
-                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
-                }
-                if(caLam.getCaChieu().size() > 0){
-                    for(int i =0; i<checkBoxes.size();i++){
-                        if(caLam.getCaChieu().get(i)){
-                            checkBoxes.get(i).setChecked(true);
-                        }
-                        else {
-                            checkBoxes.get(i).setChecked(false);
-                        }
-                    }
-                }
-
-                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (int i =0;i<checkBoxes.toArray().length;i++){
-                            if(checkBoxes.get(i).isChecked()){
-                                caLam.getCaChieu().add(true);
-                            }
-                            else {
-                                caLam.getCaChieu().add(false);
-                            }
-                            checkBoxes.get(i).setChecked(false);
-                        }
-
-                    }
-
-                });
-
-                builder.show();
-
-
+                dialog.dismiss();
             }
         });
-    }
-
-    public void Catoi(){
-        checkBoxCaToi.setOnClickListener(new View.OnClickListener() {
+        btnThemDiaLogNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(customLayout.getParent() != null){
-                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
-                }
 
-                if(caLam.getCaToi().size() > 0){
-                    for(int i =0; i<checkBoxes.size();i++){
-                        if(caLam.getCaToi().get(i)){
-                            checkBoxes.get(i).setChecked(true);
-                        }
-                        else {
-                            checkBoxes.get(i).setChecked(false);
-                        }
-                    }
-                }
 
-                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (int i =0;i<checkBoxes.toArray().length;i++){
-                            if(checkBoxes.get(i).isChecked()){
-                                caLam.getCaToi().add(true);
-                            }
-                            else {
-                                caLam.getCaToi().add(false);
-                            }
-                            checkBoxes.get(i).setChecked(false);
-                        }
-
-                    }
-
-                });
-
-                builder.show();
             }
         });
+        dialog.show();
+
     }
+
+//    public void Cachieu(){
+//        checkBoxCaChieu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(customLayout.getParent() != null){
+//                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
+//                }
+//                if(caLam.getCaChieu().size() > 0){
+//                    for(int i =0; i<checkBoxes.size();i++){
+//                        if(caLam.getCaChieu().get(i)){
+//                            checkBoxes.get(i).setChecked(true);
+//                        }
+//                        else {
+//                            checkBoxes.get(i).setChecked(false);
+//                        }
+//                    }
+//                }
+//
+//                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        for (int i =0;i<checkBoxes.toArray().length;i++){
+//                            if(checkBoxes.get(i).isChecked()){
+//                                caLam.getCaChieu().add(true);
+//                            }
+//                            else {
+//                                caLam.getCaChieu().add(false);
+//                            }
+//                            checkBoxes.get(i).setChecked(false);
+//                        }
+//
+//                    }
+//
+//                });
+//
+//                builder.show();
+//
+//
+//            }
+//        });
+//    }
+//
+//    public void Catoi(){
+//        checkBoxCaToi.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(customLayout.getParent() != null){
+//                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
+//                }
+//
+//                if(caLam.getCaToi().size() > 0){
+//                    for(int i =0; i<checkBoxes.size();i++){
+//                        if(caLam.getCaToi().get(i)){
+//                            checkBoxes.get(i).setChecked(true);
+//                        }
+//                        else {
+//                            checkBoxes.get(i).setChecked(false);
+//                        }
+//                    }
+//                }
+//
+//                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        for (int i =0;i<checkBoxes.toArray().length;i++){
+//                            if(checkBoxes.get(i).isChecked()){
+//                                caLam.getCaToi().add(true);
+//                            }
+//                            else {
+//                                caLam.getCaToi().add(false);
+//                            }
+//                            checkBoxes.get(i).setChecked(false);
+//                        }
+//
+//                    }
+//
+//                });
+//
+//                builder.show();
+//            }
+//        });
+//    }
 
     public void Taonhanvien(){
         btnTaoNhanVien.setOnClickListener(new View.OnClickListener() {

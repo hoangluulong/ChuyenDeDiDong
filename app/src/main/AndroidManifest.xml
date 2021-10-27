@@ -37,7 +37,10 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".function.NhanVien.AddNhanVien"
-            android:screenOrientation="portrait"></activity>
+            android:exported="true"
+            android:label="Thêm nhân viên"
+            android:parentActivityName=".function.NhanVien.ListNhanVien"
+            android:theme="@style/thameActionbar2" ></activity>
 
         <meta-data
             android:name="preloaded_fonts"
