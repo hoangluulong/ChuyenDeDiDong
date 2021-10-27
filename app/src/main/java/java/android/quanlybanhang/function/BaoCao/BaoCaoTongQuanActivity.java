@@ -70,6 +70,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
 
     private final String ID_CUAHNAG = "Meskv6p2bkf89ferNygy5Kp1aAA3";
+    private final String ID_CUAHNAG1 = "Meskv6p2bkf89ferNygy5Kp1aAA3";
+    private final String ID_CUAHNAG2 = "Meskv6p2bkf89ferNygy5Kp1aAA3";
     private Locale localeVN = new Locale("vi", "VN");
     private NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 

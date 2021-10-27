@@ -111,8 +111,13 @@
             android:label="Chỉ số"
             android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
             android:theme="@style/thameActionbar2">
-
         </activity>
+
+        <!--    Bếp    -->
+        <activity android:name=".function.BepBar.BepActivity"
+            android:label="Bếp"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar2"/>
 
     </application>
 

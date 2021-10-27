@@ -133,6 +133,7 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
                             donHangs.add(donHang);
                             Date date = support.formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
+                            donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
                             i++;
                         }
                     }

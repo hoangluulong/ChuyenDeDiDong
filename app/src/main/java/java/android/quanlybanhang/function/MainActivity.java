@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -22,8 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
+import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.android.quanlybanhang.function.Account.SignInActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
+import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu,baocao, donOnline;
+    RelativeLayout ordermenu,baocao, donOnline, bep;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ordermenu = findViewById(R.id.orderbutton);
         baocao = findViewById(R.id.baocao);
         donOnline = findViewById(R.id.donOnline);
+        bep = findViewById(R.id.bep);
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +75,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+
+        bep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BepActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
 
         // Write a message to the database
@@ -97,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setCheckedItem(R.id.nav_homes);
 
+        Toast.makeText(this, ""+ IDCuaHang(), Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onBackPressed() {
@@ -157,6 +172,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private String IDCuaHang() {
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(MainActivity.this, "app_database.sqlite", null, 2);
+        thongTinCuaHangSql.createTable();
+        Cursor cursor = thongTinCuaHangSql.selectThongTin();
+        String id = "";
+        if (cursor.getCount() > 0){
+            while (cursor.moveToNext()) {
+                id = cursor.getString(0);
+            }
+            Toast.makeText(this, id + "   có", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this, "Không có", Toast.LENGTH_LONG).show();
+        }
+        return id;
     }
 
 }

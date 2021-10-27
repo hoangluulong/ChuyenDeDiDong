@@ -241,7 +241,6 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
             }
         });
-
     }
 
     //TODO: setDuLieu Firebase xác nhận
@@ -260,6 +259,9 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 Toast.makeText(context, "Xác nhận đơn không thành công", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DatabaseReference mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("DonHangOnline/DaDatDon/"+ list.get(position).getIdKhachhang() +"/" +list.get(position).getKey()).setValue(list.get(position));
     }
 
     //TODO: setDuLieu Firebase hủy đơn
