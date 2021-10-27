@@ -47,14 +47,22 @@ public class Product implements Serializable {
 
 
 
-    public Product(String id, String nameProduct, int soluong, String imgProduct, Double giaBan) {
+    public Product(String id, String nameProduct, int soluong, String imgProduct, ArrayList<DonGia> donGiaOrder) {
         this.id = id;
         this.nameProduct = nameProduct;
-        this.giaBan = giaBan;
+
         this.soluong = soluong;
         this.imgProduct = imgProduct;
+        this.donGiaOrder = donGiaOrder;
     }
+    public Product(String id, String nameProduct, int soluong, String imgProduct,Double giaBan) {
+        this.id = id;
+        this.nameProduct = nameProduct;
 
+        this.soluong = soluong;
+        this.imgProduct = imgProduct;
+        this.giaBan = giaBan;
+    }
     public void setStatus(String status) {
         this.status = status;
     }

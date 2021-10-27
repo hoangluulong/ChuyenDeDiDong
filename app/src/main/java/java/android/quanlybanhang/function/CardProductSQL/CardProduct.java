@@ -6,12 +6,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.HelperClasses.Package_CartAdapter_SQL.StaticCardAdapter;
@@ -37,12 +40,14 @@ public class CardProduct extends AppCompatActivity {
      StaticCardAdapter staticCartAdapter;
      ArrayList<Product> listcard;
     ProuductPushFB1 list;
+    ArrayList<DonGia> cardProducts;
     ArrayList<ProuductPushFB1> listSP;
      private ProductPushFB productPushFB;
      String id_ban;
      String id_khuvuc;
      String id;
      String a;
+
      private Product staticMonOrderModel;
      Button bntluu,bntthanhtoan;
     private Database_order database_order;
@@ -50,8 +55,14 @@ public class CardProduct extends AppCompatActivity {
      private boolean flag;
      String yeuCau;
      int trangThai=0;
+
      private TextView tvkhongsanpham,tvtentongsp;
     private final String TEN_BANG="ProductSQL1";
+   public static int soluong2;
+    TextView tvsoluong,tongsanphams;
+
+Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +81,9 @@ public class CardProduct extends AppCompatActivity {
 
         tvkhongsanpham = findViewById(R.id.tv_khongsanpham);
         tvtentongsp = findViewById(R.id.tvtentongsp);
+        tongsanphams= findViewById(R.id.Tongsanpham);
+
         //
-        Log.d("id_khuvuc_Truong","K");
         Intent intent = getIntent();
         Log.d("id_khuvuc_Truong","KS");
         id_ban = intent.getStringExtra("id_ban");
@@ -85,22 +97,29 @@ public class CardProduct extends AppCompatActivity {
         boolean flag = true;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-//        int date1=Integer.parseInt(timestamp+"");
-        Log.d("datess",timestamp+"");
         long date =Long.parseLong(timestamp.getTime()+"");
 
-//        if()
         getDulieuSql();
 
         pushData(listSP,date,flag,trangThai);
-//        listcard.add(new Product("aaa",30000.0,"aaa","1"));
         staticCartAdapter = new StaticCardAdapter();
-        staticCartAdapter.Setdata(listcard);
+        staticCartAdapter.Setdata(listcard, new StaticCardAdapter.card() {
+            @Override
+            public void TinhTongTien(Double tongtien) {
+                tongsanphams.setText("$"+tongtien) ;
+            }
+        });
+
+        for (int i=0; i<listcard.size();i++){
+            listcard.get(i).getSoluong();
+            Log.d("soluong2",listcard.get(i).getSoluong()+"+1");
+        }
         rv_3.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         rv_3.setAdapter(staticCartAdapter);
         staticCartAdapter.notifyDataSetChanged();
 
     }
+
     private  void getDulieuSql( ){
 
         database_order= new Database_order(this,"app_database.sqlite",null,2);
@@ -121,25 +140,22 @@ public class CardProduct extends AppCompatActivity {
         String S="SELECT * FROM "+TEN_BANG+" WHERE Id='"+id+"'";
         Cursor cursor =  database_order.GetData(S,null);
         Log.d("11111",cursor+"1111");
-
+        cardProducts = new ArrayList<>();
         if (cursor.getCount() > 0) {
 
             while (cursor.moveToNext()) {
-
                 a = cursor.getString(0);
-                Log.d("cosql",a);
-//                Log.d("cosql",id+"nn");
-
-
                     String tensp= cursor.getString(1);
                     int  soluong= cursor.getInt(2);
+                    Log.d("cosql",soluong+"");
                     String img= cursor.getString(3);
                     double  gia= cursor.getDouble(4);
                     String Loai = cursor.getString(5);
                     String yeuCau = cursor.getString(6);
 //                    Log.d("yeuCauSQL1",yeuCau);
 //                    Log.d("loai_gia",Loai+"+"+gia+"");
-                    listcard.add(new Product(a,tensp,soluong,img,gia));
+                     cardProducts.add(new DonGia(Loai,gia));
+                    listcard.add(new Product(a,tensp,soluong,img,cardProducts));
                     listSP.add(new ProuductPushFB1(Loai,tensp,yeuCau,img,gia,soluong));
                 tvtentongsp.setVisibility(View.VISIBLE);
 //                list =new PushToFire(tensp,soluong,addtocart);
@@ -158,7 +174,7 @@ public class CardProduct extends AppCompatActivity {
         bntluu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Hamxulicardt();
                  productPushFB = new ProductPushFB(date,flag,trangThai,list);
                  FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
                 if(list.size()>0){
@@ -177,10 +193,11 @@ public class CardProduct extends AppCompatActivity {
         });
 
     }
-//    private void XoaSpkhiOrder(){
-////        database_order.QueryData("DELETE FROM"+TEN_BANG+"  WHERE id= '"+id+"'");
-//        database_order.QueryData(" DELETE FROM "+TEN_BANG+" WHERE Id='"+id+"'");
-//
-//    }
+    private void Hamxulicardt(){
+        ArrayList<Product> lists = staticCartAdapter.getItems();
+        for(int i=0 ; i<lists.size();i++){
+            listSP.get(i).setSoluong(lists.get(i).getSoluong());
+        }
+    }
 
 }
