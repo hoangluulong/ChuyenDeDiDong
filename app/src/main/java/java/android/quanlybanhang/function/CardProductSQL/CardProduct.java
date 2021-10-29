@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.function.CardProductSQL;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,6 +12,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,6 +33,7 @@ import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 
 import java.android.quanlybanhang.function.MainActivity;
+import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -198,6 +202,28 @@ Activity activity;
         for(int i=0 ; i<lists.size();i++){
             listSP.get(i).setSoluong(lists.get(i).getSoluong());
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main2, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id =item.getItemId();
+        if(item_id==R.id.order){
+            Toast.makeText(this,"order nè",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CardProduct.this, MonOrder.class);
+            intent.putExtra("id_ban",id_ban);
+            Log.d("id_khuvuc",id_khuvuc);
+
+            intent.putExtra("id_khuvuc",id_khuvuc);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+        return true;
     }
 
 }

@@ -167,12 +167,7 @@
 //            finish();
 //        }
 
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
 
-            getMenuInflater().inflate(R.menu.menu_main2, menu);
-            return true;
-        }
 
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,7 +43,7 @@ private String id_ban,id_khuvuc;
 private DatabaseReference mDatabase;
 private ThanhToanAdapter thanhToanAdapter;
 private RecyclerView recyclerView;
-private ImageView imgCart;
+
 private TextView nameactivity;
 private Database_order database_order;
 private final String TEN_BANG="ProductSQL1";
@@ -76,31 +78,19 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
 //        Log.d("getkeyabc",id_ban+"getabc");
 
         id_khuvuc = intent1.getStringExtra("id_khuvuc");
-        imgCart = findViewById(R.id.img_order);
+
         bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
         id=id_ban+"_"+id_khuvuc;
         list= new ArrayList<>();
 
-        OrderCart();
+
         getData();
         OnclickThanhtoan();
 //        kiemtra();
 
 
     }
-    public void OrderCart(){
-        imgCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ThanhToanActivity.this,MonOrder.class);
-                intent.putExtra("id_ban",id_ban);
-                Log.d("id_khuvuc",id_khuvuc);
 
-                intent.putExtra("id_khuvuc",id_khuvuc);
-                startActivity(intent);
-            }
-        });
-    }
     public  void getData(){
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban+"_"+id_khuvuc);
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -225,5 +215,25 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main2, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id =item.getItemId();
+        if(item_id==R.id.order){
+            Toast.makeText(this,"order nè",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ThanhToanActivity.this,MonOrder.class);
+            intent.putExtra("id_ban",id_ban);
+            Log.d("id_khuvuc",id_khuvuc);
+
+            intent.putExtra("id_khuvuc",id_khuvuc);
+            startActivity(intent);
+        }
+        return true;
     }
 }
