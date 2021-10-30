@@ -66,11 +66,6 @@ public class DonHangOfflineFragment extends Fragment {
                         donHangOfflineAdapter.setData(tableList);
                         i++;
                     }
-//                           for(int j=0;j<tableList.size();j++){
-//                               if(tableList.get(j).getTrangThai()==3){
-//                                   tableList.remove(j);
-//                               }
-//                           }
                 }
                 donHangOfflineAdapter.setData(tableList);
                 recyclerViewTable.setLayoutManager(new LinearLayoutManager(getActivity()));

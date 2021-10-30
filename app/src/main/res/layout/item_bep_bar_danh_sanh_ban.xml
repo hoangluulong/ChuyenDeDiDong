@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/goctron"
+    android:layout_marginBottom="10dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -25,21 +26,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/doanh_thu"
                     android:maxLines="1"
                     android:text="Table 1"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
                 <TextView
                     android:id="@+id/khuvuc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
                     android:maxLines="1"
+                    android:textColor="@color/doanh_thu"
                     android:text="Table 1"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/trangThai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/color_one"
+                    android:maxLines="1"
+                    android:text="Đang xử lý"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <TextView
@@ -48,90 +58,74 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/examName"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
                 android:gravity="left"
-                android:text="May 23, 2015"
-                android:textSize="16sp" />
+                android:text="15:30:20 20/10/2021"
+                android:textSize="13sp" />
 
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/chualam"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#7fffd4"
-            android:orientation="horizontal"></LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/danglam"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"></LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/done"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"></LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="Sản phẩm"
-            android:layout_weight="2"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="số lượng"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="yêu cầu"
-            android:gravity="center"
-            android:layout_weight="2"/>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/monBan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"></androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="right"
+        android:padding="5dp"
         android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/accept"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:layout_marginRight="20dp"
-            android:background="@drawable/bg_xac_nhan"
-            android:text="Accept">
+            android:orientation="vertical">
 
-        </Button>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:text="Số lượng:"/>
+                <TextView
+                    android:id="@+id/soluong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:text="Tổng đơn:"/>
+                    <TextView
+                        android:id="@+id/tongtien"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20.400.500"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/xuly"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/borderghichu"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:text="Xử lý"
+            android:layout_weight="1"
+            />
     </LinearLayout>
 </LinearLayout>

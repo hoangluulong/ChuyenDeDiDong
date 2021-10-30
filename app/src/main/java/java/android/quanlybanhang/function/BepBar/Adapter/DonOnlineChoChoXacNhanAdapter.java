@@ -102,11 +102,7 @@ public class DonOnlineChoChoXacNhanAdapter extends RecyclerView.Adapter<DonOnlin
             super(itemView);
 
             examName = itemView.findViewById(R.id.examName);
-            accept = itemView.findViewById(R.id.accept);
             examDate = itemView.findViewById(R.id.examDate);
-            danglam = itemView.findViewById(R.id.danglam);
-            done = itemView.findViewById(R.id.done);
-            monBan = itemView.findViewById(R.id.monBan);
 
         }
     }
