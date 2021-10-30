@@ -1,12 +1,20 @@
 package java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -40,6 +48,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
     private  ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
     String Id_khuvuc;
+    private Dialog dialogban;
+    Window window;
     boolean xacdinh = true;
     private DatabaseReference mDatabase;
 
@@ -49,7 +59,16 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         this.orderMenu = orderMenu;
         this.items = items;
         this.Id_khuvuc = Id_khuvuc;
-           changeDate("1635089841590");
+
+    }
+    public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc,Window window,Dialog dialogban){
+        this.staticBanModels = staticBanModels;
+        this.orderMenu = orderMenu;
+        this.items = items;
+        this.Id_khuvuc = Id_khuvuc;
+        this.window= window;
+        this.dialogban= dialogban;
+
     }
     public class StaticRvHolderBan extends RecyclerView.ViewHolder {
 
@@ -59,8 +78,9 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         public TextView tenBan;
         public TextView ngayGio;
         public TextView trangThai;
-        View view ;
-            LinearLayout cardview_ban;
+        ImageView bacham;
+        LinearLayout cardview_ban;
+
 
         CardView constraintLayout;
 
@@ -70,6 +90,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
             tenBan = itemView.findViewById(R.id.tvtenban);
             ngayGio = itemView.findViewById(R.id.tvngaygio);
             trangThai = itemView.findViewById(R.id.tvtrangthai);
+            bacham = itemView.findViewById(R.id.bacham);
 //            view = itemView.findViewById(R.id.view2);
             cardview_ban = itemView.findViewById(R.id.cardview_ban);
             constraintLayout = itemView.findViewById(R.id.constraintLayouts);
@@ -96,13 +117,11 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.trangThai.setText(CrrItem.getTrangthai());
 
          if (staticBanModels.get(position).getTrangthai().equals("3")){
-//            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
              holder.cardview_ban.setBackgroundResource(R.color.red);
             holder.constraintLayout.setEnabled(false);
 
         }
         if (staticBanModels.get(position).getTrangthai().equals("2")){
-//            holder.constraintLayout.setBackgroundResource(R.drawable.rv_ban_hong_bg);
             holder.cardview_ban.setBackgroundResource(R.color.maudat);
 
         }
@@ -110,16 +129,21 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getData(CrrItem);
-
 
             }
         });
-        for(int i =0; i<staticBanModels.size();i++) {
-            Log.d("mnn", i + "mm");
-        }
+        holder.bacham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HamTaodialog(Gravity.CENTER);
+                Toast.makeText(orderMenu,"bacham",Toast.LENGTH_LONG).show();
 
+
+//                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("3");
+
+            }
+        });
     }
     //chuyeenr doii String sang ngay
     public String changeDate(String date){
@@ -132,7 +156,6 @@ if(dates ==0){
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
         String aaa = simpleDateFormat.format(date1);
-        Log.d("timestamp",aaa);
         return  aaa;
 
     }
@@ -174,6 +197,15 @@ if(dates ==0){
             }
         });
 
+
+    }
+    private void HamTaodialog(int gravity){
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        window.setAttributes(windownAttributes);
+        dialogban.setCancelable(true);
     }
 
 

@@ -1,11 +1,13 @@
     package java.android.quanlybanhang.function;
 
+    import android.app.Dialog;
     import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.Menu;
     import android.view.MenuItem;
     import android.view.View;
+    import android.view.Window;
     import android.widget.ProgressBar;
 
     import androidx.annotation.NonNull;
@@ -46,7 +48,8 @@
        private StaticModelKhuVuc product ;
      private Toolbar toolbar;//tool bar khai bao id
         ProgressBar progressBar;
-
+        private Dialog dialogban;
+        Window window;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -62,7 +65,10 @@
             actionBar.setDisplayHomeAsUpEnabled(true);
             progressBar = (ProgressBar) findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-
+            dialogban = new Dialog(OrderMenu.this);
+            dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogban.setContentView(R.layout.dailongban);
+            window = dialogban.getWindow();
 //            progressBar.setProgress(80);
 
 //arc menu them ban
@@ -115,39 +121,13 @@
             });
             callback();
 
-//           final ArrayList<StaticModelKhuVuc> item = new ArrayList<>();
-//            item.add(new StaticModelKhuVuc("khu Vuc 2","1"));
-//            item.add(new StaticModelKhuVuc("khu Vuc 3","2"));
-//            item.add(new StaticModelKhuVuc("khu Vuc 4","1"));
-//            item.add(new StaticModelKhuVuc("khu Vuc 5","2"));
-
-//            recyclerView = findViewById(R.id.rv_1);
-//            staticRvKhuVucAdapter = new StaticRvKhuVucAdapter(item,this,this);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-//            recyclerView.setAdapter(staticRvKhuVucAdapter);
-
             items = new ArrayList<>();
             recyclerView2 =findViewById(R.id.rv_2);
-            staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,"");
-
-//            recyclerView2.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+            staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,"",window,dialogban);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
             recyclerView2.setLayoutManager(gridLayoutManager);
             recyclerView2.setAdapter(staticRvAdapter);
             staticRvAdapter.notifyDataSetChanged();
-
-//            recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                    super.onScrolled(recyclerView, dx, dy);
-//                    if(dy>0){
-//                        arcMenu.setVisibility(View.GONE);
-//                    }
-//                    else {
-//                        arcMenu.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            });
 
         }
 
