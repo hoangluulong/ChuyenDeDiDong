@@ -241,7 +241,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 thietLap = (Boolean) snapshot.child("ThietLap").getValue();
                 Log.d("AAA", thietLap+"");
                 checkThietLap = true;
-                tenCuaHang = snapshot.child("TenCuaHang").getValue().toString();
+                if (thietLap == true) {
+                    tenCuaHang = snapshot.child("TenCuaHang").getValue().toString();
+                }
+
             }
 
             @Override
@@ -262,7 +265,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         checkThietLap = false;
                         Bundle bundle = new Bundle();
                         bundle.putString("ID_STORE", UID);
-                        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(SignInActivity.this, "app_database.sqlite", null, 1);
+                        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(SignInActivity.this, "app_database.sqlite", null, 2);
                         thongTinCuaHangSql.createTable();
                         Cursor cursor = thongTinCuaHangSql.selectThongTin();
                         if (cursor.getCount() > 0){

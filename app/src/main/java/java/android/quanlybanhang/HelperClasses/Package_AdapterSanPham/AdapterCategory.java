@@ -1,0 +1,80 @@
+package java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+import java.android.quanlybanhang.Model.SanPham.Category;
+import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.ListCategory;
+import java.util.ArrayList;
+
+public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.CategoryAdater> {
+
+    private ArrayList<Category> arrayList;
+    private ListCategory context;
+
+    public AdapterCategory(ListCategory context,ArrayList<Category> arrayList){
+        this.arrayList = arrayList;
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public CategoryAdater onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category,parent,false);
+        CategoryAdater categoryAdater = new CategoryAdater(view);
+        return categoryAdater;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CategoryAdater holder, int position) {
+        Category category = arrayList.get(position);
+        holder.nameCategory.setText(category.getNameCategory());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return arrayList.size();
+    }
+
+    class CategoryAdater extends RecyclerView.ViewHolder  {
+        private TextView nameCategory;
+        private ImageView imgXoa;
+        private  ImageView imgSua;
+
+        public CategoryAdater(View itemView) {
+            super(itemView);
+
+            nameCategory = (TextView) itemView.findViewById(R.id.text_name);
+            imgSua = itemView.findViewById(R.id.btnSuaNSP);
+            imgXoa = itemView.findViewById(R.id.btnXoaNSP);
+
+            imgXoa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context.delete(position);
+                }
+            });
+
+            imgSua.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context.update(position);
+                }
+            });
+
+        }
+
+
+    }
+}

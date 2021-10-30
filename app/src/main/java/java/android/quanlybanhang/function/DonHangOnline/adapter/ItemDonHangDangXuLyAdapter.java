@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
 import java.util.ArrayList;
 
@@ -32,12 +31,12 @@ public class ItemDonHangDangXuLyAdapter extends RecyclerView.Adapter<ItemDonHang
 
     @NonNull
     @Override
-    public ItemDonHangDangXuLyAdapter.DonCho onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ItemDonHangDangXuLyAdapter.DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
+    public DonCho onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemDonHangDangXuLyAdapter.DonCho holder, int position) {
+    public void onBindViewHolder(@NonNull DonCho holder, int position) {
         holder.name.setText(list.get(position).getNameProduct());
         holder.dongia.setText(formatDouble.formatStr(list.get(position).getGiaBan()));
         holder.soluong.setText(list.get(position).getSoluong()+"");

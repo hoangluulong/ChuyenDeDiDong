@@ -22,7 +22,7 @@ public class DanhSachHoaDonAdapter extends RecyclerView.Adapter<DanhSachHoaDonAd
     @NonNull
     @Override
     public CustomChiSoSanPham onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DanhSachHoaDonAdapter.CustomChiSoSanPham(LayoutInflater.from(context).inflate(R.layout.item_danh_sach_bien_lai, parent, false));
+        return new CustomChiSoSanPham(LayoutInflater.from(context).inflate(R.layout.item_danh_sach_bien_lai, parent, false));
     }
 
     @Override

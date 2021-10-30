@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +25,6 @@ import org.eazegraph.lib.models.PieModel;
 import java.android.quanlybanhang.Common.FormatDate;
 import java.android.quanlybanhang.HelperClasses.ChiSoSanPhamAdapter;
 import java.android.quanlybanhang.Model.PieTongQuan;
-import java.android.quanlybanhang.Model.SanPhamTop;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BaoCao.SanPhamBaoCao;
 import java.text.ParseException;
@@ -35,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 /**

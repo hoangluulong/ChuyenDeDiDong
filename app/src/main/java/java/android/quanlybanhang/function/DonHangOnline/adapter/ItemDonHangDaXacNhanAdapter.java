@@ -31,7 +31,7 @@ public class ItemDonHangDaXacNhanAdapter extends RecyclerView.Adapter<ItemDonHan
     @NonNull
     @Override
     public DonCho onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ItemDonHangDaXacNhanAdapter.DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
+        return new DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
     }
 
     @Override

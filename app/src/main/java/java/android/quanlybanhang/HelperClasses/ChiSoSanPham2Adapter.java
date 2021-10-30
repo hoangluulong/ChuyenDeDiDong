@@ -1,7 +1,6 @@
 package java.android.quanlybanhang.HelperClasses;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +27,12 @@ public class ChiSoSanPham2Adapter extends RecyclerView.Adapter<ChiSoSanPham2Adap
 
     @NonNull
     @Override
-    public ChiSoSanPham2Adapter.CustomChiSoSanPham2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ChiSoSanPham2Adapter.CustomChiSoSanPham2(LayoutInflater.from(context).inflate(R.layout.item_chi_so_san_pham2, parent, false));
+    public CustomChiSoSanPham2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CustomChiSoSanPham2(LayoutInflater.from(context).inflate(R.layout.item_chi_so_san_pham2, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChiSoSanPham2Adapter.CustomChiSoSanPham2 holder, int position) {
+    public void onBindViewHolder(@NonNull CustomChiSoSanPham2 holder, int position) {
         Log.d("qqq", list.size()+"");
         holder.title.setText(list.get(position).getName()+"hoang huu long");
         holder.soLuong.setText(list.get(position).getSoLuong()+"0000");

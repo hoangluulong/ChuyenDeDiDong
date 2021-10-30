@@ -1,16 +1,14 @@
 package java.android.quanlybanhang.function.BaoCao;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.os.Bundle;
-import android.util.Log;
-
 import com.google.android.material.tabs.TabLayout;
 
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.BaoCao.fragment.DanhSachTopSanPhamFragment;
 import java.android.quanlybanhang.function.BaoCao.fragment.FragmentAdapter;
 
 public class BaoCaoSanPhamActivity extends AppCompatActivity {

@@ -1,7 +1,6 @@
 package java.android.quanlybanhang.function.DonHangOnline.adapter;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ public class ItemDonHangAdapter extends RecyclerView.Adapter<ItemDonHangAdapter.
     @NonNull
     @Override
     public DonCho onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ItemDonHangAdapter.DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
+        return new DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
     }
 
     @Override

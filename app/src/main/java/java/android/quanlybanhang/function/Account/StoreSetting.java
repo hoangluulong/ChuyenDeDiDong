@@ -1,7 +1,5 @@
 package java.android.quanlybanhang.function.Account;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,6 +11,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -135,16 +135,12 @@ public class StoreSetting extends AppCompatActivity {
                         setUpStore();
                         Toast.makeText(StoreSetting.this,"Complete", Toast.LENGTH_SHORT).show();
                     }else{
-                        dataSql = new DbBaoCao(StoreSetting.this, "app_database.sqlite", null, 1);
-                        dataSql.QueryData("CREATE TABLE IF NOT EXISTS cuahang(" +
-                                "id_cuahnag INTEGER PRIMARY KEY, " +
-                                "tencuahang VARCHAR(200));");
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/TenCuaHang").setValue(nameStore);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/DiaChi_Tinh").setValue(tenTinh);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/DiaChi_Huyen").setValue(tenHuyen);
                         mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/ThietLap").setValue(true);
 
-                        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(StoreSetting.this, "app_database.sqlite", null, 1);
+                        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(StoreSetting.this, "app_database.sqlite", null, 2);
                         thongTinCuaHangSql.createTable();
                         Cursor cursor = thongTinCuaHangSql.selectThongTin();
                         if (cursor.getCount() > 0){

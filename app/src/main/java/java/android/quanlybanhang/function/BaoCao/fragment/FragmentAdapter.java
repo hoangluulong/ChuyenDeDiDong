@@ -1,16 +1,10 @@
 package java.android.quanlybanhang.function.BaoCao.fragment;
 
-import android.graphics.Color;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
-
-import org.eazegraph.lib.models.PieModel;
-
-import java.util.Random;
 
 public class FragmentAdapter extends FragmentStateAdapter {
     public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {

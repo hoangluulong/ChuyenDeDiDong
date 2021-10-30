@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +33,7 @@ import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
-import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.DonChoXacNhan>{
     private Context context;
@@ -66,7 +61,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     @NonNull
     @Override
     public DonChoXacNhan onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ChoXacNhanAdapter.DonChoXacNhan(LayoutInflater.from(context).inflate(R.layout.item_don_hang_cho_xac_nhan, parent, false));
+        return new DonChoXacNhan(LayoutInflater.from(context).inflate(R.layout.item_don_hang_cho_xac_nhan, parent, false));
     }
 
     @Override
@@ -246,7 +241,6 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
             }
         });
-
     }
 
     //TODO: setDuLieu Firebase xác nhận
@@ -265,6 +259,9 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 Toast.makeText(context, "Xác nhận đơn không thành công", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DatabaseReference mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("DonHangOnline/DaDatDon/"+ list.get(position).getIdKhachhang() +"/" +list.get(position).getKey()).setValue(list.get(position));
     }
 
     //TODO: setDuLieu Firebase hủy đơn

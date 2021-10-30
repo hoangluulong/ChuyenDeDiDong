@@ -7,9 +7,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import java.android.quanlybanhang.function.BaoCao.fragment.ChiSoSanPhamFragment;
-import java.android.quanlybanhang.function.BaoCao.fragment.DanhSachTopSanPhamFragment;
-
 public class FragmentAdapter extends FragmentStateAdapter implements SwipeRefreshLayout.OnRefreshListener{
     public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);

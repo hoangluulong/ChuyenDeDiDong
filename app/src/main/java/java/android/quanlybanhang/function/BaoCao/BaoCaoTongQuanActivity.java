@@ -70,6 +70,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
 
     private final String ID_CUAHNAG = "Meskv6p2bkf89ferNygy5Kp1aAA3";
+    private final String ID_CUAHNAG1 = "Meskv6p2bkf89ferNygy5Kp1aAA3";
+    private final String ID_CUAHNAG2 = "Meskv6p2bkf89ferNygy5Kp1aAA3";
     private Locale localeVN = new Locale("vi", "VN");
     private NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
@@ -406,7 +408,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
      */
     private void DatabaseSQlite() {
         // Tạo database
-        dataSql = new DbBaoCao(this, "app_database.sqlite", null, 1);
+        dataSql = new DbBaoCao(this, "app_database.sqlite", null, 2);
         dataSql.QueryData("CREATE TABLE IF NOT EXISTS KieuHienThiBaoCao(" +
                 "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "NgayBatDau VARCHAR(200), " +
@@ -818,7 +820,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             public void onClick(View v) {
                 ngayBatDau = ngayBD;
                 ngayKetThuc = ngayKT;
-                dataSql = new DbBaoCao(BaoCaoTongQuanActivity.this, "app_database.sqlite", null, 1);
+                dataSql = new DbBaoCao(BaoCaoTongQuanActivity.this, "app_database.sqlite", null, 2);
                 dataSql.QueryData("UPDATE KieuHienThiBaoCao SET NgayBatDau='" + ngayBatDau + "', NgayKetThuc='" + ngayKetThuc + "', KieuHienThi=" + tamp + " WHERE id=" + id + "");
                 kieuHienThi = tamp;
 

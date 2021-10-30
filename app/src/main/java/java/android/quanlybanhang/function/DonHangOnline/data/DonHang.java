@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class DonHang {
     private String diaChi;
+    private String diemnhan;
     private String time;
     private int trangthai;
     private String idKhachhang;
@@ -37,6 +38,7 @@ public class DonHang {
         this.nhanVien = "";
         this.phoneShipper = "";
         this.shipper = "";
+        this.diemnhan = "123 Trần Duy Hưng";
     }
 
     public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, int phuongThucThanhToan) {
@@ -54,6 +56,7 @@ public class DonHang {
         this.nhanVien = "";
         this.phoneShipper = "";
         this.shipper = "";
+        this.diemnhan = "123 Trần Duy Hưng";
     }
 
     public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, String nhanVien, int phuongThucThanhToan) {
@@ -71,6 +74,7 @@ public class DonHang {
         this.phuongThucThanhToan = phuongThucThanhToan;
         this.phoneShipper = "";
         this.shipper = "";
+        this.diemnhan = "123 Trần Duy Hưng";
     }
 
     public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan) {
@@ -88,6 +92,15 @@ public class DonHang {
         this.nhanVien = nhanVien;
         this.shipper = shipper;
         this.phoneShipper = phoneShipper;
+        this.diemnhan = "123 Trần Duy Hưng";
+    }
+
+    public String getDiemnhan() {
+        return diemnhan;
+    }
+
+    public void setDiemnhan(String diemnhan) {
+        this.diemnhan = diemnhan;
     }
 
     public String getNhanVien() {

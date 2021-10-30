@@ -2,18 +2,17 @@ package java.android.quanlybanhang.function.DonHangOnline.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,13 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DaXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 
 /**

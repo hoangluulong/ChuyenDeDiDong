@@ -1,9 +1,5 @@
 package java.android.quanlybanhang.function.Account;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.android.quanlybanhang.Data.CaLam;
 import java.android.quanlybanhang.Data.NhanVien;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.database.DbBaoCao;
 import java.util.ArrayList;
 import java.util.List;
 

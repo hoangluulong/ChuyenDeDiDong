@@ -29,10 +29,7 @@ import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
-import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXacNhan>{
 
@@ -59,7 +56,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     @NonNull
     @Override
     public DaXacNhan onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DaXacNhanAdapter.DaXacNhan(LayoutInflater.from(context).inflate(R.layout.item_don_hang_da_xac_nhan, parent, false));
+        return new DaXacNhan(LayoutInflater.from(context).inflate(R.layout.item_don_hang_da_xac_nhan, parent, false));
     }
 
     @Override

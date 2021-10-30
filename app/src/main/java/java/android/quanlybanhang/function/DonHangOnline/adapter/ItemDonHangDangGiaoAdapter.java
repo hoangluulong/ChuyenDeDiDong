@@ -32,7 +32,7 @@ public class ItemDonHangDangGiaoAdapter extends RecyclerView.Adapter<ItemDonHang
     @NonNull
     @Override
     public DonCho onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ItemDonHangDangGiaoAdapter.DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
+        return new DonCho(LayoutInflater.from(dialog.getContext()).inflate(R.layout.item_dialog_don_online, parent, false));
     }
 
     @Override

@@ -1,16 +1,12 @@
 package java.android.quanlybanhang.function.DonHangOnline.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -34,7 +30,7 @@ public class TablayoutAdapter extends RecyclerView.Adapter<TablayoutAdapter.Layo
     @NonNull
     @Override
     public LayoutHelp onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TablayoutAdapter.LayoutHelp(LayoutInflater.from(context).inflate(R.layout.item_recycleview_tab_don_hang_online, parent, false));
+        return new LayoutHelp(LayoutInflater.from(context).inflate(R.layout.item_recycleview_tab_don_hang_online, parent, false));
     }
 
     @Override

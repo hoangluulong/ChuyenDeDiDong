@@ -2,7 +2,6 @@ package java.android.quanlybanhang.HelperClasses;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.android.quanlybanhang.Model.PieTongQuan;
-import java.android.quanlybanhang.Model.SanPhamTop;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.BaoCao.SanPhamBaoCao;
 import java.util.List;
 
 public class ChiSoSanPhamAdapter extends RecyclerView.Adapter<ChiSoSanPhamAdapter.CustomChiSoSanPham> {

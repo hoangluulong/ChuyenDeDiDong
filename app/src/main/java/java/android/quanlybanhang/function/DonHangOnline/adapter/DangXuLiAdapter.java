@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -26,10 +25,7 @@ import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
-import java.android.quanlybanhang.function.DonHangOnline.data.SanPham;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHangXuLy>{
 
@@ -51,12 +47,12 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
 
     @NonNull
     @Override
-    public DangXuLiAdapter.DonHangXuLy onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DangXuLiAdapter.DonHangXuLy(LayoutInflater.from(context).inflate(R.layout.item_dang_xu_ly_do_online, parent, false));
+    public DonHangXuLy onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new DonHangXuLy(LayoutInflater.from(context).inflate(R.layout.item_dang_xu_ly_do_online, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DangXuLiAdapter.DonHangXuLy holder, int position) {
+    public void onBindViewHolder(@NonNull DonHangXuLy holder, int position) {
         holder.trangthaidonhang.setText("Đang giao");
         holder.nguoiThucHien.setText("Ship: "+ list.get(position).getShipper());
         holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));

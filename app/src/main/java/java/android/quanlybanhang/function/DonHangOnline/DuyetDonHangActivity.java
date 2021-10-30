@@ -1,13 +1,12 @@
 package java.android.quanlybanhang.function.DonHangOnline;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.os.Bundle;
-import android.util.Log;
 
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.TablayoutAdapter;

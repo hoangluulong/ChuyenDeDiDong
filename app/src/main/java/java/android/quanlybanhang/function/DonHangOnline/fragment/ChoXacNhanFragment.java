@@ -1,6 +1,5 @@
 package java.android.quanlybanhang.function.DonHangOnline.fragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,13 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -138,6 +133,7 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
                             donHangs.add(donHang);
                             Date date = support.formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
+                            donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
                             i++;
                         }
                     }

@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
-
 public class DatabaseSQL extends SQLiteOpenHelper {
 
     private final String NAME_TABLE_USER = "user";
