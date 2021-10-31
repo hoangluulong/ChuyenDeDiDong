@@ -3,18 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_white_16"
-    android:layout_margin="16dp"
+    android:layout_margin="40dp"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_titel_16"
+        android:gravity="center"
         android:padding="10dp"
-        android:textColor="@color/black"
+        android:text="Menu Chức năng"
+        android:textColor="@color/xanh"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"></TextView>
+    <TextView
+        android:id="@+id/tvdatban"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/xanh"
         android:textSize="16sp"
         android:gravity="center"
-        android:background="@drawable/bg_titel_16"
-        android:text="Đơn Vị Tính"></TextView>
+        android:text="Đặt bàn"></TextView>
 
 
 

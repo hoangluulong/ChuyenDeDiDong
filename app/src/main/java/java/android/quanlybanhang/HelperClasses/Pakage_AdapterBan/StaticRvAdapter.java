@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
+import java.android.quanlybanhang.function.DatBan.DatBan;
 import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.R;
@@ -51,6 +52,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     private Dialog dialogban;
     Window window;
     boolean xacdinh = true;
+    TextView datban;
     private DatabaseReference mDatabase;
 
 
@@ -124,6 +126,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         if (staticBanModels.get(position).getTrangthai().equals("2")){
             holder.cardview_ban.setBackgroundResource(R.color.maudat);
 
+
         }
 
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +139,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.bacham.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HamTaodialog(Gravity.CENTER);
+                HamTaodialog(Gravity.BOTTOM,CrrItem);
                 Toast.makeText(orderMenu,"bacham",Toast.LENGTH_LONG).show();
 
 
@@ -149,9 +152,9 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     public String changeDate(String date){
             long dates = Long.parseLong(date);
         java.sql.Timestamp timestamp = new java.sql.Timestamp(dates);
-if(dates ==0){
-    return "";
-}
+        if(dates ==0){
+            return "";
+        }
         Date date1 =new Date(timestamp.getTime());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
@@ -178,7 +181,6 @@ if(dates ==0){
                     orderMenu.startActivity(intent);
                     }
                 else {
-
                     Intent intent = new Intent(orderMenu,MonOrder.class);
                     intent.putExtra("id_ban",CrrItem.getID());
                     Log.d("id_khuvuc_Truong1",Id_khuvuc);
@@ -199,13 +201,32 @@ if(dates ==0){
 
 
     }
-    private void HamTaodialog(int gravity){
+    private void HamTaodialog(int gravity,StaticBanModel CrrItem){
 
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windownAttributes = window.getAttributes();
         window.setAttributes(windownAttributes);
         dialogban.setCancelable(true);
+        datban=dialogban.findViewById(R.id.tvdatban);
+        EvenlistDatban(datban,CrrItem);
+
+        dialogban.show();
+    }
+    private void EvenlistDatban(TextView datban,StaticBanModel CrrItem){
+            datban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(orderMenu,"datban",Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(orderMenu, DatBan.class);
+                    intent.putExtra("id_ban",CrrItem.getID());
+                    intent.putExtra("tenban",CrrItem.getTenban());
+                    intent.putExtra("id_khuvuc",Id_khuvuc);
+                    orderMenu.startActivity(intent);
+                }
+            });
+
     }
 
 

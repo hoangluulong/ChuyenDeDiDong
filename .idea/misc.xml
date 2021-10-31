@@ -3,15 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable-v24/bg_titel_16.xml" value="0.35625" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/bg_button_ca.xml" value="0.19895833333333332" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/bg_huy.xml" value="0.19895833333333332" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/bg_textview_10.xml" value="0.35625" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/drawable/bg_titel_16.xml" value="0.35625" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/acivity_dailongtu.xml" value="0.17864583333333334" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_bao_cao_tong_quan.xml" value="0.16" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_card_san_pham.xml" value="0.33" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_chi_tiet_san_pham_card.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_dat_ban.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_mon_order.xml" value="0.25" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_mon_thanhtoan.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_order_menu.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/activity_thanhtoan.xml" value="0.3359375" />
-        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dailongban.xml" value="0.17864583333333334" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dailongban.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_ban.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card_fordsell.xml" value="0.3359375" />

@@ -83,7 +83,7 @@ Activity activity;
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        tvkhongsanpham = findViewById(R.id.tv_khongsanpham);
+
         tvtentongsp = findViewById(R.id.tvtentongsp);
         tongsanphams= findViewById(R.id.Tongsanpham);
 

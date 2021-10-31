@@ -134,7 +134,7 @@
         @Override
         public void GetBack(int position, ArrayList<StaticBanModel> items,String id_khuvuc) {
             id_khuvuc = item.get(position).getId_khuvuc();
-         staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,id_khuvuc);
+         staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,id_khuvuc,window,dialogban);
          staticRvAdapter.notifyDataSetChanged();
          recyclerView2.setAdapter(staticRvAdapter);
 
