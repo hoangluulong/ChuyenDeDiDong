@@ -9,11 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Data.Mon;
-import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -38,6 +38,7 @@ public class ChiTietDonHangAdapter extends RecyclerView.Adapter<ChiTietDonHangAd
     @Override
     public void onBindViewHolder(@NonNull ChiTietDonHangAdapter.ViewHolder holder, int position) {
         Picasso.get().load(list.get(position).getImgProduct()).into(holder.circleImageView);
+//        Glide.with(context).load(list.get(position).getImgProduct()).into(holder.circleImageView);
         holder.textnameProduct.setText(list.get(position).getNameProduct());
         holder.textSoLuong.setText("Số lượng: "+list.get(position).getSoluong()+"");
         holder.textYeuCau.setText("Yêu cầu:  "+list.get(position).getYeuCau());

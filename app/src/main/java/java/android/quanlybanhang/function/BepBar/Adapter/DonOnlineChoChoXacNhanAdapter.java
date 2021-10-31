@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.BepBar.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.BepBar.DangXuLyActivity;
+import java.android.quanlybanhang.function.BepBar.DangXuLyOnlineActivity;
 import java.android.quanlybanhang.function.BepBar.Data.DonHang;
 import java.android.quanlybanhang.function.BepBar.Data.Mon;
 import java.android.quanlybanhang.function.BepBar.Data.SanPham;
@@ -28,7 +31,6 @@ public class DonOnlineChoChoXacNhanAdapter extends RecyclerView.Adapter<DonOnlin
 
     Context context;
     List<DonHang> mList;
-    private SanPhamDonHangAdapter sanphamHolder;
     private DatabaseReference mDatabase;
 
 
@@ -47,72 +49,56 @@ public class DonOnlineChoChoXacNhanAdapter extends RecyclerView.Adapter<DonOnlin
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.examName.setText(mList.get(position).getKey());
-        holder.examDate.setText(mList.get(position).getTime());
+        holder.examName.setText("ID: " +mList.get(position).getKey());
+        holder.examDate.setText(changeDate(mList.get(position).getKey()));
+//        SanPhamDonHangOnlineAdapter sanphamHolder = new SanPhamDonHangOnlineAdapter(context, mList.get(position).getSanpham());
 
-        holder.monBan.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        SanPhamDonHangAdapter sanphamHolder = new SanPhamDonHangAdapter(context, mList.get(position).getSanpham());
-        holder.monBan.setAdapter(sanphamHolder);
-
-
-
-
-        sanphamHolder.notifyDataSetChanged();
-        if (mList.get(position).getTrangthai() == 3) {
-            holder.danglam.setBackgroundResource(R.color.purple_200);
-        }
-        if (mList.get(position).getTrangthai() == 4) {
-            holder.danglam.setBackgroundResource(R.color.purple_200);
-            holder.done.setBackgroundResource(R.color.purple_500);
+        if (mList.get(position).getTrangthai() == 2) {
+            holder.xuly.setText("Xử lí");
+            holder.trangThai.setText("Chờ xử lí");
+        }else if (mList.get(position).getTrangthai() == 3) {
+            holder.xuly.setText("Đang xử lí");
+            holder.trangThai.setText("Đang xử lí");
+        }else if (mList.get(position).getTrangthai() == 4) {
+            holder.xuly.setText("Hoàn thành");
+            holder.trangThai.setText("Chờ shipper");
         }
 
-
-        holder.accept.setOnClickListener(new View.OnClickListener() {
+        holder.xuly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Accept", Toast.LENGTH_LONG).show();
-                if (mList.get(position).getTrangthai() == 2) {
-                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/" + ngayHientai(mList.get(position).getDate()) + "/" + mList.get(position).getKey() + "/trangthai").setValue(3);
-                } else if (mList.get(position).getTrangthai() == 3) {
-                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/" + ngayHientai(mList.get(position).getDate()) + "/" + mList.get(position).getKey() + "/trangthai").setValue(4);
-                }
-
-                notifyDataSetChanged();
+                Intent intent = new Intent(context, DangXuLyOnlineActivity.class);
+                intent.putExtra("key", mList.get(position).getKey());
+                intent.putExtra("key_ngay", ngayHientai(mList.get(position).getDate()));
+                context.startActivity(intent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        if (mList == null) {
-            return 0;
-        }
         return mList.size();
-//        return 10;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView examName, examDate;
-        private LinearLayout danglam, done;
-        private Button accept;
-        private RecyclerView monBan;
+        private TextView examName;
+        private TextView examDate;
+        private TextView khuvuc;
+        private TextView xuly;
+        private TextView soluong, tongtien, trangThai;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             examName = itemView.findViewById(R.id.examName);
             examDate = itemView.findViewById(R.id.examDate);
+            khuvuc = itemView.findViewById(R.id.khuvuc);
+            xuly = itemView.findViewById(R.id.xuly);
+            soluong = itemView.findViewById(R.id.soluong);
+            tongtien = itemView.findViewById(R.id.tongtien);
+            trangThai = itemView.findViewById(R.id.trangThai);
 
         }
-    }
-
-    private void RecyclerViewSanPham(RecyclerView recyclerView, List<SanPham> sanPhams) {
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        sanphamHolder = new SanPhamDonHangAdapter(context, sanPhams);
-        recyclerView.setAdapter(sanphamHolder);
-        sanphamHolder.notifyDataSetChanged();
     }
 
     private String ngayHientai(Date date) {
@@ -120,4 +106,19 @@ public class DonOnlineChoChoXacNhanAdapter extends RecyclerView.Adapter<DonOnlin
         String dt = formatter.format(date);
         return dt;
     }
+
+    private String changeDate(String date) {
+        long dates = Long.parseLong(date);
+        java.sql.Timestamp timestamp = new java.sql.Timestamp(dates);
+        if (dates == 0) {
+            return "";
+        }
+        Date date1 = new Date(timestamp.getTime());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-YYYY hh:mm:ss");
+        String aaa = simpleDateFormat.format(date1);
+        return aaa;
+
+    }
+
 }

@@ -3,31 +3,27 @@ package java.android.quanlybanhang.function.BepBar.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.DangXuLyActivity;
 import java.android.quanlybanhang.function.BepBar.Data.SanPhamOder;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAdapter.ViewHolderBan> {
+
+    int coLor;
+    Activity activity;
+    Context context;
+    List<SanPhamOder> tableList;
+
     public DonHangOfflineAdapter(Activity activity, Context context) {
         this.activity = activity;
         this.context = context;
@@ -38,13 +34,6 @@ public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAd
         this.tableList = list;
         notifyDataSetChanged();
     }
-
-    int coLor;
-    private DatabaseReference mDatabase;
-    Activity activity;
-    Context context;
-    List<SanPhamOder> tableList;
-
 
     @Override
     public ViewHolderBan onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,12 +48,23 @@ public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAd
         if (KhuVucBan(position).length > 1) {
             holder.examName.setText("Bàn " + KhuVucBan(position)[0]);
             holder.khuvuc.setText(" - Khu vực " + KhuVucBan(position)[1]);
-        }else {
+        } else {
             holder.examName.setText("ID: " + KhuVucBan(position)[0]);
             holder.khuvuc.setText("");
         }
 
         holder.examDate.setText(table.getDate() + "");
+        if (table.getTrangThai() == 0) {
+            holder.xuly.setText("Xử lý");
+            holder.trangThai.setText("Chờ sử lý");
+        } else if (table.getTrangThai() == 1) {
+            holder.xuly.setText("Đang xử lý");
+            holder.trangThai.setText("Đang sử lý");
+        } else if (table.getTrangThai() == 2) {
+            holder.xuly.setText("Trả đơn");
+            holder.trangThai.setText("Hoàn thành");
+        }
+
         holder.xuly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,10 +74,9 @@ public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAd
             }
         });
 
-        holder.soluong.setText(soLuong(table)+"");
-        holder.examDate.setText(changeDate(table.getDate()+""));
-        holder.tongtien.setText(TongTien(table)+"");
-        holder.trangThai.setText("Chờ sử lý");
+        holder.soluong.setText(soLuong(table) + "");
+        holder.examDate.setText(changeDate(table.getDate() + ""));
+        holder.tongtien.setText(TongTien(table) + "");
     }
 
     @Override
@@ -91,7 +90,7 @@ public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAd
         private TextView examDate;
         private TextView khuvuc;
         private TextView xuly;
-        private TextView soluong,tongtien, trangThai;
+        private TextView soluong, tongtien, trangThai;
 
         public ViewHolderBan(View itemView) {
             super(itemView);
@@ -108,13 +107,13 @@ public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAd
 
     private String[] KhuVucBan(int position) {
         String[] parts = tableList.get(position).getNameTable().split("_");
-        return  parts;
+        return parts;
     }
 
     private int soLuong(SanPhamOder sanPhamOder) {
         int soLuong = 0;
         double tien = 0;
-        for (int i = 0; i < sanPhamOder.getSanpham().size(); i++){
+        for (int i = 0; i < sanPhamOder.getSanpham().size(); i++) {
             soLuong += sanPhamOder.getSanpham().get(i).getSoluong();
         }
 
@@ -123,24 +122,24 @@ public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAd
 
     private double TongTien(SanPhamOder sanPhamOder) {
         double tien = 0;
-        for (int i = 0; i < sanPhamOder.getSanpham().size(); i++){
+        for (int i = 0; i < sanPhamOder.getSanpham().size(); i++) {
             tien += (sanPhamOder.getSanpham().get(i).getSoluong() * sanPhamOder.getSanpham().get(i).getGiaProudct());
         }
 
         return tien;
     }
 
-    public String changeDate(String date){
+    public String changeDate(String date) {
         long dates = Long.parseLong(date);
         java.sql.Timestamp timestamp = new java.sql.Timestamp(dates);
-        if(dates ==0){
+        if (dates == 0) {
             return "";
         }
-        Date date1 =new Date(timestamp.getTime());
+        Date date1 = new Date(timestamp.getTime());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-YYYY hh:mm:ss");
         String aaa = simpleDateFormat.format(date1);
-        return  aaa;
+        return aaa;
 
     }
 

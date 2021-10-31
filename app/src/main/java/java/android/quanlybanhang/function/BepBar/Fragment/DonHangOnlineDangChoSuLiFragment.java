@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -32,9 +35,11 @@ public class DonHangOnlineDangChoSuLiFragment extends Fragment {
     private RecyclerView recyclerViewTable;
     private DatabaseReference mDatabase;
     private DonOnlineChoChoXacNhanAdapter monViewHolder;
-    private ArrayList<SanPham> sanPham;
     View v;
     private ArrayList<DonHang> donHangs;
+    private ProgressBar progressBar;
+    private TextView lblThongBao;
+    private ImageView imageView;
 
     public DonHangOnlineDangChoSuLiFragment() {
     }
@@ -44,6 +49,13 @@ public class DonHangOnlineDangChoSuLiFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_bep_danh_sanh_don_hang, container, false);
+
+        progressBar = v.findViewById(R.id.progressBar);
+        lblThongBao = v.findViewById(R.id.lblThongBao);
+        imageView = v.findViewById(R.id.image);
+
+        progressBar.setVisibility(View.VISIBLE);
+
         getDataFirebase();
         return v;
     }
@@ -59,12 +71,11 @@ public class DonHangOnlineDangChoSuLiFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 donHangs = new ArrayList<>();
-                sanPham = new ArrayList<>();
                 int i = 0;
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot snap : postSnapshot.getChildren()) {
                         DonHang donHang = snap.getValue(DonHang.class);
-                        if (donHang.getTrangthai() == 2 || donHang.getTrangthai() == 3 || donHang.getTrangthai() == 4) {
+                        if (donHang.getTrangthai() == 2) {
                             donHangs.add(donHang);
                             Date date = formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
@@ -72,6 +83,16 @@ public class DonHangOnlineDangChoSuLiFragment extends Fragment {
                         }
                     }
                 }
+
+                progressBar.setVisibility(View.INVISIBLE);
+                if (donHangs.size() > 0) {
+                    lblThongBao.setText("");
+                    imageView.setImageResource(0);
+                }else {
+                    lblThongBao.setText("Chưa có đơn hàng nào");
+                    imageView.setImageResource(R.drawable.empty_list);
+                }
+
                 IDLayout();
             }
 
@@ -87,7 +108,6 @@ public class DonHangOnlineDangChoSuLiFragment extends Fragment {
         recyclerViewTable.setHasFixedSize(true);
         recyclerViewTable.setLayoutManager(new LinearLayoutManager(getActivity()));
         monViewHolder = new DonOnlineChoChoXacNhanAdapter(v.getContext(), donHangs);
-//        SanPhamDonHangAdapter sanPhamDonHangAdapter = new SanPhamDonHangAdapter(v.getContext(), donHangs);
         recyclerViewTable.setAdapter(monViewHolder);
         monViewHolder.notifyDataSetChanged();
     }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,9 +19,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.ChiTietDonHangAdapter;
 import java.android.quanlybanhang.function.BepBar.Data.Mon;
+import java.android.quanlybanhang.function.BepBar.Data.SanPham;
 import java.android.quanlybanhang.function.BepBar.Data.SanPhamOder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +60,7 @@ public class DangXuLyActivity extends AppCompatActivity {
 
     private void getFirebase(String ID_BAN) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child(ID_QUAN).child("sanphamorder/"+ID_BAN).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(ID_QUAN).child("sanphamorder/"+ID_BAN).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String key = snapshot.getKey();
@@ -73,6 +76,31 @@ public class DangXuLyActivity extends AppCompatActivity {
                 recycleview.setAdapter(chiTietDonHangAdapter);
 
                 chiTietDonHangAdapter.notifyDataSetChanged();
+
+                if (sanPhamOder.getTrangThai() == 0) {
+                    hoanthanh.setText("Xử lý");
+                }else if (sanPhamOder.getTrangThai() == 1){
+                    hoanthanh.setText("Hoàn thành");
+                }else if (sanPhamOder.getTrangThai() == 2){
+                    hoanthanh.setText("Trả món");
+                }
+
+                hoanthanh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (sanPhamOder.getTrangThai() == 0) {
+                            mDatabase.child(ID_QUAN).child("sanphamorder/"+ID_BAN).child("trangThai").setValue(1);
+                            sanPhamOder.setTrangThai(1);
+                            hoanthanh.setText("Hoàn thành");
+                        }else if (sanPhamOder.getTrangThai() == 1){
+                            mDatabase.child(ID_QUAN).child("sanphamorder/"+ID_BAN).child("trangThai").setValue(2);
+                            hoanthanh.setText("Xong");
+                            onBackPressed();
+                        }else if (sanPhamOder.getTrangThai() == 2){
+//                            mDatabase.child("trangThai").setValue(3);
+                        }
+                    }
+                });
             }
 
             @Override
@@ -119,4 +147,8 @@ public class DangXuLyActivity extends AppCompatActivity {
         return  parts;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
