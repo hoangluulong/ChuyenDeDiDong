@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
+
         <activity
             android:name=".function.ThanhToanActivity"
             android:exported="true" />
@@ -104,24 +105,28 @@
             android:name=".function.BaoCao.BaoCaoChiSoActivity"
             android:label="Chỉ số"
             android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
-            android:theme="@style/thameActionbar2"></activity>
-        <!-- Bếp -->
+            android:theme="@style/thameActionbar2" /> <!-- Bếp -->
         <activity
             android:name=".function.BepBar.BepActivity"
             android:label="Bếp"
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar3" />
-
         <activity
             android:name=".function.BepBar.DangXuLyActivity"
             android:exported="true"
             android:parentActivityName=".function.BepBar.BepActivity"
-            android:theme="@style/thameActionbar3"/>
-
-        <activity android:name=".function.BepBar.DangXuLyOnlineActivity"
+            android:theme="@style/thameActionbar3" />
+        <activity
+            android:name=".function.BepBar.DangXuLyOnlineActivity"
             android:exported="true"
             android:parentActivityName=".function.BepBar.BepActivity"
-            android:theme="@style/thameActionbar3"/>
+            android:theme="@style/thameActionbar3" />
+
+        <activity
+            android:name=".function.CuaHangOnline.CuaHangOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.BepBar.BepActivity"
+            android:theme="@style/thameActionbar4" />
     </application>
 
 </manifest>

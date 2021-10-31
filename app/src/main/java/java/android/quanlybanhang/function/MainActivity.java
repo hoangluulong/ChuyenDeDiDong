@@ -27,6 +27,7 @@ import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.android.quanlybanhang.function.Account.SignInActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.BepBar.BepActivity;
+import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu,baocao, donOnline, bep;
+    RelativeLayout ordermenu,baocao, donOnline, bep, online;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         baocao = findViewById(R.id.baocao);
         donOnline = findViewById(R.id.donOnline);
         bep = findViewById(R.id.bep);
+        online = findViewById(R.id.online);
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,14 +86,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-
+        online.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CuaHangOnlineActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("aa");
-
-        myRef.setValue("Hello, World!");
         mFirebaseAuth = FirebaseAuth.getInstance();
 
        /*lay id tung phan*/
@@ -141,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_homes:
+            case R.id.cuahang:
                 break;
             case R.id.ds_order:
                 Intent intent = new Intent(MainActivity.this, ListProduct.class);

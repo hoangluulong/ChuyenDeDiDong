@@ -58,12 +58,14 @@
     <color name="carrot">#EE693F</color>
     <color name="pearg_reean">#739F3D</color>
     
-    <color name="blue_berry">#4D648D</color>
-    <color name="periwinkle">#D0E1F9</color>
+    <color name="blue_berry">#075271</color>
+    <color name="periwinkle">#053d54</color>
     
     <color name="caramel">#C9A66B</color>
     <color name="cream">#EBDCB2</color>
     
     <color name="linen">#EAE2D6</color>
     <color name="brown_soc">#623a38</color>
+
+
 </resources>
