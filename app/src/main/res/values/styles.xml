@@ -135,6 +135,9 @@
         <item name="android:background">@color/teal_200</item>
     </style>
 
+    <style name="color_nav">
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
 
 
 </resources>

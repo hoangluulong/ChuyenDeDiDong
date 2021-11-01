@@ -2,8 +2,10 @@ package java.android.quanlybanhang.function;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -18,9 +20,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.android.quanlybanhang.Model.AddressVN.DiaChi;
+import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.database.ThongTinCuaHangSql;
@@ -31,23 +37,29 @@ import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
 
 //import java.android.quanlybanhang.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-  private boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu,baocao, donOnline, bep, online;
+    RelativeLayout ordermenu, baocao, donOnline, bep, online;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        odermenu
-//        DeleteSp();
         ordermenu = findViewById(R.id.orderbutton);
         baocao = findViewById(R.id.baocao);
         donOnline = findViewById(R.id.donOnline);
@@ -97,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Write a message to the database
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-       /*lay id tung phan*/
+        /*lay id tung phan*/
         drawerLayout = findViewById(R.id.drawable_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
@@ -107,21 +119,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /* lay ra action bar*/
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_homes);
 
-        Toast.makeText(this, ""+ IDCuaHang(), Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new docJSon().execute("https://provinces.open-api.vn/api/?depth=3");
+            }
+        });
+
     }
+
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
@@ -182,15 +200,85 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         thongTinCuaHangSql.createTable();
         Cursor cursor = thongTinCuaHangSql.selectThongTin();
         String id = "";
-        if (cursor.getCount() > 0){
+        if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 id = cursor.getString(0);
             }
             Toast.makeText(this, id + "   có", Toast.LENGTH_LONG).show();
-        }else {
+        } else {
             Toast.makeText(this, "Không có", Toast.LENGTH_LONG).show();
         }
         return id;
+    }
+
+    class docJSon extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return docNoiDung_Tu_URL(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            ArrayList<DiaChi> listDiaChi = new ArrayList<>();
+            try {
+
+                JSONArray root = new JSONArray(s);
+                for (int i = 0; i < root.length(); i++) {
+                    JSONObject khuVuc = root.getJSONObject(i);
+                    String tinhTP = khuVuc.getString("name");
+                    JSONArray arrHuyen = khuVuc.getJSONArray("districts");
+                    ArrayList<Huyen> huyens = new ArrayList<>();
+                    for (int j = 0; j < arrHuyen.length(); j++) {
+                        JSONObject khuVucHuyen = arrHuyen.getJSONObject(j);
+                        String tenHuyen = khuVucHuyen.getString("name");
+                        JSONArray arrXa = khuVucHuyen.getJSONArray("wards");
+                        ArrayList<String> xas = new ArrayList<>();
+                        for (int k = 0; k < arrXa.length(); k++) {
+                            JSONObject khuVucXa = arrXa.getJSONObject(k);
+                            String xa = khuVucXa.getString("name");
+                            xas.add(xa);
+                        }
+                        Huyen huyen = new Huyen(tenHuyen, xas);
+                        huyens.add(huyen);
+                    }
+
+                    DiaChi diaChi = new DiaChi(tinhTP, huyens);
+                    listDiaChi.add(diaChi);
+                }
+
+                Log.d("qq", listDiaChi.size()+"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static String docNoiDung_Tu_URL(String theUrl) {
+        StringBuilder content = new StringBuilder();
+        try {
+            //Create a url object
+            URL url = new URL(theUrl);
+
+            //create a urlconnection object
+            URLConnection urlConnection = url.openConnection();
+
+            // wrap the urlconnection in a bufferedreader
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String line;
+
+            //read from the urlconnection via the bufferedreader
+            while ((line = bufferedReader.readLine()) != null) {
+                content.append(line + "\n");
+            }
+            bufferedReader.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return content.toString();
     }
 
 }

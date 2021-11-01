@@ -17,9 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:itemTextColor="@color/black"
         android:animateLayoutChanges="true"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
         app:menu="@menu/menu_cua_hang_online" />
 
     <LinearLayout
@@ -33,8 +32,8 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:elevation="1dp"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            app:title="Cửa hàng trực tuyến"
+            app:titleTextColor="@color/colorPrimaryDark"
             app:navigationIcon="@drawable/menu_24" />
 
         <ScrollView
@@ -85,6 +84,7 @@
                                 android:orientation="vertical">
 
                                 <CheckBox
+                                    android:id="@+id/checkboxKhachHangDenLay"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
@@ -93,6 +93,7 @@
                                     android:text="Khác hàng đặt hàng rồi tự đến lấy" />
 
                                 <CheckBox
+                                    android:id="@+id/checkboxDonViVanChuyen"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
@@ -107,9 +108,10 @@
                                     android:orientation="horizontal">
 
                                     <CheckBox
+                                        android:id="@+id/checkboxTuGiao"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Tự giao" />
+                                        android:text="Cửa hàng tự giao" />
 
                                     <androidx.cardview.widget.CardView
                                         android:id="@+id/cauhinhvanchuyen"
@@ -166,6 +168,7 @@
                                 android:orientation="vertical">
 
                                 <CheckBox
+                                    android:id="@+id/checkboxTienMat"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
@@ -174,6 +177,7 @@
                                     android:text="Thanh toán bằng tiền mặt khi nhận" />
 
                                 <CheckBox
+                                    android:id="@+id/checkboxChuyenKhoan"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
@@ -182,6 +186,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/layoutThongTinChuyenKhoan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
@@ -195,20 +200,26 @@
                                     android:layout_marginLeft="10dp"
                                     android:text="THÔNG TIN CHUUYỂN KHOẢN" />
 
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    app:hintEnabled="false"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                                    <EditText
+                                    <com.google.android.material.textfield.TextInputEditText
                                         android:id="@+id/edtThongTinChuyenKhoan"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:background="@drawable/boder_input"
-                                        android:gravity="top|left"
-                                        android:hint="Tên ngân hàng, Số tài khoản, Tên tài khoản, Nội dung chuyển khoản,..."
-                                        android:imeActionLabel="Done"
-                                        android:imeOptions="actionDone"
-                                        android:lines="100"
-                                        android:minLines="3"
-                                        android:padding="8dp"
-                                        android:textSize="15dp" />
+                                        android:gravity="left|top"
+                                        android:inputType="textMultiLine"
+                                        android:lines="6"
+                                        android:textColor="@color/slate"
+                                        android:hint="Thông tin bao gồm: Tên ngân hàng, số tài khoản, tên chủ tài khoản, nội dung chuyển khoản,..."
+                                        android:textSize="15sp"
+                                         />
+
+                                </com.google.android.material.textfield.TextInputLayout>
 
 
                             </LinearLayout>
@@ -243,8 +254,10 @@
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                                 <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/ghiChu"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
                                     />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -255,15 +268,16 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="right">
                                 <TextView
+                                    android:id="@+id/dangKy"
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
                                     android:layout_marginRight="20dp"
                                     android:layout_marginTop="20dp"
-                                    android:background="@color/maudat"
+                                    android:background="@drawable/bg_luu"
                                     android:gravity="center"
                                     android:textSize="15sp"
                                     android:textColor="@color/white"
-                                    android:text="Đăng ký"/>
+                                    android:text="Lưu"/>
                             </LinearLayout>
                         </LinearLayout>
 
