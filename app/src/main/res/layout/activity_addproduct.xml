@@ -206,28 +206,33 @@
                   android:layout_weight="10">
               </androidx.recyclerview.widget.RecyclerView>
 
-
-
           </LinearLayout>
       </LinearLayout>
   </LinearLayout>
     </ScrollView>
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:cardCornerRadius="10dp"
-        android:layout_weight="0.5"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView">
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <Button
+            android:id="@+id/btnhuyTaoNhanVien"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_button_10"
+            android:alpha="0.4"
+            android:text="Hủy bỏ"></Button>
         <Button
             android:id="@+id/btnAddproduct"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/btnthemsanpham"
-            android:background="@color/teal_200"
-            android:textSize="17sp"
-            android:fontFamily="@font/baloo"
-            android:textColor="@color/black"></Button>
-    </androidx.cardview.widget.CardView>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:background="@drawable/bg_button_16"
+            android:text="Thêm"></Button>
+    </LinearLayout>
 
 
 </LinearLayout>

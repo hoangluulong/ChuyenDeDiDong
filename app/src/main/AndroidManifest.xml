@@ -41,6 +41,12 @@
             android:label="Thêm nhân viên"
             android:parentActivityName=".function.NhanVien.ListNhanVien"
             android:theme="@style/thameActionbar2" ></activity>
+        <activity
+            android:name=".function.KhachHang.Activity_ThemKhachHang"
+            android:exported="true"
+            android:label="Thêm nhân viên"
+            android:parentActivityName=".function.NhanVien.ListNhanVien"
+            android:theme="@style/thameActionbar2" ></activity>
 
         <meta-data
             android:name="preloaded_fonts"

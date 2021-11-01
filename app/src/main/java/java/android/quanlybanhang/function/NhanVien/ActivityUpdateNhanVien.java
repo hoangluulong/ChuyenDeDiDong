@@ -15,7 +15,7 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activiy_updatenhanvien);
+        setContentView(R.layout.activity_updatenhanvien);
         final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
         fc.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -143,7 +143,8 @@ public class AddProduct extends AppCompatActivity {
         btnThemDonViTinh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dailongThemDonViTinh(Gravity.CENTER);
+                int a =10;
+                dailongThemDonViTinh(10);
             }
         });
        uploadFile();
@@ -301,7 +302,8 @@ public class AddProduct extends AppCompatActivity {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windownAttributes = window.getAttributes();
-        windownAttributes.gravity = gravity;
+//        windownAttributes.gravity =  Gravity.CENTER_HORIZONTAL;
+//        windownAttributes.y = gravity;
         window.setAttributes(windownAttributes);
         if(Gravity.BOTTOM == gravity){
             dialog.setCancelable(true);

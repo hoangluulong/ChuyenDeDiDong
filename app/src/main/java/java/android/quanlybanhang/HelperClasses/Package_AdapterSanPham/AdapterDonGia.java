@@ -51,6 +51,7 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
         this.window = window;
         this.spinnerTenDonVIiTinh = spinnerTenDonVIiTinh;
         this.adapter = adapter;
+        this.gravity = gravity;
 
     }
 

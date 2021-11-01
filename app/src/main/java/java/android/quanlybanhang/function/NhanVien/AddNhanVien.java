@@ -60,8 +60,7 @@ public class AddNhanVien extends AppCompatActivity {
     private  Boolean T6 = false;
     private  Boolean T7 = false;
     private  Boolean CN = false;
-    private View customLayout;
-    private List<Boolean> listNgay;
+    private ArrayList<Boolean> listNgay;
     private ArrayList<Boolean> congViec;
     private  CheckBox checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi;
     private TextView Th2,Th3,Th4,Th5,Th6,Th7,chuNhat;
@@ -69,15 +68,31 @@ public class AddNhanVien extends AppCompatActivity {
     private String STR_USER = "user";
     private Dialog dialog;
     private Window window;
+    private Boolean [] mangNgay = new Boolean[7];
 
+    private Boolean[][] mangNgay2 = new Boolean[3][7];
+    private Boolean[] cSang = new Boolean[] {false, false, false, false, false,false,false};
+    private Boolean[] cTrua = new Boolean[] {false, false, false, false, false,false,false};
+    private Boolean[] cToi = new Boolean[] {false, false, false, false, false,false,false};
+    
+    private int loai = 1; //1: casang, 2: trua, 3: toi
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        for (int i = 0; i < 3; i ++) {
+            for (int j = 0; j < 7; j ++) {
+                mangNgay2[i][j] = false;
+            }
+        }
+
         setContentView(R.layout.activity_addnhanvien);
         //ca lam
+       for (int i =0;i < mangNgay.length;i++){
+           mangNgay[i] = false;
+       }
         listNgay = new ArrayList<>();
-
         listNgay.add(T2);
         listNgay.add(T3);
         listNgay.add(T4);
@@ -90,6 +105,8 @@ public class AddNhanVien extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_thutrongtuan);
         window = dialog.getWindow();
+        btnHuyDiaLogNgay = dialog.findViewById(R.id.btnhuyDiaLogNgay);
+        btnThemDiaLogNgay = dialog.findViewById(R.id.btnthemDiaLogNgay);
         //congviec
         checkBep = findViewById(R.id.checkcongviecBep);
         checkQLSP = findViewById(R.id.checkcongviecQuanlysanpham);
@@ -108,13 +125,147 @@ public class AddNhanVien extends AppCompatActivity {
         Th2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(T2 == false){
+                if(cSang[0] == false){
                     T2 = true;
+                    cSang[0] = true;
                     Th2.setBackgroundResource(R.drawable.bg_textview_10);
                 }
                 else {
                     T2 = false;
+                    cSang[0] = false;
                     Th2.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+                if(cTrua[0] == false){
+                    T2 = true;
+                    cSang[0] = true;
+                    Th2.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T2 = false;
+                    cSang[0] = false;
+                    Th2.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+
+                if(cToi[0] == false){
+                    T2 = true;
+                    cSang[0] = true;
+                    Th2.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T2 = false;
+                    cSang[0] = false;
+                    Th2.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+            }
+        });
+        Th3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cSang[1] == false){
+                    T3 = true;
+                    cSang[1] = true;
+                    Th3.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T3 = false;
+                    cSang[1] = false;
+                    Th3.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+                if(cTrua[1] == false){
+                    T3 = true;
+                    cTrua[1] = true;
+                    Th3.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T3 = false;
+                    cSang[1] = false;
+                    Th3.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+                if(cTrua[1] == false){
+                    T3 = true;
+                    cTrua[1] = true;
+                    Th3.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T3 = false;
+                    cSang[1] = false;
+                    Th3.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+                
+            }
+        });
+        Th4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(T4 == false){
+                    T4 = true;
+                    cSang[2] = true;
+                    Th4.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T4 = false;
+                    cSang[2] = false;
+                    Th4.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+            }
+        });
+        Th5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(T5 == false){
+                    T5= true;
+                    cSang[3] = true;
+                    Th5.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T5 = false;
+                    cSang[3] = false;
+                    Th5.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+            }
+        });
+        Th6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(T6 == false){
+                    T6= true;
+                    cSang[4] = true;
+                    Th6.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T6 = false;
+                    cSang[4] = false;
+                    Th6.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+            }
+        });
+        Th7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(T7 == false){
+                    T7= true;
+                    cSang[5] = true;
+                    Th7.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    T7 = false;
+                    cSang[5] = false;
+                    Th7.setBackgroundResource(R.drawable.bg_textview_16);
+                }
+            }
+        });
+        chuNhat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(CN == false){
+                    CN= true;
+                    cSang[6] = false;
+                    chuNhat.setBackgroundResource(R.drawable.bg_textview_10);
+                }
+                else {
+                    CN = false;
+                    cSang[6] = false;
+                    chuNhat.setBackgroundResource(R.drawable.bg_textview_16);
                 }
             }
         });
@@ -139,15 +290,145 @@ public class AddNhanVien extends AppCompatActivity {
         checkBoxCaSang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loai = 1;
                 Casang(Gravity.CENTER);
+            }
+        });
+        checkBoxCaChieu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loai = 2;
+                Cachieu(Gravity.CENTER);
+            }
+        });
+        checkBoxCaToi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loai = 3;
+                Catoi(Gravity.CENTER);
             }
         });
         Taonhanvien();
     }
 
     public void Casang(int gravity){
-        btnHuyDiaLogNgay = dialog.findViewById(R.id.btnhuyDiaLogNgay);
-        btnThemDiaLogNgay = dialog.findViewById(R.id.btnthemDiaLogNgay);
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        windownAttributes.gravity = gravity;
+        window.setAttributes(windownAttributes);
+        if(Gravity.BOTTOM == gravity){
+            dialog.setCancelable(true);
+        }
+        else {
+            dialog.setCancelable(false);
+        }
+
+        if(cSang[0] == false){
+            T2 = false;
+            Th2.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T2 = true;
+            Th2.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cSang[1] == false){
+            T3 = false;
+            Th3.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T3 = true;
+            Th3.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cSang[2] == false){
+            T4 = false;
+            Th4.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T4 = true;
+            Th4.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cSang[3] == false){
+            T5 = false;
+            Th5.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T5 = true;
+            Th5.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cSang[4] == false){
+            T6 = false;
+            Th6.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T6 = true;
+            Th6.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cSang[5] == false){
+            T7 = false;
+            Th7.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T7 = true;
+            Th7.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cSang[6] == false){
+            CN = false;
+            chuNhat.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            CN = true;
+            chuNhat.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(caLam.getCaSang().size() > 0){
+
+            for(int i =0; i<mangNgay.length;i++){
+                if(caLam.getCaSang().get(i) == true){
+                    mangNgay[i] = true;
+                }
+                else {
+                    mangNgay[i] = false;
+                }
+            }
+        }
+
+
+        btnHuyDiaLogNgay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnThemDiaLogNgay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                for (int i =0;i<mangNgay.length;i++){
+//                    if(mangNgay[i] == true){
+//                       caLam.getCaSang().add(true);
+//                    }
+//                    else {
+//                        caLam.getCaSang().add(false);
+//                    }
+//                    mangNgay[i] = false;
+//                    Log.d("casang", T2+""+mangNgay[i]+"");
+//                        }
+
+                for (int i = 0; i < 7; i++) {
+                        mangNgay2[0][i] = cSang[i];
+                }
+
+                dialog.dismiss();
+                    }
+        });
+        dialog.show();
+
+    }
+
+    public void Cachieu(int gravity){
 
         if (window == null) {
             return;
@@ -163,6 +444,75 @@ public class AddNhanVien extends AppCompatActivity {
         else {
             dialog.setCancelable(false);
         }
+
+        if(cTrua[0] == false){
+            T2 = false;
+            Th2.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T2 = true;
+            Th2.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cTrua[1] == false){
+            T3 = false;
+            Th3.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T3 = true;
+            Th3.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cTrua[2] == false){
+            T4 = false;
+            Th4.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T4 = true;
+            Th4.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cTrua[3] == false){
+            T5 = false;
+            Th5.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T5 = true;
+            Th5.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cTrua[4] == false){
+            T6 = false;
+            Th6.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T6 = true;
+            Th6.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cTrua[5] == false){
+            T7 = false;
+            Th7.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T7 = true;
+            Th7.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cTrua[6] == false){
+            CN = false;
+            chuNhat.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            CN = true;
+            chuNhat.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(caLam.getCaChieu().size() > 0){
+            for(int i =0; i<mangNgay.length;i++){
+                if(caLam.getCaChieu().get(i) == true){
+                    mangNgay[i]= true;
+                }
+                else {
+                    mangNgay[i] = false;
+                }
+            }
+        }
+
+
         btnHuyDiaLogNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,110 +522,140 @@ public class AddNhanVien extends AppCompatActivity {
         btnThemDiaLogNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                for (int i =0;i<mangNgay.length;i++){
+//                    if(mangNgay[i] == true){
+//                        caLam.getCaChieu().add(true);
+//                    }
+//                    else {
+//                        caLam.getCaChieu().add(false);
+//                    }
+//                    mangNgay[i] = false;
+//                }
 
-
+                for (int i =0; i < 7; i ++) {
+                    mangNgay2[1][i] = cTrua[i];
+                }
+                dialog.dismiss();
             }
+
+
         });
         dialog.show();
-
     }
 
-//    public void Cachieu(){
-//        checkBoxCaChieu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(customLayout.getParent() != null){
-//                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
+    public void Catoi(int gravity){
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        windownAttributes.gravity = gravity;
+        window.setAttributes(windownAttributes);
+        if(Gravity.BOTTOM == gravity){
+            dialog.setCancelable(true);
+        }
+        else {
+            dialog.setCancelable(false);
+        }
+
+        if(cToi[0] == false){
+            T2 = false;
+            Th2.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T2 = true;
+            Th2.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cToi[1] == false){
+            T3 = false;
+            Th3.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T3 = true;
+            Th3.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cToi[2] == false){
+            T4 = false;
+            Th4.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T4 = true;
+            Th4.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cToi[3] == false){
+            T5 = false;
+            Th5.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T5 = true;
+            Th5.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cToi[4] == false){
+            T6 = false;
+            Th6.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T6 = true;
+            Th6.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cToi[5] == false){
+            T7 = false;
+            Th7.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            T7 = true;
+            Th7.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(cToi[6] == false){
+            CN = false;
+            chuNhat.setBackgroundResource(R.drawable.bg_textview_16);
+        } else {
+            CN = true;
+            chuNhat.setBackgroundResource(R.drawable.bg_textview_10);
+        }
+
+        if(caLam.getCaToi().size() > 0){
+            for(int i =0; i<mangNgay.length;i++){
+                if(caLam.getCaToi().get(i) == true){
+                    mangNgay[i] = true;
+                }
+                else {
+                    mangNgay[i] = false;
+                }
+            }
+        }
+
+
+        btnHuyDiaLogNgay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnThemDiaLogNgay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                for (int i =0;i<mangNgay.length;i++){
+//                    if(listNgay.get(i) == true){
+//                        caLam.getCaToi().add(true);
+//                    }
+//                    else {
+//                        caLam.getCaToi().add(false);
+//                    }
+//                    mangNgay[i] = false;
 //                }
-//                if(caLam.getCaChieu().size() > 0){
-//                    for(int i =0; i<checkBoxes.size();i++){
-//                        if(caLam.getCaChieu().get(i)){
-//                            checkBoxes.get(i).setChecked(true);
-//                        }
-//                        else {
-//                            checkBoxes.get(i).setChecked(false);
-//                        }
-//                    }
-//                }
-//
-//                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        for (int i =0;i<checkBoxes.toArray().length;i++){
-//                            if(checkBoxes.get(i).isChecked()){
-//                                caLam.getCaChieu().add(true);
-//                            }
-//                            else {
-//                                caLam.getCaChieu().add(false);
-//                            }
-//                            checkBoxes.get(i).setChecked(false);
-//                        }
-//
-//                    }
-//
-//                });
-//
-//                builder.show();
-//
-//
-//            }
-//        });
-//    }
-//
-//    public void Catoi(){
-//        checkBoxCaToi.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(customLayout.getParent() != null){
-//                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
-//                }
-//
-//                if(caLam.getCaToi().size() > 0){
-//                    for(int i =0; i<checkBoxes.size();i++){
-//                        if(caLam.getCaToi().get(i)){
-//                            checkBoxes.get(i).setChecked(true);
-//                        }
-//                        else {
-//                            checkBoxes.get(i).setChecked(false);
-//                        }
-//                    }
-//                }
-//
-//                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        for (int i =0;i<checkBoxes.toArray().length;i++){
-//                            if(checkBoxes.get(i).isChecked()){
-//                                caLam.getCaToi().add(true);
-//                            }
-//                            else {
-//                                caLam.getCaToi().add(false);
-//                            }
-//                            checkBoxes.get(i).setChecked(false);
-//                        }
-//
-//                    }
-//
-//                });
-//
-//                builder.show();
-//            }
-//        });
-//    }
+                for (int i = 0; i < 7; i++) {
+                    mangNgay2[2][i] = cToi[i];
+                }
+
+                dialog.dismiss();
+            }
+
+
+        });
+        dialog.show();
+    }
 
     public void Taonhanvien(){
         btnTaoNhanVien.setOnClickListener(new View.OnClickListener() {
