@@ -35,7 +35,7 @@ import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.OrderMenu;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +52,9 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     private Dialog dialogban;
     Window window;
     boolean xacdinh = true;
-    TextView datban;
+    TextView datban,listdatban;
+    String ids;
+    String id_bk;
     private DatabaseReference mDatabase;
 
 
@@ -112,7 +114,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     @Override
     public void onBindViewHolder(@NonNull StaticRvHolderBan holder, int position) {
         StaticBanModel CrrItem = staticBanModels.get(position);
-
+//        hamdatban(CrrItem);
         holder.tenPhucVu.setText(CrrItem.getTenNhanVien());
         holder.tenBan.setText(CrrItem.getTenban());
         holder.ngayGio.setText(changeDate(CrrItem.getGioDaOder()));
@@ -128,7 +130,11 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
         }
-
+//        if (staticBanModels.get(position).getTrangthai().equals("4")){
+//            holder.cardview_ban.setBackgroundResource(R.color.bac);
+//
+//
+//        }
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,6 +165,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
         String aaa = simpleDateFormat.format(date1);
+        Log.d("simpleDateFormat",aaa+"");
         return  aaa;
 
     }
@@ -166,6 +173,40 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     @Override
     public int getItemCount() {
         return staticBanModels.size() ;
+    }
+//    private void hamdatban(StaticBanModel CrrItem){
+//        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan");
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                    String id = postSnapshot.getKey();
+//                    Log.d("idne",id);
+//                    DataSnapshot sss = postSnapshot;
+//                    for (DataSnapshot aaa: sss.getChildren()){
+//                        ids = aaa.getKey();
+//                        id_bk = aaa.child("id_bk").getValue()+"";
+//                        if(ids.equals(Hamlaygiohientai())){
+//                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("3");
+//                        }
+//
+//                    }
+//
+//                }
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        Log.d("idnell",Hamlaygiohientai()+"kuku");
+//    }
+    public String Hamlaygiohientai(){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Log.d("datenowww",timestamp.getTime()+"");
+        return  timestamp.getTime()+"";
     }
 
     public  void getData(StaticBanModel CrrItem ){
@@ -201,6 +242,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
     }
+
+
     private void HamTaodialog(int gravity,StaticBanModel CrrItem){
 
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
@@ -209,11 +252,12 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         window.setAttributes(windownAttributes);
         dialogban.setCancelable(true);
         datban=dialogban.findViewById(R.id.tvdatban);
-        EvenlistDatban(datban,CrrItem);
+        listdatban = dialogban.findViewById(R.id.listdatban);
+        EvenlistDatban(datban,listdatban,CrrItem);
 
         dialogban.show();
     }
-    private void EvenlistDatban(TextView datban,StaticBanModel CrrItem){
+    private void EvenlistDatban(TextView datban,TextView listdatban,StaticBanModel CrrItem){
             datban.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -226,6 +270,13 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                     orderMenu.startActivity(intent);
                 }
             });
+        listdatban.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(orderMenu,"datban",Toast.LENGTH_LONG).show();
+
+            }
+        });
 
     }
 

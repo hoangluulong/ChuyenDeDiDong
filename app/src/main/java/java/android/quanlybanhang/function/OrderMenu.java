@@ -31,8 +31,11 @@
     import java.android.quanlybanhang.Common.Interface_KhuVuc_ban;
     import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 
+    import java.android.quanlybanhang.Model.DatBan.DatBanModel;
+    import java.android.quanlybanhang.Model.DatBan.id_datban;
     import java.android.quanlybanhang.R;
     import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
+    import java.sql.Timestamp;
     import java.util.ArrayList;
     import java.util.Date;
 
@@ -50,6 +53,12 @@
         ProgressBar progressBar;
         private Dialog dialogban;
         Window window;
+        String id_ban;
+        String id_khuvucs;
+        String ids;
+        ArrayList<DatBanModel> datBanModels ;
+        ArrayList<id_datban> id_datbans;
+        String id_bk;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -69,12 +78,16 @@
             dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialogban.setContentView(R.layout.dailongban);
             window = dialogban.getWindow();
+
+            id_datbans= new ArrayList<>();
+
 //            progressBar.setProgress(80);
 
 //arc menu them ban
 //            arcMenu = findViewById(R.id.arcmenu);
 
 //database realtime khu vuc
+            hamdatban();
              mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc");
 //            Log.d("ccc",FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").getKey());
             mDatabase.addValueEventListener(new ValueEventListener() {
@@ -129,6 +142,7 @@
             recyclerView2.setAdapter(staticRvAdapter);
             staticRvAdapter.notifyDataSetChanged();
 
+
         }
 
         @Override
@@ -139,19 +153,77 @@
          recyclerView2.setAdapter(staticRvAdapter);
 
         }
-//
-//        @Override
-//        public void onBackPressed() {
-//            Intent intent = new Intent(OrderMenu.this,MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-
-
 
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
             return super.onOptionsItemSelected(item);
+        }
+        private void hamdatban(){
+            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan");
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                        datBanModels = new ArrayList<>();
+                        String id = postSnapshot.getKey();
+                        Log.d("idne",id);
+                        DataSnapshot sss = postSnapshot;
+                        for (DataSnapshot aaa: sss.getChildren()) {
+//                            ids = aaa.getKey();
+                            id_bk = aaa.child("id_bk").getValue() + "";
+                            String id_ngaydat = aaa.getKey();
+                            String giodat = aaa.child("giodat").getValue() + "";
+                            String gioketthuc = aaa.child("gioketthuc").getValue() + "";
+                            String ngaydat = aaa.child("ngaydat").getValue() + "";
+                            String ngayhientai = aaa.child("ngayhientai").getValue() + "";
+                            String sodienthoai = aaa.child("sodienthoai").getValue() + "";
+                            String sotiendattruoc = aaa.child("sotiendattruoc").getValue() + "";
+                            String tenkhachhang = aaa.child("tenkhachhang").getValue() + "";
+                            datBanModels.add(new DatBanModel(id_ngaydat, giodat, gioketthuc, id_bk, ngaydat, ngayhientai, sodienthoai, sotiendattruoc, tenkhachhang));
+//                                if(ids.equals(Hamlaygiohientai())){
+//                                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvucs).child("ban").child(id_ban).child("trangthai").setValue("3");
+//                                }
+
+                        }
+                        id_datban datban = new id_datban(id,datBanModels);
+                        id_datbans.add(datban);
+//                        for(int y=0;y<id_datbans.size();y++) {
+//                            for (int i = 0; i < datBanModels.size(); i++) {
+//                                if(id_datbans.get(y).getId().equals(datBanModels.get(i).getId_bk())){
+//                                    Log.d("1635777120000a",id_datbans.get(y).getId());
+//                                    Log.d("1635777120000a",datBanModels.get(i).getId_bk()+"LOL");
+//                                    Log.d("1635777120000a",datBanModels.get(i).getId_ngaydat()+"Ngaydatngoai");
+//                                    Log.d("1635777120000a",Hamlaygiohientai()+"hamlayngayhientai");
+//
+//                                    if (Hamlaygiohientai().equals(datBanModels.get(i).getId_ngaydat())) {
+//                                        Log.d("1635777120000a",datBanModels.get(i).getNgaydat()+"Ngaydattrong");
+//
+//                                        String[] splits = datBanModels.get(i).getId_bk().split("_", 2);
+//                                        id_khuvucs =splits[0];
+//                                        id_ban =splits[1];
+//                                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvucs).child("ban").child(id_ban).child("trangthai").setValue("3");
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+
+                    }
+
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            Log.d("idnell",Hamlaygiohientai()+"kuku");
+        }
+        public String Hamlaygiohientai(){
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Log.d("datenowww",timestamp.getTime()+"");
+            return  timestamp.getTime()+"";
         }
         private void callback(){
             ChildEventListener childEventListener = new ChildEventListener() {
@@ -172,40 +244,18 @@
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-//
-//                // A comment has changed, use the key to determine if we are displaying this
-//                // comment and if so remove it.
-//                String commentKey = dataSnapshot.getKey();
-//
-//                // ...
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-//                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-//
-//                // A comment has changed position, use the key to determine if we are
-//                // displaying this comment and if so move it.
-//                Comment movedComment = dataSnapshot.getValue(Comment.class);
-//                String commentKey = dataSnapshot.getKey();
 
-                // ...
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-//                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-//                Toast.makeText(mContext, "Failed to load comments.",
-//                        Toast.LENGTH_SHORT).show();
+
             }
         };
             mDatabase.addChildEventListener(childEventListener);}
 
-//        @Override
-//        public void onBackPressed() {
-//            Intent intent = new Intent(OrderMenu.this,MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
     }

@@ -83,7 +83,7 @@ Activity activity;
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
+        tvkhongsanpham = findViewById(R.id.tv_khongsanpham);
         tvtentongsp = findViewById(R.id.tvtentongsp);
         tongsanphams= findViewById(R.id.Tongsanpham);
 
@@ -100,8 +100,9 @@ Activity activity;
         listSP = new ArrayList<>();
         boolean flag = true;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
+            Log.d("timestamp",timestamp.getTime()+"");
         long date =Long.parseLong(timestamp.getTime()+"");
+
 
         getDulieuSql();
 
