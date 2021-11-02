@@ -122,14 +122,18 @@
         <activity
             android:name=".function.CuaHangOnline.CuaHangOnlineActivity"
             android:exported="true"
-            android:parentActivityName=".function.BepBar.BepActivity"
+            android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
-
         <activity
             android:name=".function.CuaHangOnline.ThongTinCuaHangOnlineActivity"
             android:exported="true"
-            android:parentActivityName=".function.BepBar.BepActivity"
+            android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
+        <activity
+            android:name=".function.CuaHangOnline.CauHinhVanChuyenOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4"/>
     </application>
 
 </manifest>

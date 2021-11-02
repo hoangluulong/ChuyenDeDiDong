@@ -127,6 +127,7 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.cuahang:
                 break;
@@ -137,7 +138,7 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                 Toast.makeText(this, "Quang cáo", Toast.LENGTH_LONG).show();
                 break;
             case R.id.thongtin:
-                Intent intent = new Intent(this, ThongTinCuaHangOnlineActivity.class);
+                intent = new Intent(this, ThongTinCuaHangOnlineActivity.class);
                 startActivity(intent);
                 finish();
                 break;
@@ -145,7 +146,9 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                 Toast.makeText(this, "gio làm việc", Toast.LENGTH_LONG).show();
                 break;
             case R.id.vanchuyen:
-                Toast.makeText(this, "vanchuye", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
 
 

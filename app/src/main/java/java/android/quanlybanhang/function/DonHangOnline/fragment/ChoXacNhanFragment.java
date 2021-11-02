@@ -25,6 +25,7 @@ import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -133,9 +134,13 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
                         DonHang donHang = snap.getValue(DonHang.class);
                         if (donHang.getTrangthai() == 0) {
                             donHangs.add(donHang);
+                            String key = snap.getKey();
                             Date date = support.formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
+                            Log.d("date", date+"");
+                            donHangs.get(i).setKey(key);
                             donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
+                            donHangs.get(i).setIdQuan("JxZOOK1RzcMM7pL5I6naGZfYSsu2");
                             i++;
                         }
                     }

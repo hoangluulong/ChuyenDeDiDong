@@ -126,12 +126,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setCheckedItem(R.id.nav_homes);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new docJSon().execute("https://provinces.open-api.vn/api/?depth=3");
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                new docJSon().execute("https://provinces.open-api.vn/api/?depth=3");
+//            }
+//        });
 
     }
 
@@ -211,74 +211,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return id;
     }
 
-    class docJSon extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return docNoiDung_Tu_URL(strings[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            ArrayList<DiaChi> listDiaChi = new ArrayList<>();
-            try {
-
-                JSONArray root = new JSONArray(s);
-                for (int i = 0; i < root.length(); i++) {
-                    JSONObject khuVuc = root.getJSONObject(i);
-                    String tinhTP = khuVuc.getString("name");
-                    JSONArray arrHuyen = khuVuc.getJSONArray("districts");
-                    ArrayList<Huyen> huyens = new ArrayList<>();
-                    for (int j = 0; j < arrHuyen.length(); j++) {
-                        JSONObject khuVucHuyen = arrHuyen.getJSONObject(j);
-                        String tenHuyen = khuVucHuyen.getString("name");
-                        JSONArray arrXa = khuVucHuyen.getJSONArray("wards");
-                        ArrayList<String> xas = new ArrayList<>();
-                        for (int k = 0; k < arrXa.length(); k++) {
-                            JSONObject khuVucXa = arrXa.getJSONObject(k);
-                            String xa = khuVucXa.getString("name");
-                            xas.add(xa);
-                        }
-                        Huyen huyen = new Huyen(tenHuyen, xas);
-                        huyens.add(huyen);
-                    }
-
-                    DiaChi diaChi = new DiaChi(tinhTP, huyens);
-                    listDiaChi.add(diaChi);
-                }
-
-                Log.d("qq", listDiaChi.size()+"");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static String docNoiDung_Tu_URL(String theUrl) {
-        StringBuilder content = new StringBuilder();
-        try {
-            //Create a url object
-            URL url = new URL(theUrl);
-
-            //create a urlconnection object
-            URLConnection urlConnection = url.openConnection();
-
-            // wrap the urlconnection in a bufferedreader
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-
-            //read from the urlconnection via the bufferedreader
-            while ((line = bufferedReader.readLine()) != null) {
-                content.append(line + "\n");
-            }
-            bufferedReader.close();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return content.toString();
-    }
+//    class docJSon extends AsyncTask<String, Integer, String> {
+//
+//        @Override
+//        protected String doInBackground(String... strings) {
+//            return docNoiDung_Tu_URL(strings[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            ArrayList<DiaChi> listDiaChi = new ArrayList<>();
+//            try {
+//
+//                JSONArray root = new JSONArray(s);
+//                for (int i = 0; i < root.length(); i++) {
+//                    JSONObject khuVuc = root.getJSONObject(i);
+//                    String tinhTP = khuVuc.getString("name");
+//                    JSONArray arrHuyen = khuVuc.getJSONArray("districts");
+//                    ArrayList<Huyen> huyens = new ArrayList<>();
+//                    for (int j = 0; j < arrHuyen.length(); j++) {
+//                        JSONObject khuVucHuyen = arrHuyen.getJSONObject(j);
+//                        String tenHuyen = khuVucHuyen.getString("name");
+//                        JSONArray arrXa = khuVucHuyen.getJSONArray("wards");
+//                        ArrayList<String> xas = new ArrayList<>();
+//                        for (int k = 0; k < arrXa.length(); k++) {
+//                            JSONObject khuVucXa = arrXa.getJSONObject(k);
+//                            String xa = khuVucXa.getString("name");
+//                            xas.add(xa);
+//                        }
+//                        Huyen huyen = new Huyen(tenHuyen, xas);
+//                        huyens.add(huyen);
+//                    }
+//
+//                    DiaChi diaChi = new DiaChi(tinhTP, huyens);
+//
+//                    Log.d("key", diaChi.getTenTinhTP());
+//
+//                    listDiaChi.add(diaChi);
+//                }
+//
+//                Log.d("qq", listDiaChi.size()+"");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    private static String docNoiDung_Tu_URL(String theUrl) {
+//        StringBuilder content = new StringBuilder();
+//        try {
+//            //Create a url object
+//            URL url = new URL(theUrl);
+//
+//            //create a urlconnection object
+//            URLConnection urlConnection = url.openConnection();
+//
+//            // wrap the urlconnection in a bufferedreader
+//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+//            String line;
+//
+//            //read from the urlconnection via the bufferedreader
+//            while ((line = bufferedReader.readLine()) != null) {
+//                content.append(line + "\n");
+//            }
+//            bufferedReader.close();
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return content.toString();
+//    }
 
 }

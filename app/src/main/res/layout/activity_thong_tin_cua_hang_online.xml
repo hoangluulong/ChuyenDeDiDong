@@ -116,9 +116,11 @@
                                             app:hintEnabled="true">
 
                                             <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/edt_tenCuaHang"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:inputType="text"
+                                                android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 
                                             </com.google.android.material.textfield.TextInputEditText>
@@ -134,9 +136,11 @@
                                             app:hintEnabled="true">
 
                                             <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/edt_phone"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:inputType="phone"
+                                                android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 
                                             </com.google.android.material.textfield.TextInputEditText>
@@ -163,6 +167,7 @@
                                             app:hintEnabled="false">
 
                                             <com.google.android.material.textfield.TextInputEditText
+                                                    android:id="@+id/edt_mota"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="left|top"
@@ -192,7 +197,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
-                                                android:id="@+id/dangKy"
+                                                android:id="@+id/luu1"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
                                                 android:gravity="center"
@@ -266,11 +271,12 @@
                                            android:layout_marginTop="10dp"
                                            android:hint="Số nhà/ đường"
                                            app:hintEnabled="true">
-
                                            <com.google.android.material.textfield.TextInputEditText
+                                               android:id="@+id/sonha_soduong"
                                                android:layout_width="match_parent"
                                                android:layout_height="wrap_content"
                                                android:inputType="text"
+                                               android:textColor="@color/slate"
                                                app:boxStrokeColor="@color/vang">
 
                                            </com.google.android.material.textfield.TextInputEditText>
@@ -283,11 +289,12 @@
                                            android:layout_height="wrap_content"
                                            android:layout_marginTop="40dp"
                                            android:hint="Tỉnh/ Thành phố">
-
                                            <AutoCompleteTextView
+                                               android:id="@+id/thanhpho"
                                                android:layout_width="match_parent"
                                                android:layout_height="wrap_content"
                                                android:focusable="false"
+                                               android:textColor="@color/slate"
                                                android:inputType="none" />
 
                                        </com.google.android.material.textfield.TextInputLayout>
@@ -300,9 +307,11 @@
                                            android:hint="Quận/ huyện">
 
                                            <AutoCompleteTextView
+                                               android:id="@+id/quan_huyen"
                                                android:layout_width="match_parent"
                                                android:layout_height="wrap_content"
                                                android:focusable="false"
+                                               android:textColor="@color/slate"
                                                android:inputType="none" />
 
                                        </com.google.android.material.textfield.TextInputLayout>
@@ -315,9 +324,11 @@
                                            android:hint="Phường/ xã">
 
                                            <AutoCompleteTextView
+                                               android:id="@+id/phuongxa"
                                                android:layout_width="match_parent"
                                                android:layout_height="wrap_content"
                                                android:focusable="false"
+                                               android:textColor="@color/slate"
                                                android:inputType="none" />
 
                                        </com.google.android.material.textfield.TextInputLayout>
@@ -342,6 +353,7 @@
                                            app:cardElevation="5dp">
 
                                            <TextView
+                                               android:id="@+id/luu2"
                                                android:layout_width="match_parent"
                                                android:layout_height="match_parent"
                                                android:gravity="center"
@@ -388,11 +400,85 @@
                                         android:textSize="20sp" />
 
                                     <ImageView
+                                        android:id="@+id/hinhanhIMG"
                                         android:layout_width="15dp"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center|right"
                                         android:layout_weight="1"
                                         android:src="@drawable/up_24" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/hinhanh"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:orientation="vertical">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/recycleview"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+                                    <LinearLayout
+                                        android:id="@+id/layoutLoadImage"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="20dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Đang tải 1/1"
+                                            android:layout_marginLeft="10dp"
+                                            android:textColor="@color/xanh" />
+
+                                        <ProgressBar
+                                            android:id="@+id/progressBar"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="2dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginRight="10dp"
+                                            android:background="@color/xanh" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/addImage"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="200dp"
+                                        android:layout_marginTop="20dp"
+                                        android:background="@drawable/border_image_dashed"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="50dp"
+                                            android:gravity="center">
+
+                                            <ImageView
+                                                android:layout_width="50dp"
+                                                android:layout_height="50dp"
+                                                android:src="@drawable/alternate_24" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:gravity="center">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Tải ảnh lên" />
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
                                 </LinearLayout>
 
                             </LinearLayout>
