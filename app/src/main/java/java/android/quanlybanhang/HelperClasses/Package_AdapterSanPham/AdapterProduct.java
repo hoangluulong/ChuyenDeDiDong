@@ -86,7 +86,6 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
-//                    context.update(position);
                     Intent intent = new Intent(context2, SuaSanPhamActivity.class);
                     intent.putExtra("Key_aray",arrayList.get(position));
                     context2.startActivity(intent);

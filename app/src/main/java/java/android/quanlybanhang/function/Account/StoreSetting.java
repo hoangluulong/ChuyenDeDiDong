@@ -88,7 +88,6 @@ public class StoreSetting extends AppCompatActivity {
 
         String[] items = ArrayTinh();
         adapter1 = new ArrayAdapter<String>(this, R.layout.item_spinner1_setup_store, items);
-
         autoCompleteTextView1.setAdapter(adapter1);
 
 //        autoCompleteTextView2.setEnabled(false);

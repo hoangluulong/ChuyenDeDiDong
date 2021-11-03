@@ -23,7 +23,7 @@
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_addcategory.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_addkhachhang.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_addnhanvien.xml" value="0.22" />
-        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_addproduct.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_addproduct.xml" value="0.25" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_bao_cao_chi_so.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_bao_cao_kho.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_card_san_pham.xml" value="0.20416666666666666" />
@@ -31,6 +31,7 @@
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_dailongthemdonvitinh.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_list_product.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_listnhanvien.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_order_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_processing.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_store_setting.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_themnhanvien.xml" value="0.20416666666666666" />
@@ -38,9 +39,11 @@
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activiy_updatenhanvien.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/dailongdonvitinh.xml" value="0.1" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/dialog_thutrongtuan.xml" value="0.25" />
+        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/dialogdiachikhachhang.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/dialogthemdonvitinh.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_listnhanvien.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_product.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_spinner1_setup_store.xml" value="0.20416666666666666" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/delete_24.xml" value="0.25" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/edit_24.xml" value="0.25" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable/bg_layout.xml" value="0.25" />

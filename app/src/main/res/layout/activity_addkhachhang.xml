@@ -24,7 +24,7 @@
                 android:text="Họ và tên"></TextView>
 
             <EditText
-                android:id="@+id/edtTenNhanVien"
+                android:id="@+id/edtTenKhachHang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_edittext"
@@ -38,7 +38,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Số điện thoại"></TextView>
             <EditText
-                android:id="@+id/edtPhone"
+                android:id="@+id/edtPhoneKhachHang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_edittext"
@@ -52,7 +52,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Địa chỉ"></TextView>
             <EditText
-                android:id="@+id/edtEmail"
+                android:id="@+id/edtDiaChiKhachHang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_edittext"
@@ -66,7 +66,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Nhóm khách hàng"></TextView>
             <Spinner
-                android:id="@+id/edtPassword"
+                android:id="@+id/spnNhomKhachHang"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/bg_white_edittext"
@@ -84,16 +84,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <RadioButton
+                        android:id="@+id/gtNu"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Nữ"></RadioButton>
                     <RadioButton
+                        android:id="@+id/gtNam"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Nam"></RadioButton>
                     <RadioButton
+                        android:id="@+id/gtkhongco"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -120,7 +123,7 @@
                     android:hint="Ngày sinh"
                     android:padding="12dp"></EditText>
                 <ImageButton
-                    android:id="@+id/pastePin"
+                    android:id="@+id/imgLich"
                     android:layout_marginLeft="-60dp"
                     style="?android:buttonBarButtonStyle"
                     android:layout_gravity="center"
@@ -153,7 +156,7 @@
                 android:text="Ghi chú"></TextView>
 
             <EditText
-                android:id="@+id/edt_ghichu"
+                android:id="@+id/edtghichuKhachHang"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
@@ -163,6 +166,7 @@
                 android:gravity="top|left"
                 android:hint="nhập ghi chú"
                 android:inputType="textMultiLine|text"
+                android:padding="12dp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -177,7 +181,7 @@
         android:layout_weight="1"
         android:padding="5dp">
         <Button
-            android:id="@+id/btnhuyTaoNhanVien"
+            android:id="@+id/btnhuyTaoDiaChiKhachHang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -187,7 +191,7 @@
             android:alpha="0.4"
             android:text="Hủy bỏ"></Button>
         <Button
-            android:id="@+id/btnTaoUser"
+            android:id="@+id/btnTaoDiaChiKhachhang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

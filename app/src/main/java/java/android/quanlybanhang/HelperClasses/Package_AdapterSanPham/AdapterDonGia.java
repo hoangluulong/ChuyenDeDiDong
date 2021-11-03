@@ -74,8 +74,6 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
             public void onClick(View v) {
                 donGias.remove(donGia);
                 notifyDataSetChanged();
-
-
             }
         });
 

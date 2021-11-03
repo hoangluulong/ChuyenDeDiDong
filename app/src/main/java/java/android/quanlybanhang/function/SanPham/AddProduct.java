@@ -3,7 +3,6 @@ package java.android.quanlybanhang.function.SanPham;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,7 +12,6 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
@@ -122,7 +120,7 @@ public class AddProduct extends AppCompatActivity {
         window = dialog.getWindow();
         dialog1 = new Dialog(AddProduct.this);
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog1.setContentView(R.layout.dialogthemdonvitinh);
+        dialog1.setContentView(R.layout.dialogthemdiachikhachhang);
         window1 = dialog1.getWindow();
 
 

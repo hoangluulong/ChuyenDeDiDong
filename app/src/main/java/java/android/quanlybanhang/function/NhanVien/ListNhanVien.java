@@ -2,6 +2,7 @@ package java.android.quanlybanhang.function.NhanVien;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.android.quanlybanhang.HelperClasses.Package_AdapterNhanVien.AdapterNhanVien;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
@@ -68,10 +70,14 @@ public class ListNhanVien  extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 nhanViens = new ArrayList<>();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
+//                    String name = snapshot1.child("username").getValue().toString();
+//                    String phone = snapshot1.child("phone").getValue().toString();
+//                    CaLam caLam = snapshot1.child("caLam").getValue(CaLam.class);
+//                    ArrayList<Boolean>  chucVu = (ArrayList<Boolean>) snapshot1.child("chucVu").getValue();
                     NhanVien nhanVien = snapshot1.getValue(NhanVien.class);
                     nhanViens.add(nhanVien);
                 }
-                adapterNhanVien = new AdapterNhanVien(ListNhanVien.this,nhanViens);
+                adapterNhanVien = new AdapterNhanVien(ListNhanVien.this,ListNhanVien.this,nhanViens);
                 recyclerView.setAdapter(adapterNhanVien);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListNhanVien.this, LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(linearLayoutManager);
