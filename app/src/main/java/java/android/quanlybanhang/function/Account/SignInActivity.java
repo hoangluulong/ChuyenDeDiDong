@@ -325,4 +325,5 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             dataSql.QueryData("INSERT INTO Test VALUES(null, '" + "" + "', '" + "" + "', 1)");
         }
     }
+    //cuaHang
 }

@@ -15,7 +15,7 @@
             <item
                 android:id="@+id/quangcao"
                 android:icon="@drawable/category_24"
-                android:title="Quản cáo sản phẩm" />
+                android:title="Quảng cáo sản phẩm" />
 
         </group>
     </menu>

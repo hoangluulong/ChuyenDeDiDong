@@ -5,23 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.Image;
 import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>{
 
     private Context context;
-    private ArrayList<String> listImage;
+    private ArrayList<Image> listImage;
 
-    public ImageAdapter(Context context, ArrayList<String> list) {
+    public ImageAdapter(Context context, ArrayList<Image> list) {
         this.context = context;
         this.listImage = list;
     }
@@ -34,12 +34,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>
 
     @Override
     public void onBindViewHolder(@NonNull ImageHolder holder, int position) {
-
+        Picasso.get().load(listImage.get(position).getImageUrl()).into(holder.image);
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return listImage.size();
     }
 
     public class ImageHolder extends RecyclerView.ViewHolder {

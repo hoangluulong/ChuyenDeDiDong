@@ -35,8 +35,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -46,10 +50,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.ImageAdapter;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.DiaChiCuaHang;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.Image;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.ThongTinCuaHang;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -66,9 +74,9 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private LinearLayout btnDowUpThongtin, thongtinchung, btnDiaChi, diachi, hinhanh, btnHinhAnh, addImage, layoutLoadImage;
     private LinearLayout.LayoutParams params1, params2, params3, params4;
     private ImageView thongTinIMG, diaChiIMG, hinhanhIMG;
-    private boolean setL1 = false;
-    private boolean setL2 = false;
-    private boolean setL3 = false;
+    private boolean setL1 = true;
+    private boolean setL2 = true;
+    private boolean setL3 = true;
     private TextView luu1, luu2;
     private RecyclerView recycleview;
     private ImageAdapter imageAdapter;
@@ -84,7 +92,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private String tenHuyen;
     private String tenXa;
 
-    private DatabaseReference root = FirebaseDatabase.getInstance().getReference("Image");
     private StorageReference reference = FirebaseStorage.getInstance().getReference("hinhanh");
     private Uri imageUri;
     private ProgressBar progressBar;
@@ -94,6 +101,12 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private ArrayAdapter<String> adapterTinh;
     private ArrayAdapter<String> adapterHuyen;
     private ArrayAdapter<String> adapterXa;
+    private ArrayList<Image> images = new ArrayList<>();
+
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
 
     private int ViTri;
     @Override
@@ -101,31 +114,31 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_tin_cua_hang_online);
         IDLayout();
+        thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+
+        getThongTinChung();
+//        getImageFireBase();
+        movedFirebase();
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        getDateFire();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 new docJSon().execute("https://provinces.open-api.vn/api/?depth=3");
             }
         });
-
-    }
-
-    private void getDateFire() {
-        listImage = new ArrayList<>();
         displayItem();
     }
 
     private void displayItem() {
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(this, 1));
-        imageAdapter = new ImageAdapter(this, listImage);
+        imageAdapter = new ImageAdapter(this, images);
         recycleview.setAdapter(imageAdapter);
         imageAdapter.notifyDataSetChanged();
     }
@@ -156,7 +169,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
 
         sonha_soduong = findViewById(R.id.sonha_soduong);
         edt_tenCuaHang = findViewById(R.id.edt_tenCuaHang);
-        sonha_soduong = findViewById(R.id.sonha_soduong);
         edt_phone = findViewById(R.id.edt_phone);
         edt_mota = findViewById(R.id.edt_mota);
 
@@ -172,9 +184,76 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         btnDiaChi.setOnClickListener(this);
         btnHinhAnh.setOnClickListener(this);
         addImage.setOnClickListener(this);
+        luu1.setOnClickListener(this);
+        luu2.setOnClickListener(this);
 
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
         progressBar.setVisibility(View.INVISIBLE);
         playFire();
+    }
+
+    private void getThongTinChung() {
+        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG + "/thongtin").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    ThongTinCuaHang thongTinCuaHang = snapshot.getValue(ThongTinCuaHang.class);
+                    DiaChiCuaHang diaChiCuaHang = snapshot.getValue(DiaChiCuaHang.class);
+                    edt_tenCuaHang.setText(thongTinCuaHang.getName());
+                    edt_phone.setText(thongTinCuaHang.getSoDienThoai());
+                    edt_mota.setText(thongTinCuaHang.getMoTa());
+                    sonha_soduong.setText(diaChiCuaHang.getSoNha());
+                    phuongxaAuto.setText(diaChiCuaHang.getPhuongXa());
+                    quan_huyenAuto.setText(diaChiCuaHang.getQuanHuyen());
+                    thanhphoAuto.setText(diaChiCuaHang.getTinhThanhPho());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void movedFirebase(){
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                images.add(dataSnapshot.getValue(Image.class));
+                imageAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("Test", "onChildChanged:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getKey();
+
+                for (int i = 0; i < images.size(); i++) {
+                    if (images.get(i).getKey().equals(key)) {
+                        images.remove(i);
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("Test", "onChildMoved:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Test", "postComments:onCancelled", databaseError.toException());
+            }
+        };
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("cuaHang").child(ID_CUAHANG).child("thongtin/image");
+        databaseReference.addChildEventListener(childEventListener);
     }
 
     private void setDataText() {
@@ -272,6 +351,12 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 galleryIntent.setType("image/*");
                 startActivityForResult(galleryIntent, 2);
                 break;
+            case R.id.luu1:
+                saveCuaHang();
+                break;
+            case R.id.luu2:
+                saveDiaChi();
+                break;
         }
     }
 
@@ -320,7 +405,9 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 Toast.makeText(this, "San pham", Toast.LENGTH_LONG).show();
                 break;
             case R.id.quangcao:
-                Toast.makeText(this, "Quang cáo", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, QuangCaoActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.thongtin:
                 break;
@@ -352,13 +439,14 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                             public void run() {
                                 params4.height = 0;
                                 layoutLoadImage.setLayoutParams(params4);
+                                layoutLoadImage.setEnabled(false);
                                 progressBar.setProgress(0);
                             }
                         }, 1000);
+                        String key = mFirebaseDatabase.push().getKey();
+                        Image image = new Image(key, uri.toString());
+                        mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin/image/"+key).setValue(image);
                         progressBar.setVisibility(View.INVISIBLE);
-                        String modelId = root.push().getKey();
-                        root.child(modelId).setValue(uri.toString());
-
                     }
                 });
             }
@@ -386,6 +474,69 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(mUri));
+    }
+
+    private void saveCuaHang() {
+        String nameCH = edt_tenCuaHang.getText().toString();
+        String phone = edt_phone.getText().toString();
+        String moTa = edt_mota.getText().toString();
+
+        if (nameCH.isEmpty()) {
+            edt_tenCuaHang.setError("Nhập tên cửa hàng");
+            edt_tenCuaHang.requestFocus();
+        }else if (phone.isEmpty()) {
+            edt_phone.setError("Nhập số điện thoại");
+            edt_phone.requestFocus();
+        }else{
+            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("moTa").setValue(moTa);
+            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("name").setValue(nameCH);
+            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("soDienThoai").setValue(phone).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã lưu", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Lưu thất bại", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
+    }
+
+    private void saveDiaChi() {
+        String soNhaDuong = sonha_soduong.getText().toString();
+
+        if (soNhaDuong.isEmpty()) {
+            sonha_soduong.setError("Nhập số nhà/ đường");
+            sonha_soduong.requestFocus();
+        } else if (tenTinh.isEmpty()) {
+            thanhphoAuto.setError("Chọn tỉnh/ Thành phố");
+            thanhphoAuto.requestFocus();
+        } else if (tenHuyen.isEmpty()) {
+            quan_huyenAuto.setError("Chọn quận/huyện");
+            quan_huyenAuto.requestFocus();
+        } else if (tenXa.isEmpty()){
+            phuongxaAuto.setError("Chọn phường xã");
+            phuongxaAuto.requestFocus();
+        }else {
+            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("phuongXa").setValue(tenXa);
+            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("quanHuyen").setValue(tenHuyen);
+            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("tinhThanhPho").setValue(tenTinh);
+            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("soNha").setValue(soNhaDuong).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã lưu", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 
@@ -399,7 +550,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
             }
         }
     }
-
 
     class docJSon extends AsyncTask<String, Integer, String> {
 

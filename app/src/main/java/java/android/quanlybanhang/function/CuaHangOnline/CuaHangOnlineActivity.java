@@ -135,7 +135,9 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                 Toast.makeText(this, "San pham", Toast.LENGTH_LONG).show();
                 break;
             case R.id.quangcao:
-                Toast.makeText(this, "Quang cáo", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, QuangCaoActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.thongtin:
                 intent = new Intent(this, ThongTinCuaHangOnlineActivity.class);
