@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
 import java.android.quanlybanhang.Common.Interface_KhuVuc_ban;
+import java.android.quanlybanhang.Model.DatBan.ID_datban;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
 
@@ -38,6 +39,8 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
         this.id_khuvuc= id_khuvuc;
 
     }
+
+
 //
 
     @NonNull

@@ -1,7 +1,7 @@
 package java.android.quanlybanhang.Model.DatBan;
 
 public class DatBanModel {
-
+    private  String tenban;
     private String id_ngaydat;
     private String giodat;
     private  String gioketthuc;
@@ -12,7 +12,15 @@ public class DatBanModel {
     private String sotiendadattruoc;
     private String tenkhachhang;
 
-    public DatBanModel(String id_ngaydat, String giodat,String gioketthuc, String id_bk, String ngaydat, String ngayhientai, String sodienthoai, String sotiendadattruoc, String tenkhachhang) {
+    public String getTenban() {
+        return tenban;
+    }
+
+    public void setTenban(String tenban) {
+        this.tenban = tenban;
+    }
+
+    public DatBanModel(String id_ngaydat, String giodat, String gioketthuc, String id_bk, String ngaydat, String ngayhientai, String sodienthoai, String sotiendadattruoc, String tenkhachhang,String tenban) {
 
         this.id_ngaydat = id_ngaydat;
         this.giodat = giodat;
@@ -23,6 +31,7 @@ public class DatBanModel {
         this.sodienthoai = sodienthoai;
         this.sotiendadattruoc = sotiendadattruoc;
         this.tenkhachhang = tenkhachhang;
+        this.tenban = tenban;
     }
     public String getGioketthuc() {
         return gioketthuc;

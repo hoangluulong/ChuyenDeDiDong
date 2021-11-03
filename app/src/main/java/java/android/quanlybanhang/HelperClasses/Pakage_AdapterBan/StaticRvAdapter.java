@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
+import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
 import java.android.quanlybanhang.function.DatBan.DatBan;
 import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.android.quanlybanhang.function.MonOrder;
@@ -273,8 +274,12 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         listdatban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(orderMenu,"datban",Toast.LENGTH_LONG).show();
-
+                Toast.makeText(orderMenu,"danh sach dat ban",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(orderMenu, DanhSachDatBan.class);
+                intent.putExtra("id_ban",CrrItem.getID());
+                intent.putExtra("tenban",CrrItem.getTenban());
+                intent.putExtra("id_khuvuc",Id_khuvuc);
+                orderMenu.startActivity(intent);
             }
         });
 

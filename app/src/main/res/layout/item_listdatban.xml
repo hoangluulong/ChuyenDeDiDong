@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayouts"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="1dp"
+    android:background="@drawable/card_background"
+    android:elevation="8dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="horizontal">
+
+
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent"
+       android:layout_marginStart="5dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginBottom="10dp"
+       android:orientation="vertical"
+       android:layout_weight="0.25"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/textView5"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Tên Khách Hàng:" />
+
+         <TextView
+             android:id="@+id/tvtenkhachhang"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="Phạm Xuân Trường" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/sodienthoai"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Số Điện Thoại:" />
+
+         <TextView
+             android:id="@+id/tvsodienthoai"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="0373658717" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/sotiendattruoc"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Số Tiền đặt Trước:" />
+
+         <TextView
+             android:id="@+id/tvsotiendattruoc"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="000" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/Ngaydat"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Ngày đặt:" />
+
+         <TextView
+             android:id="@+id/tvngaydat"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="11-02-2021" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/tenban"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Tên Bàn:" />
+
+         <TextView
+             android:id="@+id/tvtenban"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="Bàn C" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/ngaydatban"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Ngày Được đặt:" />
+
+         <TextView
+             android:id="@+id/tvngaydatban"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="11-5-2021" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/giodat"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Giờ Bắt Đầu:" />
+
+         <TextView
+             android:id="@+id/tvgiodat"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="10:11" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+         <TextView
+             android:id="@+id/giokt"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.5"
+             android:paddingLeft="10dp"
+             android:text="Giờ Kết Thúc:" />
+
+         <TextView
+             android:id="@+id/tvgiokt"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:paddingLeft="30dp"
+             android:text="13:11" />
+      </LinearLayout>
+
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="50dp"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+
+       android:layout_marginStart="5dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginEnd="5dp"
+       android:layout_marginBottom="10dp">
+
+      <ImageButton
+          android:layout_marginBottom="5dp"
+          android:id="@+id/check"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:layout_weight="1"
+          android:background="@drawable/bg_xacnhandathang"
+          android:src="@drawable/icons8check50"
+
+          />
+      <ImageButton
+          android:layout_marginTop="5dp"
+
+          android:id="@+id/cancel"
+          android:background="@drawable/bg_huy"
+          android:src="@drawable/icons8cancel50"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:layout_weight="1"
+
+         />
+   </LinearLayout>
+</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
