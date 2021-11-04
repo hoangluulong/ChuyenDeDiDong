@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -18,9 +19,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextClock;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,17 +43,25 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class Activity_ThemKhachHang extends AppCompatActivity {
-    private EditText editHoTen,editSDT,editDiaChi,editNgaySinh,editEmail,editGhiChu,soNha;
+    private EditText editHoTen,editSDT,editNgaySinh,editEmail,editGhiChu,soNha;
+    private TextView editDiaChi;
     private Spinner spnNhomKhachHang;
     private RadioButton radioNam,radioNu,radioKhongCo;
     private AutoCompleteTextView spnTinh,spnHuyen,spnXa;
     private Button btnTaoDiaChi,btnHuyDiaChi;
     private ArrayAdapter<String> adapterTinh,adapterHuyen,adapterXa;
-    private ArrayList<String> Tinh,Huyen,Xa;
+    private String[] tinh;
+    private String[] huyen;
+    private String[] xa;
+    private int ViTri;
+
+    private String tenTinh;
+    private String tenHuyen;
+    private String tenXa;
     private Dialog dialog;
     private Window window;
     private ArrayList<DiaChi> listDiaChi = new ArrayList<>();
-    private ProgressBar progressBar;
+    private TextInputLayout abc;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +80,14 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialogthemdiachikhachhang);
         window = dialog.getWindow();
+        abc = dialog.findViewById(R.id.province);
         spnTinh = dialog.findViewById(R.id.spinner_tinh);
         spnHuyen = dialog.findViewById(R.id.spinner_huyen);
         spnXa = dialog.findViewById(R.id.spinner_xa);
+        soNha = dialog.findViewById(R.id.edtSoNha);
         btnHuyDiaChi = dialog.findViewById(R.id.btnhuyTaoDiaChiKhachHang);
         btnTaoDiaChi = dialog.findViewById(R.id.btnTaoDiaChiKhachhang);
-        progressBar = (ProgressBar) dialog.findViewById(R.id.progressBar1);
-        progressBar.setVisibility(View.VISIBLE);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -104,18 +118,67 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
         else {
             dialog.setCancelable(false);
         }
-        progressBar.setVisibility(View.INVISIBLE);
+        tinh = ArrayTinh();
+        adapterTinh = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, tinh);
+        spnTinh.setAdapter(adapterTinh);
+        adapterTinh.notifyDataSetChanged();
 
-        Log.d("diachi",listDiaChi.size()+"");
-        for (int i = 0; i< listDiaChi.size();i++){
-                  String tinh = listDiaChi.get(i).getTenTinhTP();
-                  Tinh.add(tinh);
-               }
-        adapterTinh = new ArrayAdapter<>(this, R.layout.item_spinner1_setup_store, Tinh);
+        spnTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tenTinh = parent.getItemAtPosition(position).toString();
+                ViTri = position;
+                String[] arrayHuyen = ArrayHuyen(position);
+                adapterHuyen = new ArrayAdapter<String>(Activity_ThemKhachHang.this,R.layout.support_simple_spinner_dropdown_item,arrayHuyen);
+                spnHuyen.setText(listDiaChi.get(position).getHuyens().get(0).getTenHuyen());
+                tenHuyen = listDiaChi.get(position).getHuyens().get(0).getTenHuyen();
+                spnHuyen.setAdapter(adapterHuyen);
+
+                adapterXa = new ArrayAdapter<String>(Activity_ThemKhachHang.this,R.layout.support_simple_spinner_dropdown_item,listDiaChi.get(position).getHuyens().get(0).getXa());
+                spnXa.setText(listDiaChi.get(position).getHuyens().get(0).getXa().get(0));
+                tenXa = listDiaChi.get(position).getHuyens().get(0).getXa().get(0);
+                spnXa.setAdapter(adapterXa);
+            }
+        });
+
+        spnHuyen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tenHuyen = parent.getItemAtPosition(position).toString();
+
+                adapterXa = new ArrayAdapter<String>(Activity_ThemKhachHang.this, R.layout.support_simple_spinner_dropdown_item,
+                        listDiaChi.get(ViTri).getHuyens().get(position).getXa());
+                spnXa.setText(listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0));
+                tenXa = listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0);
+                spnXa.setAdapter(adapterXa);
+            }
+        });
+
+        spnXa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tenXa = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        btnHuyDiaChi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnTaoDiaChi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editDiaChi.setText(soNha.getText()+","+tenXa+","+tenHuyen+","+tenTinh);
+            }
+        });
 
 
         dialog.show();
     }
+
 
     class docJSon extends AsyncTask<String, Integer, String> {
 
@@ -152,11 +215,6 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
                     listDiaChi.add(diaChi);
                 }
 
-//               for (int i = 0; i< listDiaChi.size();i++){
-//                   for (int y =0; y< listDiaChi.get(i).getHuyens().size();y++){
-//                       Log.d("qq",listDiaChi.get(i).getHuyens().get(y).getXa()+"");
-//                   }
-//               }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -188,5 +246,27 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
         }
 
         return content.toString();
+    }
+
+
+    private String[] ArrayTinh() {
+
+        String[] arr = new String[listDiaChi.size()];
+
+        for (int i = 0; i < listDiaChi.size(); i++) {
+            arr[i] = listDiaChi.get(i).getTenTinhTP();
+        }
+
+        return arr;
+    }
+
+    private String[] ArrayHuyen(int pos) {
+        String[] arr = new String[listDiaChi.get(pos).getHuyens().size()];
+
+        for (int i = 0; i < listDiaChi.get(pos).getHuyens().size(); i++) {
+            arr[i] = listDiaChi.get(pos).getHuyens().get(i).getTenHuyen();
+        }
+
+        return arr;
     }
 }

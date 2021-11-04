@@ -26,6 +26,7 @@ import java.android.quanlybanhang.function.Account.SignInActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.android.quanlybanhang.function.KhachHang.Activity_ThemKhachHang;
+import java.android.quanlybanhang.function.KhachHang.ThemNhomKhachHang;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent2);
                 break;
             case R.id.quanly:
-                Intent intent3 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent3 = new Intent(MainActivity.this, ThemNhomKhachHang.class);
                 startActivity(intent3);
                 break;
             case R.id.profile:
