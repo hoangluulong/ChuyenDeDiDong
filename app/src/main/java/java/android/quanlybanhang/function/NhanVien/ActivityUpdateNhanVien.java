@@ -55,9 +55,9 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
     private Dialog dialog;
     private Window window;
     private Boolean[][] mangNgay2 = new Boolean[3][7];
-    private Boolean[] cSang = new Boolean[] {false, false, false, false, false,false,false};
-    private Boolean[] cTrua = new Boolean[] {false, false, false, false, false,false,false};
-    private Boolean[] cToi = new Boolean[] {false, false, false, false, false,false,false};
+    private Boolean[] cSang = new Boolean[7];
+    private Boolean[] cTrua = new Boolean[7];
+    private Boolean[] cToi = new Boolean[7];
     private int loai = 1; //1: casang, 2: trua, 3: toi
     private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
     private String STR_USER = "user";
@@ -107,11 +107,11 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
         cTrua = caLam.getCaChieu().toArray(new Boolean[0]);
         cToi = caLam.getCaToi().toArray(new Boolean[0]);
 
-        for (int i = 0; i < 3; i ++) {
-            for (int j = 0; j < 7; j ++) {
-                mangNgay2[i][j] = false;
-            }
-        }
+//        for (int i = 0; i < 3; i ++) {
+//            for (int j = 0; j < 7; j ++) {
+//                mangNgay2[i][j] = false;
+//            }
+//        }
         //firebase
         mData = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_USER);
         onClickThu();

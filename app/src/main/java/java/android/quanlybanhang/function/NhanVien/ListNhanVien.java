@@ -1,11 +1,14 @@
 package java.android.quanlybanhang.function.NhanVien;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,10 +26,12 @@ import java.android.quanlybanhang.HelperClasses.Package_AdapterNhanVien.AdapterN
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.ListProduct;
 import java.util.ArrayList;
 
 public class ListNhanVien  extends AppCompatActivity {
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase1;
     private FirebaseDatabase firebaseDatabase;
     private AdapterNhanVien adapterNhanVien;
     private RecyclerView recyclerView;
@@ -87,5 +92,18 @@ public class ListNhanVien  extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void delete(final int position){
+        new AlertDialog.Builder(ListNhanVien.this).setMessage(
+                "Do you want to delete this item"
+        ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                mDatabase.child(nhanViens.get(position).getId()).removeValue();
+            }
+        }).setNegativeButton("No", null)
+                .show();
     }
 }

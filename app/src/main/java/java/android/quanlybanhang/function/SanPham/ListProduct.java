@@ -114,7 +114,7 @@ public class ListProduct  extends AppCompatActivity {
                             DataSnapshot aaa = snapshot1;
                             Toast.makeText(ListProduct.this,listProduct.get(position).getId()+"",Toast.LENGTH_LONG).show();
                             mDatabase1 = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham").child(aaa.getKey());
-                            mDatabase1.child(listProduct.get(position).getId()).removeValue();
+
                         }
                     }
 
@@ -125,11 +125,6 @@ public class ListProduct  extends AppCompatActivity {
             }
         }).setNegativeButton("No", null)
                 .show();
-    }
-    //Sữa sàn phẩm
-    public void update(final int position){
-       
-
     }
 
 

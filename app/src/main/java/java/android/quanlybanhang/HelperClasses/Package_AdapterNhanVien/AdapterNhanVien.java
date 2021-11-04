@@ -78,6 +78,14 @@ public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVi
                     context1.startActivity(intent);
                 }
             });
+
+            imgXoa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context.delete(position);
+                }
+            });
         }
     }
 }
