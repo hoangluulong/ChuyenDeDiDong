@@ -86,6 +86,7 @@ public class AddNhanVien extends AppCompatActivity {
                 mangNgay2[i][j] = false;
             }
         }
+        
         //add ca lam
         congViec.add(0,false);
         congViec.add(1,false);
