@@ -3,8 +3,15 @@ package java.android.quanlybanhang.function.CuaHangOnline.Data;
 public class Image {
     private String key;
     private String imageUrl;
+    private String imageName;
 
     public Image() {
+    }
+
+    public Image(String key, String imageUrl, String imageName) {
+        this.key = key;
+        this.imageUrl = imageUrl;
+        this.imageName = imageName;
     }
 
     public Image(String key, String imageUrl) {
@@ -30,5 +37,13 @@ public class Image {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

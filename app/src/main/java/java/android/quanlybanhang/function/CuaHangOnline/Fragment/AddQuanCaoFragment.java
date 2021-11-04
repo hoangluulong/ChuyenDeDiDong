@@ -9,8 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,15 +25,20 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,26 +88,45 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     }
 
 
-    private LinearLayout btnQuangCaoSanPham, quangCaoSanPham, layou_timgagem, layou_timgage1, addImage;
+    private LinearLayout btnQuangCaoSanPham, quangCaoSanPham, layout_image1, addImage, layout_image;
     private ImageView quangCaosanPhamIMG, imgageView;
     private TextView chonSanPham, btnTaoDonMoi, lblLoai, btnHuy, taoDon;
+    private AutoCompleteTextView nhomsanpham;
     private TextInputEditText tenSanPham, soLuong, giaban, giamgia, mota;
     private boolean setL1 = true;
     private Uri imageUri;
-    private LinearLayout.LayoutParams params1, params2;
+    private LinearLayout.LayoutParams params1, paramsImage, paramsImage1;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
 
-    private DatabaseReference root = FirebaseDatabase.getInstance().getReference("Image");
     private StorageReference reference = FirebaseStorage.getInstance().getReference("hinhanh");
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+    private String ID_CUAHANG;
+    private ProgressBar progressBar;
+    private String nhomSp = "";
+    private ArrayAdapter<String> adapterNhomSp;
+    private ArrayList<String> listNhom = new ArrayList<>();
+    private ProgressBar progressBarLayout;
+    private ScrollView scrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_quan_cao, container, false);
-
+        thongTinCuaHangSql = new ThongTinCuaHangSql(view.getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         IDLayout(view);
+
+        paramsImage.height = 0;
+        layout_image.setLayoutParams(paramsImage);
+        paramsImage1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        layout_image1.setLayoutParams(paramsImage1);
+
+        progressBarLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+
+        getNhomSanPham();
         return view;
     }
 
@@ -115,13 +144,63 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         giaban = view.findViewById(R.id.giaban);
         giamgia = view.findViewById(R.id.giamgia);
         mota = view.findViewById(R.id.mota);
+        progressBar = view.findViewById(R.id.progressBar);
+        layout_image = view.findViewById(R.id.layout_image);
+        layout_image1 = view.findViewById(R.id.layout_image1);
+        nhomsanpham = view.findViewById(R.id.nhomsanpham);
+        progressBarLayout = view.findViewById(R.id.progressBarLayout);
+        scrollView = view.findViewById(R.id.scrollView4);
 
+        paramsImage = (LinearLayout.LayoutParams) layout_image.getLayoutParams();
+        paramsImage1 = (LinearLayout.LayoutParams) layout_image1.getLayoutParams();
 
         params1 = (LinearLayout.LayoutParams) quangCaoSanPham.getLayoutParams();
 
         btnQuangCaoSanPham.setOnClickListener(this);
         addImage.setOnClickListener(this);
         taoDon.setOnClickListener(this);
+        taoDon.setEnabled(true);
+
+        adapterNhomSp = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listNhom);
+        nhomsanpham.setAdapter(adapterNhomSp);
+        nhomsanpham.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapterNhomSp = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listNhom);
+
+                nhomSp = parent.getItemAtPosition(position).toString();
+                nhomsanpham.setText(nhomSp);
+                nhomsanpham.setAdapter(adapterNhomSp);
+            }
+        });
+        adapterNhomSp.notifyDataSetChanged();
+
+    }
+
+    private void getNhomSanPham() {
+        mFirebaseDatabase.child("nhomSanPham").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        listNhom.add(snap.getValue().toString());
+                    }
+
+                    adapterNhomSp = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listNhom);
+                    nhomsanpham.setAdapter(adapterNhomSp);
+                    adapterNhomSp.notifyDataSetChanged();
+                    progressBarLayout.setVisibility(View.INVISIBLE);
+                    scrollView.setAlpha(1);
+                } else {
+                    progressBarLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -159,14 +238,25 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     }
 
     private void uploadFirebaseQuangCao(Uri uri) {
-
+        String nameImage = System.currentTimeMillis() + "." + getFileExtension(uri);
         String name = tenSanPham.getText().toString();
         String sLuongText = soLuong.getText().toString();
-        int sLuong = Integer.parseInt(soLuong.getText().toString());
         String sGiaBanText = giaban.getText().toString();
-        long gia = Long.parseLong(giaban.getText().toString());
-        long giamGia = Long.parseLong(giamgia.getText().toString());
+        String sGiamGiaText = giamgia.getText().toString();
         String moTa = mota.getText().toString();
+        int sLuong = 0;
+        long gia = 0;
+        long giamGia = 0;
+
+        if (!sLuongText.isEmpty() && isNumeric(sLuongText)) {
+            sLuong = Integer.parseInt(sLuongText);
+        }
+        if (!sGiaBanText.isEmpty() && isNumeric(sGiaBanText)) {
+            gia = Long.parseLong(sGiaBanText);
+        }
+        if (!sGiamGiaText.isEmpty() && isNumeric(sGiamGiaText)) {
+            giamGia = Long.parseLong(sGiamGiaText);
+        }
 
         if (name.isEmpty()) {
             tenSanPham.setError("Nhập tên sản phẩm");
@@ -174,42 +264,79 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         } else if (sLuongText.isEmpty()) {
             soLuong.setError("Nhập số lượng");
             soLuong.requestFocus();
-        } else if (sLuong > 0) {
-            soLuong.setError("Số lượng > 0");
+        } else if (!sLuongText.isEmpty() && !isNumeric(sLuongText)) {
+            soLuong.setError("Nhập đúng định dạng");
             soLuong.requestFocus();
         } else if (sGiaBanText.isEmpty()) {
             giaban.setError("Nhập giá bán");
             giaban.requestFocus();
-        }else {
-            SanPhamQuangCao sanPhamQuangCao = new SanPhamQuangCao(name,sLuong, gia, giamGia, moTa, imageUri);
+        } else if (!sGiaBanText.isEmpty() && !isNumeric(sGiaBanText)) {
+            giaban.setError("Nhập đúng định dạng");
+            giaban.requestFocus();
+        } else if (sGiamGiaText.isEmpty()) {
+            giamgia.setError("Nhập giảm giá");
+            giamgia.requestFocus();
+        } else if (!sGiamGiaText.isEmpty() && !isNumeric(sGiamGiaText)) {
+            giamgia.setError("Nhập đúng định dạng");
+            giamgia.requestFocus();
+        } else if (nhomSp.isEmpty()) {
+            nhomsanpham.setError("Chọn nhóm sản phẩm");
+            nhomsanpham.requestFocus();
+        } else if (sLuong < 1) {
+            soLuong.setError("Số lượng phải lớn hơn 1");
+            soLuong.requestFocus();
+        } else if (gia < 1000) {
+            giaban.setError("Sản phẩm phải > 1000");
+            giaban.requestFocus();
+        } else if (giamGia > gia) {
+            giamgia.setError("giảm giá lớn hơn đơn giá");
+            giamgia.requestFocus();
+        } else {
+            taoDon.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            String key = mFirebaseDatabase.push().getKey();
+            SanPhamQuangCao sanPhamQuangCao = new SanPhamQuangCao(ID_CUAHANG, key, name, sLuong, gia, giamGia, nhomSp, moTa, nameImage, "", false);
 
-            mFirebaseDatabase.child("sanphamQuangcao/sanpham").setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            mFirebaseDatabase.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(sanPhamQuangCao).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
-
+                    uploadToFirebase(uri, key, nameImage);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-
+                    Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
                 }
             });
-
-            uploadToFirebase(uri);
         }
     }
 
-    private void uploadToFirebase(Uri uri) {
-        final StorageReference fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+    private void uploadToFirebase(Uri uri, String key, String nameImage) {
+        final StorageReference fileRef = reference.child(nameImage);
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        String modelId = root.push().getKey();
-                        root.child(modelId).setValue(uri.toString());
+                        mFirebaseDatabase.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key + "/imageUrl").setValue(uri.toString());
+                        Toast.makeText(getContext(), "Thành công", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        tenSanPham.setText(null);
+                        soLuong.setText(null);
+                        giamgia.setText(null);
+                        giaban.setText(null);
+                        imgageView.setImageURI(null);
+                        nhomsanpham.setText(null);
+                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
+                        mota.setText(null);
+                        imageUri = null;
 
+                        paramsImage.height = 0;
+                        layout_image.setLayoutParams(paramsImage);
+                        paramsImage1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        layout_image1.setLayoutParams(paramsImage1);
+                        taoDon.setEnabled(true);
                     }
                 });
             }
@@ -236,10 +363,22 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2 && resultCode == Activity.RESULT_OK && data != null) {
+            paramsImage1.height = 0;
+            layout_image1.setLayoutParams(paramsImage1);
+
+            paramsImage.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            layout_image.setLayoutParams(paramsImage);
+
             imageUri = data.getData();
             imgageView.setImageURI(imageUri);
             addImage.setBackgroundResource(R.drawable.border_image);
         }
     }
 
+    private boolean isNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
+    }
 }

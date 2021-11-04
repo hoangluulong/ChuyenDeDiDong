@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.CuaHangOnline;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,19 +12,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -45,6 +47,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,11 +76,11 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private Toolbar toolbar;
     private LinearLayout btnDowUpThongtin, thongtinchung, btnDiaChi, diachi, hinhanh, btnHinhAnh, addImage, layoutLoadImage;
     private LinearLayout.LayoutParams params1, params2, params3, params4;
-    private ImageView thongTinIMG, diaChiIMG, hinhanhIMG;
+    private ImageView thongTinIMG, diaChiIMG, hinhanhIMG, imageLogo;
     private boolean setL1 = true;
     private boolean setL2 = true;
     private boolean setL3 = true;
-    private TextView luu1, luu2;
+    private TextView luu1, luu2, btnChonAnh;
     private RecyclerView recycleview;
     private ImageAdapter imageAdapter;
     private ArrayList<String> listImage;
@@ -93,10 +96,11 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private String tenXa;
 
     private StorageReference reference = FirebaseStorage.getInstance().getReference("hinhanh");
-    private Uri imageUri;
-    private ProgressBar progressBar;
+    private Uri imageUri, imageLogoUri;
+    private ProgressBar progressBar, progressBarLayout;
     private AutoCompleteTextView phuongxaAuto, thanhphoAuto, quan_huyenAuto;
     private TextInputEditText sonha_soduong, edt_tenCuaHang, edt_phone, edt_mota;
+    private ScrollView scrollView3;
 
     private ArrayAdapter<String> adapterTinh;
     private ArrayAdapter<String> adapterHuyen;
@@ -107,8 +111,14 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private DatabaseReference mFirebaseDatabase;
     private String ID_CUAHANG;
     private ThongTinCuaHangSql thongTinCuaHangSql;
+    private String nameLogo = "";
+    private String logoUrl;
+    private ThongTinCuaHang thongTinCuaHang;
+
+    private int loai = 0;
 
     private int ViTri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,9 +126,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         IDLayout();
         thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
-
-        getThongTinChung();
-//        getImageFireBase();
         movedFirebase();
 
         navigationView.bringToFront();
@@ -126,6 +133,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -138,7 +146,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private void displayItem() {
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(this, 1));
-        imageAdapter = new ImageAdapter(this, images);
+        imageAdapter = new ImageAdapter(this, images, ID_CUAHANG, this);
         recycleview.setAdapter(imageAdapter);
         imageAdapter.notifyDataSetChanged();
     }
@@ -166,6 +174,10 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         phuongxaAuto = findViewById(R.id.phuongxa);
         thanhphoAuto = findViewById(R.id.thanhpho);
         quan_huyenAuto = findViewById(R.id.quan_huyen);
+        progressBarLayout = findViewById(R.id.progressBarLayout);
+        scrollView3 = findViewById(R.id.scrollView3);
+        btnChonAnh = findViewById(R.id.btnChonAnh);
+        imageLogo = findViewById(R.id.imageLogo);
 
         sonha_soduong = findViewById(R.id.sonha_soduong);
         edt_tenCuaHang = findViewById(R.id.edt_tenCuaHang);
@@ -186,6 +198,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         addImage.setOnClickListener(this);
         luu1.setOnClickListener(this);
         luu2.setOnClickListener(this);
+        btnChonAnh.setOnClickListener(this);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
@@ -198,15 +211,63 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    ThongTinCuaHang thongTinCuaHang = snapshot.getValue(ThongTinCuaHang.class);
+                    scrollView3.setAlpha(1);
+                    progressBarLayout.setVisibility(View.INVISIBLE);
+                    thongTinCuaHang = snapshot.getValue(ThongTinCuaHang.class);
                     DiaChiCuaHang diaChiCuaHang = snapshot.getValue(DiaChiCuaHang.class);
                     edt_tenCuaHang.setText(thongTinCuaHang.getName());
                     edt_phone.setText(thongTinCuaHang.getSoDienThoai());
                     edt_mota.setText(thongTinCuaHang.getMoTa());
                     sonha_soduong.setText(diaChiCuaHang.getSoNha());
+
+                    if (thongTinCuaHang.getLogoUrl() == null) {
+                        imageLogo.setImageResource(R.drawable.alternate_24);
+                    } else {
+                        Picasso.get().load(thongTinCuaHang.getLogoUrl()).into(imageLogo);
+                        logoUrl = thongTinCuaHang.getLogoUrl();
+                        nameLogo = thongTinCuaHang.getNamelogo();
+                    }
+
+                    tenHuyen = diaChiCuaHang.getQuanHuyen();
+                    tenTinh = diaChiCuaHang.getTinhThanhPho();
+                    tenXa = diaChiCuaHang.getPhuongXa();
+
                     phuongxaAuto.setText(diaChiCuaHang.getPhuongXa());
                     quan_huyenAuto.setText(diaChiCuaHang.getQuanHuyen());
                     thanhphoAuto.setText(diaChiCuaHang.getTinhThanhPho());
+
+                    tinh = ArrayTinh();
+                    adapterTinh = new ArrayAdapter<String>(ThongTinCuaHangOnlineActivity.this, R.layout.item_spinner1_setup_store, tinh);
+                    thanhphoAuto.setAdapter(adapterTinh);
+                    adapterTinh.notifyDataSetChanged();
+
+                    for (int i = 0; i < listDiaChi.size(); i++) {
+                        if (listDiaChi.get(i).getTenTinhTP().equals(tenTinh)) {
+                            String[] arrayHuyen = ArrayHuyen(i);
+                            ViTri = i;
+                            adapterHuyen = new ArrayAdapter<String>(ThongTinCuaHangOnlineActivity.this, R.layout.item_spinner1_setup_store, arrayHuyen);
+                            quan_huyenAuto.setAdapter(adapterHuyen);
+                            adapterHuyen.notifyDataSetChanged();
+                            break;
+                        }
+                    }
+
+                    int position = 0;
+                    for (int i = 0; i < listDiaChi.get(ViTri).getHuyens().size(); i++) {
+                        if (listDiaChi.get(ViTri).getHuyens().get(i).getTenHuyen().equals(tenHuyen)) {
+                            position = i;
+                            adapterXa = new ArrayAdapter<String>(ThongTinCuaHangOnlineActivity.this, R.layout.item_spinner1_setup_store,
+                                    listDiaChi.get(ViTri).getHuyens().get(position).getXa());
+                            phuongxaAuto.setAdapter(adapterXa);
+                            break;
+                        }
+                    }
+                }
+                else{
+                    thongTinCuaHang = new ThongTinCuaHang();
+                    luu1.setText("Đăng ký");
+                    scrollView3.setAlpha(1);
+                    progressBarLayout.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -217,7 +278,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         });
     }
 
-    private void movedFirebase(){
+    private void movedFirebase() {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
@@ -227,13 +288,11 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("Test", "onChildChanged:" + dataSnapshot.getKey());
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 String key = dataSnapshot.getKey();
-
                 for (int i = 0; i < images.size(); i++) {
                     if (images.get(i).getKey().equals(key)) {
                         images.remove(i);
@@ -241,19 +300,47 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                     }
                 }
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("Test", "onChildMoved:" + dataSnapshot.getKey());
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("Test", "postComments:onCancelled", databaseError.toException());
             }
         };
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("cuaHang").child(ID_CUAHANG).child("thongtin/image");
         databaseReference.addChildEventListener(childEventListener);
+    }
+
+    public void delete(final int position) {
+        new AlertDialog.Builder(ThongTinCuaHangOnlineActivity.this, R.style.AlertDialog).setMessage(
+                "Bạn có chắc chắn xóa hình này?"
+        ).setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("cuaHang").child(ID_CUAHANG).child("thongtin/image");
+                databaseReference.child(images.get(position).getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Thất bại: " + images.get(position).getImageName(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                reference.child(images.get(position).getImageName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã xóa hình", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                });
+            }
+        }).setNegativeButton("Hủy", null)
+                .show();
     }
 
     private void setDataText() {
@@ -261,6 +348,8 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         adapterTinh = new ArrayAdapter<String>(this, R.layout.item_spinner1_setup_store, tinh);
         thanhphoAuto.setAdapter(adapterTinh);
         adapterTinh.notifyDataSetChanged();
+
+        int i = 0;
 
         thanhphoAuto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -300,10 +389,13 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 tenXa = parent.getItemAtPosition(position).toString();
             }
         });
+
+        getThongTinChung();
     }
 
     @Override
     public void onClick(View v) {
+        Intent galleryIntent;
         switch (v.getId()) {
             case R.id.btnDowUpThongtin:
                 if (setL1) {
@@ -329,7 +421,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                     setL2 = true;
                     diaChiIMG.setImageResource(R.drawable.up_24);
                     diachi.setLayoutParams(params2);
-
                 }
                 break;
             case R.id.btnHinhAnh:
@@ -346,7 +437,8 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 }
                 break;
             case R.id.addImage:
-                Intent galleryIntent = new Intent();
+                loai = 1;
+                galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
                 startActivityForResult(galleryIntent, 2);
@@ -356,6 +448,13 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 break;
             case R.id.luu2:
                 saveDiaChi();
+                break;
+            case R.id.btnChonAnh:
+                loai = 2;
+                galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, 2);
                 break;
         }
     }
@@ -426,7 +525,8 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     }
 
     private void uploadToFirebase(Uri uri) {
-        final StorageReference fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+        String name = System.currentTimeMillis() + "." + getFileExtension(uri);
+        final StorageReference fileRef = reference.child(name);
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -444,8 +544,8 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                             }
                         }, 1000);
                         String key = mFirebaseDatabase.push().getKey();
-                        Image image = new Image(key, uri.toString());
-                        mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin/image/"+key).setValue(image);
+                        Image image = new Image(key, uri.toString(), name);
+                        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin/image/" + key).setValue(image);
                         progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -470,7 +570,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     }
 
     private String getFileExtension(Uri mUri) {
-
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(mUri));
@@ -484,13 +583,107 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         if (nameCH.isEmpty()) {
             edt_tenCuaHang.setError("Nhập tên cửa hàng");
             edt_tenCuaHang.requestFocus();
-        }else if (phone.isEmpty()) {
+        } else if (phone.isEmpty()) {
             edt_phone.setError("Nhập số điện thoại");
             edt_phone.requestFocus();
+        } else if (nameLogo == null && nameLogo.equals("")){
+            Toast.makeText(this, "Vui lòng chọn hình", Toast.LENGTH_SHORT).show();
+        }else if (imageLogoUri == null) {
+            Toast.makeText(this, "Vui lòng chọn hình", Toast.LENGTH_SHORT).show();
         }else{
-            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("moTa").setValue(moTa);
-            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("name").setValue(nameCH);
-            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("soDienThoai").setValue(phone).addOnSuccessListener(new OnSuccessListener<Void>() {
+            if (thongTinCuaHang.getNamelogo()!=null) {
+                if (!nameLogo.equals(thongTinCuaHang.getNamelogo())){
+                    Log.d("qqq", "abc");
+                    reference.child(thongTinCuaHang.getNamelogo()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            final StorageReference fileRef = reference.child(nameLogo);
+                            fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            thongTinCuaHang.setLogoUrl(uri.toString());
+                                            thongTinCuaHang.setNamelogo(nameLogo);
+                                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
+                                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                        }
+                                    });
+                                }
+                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                }
+                else {
+                    Log.d("qqq", "xyz");
+                    final StorageReference fileRef = reference.child(nameLogo);
+                    fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    thongTinCuaHang.setLogoUrl(uri.toString());
+                                    thongTinCuaHang.setNamelogo(nameLogo);
+                                    mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
+                                    mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                }
+                            });
+                        }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+                }
+            }else {
+                Log.d("qqq", "zzzz");
+                final StorageReference fileRef = reference.child(nameLogo);
+                fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                thongTinCuaHang.setLogoUrl(uri.toString());
+                                thongTinCuaHang.setNamelogo(nameLogo);
+                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
+                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                            }
+                        });
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+            }
+            luu1.setText("Lưu");
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("moTa").setValue(moTa);
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("name").setValue(nameCH);
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("soDienThoai").setValue(phone).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã lưu", Toast.LENGTH_SHORT).show();
@@ -518,14 +711,14 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         } else if (tenHuyen.isEmpty()) {
             quan_huyenAuto.setError("Chọn quận/huyện");
             quan_huyenAuto.requestFocus();
-        } else if (tenXa.isEmpty()){
+        } else if (tenXa.isEmpty()) {
             phuongxaAuto.setError("Chọn phường xã");
             phuongxaAuto.requestFocus();
-        }else {
-            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("phuongXa").setValue(tenXa);
-            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("quanHuyen").setValue(tenHuyen);
-            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("tinhThanhPho").setValue(tenTinh);
-            mFirebaseDatabase.child("cuaHang/"+ID_CUAHANG).child("thongtin").child("soNha").setValue(soNhaDuong).addOnSuccessListener(new OnSuccessListener<Void>() {
+        } else {
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("phuongXa").setValue(tenXa);
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("quanHuyen").setValue(tenHuyen);
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("tinhThanhPho").setValue(tenTinh);
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("soNha").setValue(soNhaDuong).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã lưu", Toast.LENGTH_SHORT).show();
@@ -543,10 +736,16 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageUri = data.getData();
         if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
-            if (imageUri != null) {
-                uploadToFirebase(imageUri);
+            if (loai == 1) {
+                imageUri = data.getData();
+                if (imageUri != null) {
+                    uploadToFirebase(imageUri);
+                }
+            } else if (loai == 2) {
+                imageLogoUri = data.getData();
+                imageLogo.setImageURI(imageLogoUri);
+                nameLogo = System.currentTimeMillis() + "." + getFileExtension(imageLogoUri);
             }
         }
     }
@@ -623,7 +822,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
 
         String[] arr = new String[listDiaChi.size()];
 
-        for (int i = 0; i < listDiaChi.size(); i++){
+        for (int i = 0; i < listDiaChi.size(); i++) {
             arr[i] = listDiaChi.get(i).getTenTinhTP();
         }
 
@@ -633,7 +832,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private String[] ArrayHuyen(int pos) {
         String[] arr = new String[listDiaChi.get(pos).getHuyens().size()];
 
-        for (int i = 0; i < listDiaChi.get(pos).getHuyens().size(); i++){
+        for (int i = 0; i < listDiaChi.get(pos).getHuyens().size(); i++) {
             arr[i] = listDiaChi.get(pos).getHuyens().get(i).getTenHuyen();
         }
 

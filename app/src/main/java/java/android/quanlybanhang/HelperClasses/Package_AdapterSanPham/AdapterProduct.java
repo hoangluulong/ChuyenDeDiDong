@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.Model.Product;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.CuaHangOnline.ThongTinCuaHangOnlineActivity;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductViewHolder> {
     private ArrayList<Product> arrayList;
     private ListProduct context;
+    private ThongTinCuaHangOnlineActivity thongTinCuaHangOnlineActivity;
     private Context context2;
 
     public AdapterProduct(Context context2, ListProduct context,ArrayList<Product> arrayList) {
