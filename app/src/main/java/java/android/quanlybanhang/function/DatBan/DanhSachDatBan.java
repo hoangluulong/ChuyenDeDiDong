@@ -60,7 +60,7 @@ public class DanhSachDatBan extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Danh Sách"+tenban);
+        actionBar.setTitle("DS_"+tenban);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -76,19 +76,12 @@ public class DanhSachDatBan extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ID_datbans = new ArrayList<>();
-                int i=0;
-                if(snapshot != ){
+                if(snapshot.getValue() != null){
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     datBanModels = new ArrayList<>();
                     id = postSnapshot.getKey();
-//                    Log.d("idne",id);
                     DataSnapshot sss = postSnapshot;
-
-                    Log.d("idnek",i+"");
-                    i++;
-
                     for (DataSnapshot aaa: sss.getChildren()) {
-
                         id_bk = aaa.child("id_bk").getValue() + "";
                         if(id_bk.equals(abc)){
                         String id_ngaydat = aaa.getKey();
@@ -99,21 +92,23 @@ public class DanhSachDatBan extends AppCompatActivity {
                         String sodienthoai = aaa.child("sodienthoai").getValue() + "";
                         String sotiendattruoc = aaa.child("sotiendattruoc").getValue() + "";
                         String tenkhachhang = aaa.child("tenkhachhang").getValue() + "";
-                        Log.d("tenkhachhangne",tenkhachhang+"");
                         String tenban = aaa.child("tenban").getValue() + "";
                         datBanModels.add(new DatBanModel(id_ngaydat, giodat, gioketthuc, id_bk, ngaydat, ngayhientai, sodienthoai, sotiendattruoc, tenkhachhang,tenban));
                         ID_datban datban = new ID_datban(id,datBanModels);
                         ID_datbans.add(datban);
                         }
-                    }
-                    progressBar.setVisibility(View.INVISIBLE);
+                            rong.setVisibility(View.INVISIBLE);
 
-                    Log.d("MAMANA",ID_datbans.size()+"nef2");
+                            progressBar.setVisibility(View.INVISIBLE);
+
 
                 }}
-                else  {
-                    rong.setVisibility(View.INVISIBLE);
                 }
+                 else {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        rong.setVisibility(View.VISIBLE);
+                    }
+
                 recyclerView = findViewById(R.id.rv_1);
                 datBanAdapter = new RvDatBanAdapter(ID_datbans,DanhSachDatBan.this);
                 recyclerView.setLayoutManager(new LinearLayoutManager(DanhSachDatBan.this,LinearLayoutManager.VERTICAL,false));

@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
@@ -51,7 +55,10 @@ public class CardProduct extends AppCompatActivity {
      String id_khuvuc;
      String id;
      String a;
-
+    String S;
+    public Handler mHandler;
+    String trangthai;
+    private DatabaseReference mDatabase;//khai bao database
      private Product staticMonOrderModel;
      Button bntluu,bntthanhtoan;
     private Database_order database_order;
@@ -64,8 +71,8 @@ public class CardProduct extends AppCompatActivity {
     private final String TEN_BANG="ProductSQL1";
    public static int soluong2;
     TextView tvsoluong,tongsanphams;
-
-Activity activity;
+    String id_datban;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +82,7 @@ Activity activity;
         bntthanhtoan= findViewById(R.id.bnt_thanhtoan);
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
+
 
         //viet su kien cho toolbar
         ActionBar actionBar = getSupportActionBar();
@@ -86,25 +94,48 @@ Activity activity;
         tvkhongsanpham = findViewById(R.id.tv_khongsanpham);
         tvtentongsp = findViewById(R.id.tvtentongsp);
         tongsanphams= findViewById(R.id.Tongsanpham);
+        //djshdjsd
 
         //
         Intent intent = getIntent();
         Log.d("id_khuvuc_Truong","KS");
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
+        id_datban = intent.getStringExtra("id_datban");
+//        trangthai1 = intent.getStringExtra("trangthai");
+        Log.d("TrangThaima",trangthai+"Cardproduct");
         id=id_ban+"_"+id_khuvuc;
-        Log.d("mama",id+"suboi");
+
         rv_3 = findViewById(R.id.rv_3);
         listcard = new ArrayList<Product>();
 //        list = new ArrayList<PushToFire>();
         listSP = new ArrayList<>();
+
         boolean flag = true;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Log.d("timestamp",timestamp.getTime()+"");
         long date =Long.parseLong(timestamp.getTime()+"");
+        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    trangthai= snapshot1.getValue()+"";
+                    Log.d("TrangThaiCardproduct",trangthai+"Cardproduct");
 
+                }
+                getDulieuSql();
+                staticCartAdapter.notifyDataSetChanged();
+            }
 
-        getDulieuSql();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//
+//        getDulieuSql();
+
 
         pushData(listSP,date,flag,trangThai);
         staticCartAdapter = new StaticCardAdapter();
@@ -126,9 +157,8 @@ Activity activity;
     }
 
     private  void getDulieuSql( ){
-
+        Log.d("phamxuantruong","else1");
         database_order= new Database_order(this,"app_database.sqlite",null,2);
-//        database_order.GetData("SELECT * FROM databaseorder2 ");
         Log.d("aaaaa","aaaas");
         database_order.QueryData("CREATE TABLE IF NOT EXISTS "+TEN_BANG+"(" +
                 "Id VARCHAR(20)," +
@@ -139,10 +169,18 @@ Activity activity;
                 "loai TEXT, " +
                 "yeuCau TEXT);");
         Log.d("aaaaa","aaaa");
+        Log.d("phamxuantruong1",trangthai+"tt1");
+        if(trangthai.equals("1")) {
+            Log.d("phamxuantruong1",trangthai+"y0");
 
+            S = "SELECT * FROM " + TEN_BANG + " WHERE Id='" + id_datban + "' ";
+        }
+       else if(trangthai.equals("0")) {
+            S = "SELECT * FROM " + TEN_BANG + " WHERE Id='" + id + "' ";
+            Log.d("phamxuantruong1",trangthai+"y1");
 
-        ArrayList<Product> arrayList = new ArrayList<>();
-        String S="SELECT * FROM "+TEN_BANG+" WHERE Id='"+id+"'";
+        }
+
         Cursor cursor =  database_order.GetData(S,null);
         Log.d("11111",cursor+"1111");
         cardProducts = new ArrayList<>();
@@ -157,15 +195,13 @@ Activity activity;
                     double  gia= cursor.getDouble(4);
                     String Loai = cursor.getString(5);
                     String yeuCau = cursor.getString(6);
-//                    Log.d("yeuCauSQL1",yeuCau);
-//                    Log.d("loai_gia",Loai+"+"+gia+"");
                      cardProducts.add(new DonGia(Loai,gia));
                     listcard.add(new Product(a,tensp,soluong,img,cardProducts));
                     listSP.add(new ProuductPushFB1(Loai,tensp,yeuCau,img,gia,soluong));
                 tvtentongsp.setVisibility(View.VISIBLE);
 //                list =new PushToFire(tensp,soluong,addtocart);
             }
-            Log.d("arr1",arrayList.size()+"");
+
         } else {
 
             bntluu.setEnabled(false);
@@ -181,15 +217,25 @@ Activity activity;
             public void onClick(View v) {
                 Hamxulicardt();
                  productPushFB = new ProductPushFB(date,flag,trangThai,list);
-                 FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
-                if(list.size()>0){
-                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
-                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
+                if(trangthai.equals("1")) {
+                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban).setValue(productPushFB);
+
                 }
+               else if(trangthai.equals("0")){
+                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
+                    if(list.size()>0){
+                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
+                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
+                    }
+                    Log.d("khanhdang","khanhdang");
+                }
+
 
                 Intent intent = new Intent(CardProduct.this, ThanhToanActivity.class);
                 intent.putExtra("id_ban",id_ban);
                 intent.putExtra("id_khuvuc",id_khuvuc);
+                intent.putExtra("id_datban",id_datban);
+                intent.putExtra("trangthai",trangthai);
                 startActivity(intent);
 //                XoaSpkhiOrder();
                 Toast.makeText(CardProduct.this,"Order Thành Công",Toast.LENGTH_LONG).show();

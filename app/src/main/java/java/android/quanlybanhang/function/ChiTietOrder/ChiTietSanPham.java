@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.function.ChiTietOrder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.HelperClasses.Package_ApdaterLoaiGia.AdapterLoaiGia;
@@ -51,10 +57,15 @@ public class ChiTietSanPham extends AppCompatActivity {
     ArrayList<Product> items;
     Double gia;
     String key_sp;
+    String S;
+    String id_datban;
+    String trangthai;
+    ArrayList<String> listnew;
     private int position;
     private ArrayList<DonGia>arrdongia;
    private RecyclerView recyclerView;
    private AdapterLoaiGia adapterLoaiGia;
+    private DatabaseReference mDatabase;//khai bao database
      private final String TEN_BANG="ProductSQL1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +95,28 @@ public class ChiTietSanPham extends AppCompatActivity {
         image = staticMonOrderModel.getImgProduct();
         soluong = staticMonOrderModel.getSoluong();
         donGiaOrders = staticMonOrderModel.getDonGia();
+        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    trangthai= snapshot1.getValue()+"";
+                    Log.d("TrangThaima",trangthai+"chitiet");
 
+                }
+            }
 
-        //get serrlizealbe
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-// khoi
+            }
+        });
+
+        Log.d("phamxuantruong1ne",trangthai+"chitietsanpham");
         soluong2 = findViewById(R.id.tvsoluong);
         Log.d("bbb","tensp"+tensps+"giasanpham"+giasanphams+"soluong"+soluong+"");
 //        lay id
         tensp = findViewById(R.id.tvtensanpham);
-//        giasp = findViewById(R.id.tvgiasanpham);
         tonggiasp = findViewById(R.id.tvtonggiasanpham);
         imgsp = findViewById(R.id.imgproduct);
         minus = findViewById(R.id.bnt_minus);
@@ -102,25 +125,17 @@ public class ChiTietSanPham extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_3);
 //
         arrdongia = new  ArrayList<>();
-        Log.d("keyss",key_sp+"111");
         for(int i = 0; i< donGiaOrders.size(); i++){
 
             if(donGiaOrders.get(i).getId().equals( staticMonOrderModel.getId())){
-                Log.d("keyss", donGiaOrders.get(i).getId()+"KKK");
-                Log.d("keyTenDongia", donGiaOrders.get(i).getTenDonGia());
-                Log.d("keyTenGiaBan", donGiaOrders.get(i).getGiaBan()+"");
-
-//                arrdongia.add(new DonGia(donGias.get(i).getTenDonGia(),donGias.get(i).getGiaBan()));
                 arrdongia.add(new DonGia(donGiaOrders.get(i).getTenDonGia(), donGiaOrders.get(i).getGiaBan()));
-                Log.d("arrdongia.size",arrdongia.size()+"");
+
 
             }
 
 
         }
 
-//        items.add(new Product())
-//        Log.d("LoaiMM",Loai);
         adapterLoaiGia = new AdapterLoaiGia(arrdongia,numcheck,tonggiasp,soluong2,Loai,gia,position);
            recyclerView.setLayoutManager(new LinearLayoutManager(ChiTietSanPham.this, LinearLayoutManager.VERTICAL, false));
            recyclerView.setAdapter(adapterLoaiGia);
@@ -132,14 +147,30 @@ public class ChiTietSanPham extends AppCompatActivity {
 
         id_ban = bundle.getString("id_ban");
         id_khuvuc= bundle.getString("id_khuvuc");
+        id_datban = bundle.getString("id_datban");
         id=id_ban+"_"+id_khuvuc;
 
 
-
-        Log.d("yeucau",yeuCau.getText().toString()+"yeuCaun");
+        Log.d("codetruong",id_datban+"Chitiet");
         sl=Integer.parseInt(soluong2.getText()+"");
-//        tonggiasp.setText((giasanphams*sl)+"");
-//              nút cộng
+//        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+//                    TrangThai= snapshot1.getValue()+"";
+//                    Log.d("phamxuantruong",TrangThai+"chitiet");
+//                }
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//
+//        });
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,7 +217,6 @@ public class ChiTietSanPham extends AppCompatActivity {
 
             }
         });
-Log.d("gia_loai",gia+"_"+Loai);
 
         bnt_xacnhan = findViewById(R.id.bnt_xacnhan);
         bnt_xacnhan.setOnClickListener(new View.OnClickListener() {
@@ -220,13 +250,24 @@ Log.d("gia_loai",gia+"_"+Loai);
                 "gia DOUBLE, " +
                 "loai TEXT, " +
                 "yeuCau TEXT);");
-        Log.d("aaaaa","aaaa");
+
     }
     private  void getDulieuSql( String Loai,Double gia){
         database_order= new Database_order(this,"app_database.sqlite",null,2);
         ArrayList<Product> arrayList = new ArrayList<>();
-        String S="SELECT * FROM "+TEN_BANG+" WHERE Id='"+id+"' AND tensanpham='"+tensps+"'  AND loai='"+Loai+"' ";
-            Cursor cursor =  database_order.GetData(S,null);
+        Log.d("TrangThaine",trangthai);
+        if(trangthai.equals("1")) {
+            Log.d("minasuzuki","mina");
+            S = "SELECT * FROM " + TEN_BANG + " WHERE Id='" + id_datban + "' AND tensanpham='" + tensps + "'  AND loai='" + Loai + "' ";
+
+
+        }
+        else if(trangthai.equals("0")) {
+            Log.d("minasuzuki","mina");
+            S = "SELECT * FROM " + TEN_BANG + " WHERE Id='" + id + "' AND tensanpham='" + tensps + "'  AND loai='" + Loai + "' ";
+
+        }
+        Cursor cursor =  database_order.GetData(S,null);
         Log.d("sllll",cursor.getCount()+"couser");
         if (cursor.getCount() > 0) {
             int  soluong1=0;
@@ -242,14 +283,31 @@ Log.d("gia_loai",gia+"_"+Loai);
                 arrayList.add(new Product(a,tensp,soluong1,img,gias));
             }
             Log.d("bbbs","aaaaaabbs");
-            database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
+            Log.d("TrangThaine",trangthai);
+            if( trangthai.equals("1")){
+                database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id_datban+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
+                Log.d("TrangThaine",trangthai+"1A");
+            }else if(trangthai.equals("0")) {
+                Log.d("TrangThaine",trangthai +"1B");
+                database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
+
+            }
         } else {
             Log.d("yeuCau","aaaaaabb");
             sluong=Integer.parseInt(soluong2.getText()+"");
             YeuCau1 =yeuCau.getText().toString();
             Log.d("yeuCaumss",yeuCau.getText().toString()+"nen");
-            database_order.QueryData("INSERT INTO "+TEN_BANG+" VALUES('"+id_ban+"_"+id_khuvuc+"','"+tensps+"',"+sluong+",'"+image+"',"+gia+",'"+Loai+"','"+yeuCau.getText().toString()+"');");
-//            Log.d("logsoluong",(sluong)+"");
+            if(trangthai.equals("1")) {
+                Log.d("TrangThaine",trangthai +"1C");
+                database_order.QueryData("INSERT INTO " + TEN_BANG + " VALUES('" + id_datban + "','" + tensps + "'," + sluong + ",'" + image + "'," + gia + ",'" + Loai + "','" + yeuCau.getText().toString() + "');");
+
+            }
+            else if (trangthai.equals("0")){
+                Log.d("TrangThaine",trangthai +"1D");
+                database_order.QueryData("INSERT INTO " + TEN_BANG + " VALUES('" + id_ban + "_" + id_khuvuc + "','" + tensps + "'," + sluong + ",'" + image + "'," + gia + ",'" + Loai + "','" + yeuCau.getText().toString() + "');");
+
+
+            }
         }
 
     }

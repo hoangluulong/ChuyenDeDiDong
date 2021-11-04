@@ -53,7 +53,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     private Dialog dialogban;
     Window window;
     boolean xacdinh = true;
-    TextView datban,listdatban;
+    TextView datban,listdatban,hoantac;
     String ids;
     String id_bk;
     private DatabaseReference mDatabase;
@@ -131,6 +131,11 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
         }
+        if (staticBanModels.get(position).getTrangthai().equals("4")){
+            holder.cardview_ban.setBackgroundResource(R.color.bac);
+
+
+        }
 //        if (staticBanModels.get(position).getTrangthai().equals("4")){
 //            holder.cardview_ban.setBackgroundResource(R.color.bac);
 //
@@ -175,35 +180,6 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     public int getItemCount() {
         return staticBanModels.size() ;
     }
-//    private void hamdatban(StaticBanModel CrrItem){
-//        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan");
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                    String id = postSnapshot.getKey();
-//                    Log.d("idne",id);
-//                    DataSnapshot sss = postSnapshot;
-//                    for (DataSnapshot aaa: sss.getChildren()){
-//                        ids = aaa.getKey();
-//                        id_bk = aaa.child("id_bk").getValue()+"";
-//                        if(ids.equals(Hamlaygiohientai())){
-//                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("3");
-//                        }
-//
-//                    }
-//
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        Log.d("idnell",Hamlaygiohientai()+"kuku");
-//    }
     public String Hamlaygiohientai(){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Log.d("datenowww",timestamp.getTime()+"");
@@ -224,6 +200,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                     }
                 else {
                     Intent intent = new Intent(orderMenu,MonOrder.class);
+                    mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+                    mDatabase.child("trangthai").setValue("0");
                     intent.putExtra("id_ban",CrrItem.getID());
                     Log.d("id_khuvuc_Truong1",Id_khuvuc);
                     intent.putExtra("id_khuvuc",Id_khuvuc);
@@ -254,11 +232,12 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         dialogban.setCancelable(true);
         datban=dialogban.findViewById(R.id.tvdatban);
         listdatban = dialogban.findViewById(R.id.listdatban);
-        EvenlistDatban(datban,listdatban,CrrItem);
+        hoantac = dialogban.findViewById(R.id.hoantac);
+        EvenlistDatban(datban,listdatban,hoantac,CrrItem);
 
         dialogban.show();
     }
-    private void EvenlistDatban(TextView datban,TextView listdatban,StaticBanModel CrrItem){
+    private void EvenlistDatban(TextView datban,TextView listdatban,TextView hoantac,StaticBanModel CrrItem){
             datban.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -282,6 +261,19 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                 orderMenu.startActivity(intent);
             }
         });
+        if(CrrItem.getTrangthai().equals("4")) {
+            hoantac.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(orderMenu,"hoantac",Toast.LENGTH_LONG).show();
+                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("1");
+
+                }
+            });
+        }
+        else {
+            hoantac.setEnabled(true);
+        }
 
     }
 

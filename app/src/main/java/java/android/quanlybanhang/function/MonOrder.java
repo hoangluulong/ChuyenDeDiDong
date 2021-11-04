@@ -66,6 +66,8 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     String tenban;
     String id_ban;
     String id_khuvuc;
+    String id_datban;
+    String trangthai;
     StaticCardAdapter  staticCardAdapter ;
     ArrayList<Product> listcard= new ArrayList<>();//araylist mon
     Button bnt_card ;
@@ -79,16 +81,16 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mon_order);
         Intent intent = getIntent();
-        Log.d("qq", intent+"");
-//        tenban = intent.getStringExtra("tenban");
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
-//        Log.d("aaa",tenban+"vvv");
+        id_datban= intent.getStringExtra("id_datban");
+//        trangthai= intent.getStringExtra("trangthai");
+        Log.d("codetruong",id_datban+"Monorrder");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        //menu toolbar
         listcard = new ArrayList<>();
         bnt_card = findViewById(R.id.bnt_luu);
+
         bnt_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,15 +98,15 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                 Intent intent1 = new Intent(MonOrder.this, CardProduct.class);
                 intent1.putExtra("id_ban",id_ban);
                 intent1.putExtra("id_khuvuc",id_khuvuc);
+                intent1.putExtra("id_datban",id_datban);
+//                intent1.putExtra("trangthai",trangthai);
                 startActivity(intent1);
 
             }
         });
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-//viet su kien cho toolbar
         ActionBar actionBar = getSupportActionBar();
-//Thiết lập tiêu đề nếu muốn
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -128,8 +130,6 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                         String id = staticMonOrderModel.getId();
                         DataSnapshot sss = snapshot2.child("donGia");
                         for (DataSnapshot snapshot3 : sss.getChildren()){
-
-
                             DonGia donGiaOrder = snapshot3.getValue(DonGia.class);
                             donGiaOrders.add(donGiaOrder);
                             Log.d("dongia.size", donGiaOrders.size()+"");
@@ -161,16 +161,16 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 
         recyclerView2 =findViewById(R.id.rv_2);
 
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc,key_SanPham);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc,key_SanPham,id_datban,trangthai);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticMonRvAdapter);
-
+        Log.d("id_kv_b",id_ban+"_"+id_khuvuc+"monorder");
 
     }
     @Override
     public void GetBack1(int pos, ArrayList<Product> items) {
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc,key_SanPham);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc,key_SanPham,id_datban,trangthai);
         staticMonRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticMonRvAdapter);
     }

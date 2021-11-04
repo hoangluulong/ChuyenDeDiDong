@@ -1,12 +1,15 @@
     package java.android.quanlybanhang.function;
 
     import android.app.Dialog;
+    import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
+    import android.view.Menu;
     import android.view.MenuItem;
     import android.view.View;
     import android.view.Window;
     import android.widget.ProgressBar;
+    import android.widget.Toast;
 
     import androidx.annotation.NonNull;
     import androidx.appcompat.app.ActionBar;
@@ -33,6 +36,7 @@
     import java.android.quanlybanhang.Model.DatBan.ID_datban;
     import java.android.quanlybanhang.R;
     import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
+    import java.android.quanlybanhang.function.CardProductSQL.CardProduct;
     import java.sql.Timestamp;
     import java.util.ArrayList;
 
@@ -56,6 +60,7 @@
         ArrayList<DatBanModel> datBanModels ;
         ArrayList<ID_datban> ID_datbans;
         String id_bk;
+        private String trangthaine ;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -77,6 +82,9 @@
             window = dialogban.getWindow();
 
             ID_datbans = new ArrayList<>();
+            trangthaine= "0";
+            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+            mDatabase.child("trangthai").setValue(trangthaine);
 
 //            hamdatban();
              mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc");
@@ -142,73 +150,31 @@
          recyclerView2.setAdapter(staticRvAdapter);
 
         }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
 
+            getMenuInflater().inflate(R.menu.menu_main3, menu);
+            return true;
+        }
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-            return super.onOptionsItemSelected(item);
+            int item_id =item.getItemId();
+            if(item_id==R.id.mangdi){
+                trangthaine= "1";
+                mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+                mDatabase.child("trangthai").setValue(trangthaine);
+                int code = (int) Math.floor(((Math.random() * 899999) + 100000));
+                Toast.makeText(this,"order nè",Toast.LENGTH_LONG).show();
+                Log.d("codetruong",code+"");
+
+                Intent intent = new Intent(OrderMenu.this, MonOrder.class);
+                intent.putExtra("id_datban",code+"");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+            return true;
         }
-//            private void hamdatban(){
-//                mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan");
-//                mDatabase.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                            datBanModels = new ArrayList<>();
-//                            String id = postSnapshot.getKey();
-//                            Log.d("idne",id);
-//                            DataSnapshot sss = postSnapshot;
-//                            for (DataSnapshot aaa: sss.getChildren()) {
-//    //                            ids = aaa.getKey();
-//                                id_bk = aaa.child("id_bk").getValue() + "";
-//                                String id_ngaydat = aaa.getKey();
-//                                String giodat = aaa.child("giodat").getValue() + "";
-//                                String gioketthuc = aaa.child("gioketthuc").getValue() + "";
-//                                String ngaydat = aaa.child("ngaydat").getValue() + "";
-//                                String ngayhientai = aaa.child("ngayhientai").getValue() + "";
-//                                String sodienthoai = aaa.child("sodienthoai").getValue() + "";
-//                                String sotiendattruoc = aaa.child("sotiendattruoc").getValue() + "";
-//                                String tenkhachhang = aaa.child("tenkhachhang").getValue() + "";
-//                                datBanModels.add(new DatBanModel(id_ngaydat, giodat, gioketthuc, id_bk, ngaydat, ngayhientai, sodienthoai, sotiendattruoc, tenkhachhang));
-//    //                                if(ids.equals(Hamlaygiohientai())){
-//    //                                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvucs).child("ban").child(id_ban).child("trangthai").setValue("3");
-//    //                                }
-//
-//                            }
-//                            ID_datban datban = new ID_datban(id,datBanModels);
-//                            ID_datbans.add(datban);
-//    //                        for(int y=0;y<id_datbans.size();y++) {
-//    //                            for (int i = 0; i < datBanModels.size(); i++) {
-//    //                                if(id_datbans.get(y).getId().equals(datBanModels.get(i).getId_bk())){
-//    //                                    Log.d("1635777120000a",id_datbans.get(y).getId());
-//    //                                    Log.d("1635777120000a",datBanModels.get(i).getId_bk()+"LOL");
-//    //                                    Log.d("1635777120000a",datBanModels.get(i).getId_ngaydat()+"Ngaydatngoai");
-//    //                                    Log.d("1635777120000a",Hamlaygiohientai()+"hamlayngayhientai");
-//    //
-//    //                                    if (Hamlaygiohientai().equals(datBanModels.get(i).getId_ngaydat())) {
-//    //                                        Log.d("1635777120000a",datBanModels.get(i).getNgaydat()+"Ngaydattrong");
-//    //
-//    //                                        String[] splits = datBanModels.get(i).getId_bk().split("_", 2);
-//    //                                        id_khuvucs =splits[0];
-//    //                                        id_ban =splits[1];
-//    //                                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvucs).child("ban").child(id_ban).child("trangthai").setValue("3");
-//    //                                    }
-//    //                                }
-//    //
-//    //                            }
-//    //                        }
-//
-//                        }
-//
-//                    }
-//
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//                Log.d("idnell",Hamlaygiohientai()+"kuku");
-//            }
         public String Hamlaygiohientai(){
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Log.d("datenowww",timestamp.getTime()+"");
@@ -246,5 +212,15 @@
             }
         };
             mDatabase.addChildEventListener(childEventListener);}
+
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            Intent intent = new Intent(OrderMenu.this,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+
 
     }

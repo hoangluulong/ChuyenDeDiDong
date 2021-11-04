@@ -92,6 +92,7 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
     }
 
     public  void getData(){
+
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban+"_"+id_khuvuc);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -161,8 +162,8 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
                         Toast.makeText(ThanhToanActivity.this,"Thanh Toán Thanh công",Toast.LENGTH_LONG).show();
                          Intent intent = new Intent(ThanhToanActivity.this,OrderMenu.class);
                          intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                            startActivity(intent);
+                            finish();
                         XoaSpkhiOrder();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBanholder> {
@@ -32,7 +33,6 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
     private DanhSachDatBan danhSachDatBan;
     public RvDatBanAdapter(ArrayList<ID_datban> items,DanhSachDatBan danhSachDatBan){
         this.items = items;
-        Log.d("itemsne",items.size()+"");
         this.danhSachDatBan = danhSachDatBan;
     }
 
@@ -68,6 +68,18 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
                 notifyDataSetChanged();
             }
         });
+        holder.check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] words=items.get(position).getDatBanModels().get(position).getId_bk().split("_");
+
+                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(words[1]).child("ban").child(words[0]).child("trangthai").setValue("4");
+                holder.check.setEnabled(true);
+                holder.check.setBackgroundResource(R.color.bac);
+            }
+        });
+
+
     }
 
     @Override

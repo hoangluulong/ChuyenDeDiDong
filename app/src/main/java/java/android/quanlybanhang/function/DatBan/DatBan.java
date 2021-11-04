@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.MainActivity;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.function.OrderMenu;
 import java.sql.Date;
@@ -196,5 +197,14 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(DatBan.this, OrderMenu.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

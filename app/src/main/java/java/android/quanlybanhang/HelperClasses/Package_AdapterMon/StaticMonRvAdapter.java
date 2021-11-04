@@ -40,11 +40,12 @@ ArrayList<Product> staticMonOrderModels;
 
     String id_khuvuc;
     String id_ban;
+    String id_datban;
     String tenban;
     String key_SanPham;
+    String trangthai;
 
-
-    public StaticMonRvAdapter(ArrayList<Product> staticMonOrderModels, MonOrder monOrder, ArrayList<StaticCategoryMonModel> items, int pos, String tenban,String id_ban,String id_khuvuc,String key_SanPham){
+    public StaticMonRvAdapter(ArrayList<Product> staticMonOrderModels, MonOrder monOrder, ArrayList<StaticCategoryMonModel> items, int pos, String tenban,String id_ban,String id_khuvuc,String key_SanPham,String id_datban, String trangthai){
         this.staticMonOrderModels = staticMonOrderModels;
         this.monOrder = monOrder;
         this.items = items;
@@ -53,7 +54,12 @@ ArrayList<Product> staticMonOrderModels;
         this.id_ban = id_ban;
         this.id_khuvuc = id_khuvuc;
         this.key_SanPham = key_SanPham;
+        this.id_datban = id_datban;
+        this.trangthai= trangthai;
+
+
     }
+
     @NonNull
     @Override
     public StaticMonRvAdapter.StaticMonRvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -72,12 +78,7 @@ ArrayList<Product> staticMonOrderModels;
             return;
         }
         holder.tvtensanpham.setText(Crritem.getNameProduct());
-//        Log.d("aa",tenban.toString()+"kuku");
-//        holder.imgsanpham(Crritem.getImgProduct());
         Picasso.get().load(Crritem.getImgProduct()).into(holder.imgsanpham);
-
-//        holder.tvgiaSanpham.setText(Crritem.getGiaBan()+"");
-//        holder.tvgiaSanpham.setText(staticMonOrderModels.get(position).getDonGia().get(0)+"");
         holder.tvstatus.setText(Crritem.getStatus());
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +92,9 @@ ArrayList<Product> staticMonOrderModels;
                     intent1.putExtra("id_ban",id_ban);
                     intent1.putExtra("id_khuvuc",id_khuvuc);
                     intent1.putExtra("key_sanpham",key_SanPham);
+                    intent1.putExtra("id_datban",id_datban);
+//                    intent1.putExtra("trangthai",trangthai);
+
 //                    Log.d("key_sanpham113",Crritem.getDonGia().get(position).getId() );
                     monOrder.startActivity(intent1);
 
