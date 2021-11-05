@@ -136,11 +136,6 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
         }
-//        if (staticBanModels.get(position).getTrangthai().equals("4")){
-//            holder.cardview_ban.setBackgroundResource(R.color.bac);
-//
-//
-//        }
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,9 +148,6 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
             public void onClick(View v) {
                 HamTaodialog(Gravity.BOTTOM,CrrItem);
                 Toast.makeText(orderMenu,"bacham",Toast.LENGTH_LONG).show();
-
-
-//                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("3");
 
             }
         });
@@ -248,6 +240,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                     intent.putExtra("tenban",CrrItem.getTenban());
                     intent.putExtra("id_khuvuc",Id_khuvuc);
                     orderMenu.startActivity(intent);
+                    dialogban.dismiss();
                 }
             });
         listdatban.setOnClickListener(new View.OnClickListener() {
@@ -259,6 +252,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                 intent.putExtra("tenban",CrrItem.getTenban());
                 intent.putExtra("id_khuvuc",Id_khuvuc);
                 orderMenu.startActivity(intent);
+                dialogban.dismiss();
             }
         });
         if(CrrItem.getTrangthai().equals("4")) {
@@ -267,6 +261,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                 public void onClick(View v) {
                     Toast.makeText(orderMenu,"hoantac",Toast.LENGTH_LONG).show();
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("1");
+                    dialogban.dismiss();
 
                 }
             });

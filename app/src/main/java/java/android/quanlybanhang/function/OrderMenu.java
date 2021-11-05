@@ -166,7 +166,6 @@
                 int code = (int) Math.floor(((Math.random() * 899999) + 100000));
                 Toast.makeText(this,"order nè",Toast.LENGTH_LONG).show();
                 Log.d("codetruong",code+"");
-
                 Intent intent = new Intent(OrderMenu.this, MonOrder.class);
                 intent.putExtra("id_datban",code+"");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
