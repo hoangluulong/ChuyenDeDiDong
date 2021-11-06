@@ -14,11 +14,14 @@ public class SanPhamQuangCao {
     private String imageName;
     private String imageUrl;
     private boolean thanhtoan;
+    private boolean up = false;
+    private String ngayBatDau;
+    private String ngayKetThuc;
 
     public SanPhamQuangCao() {
     }
 
-    public SanPhamQuangCao(String idCuahHang, String key, String tenSanPham, int soLuong, long giaBan, long giamGia, String nhomSp, String moTa, String imageName, String imageUrl, boolean thanhtoan) {
+    public SanPhamQuangCao(String idCuahHang, String key, String tenSanPham, int soLuong, long giaBan, long giamGia, String nhomSp, String moTa, String imageName, String imageUrl, boolean thanhtoan, String ngayBatDau, String ngayKetThuc) {
         this.idCuahHang = idCuahHang;
         this.key = key;
         this.tenSanPham = tenSanPham;
@@ -30,10 +33,36 @@ public class SanPhamQuangCao {
         this.imageName = imageName;
         this.imageUrl = imageUrl;
         this.thanhtoan = thanhtoan;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
     }
 
     public String getNhomSp() {
         return nhomSp;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public String getNgayBatDau() {
+        return ngayBatDau;
+    }
+
+    public void setNgayBatDau(String ngayBatDau) {
+        this.ngayBatDau = ngayBatDau;
+    }
+
+    public String getNgayKetThuc() {
+        return ngayKetThuc;
+    }
+
+    public void setNgayKetThuc(String ngayKetThuc) {
+        this.ngayKetThuc = ngayKetThuc;
     }
 
     public void setNhomSp(String nhomSp) {

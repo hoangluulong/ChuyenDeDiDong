@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -237,16 +238,20 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    private String name;
+    private int sLuong = 0;
+    private long gia = 0;
+    private long giamGia = 0;
+    private String moTa;
+    private String nameImage;
+
     private void uploadFirebaseQuangCao(Uri uri) {
-        String nameImage = System.currentTimeMillis() + "." + getFileExtension(uri);
-        String name = tenSanPham.getText().toString();
+        nameImage = System.currentTimeMillis() + "." + getFileExtension(uri);
+        name = tenSanPham.getText().toString();
         String sLuongText = soLuong.getText().toString();
         String sGiaBanText = giaban.getText().toString();
         String sGiamGiaText = giamgia.getText().toString();
-        String moTa = mota.getText().toString();
-        int sLuong = 0;
-        long gia = 0;
-        long giamGia = 0;
+        moTa = mota.getText().toString();
 
         if (!sLuongText.isEmpty() && isNumeric(sLuongText)) {
             sLuong = Integer.parseInt(sLuongText);
@@ -294,62 +299,68 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         } else {
             taoDon.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
-            String key = mFirebaseDatabase.push().getKey();
-            SanPhamQuangCao sanPhamQuangCao = new SanPhamQuangCao(ID_CUAHANG, key, name, sLuong, gia, giamGia, nhomSp, moTa, nameImage, "", false);
 
-            mFirebaseDatabase.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(sanPhamQuangCao).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+            final StorageReference fileRef = reference.child(nameImage);
+            fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onSuccess(Void unused) {
-                    uploadToFirebase(uri, key, nameImage);
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String key = mFirebaseDatabase.push().getKey();
+                            Toast.makeText(getContext(), "Thành công", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.INVISIBLE);
+                            tenSanPham.setText(null);
+                            soLuong.setText(null);
+                            giamgia.setText(null);
+                            giaban.setText(null);
+                            imgageView.setImageURI(null);
+                            nhomsanpham.setText(null);
+                            addImage.setBackgroundResource(R.drawable.border_image_dashed);
+                            mota.setText(null);
+                            imageUri = null;
+
+                            paramsImage.height = 0;
+                            layout_image.setLayoutParams(paramsImage);
+                            paramsImage1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            layout_image1.setLayoutParams(paramsImage1);
+                            taoDon.setEnabled(true);
+                            SanPhamQuangCao sanPhamQuangCao = new SanPhamQuangCao(ID_CUAHANG, key, name, sLuong, gia, giamGia, nhomSp, moTa, nameImage, uri.toString(), false, "20-11-2021", "22-11-2021");
+                            Log.d("qqq", sanPhamQuangCao.getImageUrl());
+                            DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
+                            mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(sanPhamQuangCao).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();
+                                    name = null;
+                                    sLuong = 0;
+                                    gia = 0;
+                                    giamGia = 0;
+                                    moTa = null;
+                                    nameImage = null;
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
-    }
-
-    private void uploadToFirebase(Uri uri, String key, String nameImage) {
-        final StorageReference fileRef = reference.child(nameImage);
-        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        mFirebaseDatabase.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key + "/imageUrl").setValue(uri.toString());
-                        Toast.makeText(getContext(), "Thành công", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        tenSanPham.setText(null);
-                        soLuong.setText(null);
-                        giamgia.setText(null);
-                        giaban.setText(null);
-                        imgageView.setImageURI(null);
-                        nhomsanpham.setText(null);
-                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
-                        mota.setText(null);
-                        imageUri = null;
-
-                        paramsImage.height = 0;
-                        layout_image.setLayoutParams(paramsImage);
-                        paramsImage1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                        layout_image1.setLayoutParams(paramsImage1);
-                        taoDon.setEnabled(true);
-                    }
-                });
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-            }
-        });
     }
 
     private String getFileExtension(Uri mUri) {

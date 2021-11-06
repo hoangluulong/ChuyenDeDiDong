@@ -2,9 +2,7 @@ package java.android.quanlybanhang.function.CuaHangOnline.Data;
 
 import java.util.ArrayList;
 
-public class SanPhamQuangCao2
-
-{
+public class SanPhamQuangCao2 {
     private String id;
     private String chiTiet;
     private ArrayList<DonGia> donGia;

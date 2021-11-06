@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +8,16 @@
     tools:context=".function.Account.StoreSetting">
 
     <ScrollView
+        android:id="@+id/scrollView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,26 +35,28 @@
                     android:id="@+id/logoText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/armata"
                     android:text="@string/setupStore"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:transitionName="logo_welcome" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:background="@drawable/border_linerlayout"
                     android:orientation="vertical"
-                    android:padding="5dp"
-                    android:background="@drawable/border_linerlayout">
+                    android:padding="5dp">
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tenCuaHang"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/name_store"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                        android:hint="@string/name_store">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtTenCuaHang"
@@ -65,11 +73,11 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/province"
 
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:hint="@string/select_item_spinner"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        android:hint="@string/select_item_spinner">
 
                         <AutoCompleteTextView
                             android:id="@+id/spinner_province"
@@ -82,11 +90,11 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/district"
-                        android:layout_marginTop="30dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/select_item_spinner2"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        android:layout_marginTop="30dp"
+                        android:hint="@string/select_item_spinner2">
 
                         <AutoCompleteTextView
                             android:id="@+id/spinner_district"
@@ -98,11 +106,11 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/xa"
-                        android:layout_marginTop="30dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/select_item_spinner3"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        android:layout_marginTop="30dp"
+                        android:hint="@string/select_item_spinner3">
 
                         <AutoCompleteTextView
                             android:id="@+id/spinner_xa"
@@ -139,26 +147,26 @@
                     android:id="@+id/sw_sample_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginRight="20dp"
                     android:gravity="right"
+                    android:text="Sử dụng dữ liệu mẫu"
                     android:textColor="@color/bar"
-                    android:textSize="16sp"
-                    android:text="Sử dụng dữ liệu mẫu"/>
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btn_complete"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="30dp"
                     android:layout_height="41dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/buttom_bg"
                     android:text="@string/complete"
-                    android:textSize="20sp"
                     android:textColor="#fff"
-                    android:layout_marginBottom="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:transitionName="button_sign" />
             </LinearLayout>
@@ -166,4 +174,13 @@
         </androidx.cardview.widget.CardView>
     </ScrollView>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

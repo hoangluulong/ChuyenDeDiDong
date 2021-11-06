@@ -85,7 +85,7 @@ public class QuangCaoActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item)     {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.cuahang:

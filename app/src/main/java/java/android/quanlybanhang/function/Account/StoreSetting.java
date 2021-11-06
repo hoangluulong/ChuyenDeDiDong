@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
     private String KEY_CHILD = "";
     private String ID_USER = "";
     private DbBaoCao dataSql;
+    private ProgressBar progressBar;
 
     private ArrayList<DiaChi> listDiaChi = new ArrayList<>();
 
@@ -77,6 +79,8 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_setting);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -154,6 +158,8 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
                 tenXa = parent.getItemAtPosition(position).toString();
             }
         });
+
+        progressBar.setVisibility(View.INVISIBLE);
 
     }
 

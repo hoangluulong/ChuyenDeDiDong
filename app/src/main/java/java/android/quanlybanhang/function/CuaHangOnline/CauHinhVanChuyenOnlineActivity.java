@@ -329,7 +329,6 @@ public class CauHinhVanChuyenOnlineActivity extends AppCompatActivity implements
         for (int i = 0; i < listDiaChi.get(pos).getHuyens().size(); i++){
             arr[i] = listDiaChi.get(pos).getHuyens().get(i).getTenHuyen();
         }
-
         return arr;
     }
 }

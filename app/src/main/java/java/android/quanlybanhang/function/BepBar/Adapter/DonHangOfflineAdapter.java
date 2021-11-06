@@ -140,7 +140,5 @@ public class DonHangOfflineAdapter extends RecyclerView.Adapter<DonHangOfflineAd
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-YYYY hh:mm:ss");
         String aaa = simpleDateFormat.format(date1);
         return aaa;
-
     }
-
 }
