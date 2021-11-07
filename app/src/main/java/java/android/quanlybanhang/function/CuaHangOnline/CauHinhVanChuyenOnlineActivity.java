@@ -175,7 +175,9 @@ public class CauHinhVanChuyenOnlineActivity extends AppCompatActivity implements
                 finish();
                 break;
             case R.id.sanpham:
-                Toast.makeText(this, "San pham", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, TaoSanPhamOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.quangcao:
                 intent = new Intent(this, QuangCaoActivity.class);

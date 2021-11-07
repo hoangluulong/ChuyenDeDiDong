@@ -39,7 +39,7 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
     private CheckBox checkboxKhachHangDenLay, checkboxDonViVanChuyen, checkboxTuGiao, checkboxChuyenKhoan, checkboxTienMat;
     private CardView cauhinhvanchuyen;
     private LinearLayout layoutThongTinChuyenKhoan;
-    private TextView dangKy;
+    private TextView dangKy, addLoai;
     private LinearLayout.LayoutParams params;
 
     @Override
@@ -73,6 +73,7 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
         drawerLayout = findViewById(R.id.drawable_layout);
         toolbar = findViewById(R.id.toolbar);
         params = (LinearLayout.LayoutParams) layoutThongTinChuyenKhoan.getLayoutParams();
+        addLoai = findViewById(R.id.addLoai);
 
         checkboxChuyenKhoan.setOnClickListener(this);
         checkboxTuGiao.setOnClickListener(this);
@@ -132,7 +133,9 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
             case R.id.cuahang:
                 break;
             case R.id.sanpham:
-                Toast.makeText(this, "San pham", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, TaoSanPhamOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.quangcao:
                 intent = new Intent(this, QuangCaoActivity.class);

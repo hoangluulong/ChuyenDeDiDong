@@ -15,16 +15,16 @@ import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
-import java.android.quanlybanhang.function.CuaHangOnline.Fragment.ChoXacNhanQuangCaoFragment;
+import java.android.quanlybanhang.function.CuaHangOnline.Fragment.SanPhamQuangCaoFragment;
 import java.util.ArrayList;
 
 public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCaoAdapter.SanPhamHodel>{
 
     private Context context;
     private ArrayList<SanPhamQuangCao> list;
-    private ChoXacNhanQuangCaoFragment choXacNhanQuangCaoFragment;
+    private SanPhamQuangCaoFragment choXacNhanQuangCaoFragment;
 
-    public SanPhamQuangCaoAdapter(Context context, ArrayList<SanPhamQuangCao> list, ChoXacNhanQuangCaoFragment choXacNhanQuangCaoFragment) {
+    public SanPhamQuangCaoAdapter(Context context, ArrayList<SanPhamQuangCao> list, SanPhamQuangCaoFragment choXacNhanQuangCaoFragment) {
         this.context = context;
         this.list = list;
         this.choXacNhanQuangCaoFragment = choXacNhanQuangCaoFragment;

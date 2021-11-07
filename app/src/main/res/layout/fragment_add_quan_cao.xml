@@ -185,7 +185,7 @@
                                                 android:id="@+id/soLuong"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:inputType="phone"
+                                                android:inputType="number"
                                                 android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 
@@ -206,7 +206,7 @@
                                                 android:id="@+id/giaban"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:inputType="phone"
+                                                android:inputType="number"
                                                 android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 
@@ -226,7 +226,7 @@
                                                 android:id="@+id/giamgia"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:inputType="phone"
+                                                android:inputType="number"
                                                 android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 

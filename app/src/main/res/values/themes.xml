@@ -103,5 +103,10 @@
         <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
         <item name="android:fontFamily">@font/alike_angular</item>
         <item name="android:actionMenuTextColor">@color/black</item>
+        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/bac</item>
     </style>
 </resources>
