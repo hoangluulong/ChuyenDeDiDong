@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.SanPhamQuangCaoAdapter;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
 
     private RecyclerView recycleview;
     private SanPhamQuangCaoAdapter sanPhamQuangCaoAdapter;
-    private ArrayList<SanPhamQuangCao>  listQuanCao = new ArrayList<>();
+    private ArrayList<Product>  listQuanCao = new ArrayList<>();
     private ArrayList<SanPhamQuangCao>  listQuanCaoChoDuyet = new ArrayList<>();
     private ProgressBar progressBarLayout;
     private LinearLayout.LayoutParams params;
@@ -139,8 +140,8 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                SanPhamQuangCao sanPhamQuangCao = dataSnapshot.getValue(SanPhamQuangCao.class);
-                listQuanCao.add(sanPhamQuangCao);
+                Product product = dataSnapshot.getValue(Product.class);
+                listQuanCao.add(product);
                 progressBarLayout.setVisibility(View.INVISIBLE);
                 scrollView.setAlpha(1);
                 sanPhamQuangCaoAdapter.notifyDataSetChanged();
@@ -154,7 +155,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 String key = dataSnapshot.getKey();
                 for (int i = 0; i < listQuanCao.size(); i++) {
-                    if (listQuanCao.get(i).getKey().equals(key)) {
+                    if (listQuanCao.get(i).getId().equals(key)) {
                         listQuanCao.remove(i);
                         sanPhamQuangCaoAdapter.notifyDataSetChanged();
                     }
@@ -199,7 +200,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
             public void onClick(DialogInterface dialog, int which) {
                 sanPhamQuangCaoAdapter.notifyDataSetChanged();
                 FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao/"+ID_CUAHANG+"/sanpham/"+listQuanCao
-                        .get(position).getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        .get(position).getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(getContext(), "Đã xóa",Toast.LENGTH_SHORT ).show();

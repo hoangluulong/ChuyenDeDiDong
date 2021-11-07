@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
 import java.android.quanlybanhang.function.CuaHangOnline.Fragment.SanPhamQuangCaoFragment;
 import java.util.ArrayList;
@@ -21,10 +22,10 @@ import java.util.ArrayList;
 public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCaoAdapter.SanPhamHodel>{
 
     private Context context;
-    private ArrayList<SanPhamQuangCao> list;
+    private ArrayList<Product> list;
     private SanPhamQuangCaoFragment choXacNhanQuangCaoFragment;
 
-    public SanPhamQuangCaoAdapter(Context context, ArrayList<SanPhamQuangCao> list, SanPhamQuangCaoFragment choXacNhanQuangCaoFragment) {
+    public SanPhamQuangCaoAdapter(Context context, ArrayList<Product> list, SanPhamQuangCaoFragment choXacNhanQuangCaoFragment) {
         this.context = context;
         this.list = list;
         this.choXacNhanQuangCaoFragment = choXacNhanQuangCaoFragment;
@@ -49,14 +50,14 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
             holder.linerlayoutEnabled.setLayoutParams(params);
         }
 
-        Picasso.get().load(list.get(position).getImageUrl()).into(holder.image);
-        holder.ngaybatdau.setText(list.get(position).getNgayBatDau());
-        holder.ngayketthuc.setText(list.get(position).getNgayKetThuc());
-        holder.nhomsanpham.setText(list.get(position).getNhomSp());
+        Picasso.get().load(list.get(position).getImgProduct()).into(holder.image);
+//        holder.ngaybatdau.setText(list.get(position).getNgayBatDau());
+//        holder.ngayketthuc.setText(list.get(position).getNgayKetThuc());
+        holder.nhomsanpham.setText(list.get(position).getNhomsanpham());
         holder.giaban.setText(list.get(position).getGiaBan()+"");
         holder.giamgia.setText(list.get(position).getGiamGia()+"");
-        holder.name.setText(list.get(position).getTenSanPham());
-        holder.idsanpham.setText(list.get(position).getIdCuahHang());
+        holder.name.setText(list.get(position).getNameProduct());
+        holder.idsanpham.setText(list.get(position).getIdCuaHang());
     }
 
     @Override

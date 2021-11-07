@@ -247,7 +247,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
 
                             String img = uri.toString();
                             String status = "Còn";
-                            product = new Product(id,name,moTaChiTiet,nhomSp,0.0, sLuong, img, nameImage, status, listDonGia);
+                            product = new Product(key,name,moTaChiTiet,nhomSp,0.0, sLuong, img, nameImage, status, listDonGia);
                             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
@@ -418,13 +418,6 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
             imgageView.setImageURI(imageUri);
             addImage.setBackgroundResource(R.drawable.border_image);
         }
-    }
-
-    private boolean isNumeric(String str) {
-        for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c)) return false;
-        }
-        return true;
     }
 
     private void getNhomSanPham() {

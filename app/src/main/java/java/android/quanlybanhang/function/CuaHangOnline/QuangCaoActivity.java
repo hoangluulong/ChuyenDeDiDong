@@ -94,7 +94,9 @@ public class QuangCaoActivity extends AppCompatActivity implements NavigationVie
                 finish();
                 break;
             case R.id.sanpham:
-                Toast.makeText(this, "San pham", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, TaoSanPhamOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.quangcao:
                 break;

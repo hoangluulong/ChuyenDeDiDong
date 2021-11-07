@@ -17,6 +17,8 @@ public class Product implements Serializable {
     private Double giamGia;
     private String status;
     private ArrayList<DonGia> donGiaOrder;
+    private String idCuaHang;
+    private boolean up;
 
     public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder) {
         this.id = id;
@@ -45,7 +47,21 @@ public class Product implements Serializable {
         this.donGiaOrder = donGiaOrder;
     }
 
-
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder, String idCuaHang, boolean up) {
+        this.id = id;
+        this.nameProduct = nameProduct;
+        this.chitiet = chitiet;
+        Nhomsanpham = nhomsanpham;
+        this.giaNhap = giaNhap;
+        this.soluong = soluong;
+        this.imgProduct = imgProduct;
+        this.nameImage = nameImage;
+        this.giamGia = giamGia;
+        this.status = status;
+        this.donGiaOrder = donGiaOrder;
+        this.idCuaHang = idCuaHang;
+        this.up = up;
+    }
 
     public Product() {
     }
@@ -144,5 +160,21 @@ public class Product implements Serializable {
 
     public void setSoluong(int soluong) {
         this.soluong = soluong;
+    }
+
+    public String getIdCuaHang() {
+        return idCuaHang;
+    }
+
+    public void setIdCuaHang(String idCuaHang) {
+        this.idCuaHang = idCuaHang;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
     }
 }
