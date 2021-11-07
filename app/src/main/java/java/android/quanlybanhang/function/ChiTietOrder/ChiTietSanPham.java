@@ -88,9 +88,9 @@ public class ChiTietSanPham extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 //        id_khuvuc = intent.getStringExtra("id_khuvuc");
         key_sp = intent.getStringExtra("key_sanpham");
-        Log.d("key_sanpham",key_sp+"Truong");
-        staticMonOrderModel = (Product) bundle.getSerializable("sp");
 
+        staticMonOrderModel = (Product) bundle.getSerializable("sp");
+        Log.d("key_sanpham",key_sp+"Truong");
         tensps = staticMonOrderModel.getNameProduct();
         image = staticMonOrderModel.getImgProduct();
         soluong = staticMonOrderModel.getSoluong();

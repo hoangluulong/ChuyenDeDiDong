@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sa90.materialarcmenu.ArcMenu;
 
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
@@ -39,8 +41,10 @@ import java.android.quanlybanhang.Model.Product;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
 import java.android.quanlybanhang.function.CardProductSQL.CardProduct;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban {
     private RecyclerView recyclerView, recyclerView2;//rv khu vuc ban
@@ -60,12 +64,13 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     String id_ban_thanhtoan;
     String id_khuvuc_thanhtoan;
     String ids;
-    ProuductPushFB1 prouductPushFB1;
+    private ProuductPushFB1 prouductPushFB1;
     ArrayList<DatBanModel> datBanModels;
     ArrayList<ID_datban> ID_datbans;
     String id_bk;
     private String trangthaine;
     private String trangthaigop;
+    ArrayList<ProuductPushFB1> carsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +87,23 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         actionBar.setDisplayHomeAsUpEnabled(true);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        Intent intent = getIntent();
-        id_ban_thanhtoan = intent.getStringExtra("id_ban");
-        id_khuvuc_thanhtoan = intent.getStringExtra("id_khuvuc");
+        Intent intent1 = getIntent();
+        id_ban_thanhtoan = intent1.getStringExtra("id_ban");
+        id_khuvuc_thanhtoan = intent1.getStringExtra("id_khuvuc");
+//       String carListAsString = getIntent().getStringExtra("list_as_string");
+//
+        Log.d("list_as_string",id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan+"Ordermenu");
+        String carListAsString = getIntent().getStringExtra("list_as_string");
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
+        }.getType();
+        carsList= gson.fromJson(carListAsString, type);
+
         dialogban = new Dialog(OrderMenu.this);
         dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogban.setContentView(R.layout.dailongban);
         window = dialogban.getWindow();
-        Bundle bundle = intent.getExtras();
-        prouductPushFB1 = (ProuductPushFB1) bundle.getSerializable("sp");
+
         ID_datbans = new ArrayList<>();
         trangthaine = "0";
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
@@ -118,7 +131,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
 
         items = new ArrayList<>();
         recyclerView2 = findViewById(R.id.rv_2);
-        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban,trangthaigop,id_ban_thanhtoan,id_khuvuc_thanhtoan,prouductPushFB1);
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticRvAdapter);
@@ -130,7 +143,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     @Override
     public void GetBack(int position, ArrayList<StaticBanModel> items, String id_khuvuc) {
         id_khuvuc = item.get(position).getId_khuvuc();
-        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban,trangthaigop,id_ban_thanhtoan,id_khuvuc_thanhtoan,prouductPushFB1);
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList);
         staticRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticRvAdapter);
 
@@ -148,7 +161,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         int item_id = item.getItemId();
         if (item_id == R.id.mangdi) {
 //                trangthai1= "1";
-            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban");
+            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
             mDatabase.child("trangthai").setValue("1");
             int code = (int) Math.floor(((Math.random() * 899999) + 100000));
             Toast.makeText(this, "order nè", Toast.LENGTH_LONG).show();
@@ -235,8 +248,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                             if (trangthai1.equals("2")) {
                                 mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                             }
-                        }
-                        else {
+                        } else {
                             mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                         }
 //                            Log.d("keyabc",aaa.getKey()+"abc");

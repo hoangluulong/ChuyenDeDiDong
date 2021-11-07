@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
@@ -84,6 +85,9 @@ public class ThanhToanActivity extends AppCompatActivity {
 
         id_khuvuc = intent1.getStringExtra("id_khuvuc");
         id_datban = intent1.getStringExtra("id_datban");
+        Log.d("list_as_string",id_ban+"_"+id_khuvuc+"ThanhToan");
+
+
         bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
         id = id_ban + "_" + id_khuvuc;
         list = new ArrayList<>();
@@ -290,7 +294,6 @@ public class ThanhToanActivity extends AppCompatActivity {
             Toast.makeText(this, "order nè", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(ThanhToanActivity.this, MonOrder.class);
             intent.putExtra("id_ban", id_ban);
-            Log.d("id_khuvuc", id_khuvuc);
             intent.putExtra("id_khuvuc", id_khuvuc);
             intent.putExtra("id_datban", id_datban);
             startActivity(intent);
@@ -299,12 +302,14 @@ public class ThanhToanActivity extends AppCompatActivity {
             Toast.makeText(this, "gopban", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
              FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("1");
-//            intent.putExtra("id_ban", id_ban);
+            intent.putExtra("id_ban", id_ban);
             intent.putExtra("id_khuvuc", id_khuvuc);
             intent.putExtra("id_datban", id_datban);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("sp",listmon);
-            intent.putExtras(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable("gopban",listmon);
+            Gson gson = new Gson();
+            String a = gson.toJson(listmon);
+            intent.putExtra("list_as_string",a);
 
             startActivity(intent);
         }

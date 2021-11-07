@@ -60,7 +60,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     String id_ban_thanhtoan;
     String id_khuvuc_thanhtoan;
     private DatabaseReference mDatabase;
-    ProuductPushFB1 prouductPushFB1;
+
+    ArrayList<ProuductPushFB1> prouductPushFB1;
 
 
 
@@ -72,7 +73,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
     }
     public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc,Window window,Dialog dialogban,String trangthaigop,String id_ban_thanhtoan,
-                           String id_khuvuc_thanhtoan,ProuductPushFB1 prouductPushFB1
+                           String id_khuvuc_thanhtoan,ArrayList<ProuductPushFB1> prouductPushFB1
     ){
         this.staticBanModels = staticBanModels;
         this.orderMenu = orderMenu;
@@ -128,6 +129,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     public void onBindViewHolder(@NonNull StaticRvHolderBan holder, int position) {
         StaticBanModel CrrItem = staticBanModels.get(position);
 //        hamdatban(CrrItem);
+        Log.d("list_as_string",id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan+"adapter");
         holder.tenPhucVu.setText(CrrItem.getTenNhanVien());
         holder.tenBan.setText(CrrItem.getTenban());
         holder.ngayGio.setText(changeDate(CrrItem.getGioDaOder()));
@@ -148,6 +150,12 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
         }
+        if(trangthaigop.equals("1")){
+            if((CrrItem.getID()+"_"+Id_khuvuc).equals(id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan)){
+                holder.constraintLayout.setVisibility(View.GONE);
+            }
+        }
+
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,6 +163,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
             }
         });
+
         holder.bacham.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,12 +208,20 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                 if(trangthaigop.equals("1")){
 
 //
-                    if((CrrItem.getID()+"_"+Id_khuvuc).equals(id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan)){
-                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("4");
-                    }
-                    else {
-                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID()+"_"+Id_khuvuc).child("sanpham").push().setValue(prouductPushFB1);
-                    }
+
+
+
+                        for (int i=0;i<prouductPushFB1.size();i++){
+                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID()+"_"+Id_khuvuc).child("sanpham").push().setValue(prouductPushFB1.get(i));
+                        }
+                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
+                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
+
+                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan).removeValue();
+
+
+
+
                 }else {
                     if(snapshot.getValue()!=null){
                         Intent intent = new Intent(orderMenu, ThanhToanActivity.class);
