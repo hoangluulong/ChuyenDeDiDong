@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class DanhSachDatBan extends AppCompatActivity {
     TextView rong;
     private Toolbar toolbar;
     RvDatBanAdapter datBanAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class DanhSachDatBan extends AppCompatActivity {
         abc = id_ban+"_"+id_khuvuc;
         tenban = intent.getStringExtra("tenban");
         toolbar = findViewById(R.id.toolbars);
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("DS_"+tenban);

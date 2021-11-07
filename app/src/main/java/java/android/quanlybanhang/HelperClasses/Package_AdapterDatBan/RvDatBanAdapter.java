@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +50,16 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
 
     @Override
     public void onBindViewHolder(@NonNull DatBanholder holder, int position) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.isclick.getLayoutParams();
+        if (items.get(position).getDatBanModels().get(position).isUp()) {
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+//            holder.updownIMG.setImageResource(R.drawable.up_24);
+            holder.isclick.setLayoutParams(params);
+        } else {
+            params.height = 0;
+//            holder.updownIMG.setImageResource(R.drawable.down_24);
+            holder.isclick.setLayoutParams(params);
+        }
         ID_datban CrrItem = items.get(position);
         Log.d("CrrItem",position+"");
         holder.tvtenkhachhang.setText(CrrItem.getDatBanModels().get(position).getTenkhachhang());
@@ -80,6 +92,7 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
         });
 
 
+
     }
 
     @Override
@@ -89,7 +102,10 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
 
     public class DatBanholder extends RecyclerView.ViewHolder {
             TextView tvtenkhachhang,tvsodienthoai,tvsotiendattruoc,tvngaydat,tvtenban,tvngaydatban,tvgiodat,tvgiokt;
+//            TextInputLayout tvtenkhachhang
+            LinearLayout click,isclick;
             ImageButton cancel,check;
+        private LinearLayout.LayoutParams params;
         public DatBanholder(@NonNull View itemView) {
             super(itemView);
             tvtenkhachhang = itemView.findViewById(R.id.tvtenkhachhang);
@@ -102,7 +118,28 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
             tvgiokt = itemView.findViewById(R.id.tvgiokt);
             cancel = itemView.findViewById(R.id.cancel);
             check = itemView.findViewById(R.id.check);
-
+            click= itemView.findViewById(R.id.click);
+            isclick= itemView.findViewById(R.id.isclick);
+            params= (LinearLayout.LayoutParams) isclick.getLayoutParams();
+            click.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    if (items.get(position).getDatBanModels().get(position).isUp()) {
+                        params.height = 0;
+                        items.get(position).getDatBanModels().get(position).setUp(false);
+//                        updownIMG.setImageResource(R.drawable.down_24);
+                        isclick.setLayoutParams(params);
+                        notifyDataSetChanged();
+                    } else {
+                        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        items.get(position).getDatBanModels().get(position).setUp(true);
+//                        updownIMG.setImageResource(R.drawable.up_24);
+                        isclick.setLayoutParams(params);
+                        notifyDataSetChanged();
+                    }
+                }
+            });
 
         }
     }

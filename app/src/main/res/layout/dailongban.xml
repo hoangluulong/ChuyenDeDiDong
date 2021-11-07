@@ -26,6 +26,16 @@
         android:gravity="center"
         android:text="Đặt bàn"></TextView>
     <TextView
+        android:id="@+id/tvgopban"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/xanh"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="Gộp Bàn"></TextView>
+
+    <TextView
         android:id="@+id/listdatban"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

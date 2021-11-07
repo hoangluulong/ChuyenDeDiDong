@@ -12,6 +12,16 @@ public class DatBanModel {
     private String sotiendadattruoc;
     private String tenkhachhang;
 
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    private boolean up = false;
+
     public String getTenban() {
         return tenban;
     }

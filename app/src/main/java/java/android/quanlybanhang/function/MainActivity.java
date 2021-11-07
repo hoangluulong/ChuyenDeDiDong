@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mDatabase;//khai bao database
     RelativeLayout ordermenu,baocao, donOnline;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ordermenu = findViewById(R.id.orderbutton);
         baocao = findViewById(R.id.baocao);
         donOnline = findViewById(R.id.donOnline);
-
+        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban");
+        mDatabase.child("trangthai").setValue("0");
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

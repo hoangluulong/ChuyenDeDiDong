@@ -56,11 +56,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="20dp"
-                app:cardCornerRadius="20dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                tools:layout_editor_absoluteX="10dp"
-                tools:layout_editor_absoluteY="66dp">
+                app:cardCornerRadius="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,54 +76,60 @@
                         android:text="Thông Tin Khách Đặt"
                         android:textSize="20sp"
                         android:textStyle="bold|italic" />
-
-                    <EditText
-                        android:id="@+id/edttenkhachang"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#FFFFFF"
-                        android:ems="10"
-                        android:hint="Nhập tên khách hàng"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textNoSuggestions"
-                        android:paddingLeft="20dp"
-                        android:textDirection="firstStrongRtl"
-                        android:textSize="18sp" />
+                        android:layout_height="wrap_content"
+                        android:hint="Tên Khách Hàng"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edttenkhachang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/alike_angular"
+                            android:textStyle="bold" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
                         android:layout_gravity="bottom"
                         android:background="@color/so_hoa_don" />
-
-
-                    <EditText
-                        android:id="@+id/editTextPhone"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#FFFFFF"
-                        android:ems="10"
-                        android:hint="Nhập số điện thoại"
-                        android:inputType="phone"
-                        android:paddingLeft="20dp" />
+                        android:layout_height="wrap_content"
+                        android:hint="Số Điện Thoại"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/alike_angular"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
                         android:layout_gravity="bottom"
                         android:background="@color/so_hoa_don" />
 
-
-                    <EditText
-                        android:id="@+id/editTextNumber"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="#FFFFFF"
-                        android:ems="10"
-                        android:hint="nhập số tiền đặt trước nếu có.."
-                        android:inputType="number"
-                        android:paddingLeft="20dp" />
+                        android:layout_height="wrap_content"
+                        android:hint="Tiền Đặt Trước"
+                        android:paddingBottom="2dp"
+                        android:layout_marginBottom="10dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/alike_angular"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -138,11 +144,10 @@
                 android:id="@+id/carrviewdatban"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                app:cardCornerRadius="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:elevation="30dp"
-                app:cardCornerRadius="20dp"
                 tools:layout_editor_absoluteX="10dp"
                 tools:layout_editor_absoluteY="301dp">
 
@@ -155,20 +160,20 @@
                         android:id="@+id/ngayhietai"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:fontFamily="@font/alike_angular"
                         android:gravity="center|fill"
                         android:paddingLeft="20dp"
                         android:shadowColor="#D02121"
-
                         android:text="Ngày hiện tại đặt bàn"
                         android:textColor="#121212"
                         android:textSize="16sp"
                         android:textStyle="bold|italic" />
 
-
                     <TextView
                         android:id="@+id/tvngayhientai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/alike_angular"
                         android:gravity="center"
                         android:text="31/9/2021"
                         android:textColor="#171616"
@@ -185,6 +190,7 @@
                         android:id="@+id/luachonngaydat"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:fontFamily="@font/alike_angular"
                         android:gravity="fill"
                         android:paddingLeft="20dp"
                         android:text="Lựa chọn ngày đặt bàn"
@@ -203,6 +209,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/alike_angular"
                             android:gravity="center"
                             android:text="00:00:00"
                             android:textColor="#0D0C0C"
@@ -250,6 +257,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/alike_angular"
                             android:gravity="center"
                             android:text="00:00:00"
                             android:textColor="#181818"
@@ -279,6 +287,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/alike_angular"
                             android:gravity="center"
                             android:text="00:00:00"
                             android:textColor="#181818"

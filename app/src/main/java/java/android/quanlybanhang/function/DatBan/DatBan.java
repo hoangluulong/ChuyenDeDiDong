@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +44,8 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
     String ids;
     Button bnt_datngay,bnt_datgio,bnt_datgiokt,bnt_datban;
     TextView txtDate, txtTime,txttimekt,tvngayhientai;
-    EditText edttenkhachang,editTextPhone,editTextNumber;
+//    TextInputLayout edttenkhachang;
+    EditText edttenkhachang, editTextPhone,editTextNumber;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private static final String DATE_FORMAT = "dd/MM/yyyy";
     private static final String TIME_FORMAT_12 = "hh:mm:ss a";
@@ -165,21 +167,13 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
 
 
     public void  datBan(){
-         Log.d("edttenkhachang",edttenkhachang.getText().toString());
-        Log.d("edttenkhachang",editTextPhone.getText().toString());
-        Log.d("edttenkhachang",editTextNumber.getText().toString());
-        Log.d("edttenkhachang",txttimekt.getText().toString());
-        Log.d("edttenkhachang",txtTime.getText().toString());
-        Log.d("edttenkhachang",txtDate.getText().toString());
-        Log.d("edttenkhachang",tvngayhientai.getText().toString());
 
         String aa =txtTime.getText().toString()+" "+txtDate.getText().toString();
         try {
             java.util.Date date = new SimpleDateFormat("hh:mm dd-MM-yyyy").parse(aa);
-            Log.d("dateTruong",date+"");
              timestamp = new Timestamp(date.getTime());
             timestamp.getTime();
-            Log.d("dateTruong", timestamp.getTime()+"");
+
 
         } catch (ParseException e) {
             e.printStackTrace();

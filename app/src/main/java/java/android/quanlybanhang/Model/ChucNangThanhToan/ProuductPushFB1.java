@@ -1,6 +1,8 @@
 package java.android.quanlybanhang.Model.ChucNangThanhToan;
 
-public class ProuductPushFB1 {
+import java.io.Serializable;
+
+public class ProuductPushFB1 implements Serializable {
     public String getNameProduct() {
         return nameProduct;
     }

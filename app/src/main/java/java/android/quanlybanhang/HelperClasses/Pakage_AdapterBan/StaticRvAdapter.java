@@ -53,10 +53,15 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     private Dialog dialogban;
     Window window;
     boolean xacdinh = true;
-    TextView datban,listdatban,hoantac;
+    TextView datban,listdatban,hoantac,gopban;
     String ids;
     String id_bk;
+    String trangthaigop;
+    String id_ban_thanhtoan;
+    String id_khuvuc_thanhtoan;
     private DatabaseReference mDatabase;
+    ProuductPushFB1 prouductPushFB1;
+
 
 
         public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc){
@@ -66,13 +71,20 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         this.Id_khuvuc = Id_khuvuc;
 
     }
-    public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc,Window window,Dialog dialogban){
+    public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels,OrderMenu orderMenu,  ArrayList<StaticModelKhuVuc> items,String Id_khuvuc,Window window,Dialog dialogban,String trangthaigop,String id_ban_thanhtoan,
+                           String id_khuvuc_thanhtoan,ProuductPushFB1 prouductPushFB1
+    ){
         this.staticBanModels = staticBanModels;
         this.orderMenu = orderMenu;
         this.items = items;
         this.Id_khuvuc = Id_khuvuc;
         this.window= window;
         this.dialogban= dialogban;
+        this.trangthaigop = trangthaigop;
+        this.id_ban_thanhtoan = id_ban_thanhtoan;
+        this.id_khuvuc_thanhtoan = id_khuvuc_thanhtoan;
+        this.prouductPushFB1 = prouductPushFB1;
+
 
     }
     public class StaticRvHolderBan extends RecyclerView.ViewHolder {
@@ -179,29 +191,38 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     }
 
     public  void getData(StaticBanModel CrrItem ){
+        Log.d("trangthaigop",trangthaigop);
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID()+"_"+Id_khuvuc);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue()!=null){
-                    Intent intent = new Intent(orderMenu, ThanhToanActivity.class);
-                    intent.putExtra("id_ban",CrrItem.getID());
-                    Log.d("id_khuvuc_Truong",Id_khuvuc);
-                    intent.putExtra("id_khuvuc",Id_khuvuc);
-                    orderMenu.startActivity(intent);
+                if(trangthaigop.equals("1")){
+
+//
+                    if((CrrItem.getID()+"_"+Id_khuvuc).equals(id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan)){
+                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("4");
                     }
-                else {
-                    Intent intent = new Intent(orderMenu,MonOrder.class);
-                    mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
-                    mDatabase.child("trangthai").setValue("0");
-                    intent.putExtra("id_ban",CrrItem.getID());
-                    Log.d("id_khuvuc_Truong1",Id_khuvuc);
-                    intent.putExtra("id_khuvuc",Id_khuvuc);
-                    orderMenu.startActivity(intent);
+                    else {
+                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID()+"_"+Id_khuvuc).child("sanpham").push().setValue(prouductPushFB1);
+                    }
+                }else {
+                    if(snapshot.getValue()!=null){
+                        Intent intent = new Intent(orderMenu, ThanhToanActivity.class);
+                        intent.putExtra("id_ban",CrrItem.getID());
+                        Log.d("id_khuvuc_Truong",Id_khuvuc);
+                        intent.putExtra("id_khuvuc",Id_khuvuc);
+                        orderMenu.startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(orderMenu,MonOrder.class);
+                        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+                        mDatabase.child("trangthai").setValue("0");
+                        intent.putExtra("id_ban",CrrItem.getID());
+                        Log.d("id_khuvuc_Truong1",Id_khuvuc);
+                        intent.putExtra("id_khuvuc",Id_khuvuc);
+                        orderMenu.startActivity(intent);
+                    }
                 }
-
-
-
             }
 
 
@@ -225,11 +246,12 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         datban=dialogban.findViewById(R.id.tvdatban);
         listdatban = dialogban.findViewById(R.id.listdatban);
         hoantac = dialogban.findViewById(R.id.hoantac);
-        EvenlistDatban(datban,listdatban,hoantac,CrrItem);
+        gopban = dialogban.findViewById(R.id.tvgopban);
+        EvenlistDatban(datban,listdatban,hoantac,gopban,CrrItem);
 
         dialogban.show();
     }
-    private void EvenlistDatban(TextView datban,TextView listdatban,TextView hoantac,StaticBanModel CrrItem){
+    private void EvenlistDatban(TextView datban,TextView listdatban,TextView hoantac,TextView gopban,StaticBanModel CrrItem){
             datban.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -253,6 +275,12 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                 intent.putExtra("id_khuvuc",Id_khuvuc);
                 orderMenu.startActivity(intent);
                 dialogban.dismiss();
+            }
+        });
+        gopban.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").setValue("true");
             }
         });
         if(CrrItem.getTrangthai().equals("4")) {

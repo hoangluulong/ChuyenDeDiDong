@@ -38,26 +38,28 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ThanhToanActivity extends AppCompatActivity {
-private ArrayList<String> list ;
-private String id_ban,id_khuvuc;
-private DatabaseReference mDatabase;
-private DatabaseReference mDatabase1;
-private ThanhToanAdapter thanhToanAdapter;
-private RecyclerView recyclerView;
+    private ArrayList<String> list;
+    private String id_ban, id_khuvuc;
+    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase1;
+    private DatabaseReference mDatabasea;
+    private ThanhToanAdapter thanhToanAdapter;
+    private RecyclerView recyclerView;
 
-private TextView nameactivity;
-private Database_order database_order;
-private final String TEN_BANG="ProductSQL1";
+    private TextView nameactivity;
+    private Database_order database_order;
+    private final String TEN_BANG = "ProductSQL1";
     String id;
-private int kt=-1;
-Double giaTong=0.0;
-private Button bnt_thanhtoan;
-private TextView totalTxt;
-private String trangthai;
-private String id_datban;
-private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
+    private int kt = -1;
+    Double giaTong = 0.0;
+    private Button bnt_thanhtoan;
+    private TextView totalTxt;
+    private String trangthai;
+    private String id_datban;
+    private ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
     private Toolbar toolbar;//tool bar khai bao id
-    private  ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
+    private ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,7 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
         actionBar.setTitle("Thanh Toán");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        totalTxt = findViewById(R.id.totalTxt) ;
+        totalTxt = findViewById(R.id.totalTxt);
 
         Intent intent1 = getIntent();
         id_ban = intent1.getStringExtra("id_ban");
@@ -83,19 +85,19 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
         id_khuvuc = intent1.getStringExtra("id_khuvuc");
         id_datban = intent1.getStringExtra("id_datban");
         bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
-        id=id_ban+"_"+id_khuvuc;
-        list= new ArrayList<>();
+        id = id_ban + "_" + id_khuvuc;
+        list = new ArrayList<>();
 
         mDatabase1 = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
         mDatabase1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    trangthai= snapshot1.getValue()+"";
-                    Log.d("TrangThaima",trangthai+"chitiet");
-
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    trangthai = snapshot1.getValue() + "";
+                    Log.d("TrangThaima", trangthai + "chitiet");
+                    getData();
                 }
-                getData();
+
             }
 
             @Override
@@ -111,52 +113,50 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
 
     }
 
-    public  void getData(){
-        if(trangthai.equals("0")){
-        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban+"_"+id_khuvuc);
-        }
-        else if(trangthai.equals("1")){
+    public void getData() {
+        if (trangthai.equals("0")) {
+            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban + "_" + id_khuvuc);
+        } else if (trangthai.equals("1")) {
             mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban);
         }
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               if(snapshot.getValue()!=null) {
-                   ListDate_yc = new ArrayList<>();
-                   listmon = new ArrayList<ProuductPushFB1>();
+                if (snapshot.getValue() != null) {
+                    ListDate_yc = new ArrayList<>();
+                    listmon = new ArrayList<ProuductPushFB1>();
 
-                   Log.d("dateFirebase", snapshot.child("date").getValue() + "");
-                   String flag = snapshot.child("flag").getValue() + "";
-                   DataSnapshot sss = snapshot.child("sanpham");
-                   for (DataSnapshot postSnapshot : sss.getChildren()) {
-                       String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
-                       int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
-                       String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
-                       Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
-                       String Loai = postSnapshot.child("loai").getValue() + "";
-                       String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
-                       listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
-                   }
-                   //lấy giá Tổng Của Tất cà
-                   for(int i=0;i<listmon.size();i++){
-                       giaTong += listmon.get(i).getGiaProudct();
-                   }
-                   totalTxt.setText(giaTong+"");
-                   ListDate_yc.add(new ProductPushFB(1, true, listmon));
+                    Log.d("dateFirebase", snapshot.child("date").getValue() + "");
+                    String flag = snapshot.child("flag").getValue() + "";
+                    DataSnapshot sss = snapshot.child("sanpham");
+                    for (DataSnapshot postSnapshot : sss.getChildren()) {
+                        String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
+                        int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
+                        String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
+                        Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
+                        String Loai = postSnapshot.child("loai").getValue() + "";
+                        String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
+                        listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
+                    }
+                    //lấy giá Tổng Của Tất cà
+                    for (int i = 0; i < listmon.size(); i++) {
+                        giaTong += listmon.get(i).getGiaProudct();
+                    }
+                    totalTxt.setText(giaTong + "");
+                    ListDate_yc.add(new ProductPushFB(1, true, listmon));
 
-                   recyclerView = findViewById(R.id.rv_3);
+                    recyclerView = findViewById(R.id.rv_3);
                     //đô dữ liệu vào Thanh Toám
-                   thanhToanAdapter = new ThanhToanAdapter(listmon);
-                   recyclerView.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
-                   recyclerView.setFocusable(false);
-                   recyclerView.setAdapter(thanhToanAdapter);
-                   thanhToanAdapter.notifyDataSetChanged();
+                    thanhToanAdapter = new ThanhToanAdapter(listmon);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
+                    recyclerView.setFocusable(false);
+                    recyclerView.setAdapter(thanhToanAdapter);
+                    thanhToanAdapter.notifyDataSetChanged();
 
 
-               }
-               else {
-                   bnt_thanhtoan.setEnabled(false);
-               }
+                } else {
+                    bnt_thanhtoan.setEnabled(false);
+                }
             }
 
 
@@ -168,7 +168,7 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
 
     }
 
-    public void OnclickThanhtoan(){
+    public void OnclickThanhtoan() {
 
         bnt_thanhtoan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,8 +201,7 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
                     FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
 
-                }
-                else if(trangthai.equals("1")){
+                } else if (trangthai.equals("1")) {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_datban").setValue(id_datban);
                     databaseReference.child("tongtien").setValue(giaTong);
@@ -231,21 +230,24 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
         });
 
     }
-    public  String hamlaydate(){
+
+    public String hamlaydate() {
         String date = new SimpleDateFormat("dd-MM-YYYY", Locale.getDefault()).format(new Date());
-        Log.d("datenowww",date+"");
+        Log.d("datenowww", date + "");
         return date;
     }
-    public String Hamlaygiohientai(){
+
+    public String Hamlaygiohientai() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Log.d("datenowww",timestamp.getTime()+"");
-        return  timestamp.getTime()+"";
+        Log.d("datenowww", timestamp.getTime() + "");
+        return timestamp.getTime() + "";
     }
-    private void getDatasql(){
 
-        database_order= new Database_order(this,"app_database.sqlite",null,2);
+    private void getDatasql() {
 
-        database_order.QueryData("CREATE TABLE IF NOT EXISTS "+TEN_BANG+"(" +
+        database_order = new Database_order(this, "app_database.sqlite", null, 2);
+
+        database_order.QueryData("CREATE TABLE IF NOT EXISTS " + TEN_BANG + "(" +
                 "Id VARCHAR(20)," +
                 "tensanpham VARCHAR(50), " +
                 "soluong INTEGER DEFAULT 0, " +
@@ -253,15 +255,14 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
                 "gia DOUBLE, " +
                 "loai TEXT, " +
                 "yeuCau TEXT);");
-        Log.d("aaaaa","aaaa");
+        Log.d("aaaaa", "aaaa");
     }
 
-    private void XoaSpkhiOrder(){
-        if(trangthai.equals("0")){
-            database_order.QueryData(" DELETE FROM "+TEN_BANG+" WHERE Id='"+id+"'");
-        }
-        else  if(trangthai.equals("1")){
-            database_order.QueryData(" DELETE FROM "+TEN_BANG+" WHERE Id='"+id_datban+"'");
+    private void XoaSpkhiOrder() {
+        if (trangthai.equals("0")) {
+            database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
+        } else if (trangthai.equals("1")) {
+            database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id_datban + "'");
         }
 
 
@@ -269,30 +270,45 @@ private  ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(ThanhToanActivity.this,OrderMenu.class);
+        Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_main2, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int item_id =item.getItemId();
-        if(item_id==R.id.order){
-            Toast.makeText(this,"order nè",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(ThanhToanActivity.this,MonOrder.class);
-            intent.putExtra("id_ban",id_ban);
-            Log.d("id_khuvuc",id_khuvuc);
+        int item_id = item.getItemId();
+        if (item_id == R.id.order) {
+            Toast.makeText(this, "order nè", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ThanhToanActivity.this, MonOrder.class);
+            intent.putExtra("id_ban", id_ban);
+            Log.d("id_khuvuc", id_khuvuc);
+            intent.putExtra("id_khuvuc", id_khuvuc);
+            intent.putExtra("id_datban", id_datban);
+            startActivity(intent);
+        }
+        if (item_id == R.id.bacham) {
+            Toast.makeText(this, "gopban", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
+             FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("1");
+//            intent.putExtra("id_ban", id_ban);
+            intent.putExtra("id_khuvuc", id_khuvuc);
+            intent.putExtra("id_datban", id_datban);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("sp",listmon);
+            intent.putExtras(bundle);
 
-            intent.putExtra("id_khuvuc",id_khuvuc);
-            intent.putExtra("id_datban",id_datban);
             startActivity(intent);
         }
         return true;
     }
+
 }
