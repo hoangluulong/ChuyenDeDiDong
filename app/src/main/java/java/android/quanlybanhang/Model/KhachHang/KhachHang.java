@@ -3,7 +3,10 @@ package java.android.quanlybanhang.Model.KhachHang;
 public class KhachHang {
     String hoTenKhachHang;
     String soDT;
-    String diaChi;
+    String diaChiTinh;
+    String diaChiHuyen;
+    String diaChiXa;
+    String soNha;
     String nhomKhachKhach;
     String gioiTinh;
     String email;
@@ -18,15 +21,50 @@ public class KhachHang {
         this.soDT = soDT;
     }
 
-    public KhachHang(String hoTenKhachHang, String soDT, String diaChi, String nhomKhachKhach, String gioiTinh, String email, String ghiChu, String ngaySinh) {
+    public KhachHang(String hoTenKhachHang, String soDT, String diaChiTinh, String diaChiHuyen, String diaChiXa, String soNha, String nhomKhachKhach, String gioiTinh, String email, String ghiChu, String ngaySinh) {
         this.hoTenKhachHang = hoTenKhachHang;
         this.soDT = soDT;
-        this.diaChi = diaChi;
+        this.diaChiTinh = diaChiTinh;
+        this.diaChiHuyen = diaChiHuyen;
+        this.diaChiXa = diaChiXa;
+        this.soNha = soNha;
         this.nhomKhachKhach = nhomKhachKhach;
         this.gioiTinh = gioiTinh;
         this.email = email;
         this.ghiChu = ghiChu;
         this.ngaySinh = ngaySinh;
+    }
+
+    public String getDiaChiTinh() {
+        return diaChiTinh;
+    }
+
+    public void setDiaChiTinh(String diaChiTinh) {
+        this.diaChiTinh = diaChiTinh;
+    }
+
+    public String getDiaChiHuyen() {
+        return diaChiHuyen;
+    }
+
+    public void setDiaChiHuyen(String diaChiHuyen) {
+        this.diaChiHuyen = diaChiHuyen;
+    }
+
+    public String getDiaChiXa() {
+        return diaChiXa;
+    }
+
+    public void setDiaChiXa(String diaChiXa) {
+        this.diaChiXa = diaChiXa;
+    }
+
+    public String getSoNha() {
+        return soNha;
+    }
+
+    public void setSoNha(String soNha) {
+        this.soNha = soNha;
     }
 
     public String getHoTenKhachHang() {
@@ -51,14 +89,6 @@ public class KhachHang {
 
     public void setSoDT(String soDT) {
         this.soDT = soDT;
-    }
-
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
     }
 
     public String getNhomKhachKhach() {

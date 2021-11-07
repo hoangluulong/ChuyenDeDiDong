@@ -13,6 +13,10 @@ public class Product implements Serializable {
     Double giaBan;
     int soluong;
     String imgProduct;
+    String status;
+    ArrayList<DonGia> donGiaOrder;
+    boolean addToCart;
+
 
     public ArrayList<DonGia> getDonGia() {
         return donGiaOrder;
@@ -22,8 +26,6 @@ public class Product implements Serializable {
         this.donGiaOrder = donGiaOrder;
     }
 
-    ArrayList<DonGia> donGiaOrder;
-    boolean addToCart;
 
     public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, ArrayList<DonGia> donGiaOrder , int soluong, String imgProduct, String status) {
         this.id = id;
@@ -63,7 +65,7 @@ public class Product implements Serializable {
         return status;
     }
 
-    String status;
+
 
     public Product(String nameProduct, int soluong) {
         this.nameProduct = nameProduct;

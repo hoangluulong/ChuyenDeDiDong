@@ -203,12 +203,12 @@ public class ThemKhachHang extends AppCompatActivity {
                         else {
                             String name = editHoTen.getText().toString();
                             String SDT = editSDT.getText().toString();
-                            String diachi = editDiaChi.getText().toString();
+                            String nha = soNha.getText().toString();
                             String nhomKh = spnNhomKhachHang.getSelectedItem().toString();
                             String ngaysinh = editNgaySinh.getText().toString();
                             String email = editEmail.getText().toString();
                             String ghichu = editGhiChu.getText().toString();
-                            khachHang = new KhachHang(name,SDT,diachi,nhomKh,gioiTinh,email,ghichu,ngaysinh);
+                            khachHang = new KhachHang(name,SDT,tenTinh,tenHuyen,tenXa,nha,nhomKh,gioiTinh,email,ghichu,ngaysinh);
                             mDatabase.child(nhomKh).child(SDT).setValue(khachHang);
                         }
                         editHoTen.setText("");

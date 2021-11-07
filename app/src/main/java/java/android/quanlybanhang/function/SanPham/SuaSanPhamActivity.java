@@ -148,52 +148,57 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                     arrayListCatagoty.add(name);
                 }
                 if(arrayListCatagoty.size()!=0){
-                           ArrayAdapter<String> adapter = new ArrayAdapter<String>(SuaSanPhamActivity.this, R.layout.support_simple_spinner_dropdown_item, arrayListCatagoty);
-                           adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
-                           spnNhomsanpham.setAdapter(adapter);
-                           if(product.getNhomsanpham() != null){
-                               int com = adapter.getPosition(product.getNhomsanpham());
-                               spnNhomsanpham.setSelection(com);
-                           }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(SuaSanPhamActivity.this, R.layout.support_simple_spinner_dropdown_item, arrayListCatagoty);
+                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
+                    spnNhomsanpham.setAdapter(adapter);
+                    if(product.getNhomsanpham() != null){
+                        int com = adapter.getPosition(product.getNhomsanpham());
+                        spnNhomsanpham.setSelection(com);
+                    }
                 }
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(product.getImgProduct());
-                        if (ImageUri != null) {
-                            StorageReference fileRefence = mStogref.child("uploads/" + System.currentTimeMillis() + "." + getFileExtenstion(ImageUri));
-                            storageReference.delete();
-                            fileRefence.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        if (textName.getText().toString().isEmpty()) {
+                            textName.setError("Hãy nhập tên sản phẩm");
+                            textName.requestFocus();
+                        } else if (textChitiet.getText().toString().isEmpty()) {
+                            textChitiet.setError("Hãy nhập chi tiết sản phẩm");
+                            textChitiet.requestFocus();
+                        } else if (textGianhap.getText().toString().isEmpty()) {
+                            textGianhap.setError("Hãy nhập giá nhập sản phẩm");
+                            textGianhap.requestFocus();
+                        } else if (textSoluong.getText().toString().isEmpty()) {
+                            textSoluong.setError("Hãy nhập số lượng sản phẩm");
+                            textSoluong.requestFocus();
+                        }
+                        else if (donGias.size() ==0){
+                            Toast.makeText(SuaSanPhamActivity.this, "Hãy chọn đơn vị tính cho sàn phẩm", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            if (ImageUri != null) {
 
-                                    Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            progressBar.setProgress(0);
+                                StorageReference fileRefence = mStogref.child("uploads/" + System.currentTimeMillis() + "." + getFileExtenstion(ImageUri));
+                                storageReference.delete();
+                                fileRefence.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                        }
-                                    }, 5000);
+                                        Handler handler = new Handler();
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progressBar.setProgress(0);
 
-                                    fileRefence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            Toast.makeText(SuaSanPhamActivity.this, "Upload successfull", Toast.LENGTH_SHORT).show();
-                                            if (textName.getText().toString().isEmpty()){
-                                                textName.setError("Hãy nhập tên sản phẩm");
-                                                textName.requestFocus();
-                                            }else if (textChitiet.getText().toString().isEmpty()){
-                                                textChitiet.setError("Hãy nhập chi tiết sản phẩm");
-                                                textChitiet.requestFocus();
-                                            }else if(textGianhap.getText().toString().isEmpty()){
-                                                textGianhap.setError("Hãy nhập giá nhập sản phẩm");
-                                                textGianhap.requestFocus();
-                                            }else if(textSoluong.getText().toString().isEmpty()){
-                                                textSoluong.setError("Hãy nhập số lượng sản phẩm");
-                                                textSoluong.requestFocus();
                                             }
-                                            else {
+                                        }, 5000);
+
+                                        fileRefence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                Toast.makeText(SuaSanPhamActivity.this, "Upload successfull", Toast.LENGTH_SHORT).show();
+
 
                                                 String name = textName.getText().toString();
                                                 String chitiet = textChitiet.getText().toString();
@@ -211,46 +216,49 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                                                 mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("giaNhap").setValue(gianhap);
                                                 mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("donGia").setValue(donGias);
 
+
+                                                Intent intent = new Intent();
+                                                intent = new Intent(SuaSanPhamActivity.this, ListProduct.class);
+                                                startActivity(intent);
+                                                finish();
+
                                             }
-
-                                            Intent intent = new Intent();
-                                            intent = new Intent(SuaSanPhamActivity.this,ListProduct.class);
-                                            startActivity(intent);
-                                            finish();
-
-                                        }
-                                    });
+                                        });
 
 
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(SuaSanPhamActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(SuaSanPhamActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                }
-                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                                    double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                                    progressBar.setProgress((int) progress);
-                                }
-                            });
-                        }
-                        else {
-                            String name = textName.getText().toString();
-                            String chitiet = textChitiet.getText().toString();
-                            Double gianhap = Double.parseDouble(textGianhap.getText().toString());
-                            Integer soluong = Integer.parseInt(textSoluong.getText().toString());
-                            nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
-                            String status = "Còn";
-                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nameProduct").setValue(name);
-                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("chitiet").setValue(chitiet);
-                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nhomsanpham").setValue(nhomsanpham);
-                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("soluong").setValue(soluong);
-                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("status").setValue(status);
-                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("giaNhap").setValue(gianhap);
-                            mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("donGia").setValue(donGias);
+                                    }
+                                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                        double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                                        progressBar.setProgress((int) progress);
+                                    }
+                                });
+                            } else {
+                                String name = textName.getText().toString();
+                                String chitiet = textChitiet.getText().toString();
+                                Double gianhap = Double.parseDouble(textGianhap.getText().toString());
+                                Integer soluong = Integer.parseInt(textSoluong.getText().toString());
+                                nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
+                                String status = "Còn";
+                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nameProduct").setValue(name);
+                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("chitiet").setValue(chitiet);
+                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("nhomsanpham").setValue(nhomsanpham);
+                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("soluong").setValue(soluong);
+                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("status").setValue(status);
+                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("giaNhap").setValue(gianhap);
+                                mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("donGia").setValue(donGias);
+                                Intent intent = new Intent();
+                                intent = new Intent(SuaSanPhamActivity.this, ListProduct.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         }
                     }
                 });

@@ -70,7 +70,7 @@ public class ListNhanVien  extends AppCompatActivity {
     }
     //Hiển thị nhân viên
     public void Danhsachnhanvien(){
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 nhanViens = new ArrayList<>();
@@ -100,7 +100,6 @@ public class ListNhanVien  extends AppCompatActivity {
         ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 mDatabase.child(nhanViens.get(position).getId()).removeValue();
             }
         }).setNegativeButton("No", null)
