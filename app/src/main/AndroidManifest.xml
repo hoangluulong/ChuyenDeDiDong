@@ -66,6 +66,12 @@
             android:label="Danh sách khách hàng"
             android:parentActivityName=".function.NhanVien.ListNhanVien"
             android:theme="@style/thameActionbar2" ></activity>
+        <activity
+            android:name=".function.KhachHang.SuaKhachHang"
+            android:exported="true"
+            android:label="Thay đổi khách hàng"
+            android:parentActivityName=".function.NhanVien.ListNhanVien"
+            android:theme="@style/thameActionbar2" ></activity>
 
         <meta-data
             android:name="preloaded_fonts"

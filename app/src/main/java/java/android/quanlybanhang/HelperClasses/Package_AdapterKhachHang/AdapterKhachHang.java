@@ -2,6 +2,7 @@ package java.android.quanlybanhang.HelperClasses.Package_AdapterKhachHang;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
@@ -24,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.KhachHang.SuaKhachHang;
+import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
 import java.util.ArrayList;
 
 
@@ -70,7 +73,18 @@ public class AdapterKhachHang extends RecyclerView.Adapter<AdapterKhachHang.Adap
             textViewSDT = itemView.findViewById(R.id.edtextSDTKhachHang);
             imgXoa = itemView.findViewById(R.id.btnXoaKhachHang);
             imgSua = itemView.findViewById(R.id.btnSuaKhachHang);
+
+            imgSua.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    Intent intent = new Intent(context, SuaKhachHang.class);
+                    intent.putExtra("Key_arrKH",khachHangs.get(position));
+                    context.startActivity(intent);
+                }
+            });
         }
+
 
 
     }

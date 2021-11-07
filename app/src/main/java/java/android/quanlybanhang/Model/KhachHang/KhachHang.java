@@ -1,6 +1,8 @@
 package java.android.quanlybanhang.Model.KhachHang;
 
-public class KhachHang {
+import java.io.Serializable;
+
+public class KhachHang implements Serializable {
     String hoTenKhachHang;
     String soDT;
     String diaChiTinh;
