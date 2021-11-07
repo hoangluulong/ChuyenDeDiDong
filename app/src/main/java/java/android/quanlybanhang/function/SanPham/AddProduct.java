@@ -120,7 +120,7 @@ public class AddProduct extends AppCompatActivity {
         window = dialog.getWindow();
         dialog1 = new Dialog(AddProduct.this);
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog1.setContentView(R.layout.dialogthemdiachikhachhang);
+        dialog1.setContentView(R.layout.dialogthemdonvitinh);
         window1 = dialog1.getWindow();
 
 
@@ -300,8 +300,6 @@ public class AddProduct extends AppCompatActivity {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windownAttributes = window.getAttributes();
-//        windownAttributes.gravity =  Gravity.CENTER_HORIZONTAL;
-//        windownAttributes.y = gravity;
         window.setAttributes(windownAttributes);
         if(Gravity.BOTTOM == gravity){
             dialog.setCancelable(true);
@@ -324,7 +322,6 @@ public class AddProduct extends AppCompatActivity {
                         if (textGiaSanPham.getText().toString().isEmpty()){
                            textGiaSanPham.setError("Hãy nhập giá !!!");
                            textGiaSanPham.requestFocus();
-                            builder.setCancelable(false);
                             setFinishOnTouchOutside(true);
                         }
                         else {
@@ -379,7 +376,7 @@ public class AddProduct extends AppCompatActivity {
                        String id = mDatabase2.push().getKey();
                        donViTinh = new DonViTinh(name,id);
                        mDatabase2.child(id).setValue(donViTinh);
-                       textChitiet.setText("");
+                textTenDonViTinh.setText("");
                        dialog1.dismiss();
             }
         });

@@ -13,7 +13,12 @@ public class KhachHang {
     public KhachHang() {
     }
 
-    public KhachHang(String hoTenKhachHang, String soDT, String diaChi, String nhomKhachKhach, String gioiTinh, String email, String ghiChu,String ngaySinh) {
+    public KhachHang(String hoTenKhachHang, String soDT) {
+        this.hoTenKhachHang = hoTenKhachHang;
+        this.soDT = soDT;
+    }
+
+    public KhachHang(String hoTenKhachHang, String soDT, String diaChi, String nhomKhachKhach, String gioiTinh, String email, String ghiChu, String ngaySinh) {
         this.hoTenKhachHang = hoTenKhachHang;
         this.soDT = soDT;
         this.diaChi = diaChi;

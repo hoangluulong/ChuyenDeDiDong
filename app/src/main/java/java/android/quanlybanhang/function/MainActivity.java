@@ -25,7 +25,8 @@ import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.Account.SignInActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
-import java.android.quanlybanhang.function.KhachHang.Activity_ThemKhachHang;
+import java.android.quanlybanhang.function.KhachHang.ThemKhachHang;
+import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ThemNhomKhachHang;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent1);
                 break;
             case R.id.ds_thuchi:
-                Intent intent2 = new Intent(MainActivity.this, Activity_ThemKhachHang.class);
+                Intent intent2 = new Intent(MainActivity.this, ThemKhachHang.class);
                 startActivity(intent2);
                 break;
             case R.id.quanly:
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent3);
                 break;
             case R.id.profile:
-                Intent intent4 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent4 = new Intent(MainActivity.this, ListKhachHang.class);
                 startActivity(intent4);
                 break;
             case R.id.logout:

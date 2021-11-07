@@ -93,7 +93,6 @@
                 android:focusable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

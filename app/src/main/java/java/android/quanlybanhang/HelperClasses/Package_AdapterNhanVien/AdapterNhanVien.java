@@ -2,7 +2,6 @@ package java.android.quanlybanhang.HelperClasses.Package_AdapterNhanVien;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.KhachHang.Activity_ThemKhachHang;
 import java.android.quanlybanhang.function.NhanVien.ActivityUpdateNhanVien;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
-import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
 import java.util.ArrayList;
 
 

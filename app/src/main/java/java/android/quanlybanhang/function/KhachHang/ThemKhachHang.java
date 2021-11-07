@@ -6,26 +6,20 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,9 +41,7 @@ import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
-import java.android.quanlybanhang.Model.SanPham.Category;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.SanPham.AddProduct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,7 +51,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Activity_ThemKhachHang extends AppCompatActivity {
+public class ThemKhachHang extends AppCompatActivity {
     private EditText editHoTen,editSDT,editNgaySinh,editEmail,editGhiChu,soNha;
     private TextView editDiaChi;
     private Spinner spnNhomKhachHang;
@@ -105,7 +97,7 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
         btnTaoKhachHang = findViewById(R.id.btnTaoKhachhang);
         btnhuyTaoKhachHang = findViewById(R.id.btnhuyTaoKhachHang);
         //Dialog
-        dialog = new Dialog(Activity_ThemKhachHang.this);
+        dialog = new Dialog(ThemKhachHang.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialogthemdiachikhachhang);
         window = dialog.getWindow();
@@ -165,7 +157,7 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
                    arrayListNhomKH.add(name);
                 }
                 if (arrayListNhomKH.size() != 0) {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(Activity_ThemKhachHang.this, R.layout.support_simple_spinner_dropdown_item, arrayListNhomKH);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ThemKhachHang.this, R.layout.support_simple_spinner_dropdown_item, arrayListNhomKH);
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                     spnNhomKhachHang.setAdapter(adapter);
                 }
@@ -176,7 +168,7 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
                         int year = calendar.get(Calendar.YEAR);
                         int month = calendar.get(Calendar.MONTH);
                         int day = calendar.get(Calendar.DAY_OF_MONTH);
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(Activity_ThemKhachHang.this, new DatePickerDialog.OnDateSetListener() {
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(ThemKhachHang.this, new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 editNgaySinh.setText(dayOfMonth+"/"+month+"/"+year);
@@ -217,7 +209,7 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
                             String email = editEmail.getText().toString();
                             String ghichu = editGhiChu.getText().toString();
                             khachHang = new KhachHang(name,SDT,diachi,nhomKh,gioiTinh,email,ghichu,ngaysinh);
-                            mDatabase.child(SDT).setValue(khachHang);
+                            mDatabase.child(nhomKh).child(SDT).setValue(khachHang);
                         }
                         editHoTen.setText("");
                         editSDT.setText("");
@@ -265,12 +257,12 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
                 tenTinh = parent.getItemAtPosition(position).toString();
                 ViTri = position;
                 String[] arrayHuyen = ArrayHuyen(position);
-                adapterHuyen = new ArrayAdapter<String>(Activity_ThemKhachHang.this,R.layout.support_simple_spinner_dropdown_item,arrayHuyen);
+                adapterHuyen = new ArrayAdapter<String>(ThemKhachHang.this,R.layout.support_simple_spinner_dropdown_item,arrayHuyen);
                 spnHuyen.setText(listDiaChi.get(position).getHuyens().get(0).getTenHuyen());
                 tenHuyen = listDiaChi.get(position).getHuyens().get(0).getTenHuyen();
                 spnHuyen.setAdapter(adapterHuyen);
 
-                adapterXa = new ArrayAdapter<String>(Activity_ThemKhachHang.this,R.layout.support_simple_spinner_dropdown_item,listDiaChi.get(position).getHuyens().get(0).getXa());
+                adapterXa = new ArrayAdapter<String>(ThemKhachHang.this,R.layout.support_simple_spinner_dropdown_item,listDiaChi.get(position).getHuyens().get(0).getXa());
                 spnXa.setText(listDiaChi.get(position).getHuyens().get(0).getXa().get(0));
                 tenXa = listDiaChi.get(position).getHuyens().get(0).getXa().get(0);
                 spnXa.setAdapter(adapterXa);
@@ -282,7 +274,7 @@ public class Activity_ThemKhachHang extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tenHuyen = parent.getItemAtPosition(position).toString();
 
-                adapterXa = new ArrayAdapter<String>(Activity_ThemKhachHang.this, R.layout.support_simple_spinner_dropdown_item,
+                adapterXa = new ArrayAdapter<String>(ThemKhachHang.this, R.layout.support_simple_spinner_dropdown_item,
                         listDiaChi.get(ViTri).getHuyens().get(position).getXa());
                 spnXa.setText(listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0));
                 tenXa = listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0);
