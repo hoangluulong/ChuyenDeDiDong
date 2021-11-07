@@ -159,6 +159,7 @@
                     app:cardUseCompatPadding="false">
 
                     <RelativeLayout
+                        android:id="@+id/bep"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/xanh">
@@ -252,6 +253,7 @@
                     app:cardUseCompatPadding="false">
 
                     <RelativeLayout
+                        android:id="@+id/online"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/xanh">

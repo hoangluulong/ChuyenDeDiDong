@@ -3,6 +3,7 @@ package java.android.quanlybanhang.function.BaoCao;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,12 +17,16 @@ public class ChiTietNhapKhoActivity extends AppCompatActivity {
     private ChiTietNhapKhoAdapter chiTietNhapKhoAdapter;
     private RecyclerView recyclerView;
     private Button back;
+    private TextView textView8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chi_tiet_nhap_kho);
         back = findViewById(R.id.back_btn);
+        textView8 = findViewById(R.id.textView8);
+        textView8.setText("aaa");
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

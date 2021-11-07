@@ -33,7 +33,9 @@ import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.DonChoXacNhan>{
     private Context context;
@@ -241,13 +243,13 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
             }
         });
-
     }
 
     //TODO: setDuLieu Firebase xác nhận
     private void setFirebaseXacNhanDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
+        String key = mFirebaseDatabase.push().getKey();
         Log.d("abc", support.ngayHientai(list.get(position).getDate()));
         mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -260,6 +262,9 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
                 Toast.makeText(context, "Xác nhận đơn không thành công", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DatabaseReference mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("DonHangOnline/DaDatDon/"+ list.get(position).getIdKhachhang() +"/" +key).setValue(list.get(position));
     }
 
     //TODO: setDuLieu Firebase hủy đơn

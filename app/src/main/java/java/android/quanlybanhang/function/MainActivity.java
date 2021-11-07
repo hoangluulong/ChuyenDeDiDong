@@ -1,8 +1,11 @@
 package java.android.quanlybanhang.function;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -17,36 +20,51 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
+import java.android.quanlybanhang.Model.AddressVN.DiaChi;
+import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.Account.SignInActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
+import java.android.quanlybanhang.function.BepBar.BepActivity;
+import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
 
 //import java.android.quanlybanhang.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-  private boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu,baocao, donOnline;
+    RelativeLayout ordermenu, baocao, donOnline, bep, online;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        odermenu
-//        DeleteSp();
         ordermenu = findViewById(R.id.orderbutton);
         baocao = findViewById(R.id.baocao);
         donOnline = findViewById(R.id.donOnline);
+        bep = findViewById(R.id.bep);
+        online = findViewById(R.id.online);
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,15 +90,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        bep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BepActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        online.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CuaHangOnlineActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("aa");
-
-        myRef.setValue("Hello, World!");
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-       /*lay id tung phan*/
+        /*lay id tung phan*/
         drawerLayout = findViewById(R.id.drawable_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
@@ -90,20 +119,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /* lay ra action bar*/
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_homes);
 
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        Toast.makeText(this, thongTinCuaHangSql.IDCuaHang(), Toast.LENGTH_LONG).show();
+
     }
+
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
@@ -126,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_homes:
+            case R.id.cuahang:
                 break;
             case R.id.ds_order:
                 Intent intent = new Intent(MainActivity.this, ListProduct.class);

@@ -8,7 +8,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
+
         <activity
             android:name=".function.ThanhToanActivity"
             android:exported="true" />
@@ -31,13 +31,13 @@
             android:exported="true" />
         <activity
             android:name=".function.SanPham.AddCategory"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".function.SanPham.AddProduct"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".function.NhanVien.AddNhanVien"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -45,31 +45,24 @@
 
         <activity
             android:name=".function.CardProductSQL.CardProduct"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".function.ChiTietOrder.ChiTietSanPham"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".function.MonOrder"
-            android:exported="true"
-             />
+            android:exported="true" />
         <activity android:name=".function.Manager" />
         <activity android:name=".function.Income" />
         <activity android:name=".function.Processing" />
-        <activity
-            android:name=".function.OrderMenu"
-           />
+        <activity android:name=".function.OrderMenu" />
         <activity android:name=".function.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-
-        <!-- Sign in, SignUp -->
+        </activity> <!-- Sign in, SignUp -->
         <activity
             android:name=".function.Account.StoreSetting"
             android:exported="true" />
@@ -107,13 +100,52 @@
             android:label="Đơn hàng online"
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar2" />
-        <activity android:name=".function.BaoCao.BaoCaoChiSoActivity"
+        <activity
+            android:name=".function.BaoCao.BaoCaoChiSoActivity"
             android:label="Chỉ số"
             android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
-            android:theme="@style/thameActionbar2">
+            android:theme="@style/thameActionbar2" /> <!-- Bếp -->
+        <activity
+            android:name=".function.BepBar.BepActivity"
+            android:label="Bếp"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar3" />
+        <activity
+            android:name=".function.BepBar.DangXuLyActivity"
+            android:exported="true"
+            android:parentActivityName=".function.BepBar.BepActivity"
+            android:theme="@style/thameActionbar3" />
+        <activity
+            android:name=".function.BepBar.DangXuLyOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.BepBar.BepActivity"
+            android:theme="@style/thameActionbar3" />
+        <activity
+            android:name=".function.CuaHangOnline.CuaHangOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4" />
+        <activity
+            android:name=".function.CuaHangOnline.ThongTinCuaHangOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4" />
+        <activity
+            android:name=".function.CuaHangOnline.CauHinhVanChuyenOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4" />
+        <activity
+            android:name=".function.CuaHangOnline.QuangCaoActivity"
+            android:exported="true"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4" />
 
-        </activity>
-
+        <activity
+            android:name=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4" />
     </application>
 
 </manifest>

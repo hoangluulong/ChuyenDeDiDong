@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -83,6 +84,7 @@ public class DangXuLyOnlineFragment extends Fragment implements SwipeRefreshLayo
     private ProgressBar progressBar;
     private View view;
     private SwipeRefreshLayout refreshLayout;
+    private ImageView image;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class DangXuLyOnlineFragment extends Fragment implements SwipeRefreshLayo
         lblThongBao = view.findViewById(R.id.lblThongBao);
         progressBar = view.findViewById(R.id.progressBar);
         refreshLayout = view.findViewById(R.id.swipeRefreshlayout);
+        image = view.findViewById(R.id.image);
 
         progressBar.setVisibility(View.VISIBLE);
         refreshLayout.setOnRefreshListener(this);
@@ -130,8 +133,10 @@ public class DangXuLyOnlineFragment extends Fragment implements SwipeRefreshLayo
                 progressBar.setVisibility(View.INVISIBLE);
                 if (donHangs.size() > 0) {
                     lblThongBao.setText("");
+                    image.setImageResource(0);
                 }else {
                     lblThongBao.setText("Không có đơn hàng đang xử lí");
+                    image.setImageResource(R.drawable.empty_list);
                 }
                 support.SapXepDate(donHangs);
                 displayItem(view);

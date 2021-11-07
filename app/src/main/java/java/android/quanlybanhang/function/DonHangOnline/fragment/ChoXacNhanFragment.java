@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -78,6 +80,7 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
     private ProgressBar progressBar;
     private SwipeRefreshLayout refreshLayout;
     private View view;
+    private ImageView image;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,7 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
         lblThongBao = view.findViewById(R.id.lblThongBao);
         progressBar = view.findViewById(R.id.progressBar);
         refreshLayout = view.findViewById(R.id.swipeRefreshlayout);
+        image = view.findViewById(R.id.image);
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -114,7 +118,6 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
         choXacNhanAdapter = new ChoXacNhanAdapter(view.getContext(), donHangs, dialog, dialogHuy);
         recyclerView.setAdapter(choXacNhanAdapter);
-
         choXacNhanAdapter.notifyDataSetChanged();
     }
 
@@ -131,8 +134,13 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
                         DonHang donHang = snap.getValue(DonHang.class);
                         if (donHang.getTrangthai() == 0) {
                             donHangs.add(donHang);
+                            String key = snap.getKey();
                             Date date = support.formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
+                            Log.d("date", date+"");
+                            donHangs.get(i).setKey(key);
+                            donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
+                            donHangs.get(i).setIdQuan("JxZOOK1RzcMM7pL5I6naGZfYSsu2");
                             i++;
                         }
                     }
@@ -141,7 +149,9 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
                 progressBar.setVisibility(View.INVISIBLE);
                 if (donHangs.size() > 0) {
                     lblThongBao.setText("");
+                    image.setImageResource(0);
                 }else {
+                    image.setImageResource(R.drawable.empty_list);
                     lblThongBao.setText("Không có đơn hàng chờ xác nhận nào");
                 }
                 support.SapXepDate(donHangs);

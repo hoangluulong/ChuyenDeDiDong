@@ -31,7 +31,7 @@
     <string name="hoa_don_bi_huy">Hóa đơn bị hủy</string>
 
 
-<!--    Thach-->
+    <!--    Thach-->
     <string name="themsanpham">Thêm sản phẩm</string>
     <string name="tensanpham">Tên sản phẩm</string>
     <string name="chitietsanpham">Chi tiết sản phẩm</string>
@@ -75,11 +75,12 @@
     <string name="confirm_password">Confirm Password</string>
 
     <!--  Setting store activity  -->
-    <string name="setupStore">Set up Store</string>
-    <string name="name_store">Name of the store</string>
-    <string name="select_item_spinner">Select province</string>
-    <string name="select_item_spinner2">Select district</string>
-    <string name="complete">Complete</string>
+    <string name="setupStore">Thiết lập cửa hàng</string>
+    <string name="name_store">Tên cửa hàng *</string>
+    <string name="select_item_spinner">Tỉnh/ Thành phố *</string>
+    <string name="select_item_spinner2">Quận/ huyện *</string>
+    <string name="select_item_spinner3">Phường/ xã *</string>
+    <string name="complete">Hoàn thành</string>
 
     <string name="Choose_a_branch">Choose a branch</string>
     <string name="start">Start</string>

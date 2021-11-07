@@ -11,6 +11,8 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mAuth;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    private ProgressBar progressBar;
+    private LinearLayout layout;
 
     //SQLite
     private DbBaoCao dataSql;
@@ -73,6 +77,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         forgetPass = findViewById(R.id.lbl_forget_pass);
 //        facebook =  findViewById(R.id.btn_facebook);
         google = findViewById(R.id.btn_google);
+        layout = findViewById(R.id.layout);
+        layout.setAlpha(1);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
@@ -99,14 +107,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (v == sigupNow) {
-            callSignup();
-        } else if (v == google) {
-//            signIn();
-        } else if (v == login) {
-            login();
-        } else if (v == forgetPass) {
-            callForgetPassword();
+        switch (v.getId()){
+            case R.id.btn_signup_now:
+                callSignup();
+                break;
+            case R.id.btn_login:
+                login();
+                break;
+            case R.id.lbl_forget_pass:
+                callForgetPassword();
+                break;
         }
     }
 
@@ -162,10 +172,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         } else if (email.isEmpty() && pass.isEmpty()) {
             Toast.makeText(SignInActivity.this, "Fialds Are Empty!", Toast.LENGTH_LONG).show();
         } else if (!(email.isEmpty() && pass.isEmpty())) {
+            login.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
             mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
+                        login.setEnabled(false);
+                        layout.getBackground().setAlpha(45);
                         Toast.makeText(SignInActivity.this, "Signin error", Toast.LENGTH_SHORT).show();
                     } else {
                         idUser = mAuth.getUid();
@@ -219,6 +233,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             Intent intent1 = new Intent(SignInActivity.this, ChiNhanhSignInActivity.class);
                             intent1.putExtras(bundle);
                             startActivity(intent1);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            layout.getBackground().setAlpha(45);
+                            login.setEnabled(false);
                             finish();
                         }else{
                             getDataThietLap();
@@ -242,7 +259,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 Log.d("AAA", thietLap+"");
                 checkThietLap = true;
                 if (thietLap == true) {
-                    tenCuaHang = snapshot.child("TenCuaHang").getValue().toString();
+                    tenCuaHang = snapshot.child("tenCuaHang").getValue().toString();
                 }
 
             }
@@ -277,10 +294,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         }else {
                             thongTinCuaHangSql.InsertThonTin(UID, tenCuaHang);
                         }
+                        progressBar.setVisibility(View.INVISIBLE);
+                        login.setEnabled(false);
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                         intent.putExtras(intent);
                         startActivity(intent);
+
                     }else {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        login.setEnabled(false);
                         Bundle bundle = new Bundle();
                         bundle.putString("ID_USER" , UID );
                         Toast.makeText(SignInActivity.this, "Signup succes", Toast.LENGTH_SHORT).show();
@@ -325,4 +347,5 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             dataSql.QueryData("INSERT INTO Test VALUES(null, '" + "" + "', '" + "" + "', 1)");
         }
     }
+    //cuaHang
 }
