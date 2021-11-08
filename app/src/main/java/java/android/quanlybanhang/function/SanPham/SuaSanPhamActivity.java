@@ -55,7 +55,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private Product product;
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
     private Spinner spnNhomsanpham, spnDonViTinh;
-    private Button btnAdd, btnThemDonViTinh, btnDonViTinhSanPham,btnDialogHuyDVT,btnDialogThemDVT,btnhuyUpdate,btnUpdate;
+    private Button btnAdd,btnHuy, btnThemDonViTinh, btnDonViTinhSanPham,btnDialogHuyDVT,btnDialogThemDVT,btnDialogHuyThemDVT,btnThemDialogThemDVT;
     private ImageView btnChoose;
     private ImageView imageView;
     private ProgressBar progressBar;
@@ -82,6 +82,8 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private Dialog dialog, dialog1;
     private Window window, window1;
     private ArrayList<String> listDonViTinh;
+    private DonViTinh donViTinh;
+    private  Intent intent = new Intent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAddproduct);
         btnDonViTinhSanPham = findViewById(R.id.DonViTinhSanPham);
         btnThemDonViTinh = findViewById(R.id.themDonViTinh);
+        btnHuy = findViewById(R.id.btnhuyAddProduct);
         listView = findViewById(R.id.listGiaSanPham);
         //
         textName.setText(product.getNameProduct());
@@ -133,6 +136,20 @@ public class SuaSanPhamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dailongDonViTinhSanPham(gravity);
+            }
+        });
+        btnThemDonViTinh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dailongThemDonViTinh(gravity);
+            }
+        });
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(SuaSanPhamActivity.this, ListProduct.class);
+                startActivity(intent);
+                finish();
             }
         });
         updateSanPham();
@@ -240,8 +257,6 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                                                 mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("giaNhap").setValue(gianhap);
                                                 mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("donGia").setValue(donGias);
 
-
-                                                Intent intent = new Intent();
                                                 intent = new Intent(SuaSanPhamActivity.this, ListProduct.class);
                                                 startActivity(intent);
                                                 finish();
@@ -366,6 +381,47 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void dailongThemDonViTinh(int gravity) {
+        textTenDonViTinh = dialog1.findViewById(R.id.edtTenDonViTinh);
+        btnDialogHuyThemDVT = dialog1.findViewById(R.id.btnhuyDiaLogThemDVT);
+        btnThemDialogThemDVT = dialog1.findViewById(R.id.btnthemDiaLogThemDVT);
+
+        if (window1 == null) {
+            return;
+        }
+        window1.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window1.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window1.getAttributes();
+        windownAttributes.gravity = gravity;
+        window1.setAttributes(windownAttributes);
+        if (Gravity.BOTTOM == gravity) {
+            dialog1.setCancelable(true);
+        } else {
+            dialog1.setCancelable(false);
+        }
+
+        btnDialogHuyThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
+        btnThemDialogThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = textTenDonViTinh.getText().toString();
+                String id = mDatabase2.push().getKey();
+                donViTinh = new DonViTinh(name, id);
+                mDatabase2.child(id).setValue(donViTinh);
+                textTenDonViTinh.setText("");
+                dialog1.dismiss();
+            }
+        });
+        dialog1.show();
+
+
     }
 
 

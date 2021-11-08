@@ -18,6 +18,7 @@
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/drawable/bg_ngay_baocao_close.xml" value="0.215625" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/drawable/bg_search_16.xml" value="0.2203125" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/drawable/bg_textview_10.xml" value="0.2074074074074074" />
+        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/drawable/bg_textview_20.xml" value="0.21574074074074073" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/drawable/selector_white_gray.xml" value="0.215625" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/acivity_dailongtu.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_addcategory.xml" value="0.20416666666666666" />
@@ -33,6 +34,7 @@
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_list_product.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_listkhachhang.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_listnhanvien.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_listnhomkhachhang.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_order_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_processing.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/activity_store_setting.xml" value="0.20416666666666666" />
@@ -48,6 +50,7 @@
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_khachhang.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_listnhanvien.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_loaisanpham.xml" value="0.20416666666666666" />
+        <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_nhomkhachhang.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_product.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_sanpham.xml" value="0.20416666666666666" />
         <entry key="..\:/ChuyenDeDiDong1/app/src/main/res/layout/item_spinner1_setup_store.xml" value="0.20416666666666666" />

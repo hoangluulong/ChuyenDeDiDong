@@ -54,7 +54,7 @@ import java.util.ArrayList;
 public class AddProduct extends AppCompatActivity {
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham, textTenDonViTinh;
     private Spinner spnNhomsanpham, spnDonViTinh;
-    private Button btnAdd, btnThemDonViTinh, btnDonViTinhSanPham, btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
+    private Button btnAdd,btnHuy, btnThemDonViTinh, btnDonViTinhSanPham, btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
     private ImageView btnChoose;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Product product;
@@ -81,6 +81,7 @@ public class AddProduct extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private Dialog dialog, dialog1;
     private Window window, window1;
+    private  Intent intent = new Intent();
 
 
     @Override
@@ -100,6 +101,7 @@ public class AddProduct extends AppCompatActivity {
         btnDonViTinhSanPham = findViewById(R.id.DonViTinhSanPham);
         btnThemDonViTinh = findViewById(R.id.themDonViTinh);
         listView = findViewById(R.id.listGiaSanPham);
+        btnHuy = findViewById(R.id.btnhuyAddProduct);
 
         //firebase
         mStogref = FirebaseStorage.getInstance().getReference(STR_UPLOAD);
@@ -136,6 +138,14 @@ public class AddProduct extends AppCompatActivity {
             public void onClick(View v) {
                 int a = 10;
                 dailongThemDonViTinh(10);
+            }
+        });
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(AddProduct.this, ListProduct.class);
+                startActivity(intent);
+                finish();
             }
         });
         uploadFile();
@@ -235,7 +245,7 @@ public class AddProduct extends AppCompatActivity {
                                 }
                             });
 
-                            Intent intent = new Intent();
+
                             intent = new Intent(AddProduct.this, ListProduct.class);
                             startActivity(intent);
                             finish();

@@ -1,17 +1,12 @@
 package java.android.quanlybanhang.function.NhanVien;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -36,9 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.SanPham.AddProduct;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddNhanVien extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;

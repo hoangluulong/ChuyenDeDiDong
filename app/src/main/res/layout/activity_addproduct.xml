@@ -215,7 +215,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
         <Button
-            android:id="@+id/btnhuyTaoNhanVien"
+            android:id="@+id/btnhuyAddProduct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
