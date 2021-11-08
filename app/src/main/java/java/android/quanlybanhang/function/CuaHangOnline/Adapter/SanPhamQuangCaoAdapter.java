@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
-import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
 import java.android.quanlybanhang.function.CuaHangOnline.Fragment.SanPhamQuangCaoFragment;
 import java.util.ArrayList;
 

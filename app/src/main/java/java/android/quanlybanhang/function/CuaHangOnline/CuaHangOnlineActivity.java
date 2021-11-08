@@ -1,5 +1,17 @@
 package java.android.quanlybanhang.function.CuaHangOnline;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,28 +20,19 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.HinhThucGiaoHang;
 
 public class CuaHangOnlineActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private NavigationView navigationView;
@@ -41,24 +44,41 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
     private LinearLayout layoutThongTinChuyenKhoan;
     private TextView dangKy, addLoai;
     private LinearLayout.LayoutParams params;
+    private ProgressBar progressBar, progressBar2;
+    private ScrollView scrollView;
+
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cua_hang_online);
         IDLayout();
+        thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.cuahang);
 
-        navigationView.setCheckedItem(R.id.nav_homes);
+        progressBar2.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        getData();
+
+
         setCheck();
     }
 
-    private void IDLayout () {
+    private void IDLayout() {
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
         navigationView = findViewById(R.id.nav_view);
         edtThongTinChuyenKhoan = findViewById(R.id.edtThongTinChuyenKhoan);
         ghiChu = findViewById(R.id.ghiChu);
@@ -74,13 +94,50 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
         toolbar = findViewById(R.id.toolbar);
         params = (LinearLayout.LayoutParams) layoutThongTinChuyenKhoan.getLayoutParams();
         addLoai = findViewById(R.id.addLoai);
+        progressBar = findViewById(R.id.progressBar);
+        scrollView = findViewById(R.id.scrollView);
+        progressBar2 = findViewById(R.id.progressBar2);
 
         checkboxChuyenKhoan.setOnClickListener(this);
         checkboxTuGiao.setOnClickListener(this);
+        dangKy.setOnClickListener(this);
+        cauhinhvanchuyen.setOnClickListener(this);
     }
 
     private void getData() {
+        mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("vanChuyen").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    HinhThucGiaoHang hinhThucGiaoHang = snapshot.getValue(HinhThucGiaoHang.class);
+                    checkboxKhachHangDenLay.setChecked(hinhThucGiaoHang.isKhacHangDenLay());
+                    checkboxDonViVanChuyen.setChecked(hinhThucGiaoHang.isQuaDoiTac());
+                    checkboxTuGiao.setChecked(hinhThucGiaoHang.isTuGiao());
+                    checkboxChuyenKhoan.setChecked(hinhThucGiaoHang.isChuyenKhoan());
+                    checkboxTienMat.setChecked(hinhThucGiaoHang.isTienMat());
+                    edtThongTinChuyenKhoan.setText(hinhThucGiaoHang.getThongTinChuyenKhoan());
+                    ghiChu.setText(hinhThucGiaoHang.getGhiChu());
 
+                    if (hinhThucGiaoHang.isChuyenKhoan()) {
+                        layoutThongTinChuyenKhoan.setVisibility(View.VISIBLE);
+                        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        layoutThongTinChuyenKhoan.setLayoutParams(params);
+                    }
+
+                    if (hinhThucGiaoHang.isTuGiao()) {
+                        cauhinhvanchuyen.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                }
+                progressBar2.setVisibility(View.INVISIBLE);
+                scrollView.setAlpha(1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void setCheck() {
@@ -88,41 +145,94 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
             layoutThongTinChuyenKhoan.setVisibility(View.VISIBLE);
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             layoutThongTinChuyenKhoan.setLayoutParams(params);
-        }else {
+        } else {
             layoutThongTinChuyenKhoan.setVisibility(View.INVISIBLE);
             params.height = 0;
             layoutThongTinChuyenKhoan.setLayoutParams(params);
         }
         if (checkboxTuGiao.isChecked()) {
             cauhinhvanchuyen.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             cauhinhvanchuyen.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.checkboxTuGiao:
                 if (checkboxTuGiao.isChecked()) {
                     cauhinhvanchuyen.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     cauhinhvanchuyen.setVisibility(View.INVISIBLE);
                 }
                 break;
             case R.id.cauhinhvanchuyen:
+                Intent intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
+                startActivity(intent);
                 break;
             case R.id.checkboxChuyenKhoan:
                 if (checkboxChuyenKhoan.isChecked()) {
                     layoutThongTinChuyenKhoan.setVisibility(View.VISIBLE);
                     params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     layoutThongTinChuyenKhoan.setLayoutParams(params);
-                }else {
+                } else {
                     layoutThongTinChuyenKhoan.setVisibility(View.INVISIBLE);
                     params.height = 0;
                     layoutThongTinChuyenKhoan.setLayoutParams(params);
                 }
                 break;
+            case R.id.dangKy:
+                saveData();
+                break;
+        }
+    }
+
+    private void saveData() {
+        HinhThucGiaoHang hinhThucGiaoHang = new HinhThucGiaoHang();
+
+        hinhThucGiaoHang.setKhacHangDenLay(checkboxKhachHangDenLay.isChecked());
+        hinhThucGiaoHang.setQuaDoiTac(checkboxDonViVanChuyen.isChecked());
+        hinhThucGiaoHang.setTuGiao(checkboxTuGiao.isChecked());
+        hinhThucGiaoHang.setChuyenKhoan(checkboxChuyenKhoan.isChecked());
+        hinhThucGiaoHang.setTienMat(checkboxTienMat.isChecked());
+
+        int dem1 = demHinhThucGiaoHang(hinhThucGiaoHang);
+        int dem2 = demHinhThucChuyenKhoan(hinhThucGiaoHang);
+
+        String thongTinChuyenKhoan = edtThongTinChuyenKhoan.getText().toString();
+        String noiDungThoanhToan = ghiChu.getText().toString();
+        if (!hinhThucGiaoHang.isChuyenKhoan() && thongTinChuyenKhoan.isEmpty()) {
+            thongTinChuyenKhoan = "";
+        }
+        if (noiDungThoanhToan.isEmpty()) {
+            noiDungThoanhToan = "";
+        }
+        if (dem1 < 1) {
+            Toast.makeText(CuaHangOnlineActivity.this, "Ít nhất một hình thức giao hàng", Toast.LENGTH_SHORT).show();
+        } else if (dem2 < 1) {
+            Toast.makeText(CuaHangOnlineActivity.this, "Ít nhất một hình thanh toán", Toast.LENGTH_SHORT).show();
+        }else if (hinhThucGiaoHang.isChuyenKhoan() && thongTinChuyenKhoan.isEmpty()) {
+            edtThongTinChuyenKhoan.setError("Nhập thông tin chuyển khoản");
+            edtThongTinChuyenKhoan.requestFocus();
+        }else {
+            progressBar.setVisibility(View.VISIBLE);
+            dangKy.setText("");
+            hinhThucGiaoHang.setGhiChu(noiDungThoanhToan);
+            hinhThucGiaoHang.setThongTinChuyenKhoan(thongTinChuyenKhoan);
+            mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("vanChuyen").setValue(hinhThucGiaoHang).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    dangKy.setText("Lưu");
+                    Toast.makeText(CuaHangOnlineActivity.this, "Thành công!", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(CuaHangOnlineActivity.this, "Thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -148,7 +258,9 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                 finish();
                 break;
             case R.id.giolamviec:
-                Toast.makeText(this, "gio làm việc", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, ThoiGianLamViecOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.vanchuyen:
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
@@ -163,5 +275,31 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
         return true;
     }
 
+    private int demHinhThucGiaoHang(HinhThucGiaoHang hinhThucGiaoHang) {
+        int dem = 0;
+        if (hinhThucGiaoHang.isTuGiao()) {
+            dem ++;
+        }
+        if (hinhThucGiaoHang.isKhacHangDenLay()) {
+            dem ++;
+        }
+        if (hinhThucGiaoHang.isQuaDoiTac()) {
+            dem ++;
+        }
+
+        return dem;
+    }
+
+    private int demHinhThucChuyenKhoan(HinhThucGiaoHang hinhThucGiaoHang) {
+        int dem = 0;
+        if (hinhThucGiaoHang.isChuyenKhoan()) {
+            dem ++;
+        }
+        if (hinhThucGiaoHang.isTienMat()){
+            dem ++;
+        }
+
+        return dem;
+    }
 
 }

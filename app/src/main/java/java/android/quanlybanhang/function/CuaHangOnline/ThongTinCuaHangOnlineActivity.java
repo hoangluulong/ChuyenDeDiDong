@@ -53,6 +53,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.android.quanlybanhang.Common.DataAddress;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
@@ -133,14 +134,20 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.thongtin);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new docJSon().execute("https://provinces.open-api.vn/api/?depth=3");
-            }
-        });
         displayItem();
+        getThongTinChung();
+
+        DataAddress dataAddress = new DataAddress();
+        try {
+            listDiaChi = dataAddress.readCompanyJSONFile(this);
+            setDataText();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayItem() {
@@ -389,8 +396,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 tenXa = parent.getItemAtPosition(position).toString();
             }
         });
-
-        getThongTinChung();
     }
 
     @Override
@@ -513,7 +518,9 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
             case R.id.thongtin:
                 break;
             case R.id.giolamviec:
-                Toast.makeText(this, "gio làm việc", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, ThoiGianLamViecOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.vanchuyen:
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
@@ -750,74 +757,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 nameLogo = System.currentTimeMillis() + "." + getFileExtension(imageLogoUri);
             }
         }
-    }
-
-    class docJSon extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return docNoiDung_Tu_URL(strings[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            try {
-                JSONArray root = new JSONArray(s);
-                for (int i = 0; i < root.length(); i++) {
-                    JSONObject khuVuc = root.getJSONObject(i);
-                    String tinhTP = khuVuc.getString("name");
-                    JSONArray arrHuyen = khuVuc.getJSONArray("districts");
-                    ArrayList<Huyen> huyens = new ArrayList<>();
-                    for (int j = 0; j < arrHuyen.length(); j++) {
-                        JSONObject khuVucHuyen = arrHuyen.getJSONObject(j);
-                        String tenHuyen = khuVucHuyen.getString("name");
-                        JSONArray arrXa = khuVucHuyen.getJSONArray("wards");
-                        ArrayList<String> xas = new ArrayList<>();
-                        for (int k = 0; k < arrXa.length(); k++) {
-                            JSONObject khuVucXa = arrXa.getJSONObject(k);
-                            String xa = khuVucXa.getString("name");
-                            xas.add(xa);
-                        }
-                        Huyen huyen = new Huyen(tenHuyen, xas);
-                        huyens.add(huyen);
-                    }
-
-                    DiaChi diaChi = new DiaChi(tinhTP, huyens);
-
-                    listDiaChi.add(diaChi);
-                }
-                setDataText();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static String docNoiDung_Tu_URL(String theUrl) {
-        StringBuilder content = new StringBuilder();
-        try {
-            //Create a url object
-            URL url = new URL(theUrl);
-
-            //create a urlconnection object
-            URLConnection urlConnection = url.openConnection();
-
-            // wrap the urlconnection in a bufferedreader
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-
-            //read from the urlconnection via the bufferedreader
-            while ((line = bufferedReader.readLine()) != null) {
-                content.append(line + "\n");
-            }
-            bufferedReader.close();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return content.toString();
     }
 
     private String[] ArrayTinh() {

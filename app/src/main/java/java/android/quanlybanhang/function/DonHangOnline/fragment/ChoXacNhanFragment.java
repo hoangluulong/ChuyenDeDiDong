@@ -136,6 +136,7 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
                             donHangs.add(donHang);
                             String key = snap.getKey();
                             Date date = support.formatDate(donHangs.get(i).getTime());
+                            Log.d("qq", date.getYear()+"");
                             donHangs.get(i).setDate(date);
                             Log.d("date", date+"");
                             donHangs.get(i).setKey(key);

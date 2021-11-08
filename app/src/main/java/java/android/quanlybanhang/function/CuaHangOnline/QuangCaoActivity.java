@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -46,6 +48,7 @@ public class QuangCaoActivity extends AppCompatActivity implements NavigationVie
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.quangcao);
 
         title = new ArrayList<String>();
         title.add("Tạo quảng cáo");
@@ -85,7 +88,7 @@ public class QuangCaoActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item)     {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.cuahang:
@@ -106,15 +109,15 @@ public class QuangCaoActivity extends AppCompatActivity implements NavigationVie
                 finish();
                 break;
             case R.id.giolamviec:
-                Toast.makeText(this, "gio làm việc", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, ThoiGianLamViecOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.vanchuyen:
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
-
         }
         drawerLayout.closeDrawer(GravityCompat.START);
 

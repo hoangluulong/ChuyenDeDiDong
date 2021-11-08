@@ -32,7 +32,7 @@ public class SupportFragmentDonOnline {
     }
 
     public Date formatDate(String strDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss yyyy-MM-dd");
 
         try {
             Date date = simpleDateFormat.parse(strDate);

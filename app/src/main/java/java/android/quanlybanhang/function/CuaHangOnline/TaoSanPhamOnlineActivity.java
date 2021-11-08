@@ -61,7 +61,6 @@ import java.android.quanlybanhang.Model.SanPham.DonViTinh;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.AdapterDonGia;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
-import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
 import java.util.ArrayList;
 
 public class TaoSanPhamOnlineActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -118,11 +117,9 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.sanpham);
 
         dialog = new Dialog(TaoSanPhamOnlineActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dailongdonvitinh);
-        window = dialog.getWindow(); dialog = new Dialog(TaoSanPhamOnlineActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailongdonvitinh);
         window = dialog.getWindow();
@@ -140,6 +137,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
         btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
         progressBar.setVisibility(View.INVISIBLE);
+
         getNhomSanPham();
     }
 
@@ -471,7 +469,9 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                 finish();
                 break;
             case R.id.giolamviec:
-                Toast.makeText(this, "gio làm việc", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, ThoiGianLamViecOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.vanchuyen:
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);

@@ -15,13 +15,13 @@ public class DonHang {
     private double donGia;
     private String key;
     private Date date;
-//    private String tenKhachHang;
     private String tenKhachhang;
     private String nhanVien;
     private String shipper;
     private String phoneShipper;
     private int phuongThucThanhToan;
     private String idQuan;
+    private String idDonHang;
 
     public DonHang() { }
 
@@ -41,6 +41,26 @@ public class DonHang {
         this.phoneShipper = "";
         this.shipper = "";
         this.diemnhan = "123 Trần Duy Hưng";
+    }
+
+    public DonHang(String diaChi, String diemnhan, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan, String idQuan, String idDonHang) {
+        this.diaChi = diaChi;
+        this.diemnhan = diemnhan;
+        this.time = time;
+        this.trangthai = trangthai;
+        this.idKhachhang = idKhachhang;
+        this.giaKhuyenMai = giaKhuyenMai;
+        this.sanpham = sanpham;
+        this.donGia = donGia;
+        this.key = key;
+        this.date = date;
+        this.tenKhachhang = tenKhachhang;
+        this.nhanVien = nhanVien;
+        this.shipper = shipper;
+        this.phoneShipper = phoneShipper;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.idQuan = idQuan;
+        this.idDonHang = idDonHang;
     }
 
     public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, int phuongThucThanhToan) {
@@ -114,6 +134,14 @@ public class DonHang {
         this.phoneShipper = phoneShipper;
         this.phuongThucThanhToan = phuongThucThanhToan;
         this.idQuan = idQuan;
+    }
+
+    public String getIdDonHang() {
+        return idDonHang;
+    }
+
+    public void setIdDonHang(String idDonHang) {
+        this.idDonHang = idDonHang;
     }
 
     public String getIdQuan() {

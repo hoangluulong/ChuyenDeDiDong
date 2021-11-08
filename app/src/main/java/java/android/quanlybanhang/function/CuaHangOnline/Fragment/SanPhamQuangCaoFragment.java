@@ -30,7 +30,6 @@ import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.SanPhamQuangCaoAdapter;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
-import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
 import java.util.ArrayList;
 
 /**
@@ -74,7 +73,6 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
     private RecyclerView recycleview;
     private SanPhamQuangCaoAdapter sanPhamQuangCaoAdapter;
     private ArrayList<Product>  listQuanCao = new ArrayList<>();
-    private ArrayList<SanPhamQuangCao>  listQuanCaoChoDuyet = new ArrayList<>();
     private ProgressBar progressBarLayout;
     private LinearLayout.LayoutParams params;
     private LinearLayout danhsach, btnMatHangQuangCao;

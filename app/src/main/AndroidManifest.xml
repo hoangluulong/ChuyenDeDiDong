@@ -140,12 +140,17 @@
             android:exported="true"
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
-
         <activity
             android:name=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
             android:exported="true"
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
+
+        <activity
+            android:name=".function.CuaHangOnline.ThoiGianLamViecOnlineActivity"
+            android:exported="true"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4"  />
     </application>
 
 </manifest>

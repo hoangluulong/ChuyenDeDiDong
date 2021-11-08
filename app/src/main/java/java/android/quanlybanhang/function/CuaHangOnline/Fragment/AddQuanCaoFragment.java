@@ -53,7 +53,6 @@ import java.android.quanlybanhang.Model.SanPham.DonViTinh;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.AdapterDonGia;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
-import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
 import java.android.quanlybanhang.function.CuaHangOnline.TaoSanPhamOnlineActivity;
 import java.util.ArrayList;
 
