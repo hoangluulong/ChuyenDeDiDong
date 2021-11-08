@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.StaticRvCardHolder>{
     ArrayList<Product> items;
     private StaticCardAdapter.card intercart;
+    private CardProduct cardProduct;
    public interface card {
         void TinhTongTien(Double tongtien);
     }
@@ -47,9 +48,10 @@ public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.St
     public StaticCardAdapter() {
             this.items = new ArrayList<>();
     }
-    public void Setdata(ArrayList<Product> staticMonOrderModel,StaticCardAdapter.card intercart){
+    public void Setdata(ArrayList<Product> staticMonOrderModel,StaticCardAdapter.card intercart,CardProduct cardProduct){
     this.items = staticMonOrderModel;
     this.intercart =intercart;
+    this.cardProduct = cardProduct;
         notifyDataSetChanged();
 
 }
@@ -103,6 +105,16 @@ public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.St
 
             }
         });
+        holder. img_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int position = holder.getLayoutPosition();
+                cardProduct.delete(position);
+
+                notifyDataSetChanged();
+            }
+        });
 
 
 
@@ -128,6 +140,7 @@ public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.St
         TextView Loai;
         ImageView imgminus,imgplus;
         TextView Tong1SanPham;
+        ImageView img_cancel;
 
         ConstraintLayout constraintLayouts ;
         public StaticRvCardHolder(@NonNull View itemView) {
@@ -141,6 +154,7 @@ public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.St
             imgplus = itemView.findViewById(R.id.imgplus);
 
             Tong1SanPham = itemView.findViewById(R.id.Tong1SanPham);
+            img_cancel = itemView.findViewById(R.id.img_cancel);
 
         }
     }

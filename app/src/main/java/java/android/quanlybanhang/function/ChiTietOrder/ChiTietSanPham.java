@@ -112,9 +112,9 @@ public class ChiTietSanPham extends AppCompatActivity {
             }
         });
 
-        Log.d("phamxuantruong1ne",trangthai+"chitietsanpham");
+
         soluong2 = findViewById(R.id.tvsoluong);
-        Log.d("bbb","tensp"+tensps+"giasanpham"+giasanphams+"soluong"+soluong+"");
+//        Log.d("bbb","tensp"+tensps+"giasanpham"+giasanphams+"soluong"+soluong+"");
 //        lay id
         tensp = findViewById(R.id.tvtensanpham);
         tonggiasp = findViewById(R.id.tvtonggiasanpham);
@@ -153,24 +153,6 @@ public class ChiTietSanPham extends AppCompatActivity {
 
         Log.d("codetruong",id_datban+"Chitiet");
         sl=Integer.parseInt(soluong2.getText()+"");
-//        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-//                    TrangThai= snapshot1.getValue()+"";
-//                    Log.d("phamxuantruong",TrangThai+"chitiet");
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//
-//        });
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,13 +239,13 @@ public class ChiTietSanPham extends AppCompatActivity {
         ArrayList<Product> arrayList = new ArrayList<>();
         Log.d("TrangThaine",trangthai);
         if(trangthai.equals("1")) {
-            Log.d("minasuzuki","mina");
+
             S = "SELECT * FROM " + TEN_BANG + " WHERE Id='" + id_datban + "' AND tensanpham='" + tensps + "'  AND loai='" + Loai + "' ";
 
 
         }
         else if(trangthai.equals("0")) {
-            Log.d("minasuzuki","mina");
+
             S = "SELECT * FROM " + TEN_BANG + " WHERE Id='" + id + "' AND tensanpham='" + tensps + "'  AND loai='" + Loai + "' ";
 
         }
@@ -285,11 +267,11 @@ public class ChiTietSanPham extends AppCompatActivity {
             Log.d("bbbs","aaaaaabbs");
             Log.d("TrangThaine",trangthai);
             if( trangthai.equals("1")){
-                database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id_datban+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
+                database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE Id= '"+id_datban+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
                 Log.d("TrangThaine",trangthai+"1A");
-            }else if(trangthai.equals("0")) {
+            }else if(trangthai.equals(" ")) {
                 Log.d("TrangThaine",trangthai +"1B");
-                database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE id= '"+id+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
+                database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE Id= '"+id+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
 
             }
         } else {

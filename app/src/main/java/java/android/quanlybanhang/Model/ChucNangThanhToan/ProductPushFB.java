@@ -11,6 +11,7 @@ public class ProductPushFB implements Serializable {
 
     private long date;
     private boolean flag;
+    private int trangThai;
 
     public int getTrangThai() {
         return TrangThai;

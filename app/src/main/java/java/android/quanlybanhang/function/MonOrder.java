@@ -17,8 +17,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,8 +76,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     Interface_CategorySp_Sp interface_categorySp_sp ;
     ArrayList<DonGia> donGiaOrders;
     String value1;
+    ImageView img_nocart;
     String key_SanPham;
     ProgressBar progressBar;
+   // LinearProgressIndicator
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,33 +120,39 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                  item = new ArrayList<>();
                  donGiaOrders = new ArrayList<>();
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    ArrayList<Product> mm= new ArrayList<>();
-                    String tencategory= snapshot1.getKey()+"";
-                    DataSnapshot aaa = snapshot1;
-                    for (DataSnapshot snapshot2 : aaa.getChildren()){
-                        key_SanPham =snapshot2.getKey();
-                        staticMonOrderModel=snapshot2.getValue(Product.class);
-                        String nameProduct = staticMonOrderModel.getNameProduct();
-                        int soluong = Integer.parseInt(staticMonOrderModel.getSoluong()+"");
-                        String imgProduct = staticMonOrderModel.getImgProduct();
-                        String status = staticMonOrderModel.getStatus();
-                        String id = staticMonOrderModel.getId();
-                        DataSnapshot sss = snapshot2.child("donGia");
-                        for (DataSnapshot snapshot3 : sss.getChildren()){
-                            DonGia donGiaOrder = snapshot3.getValue(DonGia.class);
-                            donGiaOrders.add(donGiaOrder);
-                            Log.d("dongia.size", donGiaOrders.size()+"");
+                if(snapshot.getValue() != null) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        ArrayList<Product> mm = new ArrayList<>();
+                        String tencategory = snapshot1.getKey() + "";
+                        DataSnapshot aaa = snapshot1;
+                        for (DataSnapshot snapshot2 : aaa.getChildren()) {
+                            key_SanPham = snapshot2.getKey();
+                            staticMonOrderModel = snapshot2.getValue(Product.class);
+                            String nameProduct = staticMonOrderModel.getNameProduct();
+                            int soluong = Integer.parseInt(staticMonOrderModel.getSoluong() + "");
+                            String imgProduct = staticMonOrderModel.getImgProduct();
+                            String status = staticMonOrderModel.getStatus();
+                            String id = staticMonOrderModel.getId();
+                            DataSnapshot sss = snapshot2.child("donGia");
+                            for (DataSnapshot snapshot3 : sss.getChildren()) {
+                                DonGia donGiaOrder = snapshot3.getValue(DonGia.class);
+                                donGiaOrders.add(donGiaOrder);
+                                Log.d("dongia.size", donGiaOrders.size() + "");
+
+                            }
+
+                            mm.add(new Product(nameProduct, soluong, imgProduct, donGiaOrders, status, id));
+
 
                         }
-
-                        mm.add(new Product(nameProduct,soluong,imgProduct, donGiaOrders,status,id));
-
-
+                        StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory, mm);
+                        item.add(product);
+                        Log.d("cccc", item.size() + "");
                     }
-                    StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory,mm);
-                    item.add(product);
-                    Log.d("cccc",item.size()+"");
+                }
+                else {
+                    img_nocart.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
                 progressBar.setVisibility(View.INVISIBLE);
                 recyclerView = findViewById(R.id.rv_1);
@@ -165,7 +175,6 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticMonRvAdapter);
-        Log.d("id_kv_b",id_ban+"_"+id_khuvuc+"monorder");
 
     }
     @Override

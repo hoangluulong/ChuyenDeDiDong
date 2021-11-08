@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,7 @@ import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticRvAdapte
 import java.android.quanlybanhang.Common.Interface_KhuVuc_ban;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 
+import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.Model.DatBan.DatBanModel;
 import java.android.quanlybanhang.Model.DatBan.ID_datban;
@@ -68,9 +71,12 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     ArrayList<DatBanModel> datBanModels;
     ArrayList<ID_datban> ID_datbans;
     String id_bk;
+    ImageView img_nocart;
     private String trangthaine;
     private String trangthaigop;
     ArrayList<ProuductPushFB1> carsList;
+    ArrayList<ProductPushFB> carsList1;
+    long date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,23 +86,28 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
 //             viet su kien cho toolbar
+
         ActionBar actionBar = getSupportActionBar();
 //Thiết lập tiêu đề nếu muốn
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        img_nocart = findViewById(R.id.img_nocart);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         Intent intent1 = getIntent();
         id_ban_thanhtoan = intent1.getStringExtra("id_ban");
         id_khuvuc_thanhtoan = intent1.getStringExtra("id_khuvuc");
-//       String carListAsString = getIntent().getStringExtra("list_as_string");
-//
+//        date = intent1.getLongExtra("date");
         Log.d("list_as_string",id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan+"Ordermenu");
         String carListAsString = getIntent().getStringExtra("list_as_string");
+        String carListAsString1= getIntent().getStringExtra("list_as_string1");
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
         }.getType();
+        Type type1 = new TypeToken<ArrayList<ProductPushFB>>() {
+        }.getType();
+        carsList1 = gson.fromJson(carListAsString1,type1);
         carsList= gson.fromJson(carListAsString, type);
 
         dialogban = new Dialog(OrderMenu.this);
@@ -114,10 +125,10 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     trangthaigop = snapshot1.getValue() + "";
-                    Log.d("TrangThaima", trangthaigop + "chitiet");
+
 
                 }
-
+                       tieude(actionBar);
             }
 
             @Override
@@ -126,16 +137,21 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
             }
 
         });
+
+
+
+
         getDataOrder();
         callback();
 
         items = new ArrayList<>();
         recyclerView2 = findViewById(R.id.rv_2);
-        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList);
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList,carsList1);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticRvAdapter);
         staticRvAdapter.notifyDataSetChanged();
+
 
 
     }
@@ -143,7 +159,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     @Override
     public void GetBack(int position, ArrayList<StaticBanModel> items, String id_khuvuc) {
         id_khuvuc = item.get(position).getId_khuvuc();
-        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList);
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList,carsList1);
         staticRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticRvAdapter);
 
@@ -159,18 +175,20 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int item_id = item.getItemId();
+        TextView ad ;
+
+        if (trangthaigop.equals("0")) {
         if (item_id == R.id.mangdi) {
-//                trangthai1= "1";
             mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
             mDatabase.child("trangthai").setValue("1");
             int code = (int) Math.floor(((Math.random() * 899999) + 100000));
-            Toast.makeText(this, "order nè", Toast.LENGTH_LONG).show();
-            Log.d("codetruong", code + "");
+            Toast.makeText(this, "mang di", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(OrderMenu.this, MonOrder.class);
-            intent.putExtra("id_datban", code + "");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("id_datban", code +"");
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
+        }
         }
         return true;
     }
@@ -185,15 +203,15 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getKey() + "longac1");
-                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getValue() + "long");
+//                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getKey() + "longac1");
+//                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getValue() + "long");
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("ccc", "onChildChanged:" + dataSnapshot.getKey());
-                Log.d("onChildChanged", "onChildChanged:" + dataSnapshot.getValue() + "longac1");
+//                Log.d("ccc", "onChildChanged:" + dataSnapshot.getKey());
+//                Log.d("onChildChanged", "onChildChanged:" + dataSnapshot.getValue() + "longac1");
 //
 
             }
@@ -231,6 +249,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 item = new ArrayList<>();
+                if(snapshot.getValue() != null){
 
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     ArrayList<StaticBanModel> mm = new ArrayList<>();
@@ -247,8 +266,19 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                         if (trangthaigop.equals("1")) {
                             if (trangthai1.equals("2")) {
                                 mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+
+
                             }
-                        } else {
+                            else {
+                                img_nocart.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        else if(trangthaigop.equals("2")){
+                            if (trangthai1.equals("1")) {
+                                mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                            }
+                        }
+                        else {
                             mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                         }
 //                            Log.d("keyabc",aaa.getKey()+"abc");
@@ -256,6 +286,11 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                     StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc, trangthai, id_khuvuc, mm);
                     item.add(product);
 
+                }
+                }
+                else {
+                    img_nocart.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
                 progressBar.setVisibility(View.INVISIBLE);
                 recyclerView = findViewById(R.id.rv_1);
@@ -271,6 +306,17 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
 
             }
         });
+    }
+    public void tieude(ActionBar actionBar){
+        if (trangthaigop.equals("0")){
+            actionBar.setTitle("Danh sách Bàn");
+
+        }else if(trangthaigop.equals("1")) {
+            actionBar.setTitle("Gộp bàn");
+        }
+        else if(trangthaigop.equals("2")) {
+            actionBar.setTitle("Chuyển Bàn");
+        }
     }
 
 

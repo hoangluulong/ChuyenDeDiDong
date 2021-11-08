@@ -9,6 +9,8 @@
     <item
         android:id="@+id/bacham"
         android:icon="@drawable/icons8bacham"
-        android:title="Menu 2"
-        app:showAsAction="always" />
+        android:title="Gộp Bàn"
+        android:orderInCategory="200"
+        app:showAsAction="withText"
+        />
 </menu>

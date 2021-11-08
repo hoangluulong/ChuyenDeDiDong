@@ -9,6 +9,10 @@
     <item
         android:id="@+id/menu2"
         android:icon="@drawable/icons8bacham"
-        android:title="Menu 2"
-        app:showAsAction="always" />
+        android:title="Menu"
+        android:orderInCategory="200"
+        app:showAsAction="withText"
+        />
+
+
 </menu>

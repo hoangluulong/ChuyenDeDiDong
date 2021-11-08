@@ -2,12 +2,14 @@ package java.android.quanlybanhang.function.CardProductSQL;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 
+import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
 import java.android.quanlybanhang.function.MainActivity;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.function.ThanhToanActivity;
@@ -144,7 +147,7 @@ public class CardProduct extends AppCompatActivity {
             public void TinhTongTien(Double tongtien) {
                 tongsanphams.setText("$"+tongtien) ;
             }
-        });
+        },CardProduct.this);
 
         for (int i=0; i<listcard.size();i++){
             listcard.get(i).getSoluong();
@@ -187,10 +190,10 @@ public class CardProduct extends AppCompatActivity {
         if (cursor.getCount() > 0) {
 
             while (cursor.moveToNext()) {
-                a = cursor.getString(0);
+                      a = cursor.getString(0);
                     String tensp= cursor.getString(1);
                     int  soluong= cursor.getInt(2);
-                    Log.d("cosql",soluong+"");
+                    Log.d("cosql",a+"");
                     String img= cursor.getString(3);
                     double  gia= cursor.getDouble(4);
                     String Loai = cursor.getString(5);
@@ -271,6 +274,40 @@ public class CardProduct extends AppCompatActivity {
             finish();
         }
         return true;
+    }
+    public void delete(final int position){
+
+        new AlertDialog.Builder(CardProduct.this).setMessage(
+                "Bạn Chắc Chắn muốn xóa sản phẩm này chứ "
+        ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(listcard.size()>0){
+                    database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + listcard.get(position).getId() + "'");
+                    listSP.remove(position);
+                    listcard.remove(position);
+                    staticCartAdapter.notifyDataSetChanged();
+                    tongsanphams.setText("$"+TinhTong()) ;
+
+                }
+                if(listcard.size()<=0) {
+                    bntluu.setEnabled(false);
+                    tvkhongsanpham.setVisibility(View.VISIBLE);
+                    tongsanphams.setVisibility(View.INVISIBLE);
+                    tvtentongsp.setVisibility(View.INVISIBLE);
+                    staticCartAdapter.notifyDataSetChanged();
+                }
+
+            }
+        }).setNegativeButton("No", null)
+                .show();
+    }
+    private Double TinhTong(){
+        double tong = 0.0;
+        for (int i = 0; i < listcard.size(); i++) {
+            tong = tong+listcard.get(i).getSoluong()*listcard.get(i).getDonGia().get(i).getGiaBan();
+        }
+        return tong;
     }
 
 }

@@ -7,13 +7,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SearchRecentSuggestionsProvider;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
@@ -60,6 +69,11 @@ public class ThanhToanActivity extends AppCompatActivity {
     private ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
     private Toolbar toolbar;//tool bar khai bao id
     private ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
+    private Dialog dialogban;
+    Window window;
+    ImageButton bnt_threedot;
+    TextView gopban,chuyenban;
+    Long date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +92,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         totalTxt = findViewById(R.id.totalTxt);
-
+        bnt_threedot = findViewById(R.id.bnt_threedot);
         Intent intent1 = getIntent();
         id_ban = intent1.getStringExtra("id_ban");
 //        Log.d("getkeyabc",id_ban+"getabc");
@@ -86,8 +100,9 @@ public class ThanhToanActivity extends AppCompatActivity {
         id_khuvuc = intent1.getStringExtra("id_khuvuc");
         id_datban = intent1.getStringExtra("id_datban");
         Log.d("list_as_string",id_ban+"_"+id_khuvuc+"ThanhToan");
+//dialog
 
-
+        OnclickMenuchucnang();
         bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
         id = id_ban + "_" + id_khuvuc;
         list = new ArrayList<>();
@@ -118,6 +133,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     }
 
     public void getData() {
+        Log.d("PXTPRO", trangthai+"");
         if (trangthai.equals("0")) {
             mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban + "_" + id_khuvuc);
         } else if (trangthai.equals("1")) {
@@ -127,28 +143,29 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    ListDate_yc = new ArrayList<>();
-                    listmon = new ArrayList<ProuductPushFB1>();
+                    ListDate_yc = new ArrayList<ProductPushFB>();
+                   for (DataSnapshot posSnapshot1 : snapshot.getChildren()) {
+                       listmon = new ArrayList<ProuductPushFB1>();
+                       date = Long.parseLong(snapshot.child("date").getValue()+"");
+                       Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue()+"");
+                       int trangThais =Integer.parseInt(snapshot.child("trangThai").getValue()+"") ;
 
-                    Log.d("dateFirebase", snapshot.child("date").getValue() + "");
-                    String flag = snapshot.child("flag").getValue() + "";
-                    DataSnapshot sss = snapshot.child("sanpham");
-                    for (DataSnapshot postSnapshot : sss.getChildren()) {
-                        String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
-                        int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
-                        String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
-                        Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
-                        String Loai = postSnapshot.child("loai").getValue() + "";
-                        String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
-                        listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
-                    }
-                    //lấy giá Tổng Của Tất cà
+                       DataSnapshot sss = snapshot.child("sanpham");
+                       for (DataSnapshot postSnapshot : sss.getChildren()) {
+                           String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
+                           int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
+                           String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
+                           Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
+                           String Loai = postSnapshot.child("loai").getValue() + "";
+                           String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
+                           listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
+                       }
+                       ListDate_yc.add(new ProductPushFB(date, flag,trangThais, listmon));
+                   }
                     for (int i = 0; i < listmon.size(); i++) {
-                        giaTong += listmon.get(i).getGiaProudct();
+                        giaTong += listmon.get(i).getGiaProudct()*listmon.get(i).getSoluong();
                     }
                     totalTxt.setText(giaTong + "");
-                    ListDate_yc.add(new ProductPushFB(1, true, listmon));
-
                     recyclerView = findViewById(R.id.rv_3);
                     //đô dữ liệu vào Thanh Toám
                     thanhToanAdapter = new ThanhToanAdapter(listmon);
@@ -298,22 +315,66 @@ public class ThanhToanActivity extends AppCompatActivity {
             intent.putExtra("id_datban", id_datban);
             startActivity(intent);
         }
-        if (item_id == R.id.bacham) {
-            Toast.makeText(this, "gopban", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
-             FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("1");
-            intent.putExtra("id_ban", id_ban);
-            intent.putExtra("id_khuvuc", id_khuvuc);
-            intent.putExtra("id_datban", id_datban);
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable("gopban",listmon);
-            Gson gson = new Gson();
-            String a = gson.toJson(listmon);
-            intent.putExtra("list_as_string",a);
-
-            startActivity(intent);
-        }
         return true;
+    }
+    private void HamTaodialog(int gravity){
+        dialogban = new Dialog(ThanhToanActivity.this);
+        dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogban.setContentView(R.layout.dailongthanhtoan);
+        window = dialogban.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        window.setAttributes(windownAttributes);
+        dialogban.setCancelable(true);
+        gopban=dialogban.findViewById(R.id.tvgopban);
+        chuyenban = dialogban.findViewById(R.id.tvchuyenban);
+        OnclickChucnang(gopban,chuyenban);
+        dialogban.show();
+    }
+    public  void OnclickMenuchucnang(){
+        bnt_threedot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HamTaodialog(Gravity.BOTTOM);
+            }
+        });
+    }
+    public void OnclickChucnang( TextView gopban, TextView chuyenban){
+        gopban.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogban.dismiss();
+                Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
+                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("1");
+                intent.putExtra("id_ban", id_ban);
+                intent.putExtra("id_khuvuc", id_khuvuc);
+                intent.putExtra("id_datban", id_datban);
+                Gson gson = new Gson();
+                String a = gson.toJson(listmon);
+                intent.putExtra("list_as_string",a);
+
+                startActivity(intent);
+            }
+        });
+        chuyenban.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogban.dismiss();
+                Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
+                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("2");
+                intent.putExtra("id_ban", id_ban);
+                intent.putExtra("id_khuvuc", id_khuvuc);
+                intent.putExtra("id_datban", id_datban);
+                intent.putExtra("date",date);
+                Gson gson = new Gson();
+                String a = gson.toJson(listmon);
+                String b = gson.toJson(ListDate_yc);
+                intent.putExtra("list_as_string",a);
+                intent.putExtra("list_as_string1",b);
+                startActivity(intent);
+            }
+        });
     }
 
 }
