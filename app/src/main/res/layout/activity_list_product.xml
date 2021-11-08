@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".function.SanPham.ListProduct"
     android:background="@color/white">
-    <androidx.appcompat.widget.SearchView
+    <EditText
         android:id="@+id/btn_searchsp"
         android:padding="5dp"
         android:layout_margin="10dp"
@@ -15,7 +15,7 @@
         android:iconifiedByDefault="false"
         app:queryBackground="@null"
         android:layout_height="wrap_content">
-    </androidx.appcompat.widget.SearchView>
+    </EditText>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="80dp"

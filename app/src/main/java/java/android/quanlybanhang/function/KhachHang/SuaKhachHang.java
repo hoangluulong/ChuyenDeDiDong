@@ -1,6 +1,8 @@
 package java.android.quanlybanhang.function.KhachHang;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -22,11 +25,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +42,10 @@ import org.json.JSONObject;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
+import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.ListProduct;
+import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,6 +53,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class SuaKhachHang extends AppCompatActivity {
@@ -74,6 +85,7 @@ public class SuaKhachHang extends AppCompatActivity {
     private String gioiTinh;
     private RadioGroup radioGroup;
     private KhachHang khachhang;
+    private int com;
 
 
     @Override
@@ -91,6 +103,10 @@ public class SuaKhachHang extends AppCompatActivity {
         btnLich = findViewById(R.id.imgLich);
         btnTaoKhachHang = findViewById(R.id.btnTaoKhachhang);
         btnhuyTaoKhachHang = findViewById(R.id.btnhuyTaoKhachHang);
+        radioGroup = findViewById(R.id.radioGruop);
+        radioNam = findViewById(R.id.gtNam);
+        radioNu = findViewById(R.id.gtNu);
+        radioKhongCo = findViewById(R.id.gtkhongco);
 
         //dialog
         dialog = new Dialog(SuaKhachHang.this);
@@ -103,6 +119,23 @@ public class SuaKhachHang extends AppCompatActivity {
         soNha = dialog.findViewById(R.id.edtSoNha);
         btnHuyDiaChi = dialog.findViewById(R.id.btnhuyTaoDiaChiKhachHang);
         btnTaoDiaChi = dialog.findViewById(R.id.btnTaoDiaChiKhachhang);
+        tenTinh = khachhang.getDiaChiTinh();
+        tenHuyen = khachhang.getDiaChiHuyen();
+        tenXa = khachhang.getDiaChiXa();
+        soNha.setText(khachhang.getSoNha());
+        gioiTinh = khachhang.getGioiTinh();
+        if(gioiTinh.equals("Nam")){
+            radioNam.setChecked(true);
+//            gioiTinh = "Nam";
+        }
+        else if(gioiTinh.equals("Nữ")){
+            radioNu.setChecked(true);
+//            gioiTinh = "Nữ";
+        }
+        else {
+            radioKhongCo.setChecked(true);
+//            gioiTinh = "Không";
+        }
 
         //firebase
         mDatabase =  FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_KHACHHANG);
@@ -125,9 +158,25 @@ public class SuaKhachHang extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateDiaChiKhachHang(Gravity.CENTER);
-
             }
         });
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.gtNam:
+                        gioiTinh = "Nam";
+                        break;
+                    case R.id.gtNu:
+                        gioiTinh = "Nữ";
+                        break;
+                    case R.id.gtkhongco:
+                        gioiTinh = "Không";
+                        break;
+                }
+            }
+        });
+        updateKhachHang();
     }
 
     public void updateDiaChiKhachHang(int gravity){
@@ -147,35 +196,50 @@ public class SuaKhachHang extends AppCompatActivity {
         }
         tinh = ArrayTinh();
         adapterTinh = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, tinh);
-        spnTinh.setAdapter(adapterTinh);
-        if(khachhang.getDiaChiTinh() != null){
-            int com = adapterTinh.getPosition(khachhang.getDiaChiTinh());
-          spnTinh.setDropDownAnchor(86);
+        if(tenTinh!= null){
+           spnTinh.setText(khachhang.getDiaChiTinh());
+           tenTinh = khachhang.getDiaChiTinh();
+            spnTinh.setAdapter(adapterTinh);
+            com = adapterTinh.getPosition(tenTinh);
         }
         adapterTinh.notifyDataSetChanged();
+        if(com >= 0)
+        {
+            if(tenHuyen != null){
+                String[] arrayHuyen = ArrayHuyen(com);
+                spnHuyen.setText(tenHuyen);
+                tenHuyen =khachhang.getDiaChiHuyen();
+                adapterHuyen = new ArrayAdapter<String>(SuaKhachHang.this,R.layout.support_simple_spinner_dropdown_item,arrayHuyen);
+                tenHuyen = listDiaChi.get(com).getHuyens().get(0).getTenHuyen();
+                spnHuyen.setAdapter(adapterHuyen);
+                adapterHuyen.notifyDataSetChanged();
+            }
+            if(tenXa != null){
+                spnXa.setText(tenXa);
+                tenXa = khachhang.getDiaChiXa();
+                adapterXa = new ArrayAdapter<String>(SuaKhachHang.this, R.layout.support_simple_spinner_dropdown_item,listDiaChi.get(ViTri).getHuyens().get(com).getXa());
+                spnXa.setAdapter(adapterXa);
+                tenXa = listDiaChi.get(ViTri).getHuyens().get(com).getXa().get(0);
+                adapterXa.notifyDataSetChanged();
+            }
+        }
+
         spnTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                tenTinh = parent.getItemAtPosition(position).toString();
+                tenTinh = parent.getItemAtPosition(position).toString();
                 ViTri = position;
                 String[] arrayHuyen = ArrayHuyen(position);
                 adapterHuyen = new ArrayAdapter<String>(SuaKhachHang.this,R.layout.support_simple_spinner_dropdown_item,arrayHuyen);
                 spnHuyen.setText(listDiaChi.get(position).getHuyens().get(0).getTenHuyen());
                 tenHuyen = listDiaChi.get(position).getHuyens().get(0).getTenHuyen();
                 spnHuyen.setAdapter(adapterHuyen);
-//                if(khachhang.getDiaChiHuyen() != null){
-//                    int com = adapterTinh.getPosition(khachhang.getDiaChiHuyen());
-//                    spnHuyen.setSelection(com);
-//                }
-
+                adapterHuyen.notifyDataSetChanged();
                 adapterXa = new ArrayAdapter<String>(SuaKhachHang.this,R.layout.support_simple_spinner_dropdown_item,listDiaChi.get(position).getHuyens().get(0).getXa());
                 spnXa.setText(listDiaChi.get(position).getHuyens().get(0).getXa().get(0));
                 tenXa = listDiaChi.get(position).getHuyens().get(0).getXa().get(0);
                 spnXa.setAdapter(adapterXa);
-//                if(khachhang.getDiaChiXa() != null){
-//                    int com = adapterTinh.getPosition(khachhang.getDiaChiXa());
-//                    spnXa.setSelection(com);
-//                }
+
             }
         });
 
@@ -183,16 +247,11 @@ public class SuaKhachHang extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tenHuyen = parent.getItemAtPosition(position).toString();
-
-                adapterXa = new ArrayAdapter<String>(SuaKhachHang.this, R.layout.support_simple_spinner_dropdown_item,
-                        listDiaChi.get(ViTri).getHuyens().get(position).getXa());
+                adapterXa = new ArrayAdapter<String>(SuaKhachHang.this, R.layout.support_simple_spinner_dropdown_item,listDiaChi.get(ViTri).getHuyens().get(position).getXa());
                 spnXa.setText(listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0));
-                tenXa = listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0);
                 spnXa.setAdapter(adapterXa);
-//                if(khachhang.getDiaChiXa() != null){
-//                    int com = adapterTinh.getPosition(khachhang.getDiaChiXa());
-//                    spnXa.setSelection(com);
-//                }
+                tenXa = listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0);
+                adapterXa.notifyDataSetChanged();
             }
         });
         spnXa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -218,6 +277,99 @@ public class SuaKhachHang extends AppCompatActivity {
 
 
         dialog.show();
+    }
+
+    public void updateKhachHang(){
+        mDatabase1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayListNhomKH = new ArrayList<>();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    NhomKhachHang nhomKhachHang = postSnapshot.getValue(NhomKhachHang.class);
+                    String name = nhomKhachHang.getTenNhomKh();
+                    arrayListNhomKH.add(name);
+                }
+                if (arrayListNhomKH.size() != 0) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(SuaKhachHang.this, R.layout.support_simple_spinner_dropdown_item, arrayListNhomKH);
+                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
+                    spnNhomKhachHang.setAdapter(adapter);
+                    if(khachhang.getNhomKhachKhach() != null){
+                        int com = adapter.getPosition(khachhang.getNhomKhachKhach());
+                        spnNhomKhachHang.setSelection(com);
+                    }
+                }
+                btnLich.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Calendar calendar = Calendar.getInstance();
+                        int year = calendar.get(Calendar.YEAR);
+                        int month = calendar.get(Calendar.MONTH);
+                        int day = calendar.get(Calendar.DAY_OF_MONTH);
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(SuaKhachHang.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                editNgaySinh.setText(dayOfMonth+"/"+month+"/"+year);
+                            }
+                        }, year, month, day);
+                        datePickerDialog.show();
+                    }
+                });
+                btnTaoKhachHang.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (editHoTen.getText().toString().isEmpty()){
+                            editHoTen.setError("Hãy nhập tên khách hàng");
+                            editHoTen.requestFocus();
+                        }
+                        else if(editSDT.getText().toString().isEmpty()){
+                            editSDT.setError("Hãy nhập số điện thoại");
+                            editSDT.requestFocus();
+                        }
+                        else if(editDiaChi.getText().toString().isEmpty()){
+                            editDiaChi.setError("Hãy chọn địa chỉ");
+                            editDiaChi.requestFocus();
+                        }
+                        else if(editNgaySinh.getText().toString().isEmpty()){
+                            editNgaySinh.setError("Chưa có ngày sinh");
+                            editNgaySinh.requestFocus();
+                        }
+                        else if (editEmail.getText().toString().isEmpty()){
+                            editEmail.setError("Hãy nhập email");
+                            editEmail.requestFocus();
+                        }
+                        else {
+                            String name = editHoTen.getText().toString();
+                            String SDT = editSDT.getText().toString();
+                            String nha = soNha.getText().toString();
+                            String nhomKh = spnNhomKhachHang.getSelectedItem().toString();
+                            String ngaysinh = editNgaySinh.getText().toString();
+                            String email = editEmail.getText().toString();
+                            String ghichu = editGhiChu.getText().toString();
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("hoTenKhachHang").setValue(name);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("soDT").setValue(SDT);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("nhomKhachKhach").setValue(nhomKh);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("ngaySinh").setValue(ngaysinh);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("ghiChu").setValue(ghichu);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("email").setValue(email);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("soNha").setValue(nha);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("diaChiTinh").setValue(tenTinh);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("diaChiHuyen").setValue(tenHuyen);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("diaChiXa").setValue(tenXa);
+                            mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("gioiTinh").setValue(gioiTinh);
+                            Intent intent = new Intent();
+                            intent = new Intent(SuaKhachHang.this, ListKhachHang.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

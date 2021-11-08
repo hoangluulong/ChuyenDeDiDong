@@ -36,8 +36,6 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
         this.context2 =context2;
     }
 
-
-
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

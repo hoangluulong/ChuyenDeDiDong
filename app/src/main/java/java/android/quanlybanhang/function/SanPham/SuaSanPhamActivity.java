@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -52,7 +55,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private Product product;
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
     private Spinner spnNhomsanpham, spnDonViTinh;
-    private Button btnAdd, btnThemDonViTinh, btnDonViTinhSanPham;
+    private Button btnAdd, btnThemDonViTinh, btnDonViTinhSanPham,btnDialogHuyDVT,btnDialogThemDVT,btnhuyUpdate,btnUpdate;
     private ImageView btnChoose;
     private ImageView imageView;
     private ProgressBar progressBar;
@@ -75,8 +78,10 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private String nhomsanpham;
     private ArrayList<String> arrayList;
     private ArrayAdapter<String> adapter;
-    private Dialog dialog;
-    private Window window;
+    private int gravity;
+    private Dialog dialog, dialog1;
+    private Window window, window1;
+    private ArrayList<String> listDonViTinh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,13 +111,33 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailongdonvitinh);
         window = dialog.getWindow();
+        window = dialog.getWindow();
+        dialog1 = new Dialog(SuaSanPhamActivity.this);
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.setContentView(R.layout.dialogthemdonvitinh);
+        window1 = dialog1.getWindow();
         spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
-        int gravity = Gravity.CENTER;
+        gravity = Gravity.CENTER;
         //firebase
         mStogref = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
         mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
         mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
+        btnChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChoose();
+            }
+        });
+        btnDonViTinhSanPham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dailongDonViTinhSanPham(gravity);
+            }
+        });
+        updateSanPham();
+    }
+    public void updateSanPham(){
         mDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -199,7 +224,6 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                                             public void onSuccess(Uri uri) {
                                                 Toast.makeText(SuaSanPhamActivity.this, "Upload successfull", Toast.LENGTH_SHORT).show();
 
-
                                                 String name = textName.getText().toString();
                                                 String chitiet = textChitiet.getText().toString();
                                                 Double gianhap = Double.parseDouble(textGianhap.getText().toString());
@@ -269,12 +293,79 @@ public class SuaSanPhamActivity extends AppCompatActivity {
 
             }
         });
-        btnChoose.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void dailongDonViTinhSanPham(int gravity) {
+        textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
+        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
+        btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
+
+        mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                openFileChoose();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listDonViTinh = new ArrayList<>();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    DonViTinh donViTinh1 = snapshot1.getValue(DonViTinh.class);
+                    String name = donViTinh1.getDonViTinh();
+                    listDonViTinh.add(name);
+                }
+                if (listDonViTinh.size() != 0) {
+                    adapter = new ArrayAdapter<String>(SuaSanPhamActivity.this, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
+                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
+                    spnDonViTinh.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        window.setAttributes(windownAttributes);
+        if (Gravity.BOTTOM == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+        }
+        btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DonGia donGia = new DonGia();
+                donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
+                donGia.setId(id);
+                if (textGiaSanPham.getText().toString().isEmpty()) {
+                    textGiaSanPham.setError("Hãy nhập giá !!!");
+                    textGiaSanPham.requestFocus();
+                    setFinishOnTouchOutside(true);
+                } else {
+                    donGia.setGiaBan(Double.parseDouble(textGiaSanPham.getText().toString()));
+                    donGias.add(donGia);
+                    dialog.dismiss();
+                }
+                textGiaSanPham.setText("");
+                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this, donGias, dialog, window, spnDonViTinh, adapter, gravity);
+                listView.setLayoutManager(new LinearLayoutManager(SuaSanPhamActivity.this, LinearLayoutManager.VERTICAL, false));
+                listView.setAdapter(adapterDonGia);
+                adapterDonGia.notifyDataSetChanged();
+
+            }
+        });
+
+        dialog.show();
     }
 
 

@@ -142,7 +142,6 @@ public class ThemKhachHang extends AppCompatActivity {
     }
 
 
-
     public void TaoKhachHang(){
         mDatabase1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

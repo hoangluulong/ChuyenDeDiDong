@@ -113,6 +113,7 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
                     public void onClick(View v) {
                         holder.textView.setText(spinnerTenDonVIiTinh.getSelectedItem().toString());
                         holder.textViewGia.setText(textGiaSanPham.getText().toString());
+                        textGiaSanPham.setText("");
                         dialog.dismiss();
                     }
                 });
