@@ -1,20 +1,23 @@
 package java.android.quanlybanhang.Model;
 
-public class BaoCaoKho {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class BaoCaoKho implements Serializable {
     String nhanVien;
     String ngay;
     String gio;
 
-    public BaoCaoKho() {
-    }
-
-    public BaoCaoKho(String nhanVien, String ngay, String gio) {
+    public BaoCaoKho(String nhanVien, String ngay, String gio, ArrayList<ChiTietNhapKho> chiTietNhapKho) {
         this.nhanVien = nhanVien;
         this.ngay = ngay;
         this.gio = gio;
+        this.chiTietNhapKho = chiTietNhapKho;
     }
 
-    public String getNhanVien() { return nhanVien; }
+    public String getNhanVien() {
+        return nhanVien;
+    }
 
     public void setNhanVien(String nhanVien) {
         this.nhanVien = nhanVien;
@@ -35,5 +38,20 @@ public class BaoCaoKho {
     public void setGio(String gio) {
         this.gio = gio;
     }
+
+    public ArrayList<ChiTietNhapKho> getChiTietNhapKho() {
+        return chiTietNhapKho;
+    }
+
+    public void setChiTietNhapKho(ArrayList<ChiTietNhapKho> chiTietNhapKho) {
+        this.chiTietNhapKho = chiTietNhapKho;
+    }
+
+    ArrayList<ChiTietNhapKho> chiTietNhapKho;
+
+    public BaoCaoKho() {
+    }
+
+
 
 }

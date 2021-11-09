@@ -200,7 +200,7 @@
               android:layout_weight="10"
               android:orientation="horizontal">
               <androidx.recyclerview.widget.RecyclerView
-                  android:id="@+id/listGiaSanPham"
+                  android:id="@+id/listSanPhamKho"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_weight="10">

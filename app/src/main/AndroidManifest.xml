@@ -56,7 +56,7 @@
         <activity android:name=".function.Income" />
         <activity android:name=".function.Processing" />
         <activity android:name=".function.OrderMenu" />
-        <activity android:name=".function.MainActivity">
+        <activity android:name=".function.BaoCao.CapNhatBaoCaoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -141,11 +141,6 @@
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
 
-        <activity
-            android:name=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
-            android:exported="true"
-            android:parentActivityName=".function.MainActivity"
-            android:theme="@style/thameActionbar4" />
     </application>
 
 </manifest>

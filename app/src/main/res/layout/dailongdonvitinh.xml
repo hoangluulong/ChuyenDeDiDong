@@ -28,12 +28,10 @@
             android:text="Đơn vị quy đổi"></TextView>
 
         <Spinner
-            android:id="@+id/spnTenDonViTinh"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/bg_white_spn"></Spinner>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,35 +47,30 @@
             android:background="@drawable/bg_white_edittext"
             android:layout_marginTop="5dp"
             android:padding="12dp"
-            android:textColor="@color/bac"
             android:inputType="number"
             ></EditText>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
-            <Button
-                android:id="@+id/btnhuyDiaLogDVT"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="16sp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_button_10"
-                android:alpha="0.4"
-                android:text="Hủy bỏ"></Button>
-            <Button
-                android:id="@+id/btnthemDiaLogDVT"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="16sp"
-                android:background="@drawable/bg_button_16"
-                android:text="Thêm"></Button>
-        </LinearLayout>
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_button_10"
+            android:alpha="0.4"
+            android:text="Hủy bỏ"></Button>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:background="@drawable/bg_button_16"
+            android:text="Thêm"></Button>
+    </LinearLayout>
 
 </LinearLayout>

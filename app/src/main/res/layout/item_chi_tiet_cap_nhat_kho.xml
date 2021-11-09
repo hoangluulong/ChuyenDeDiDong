@@ -11,7 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:id="@+id/linear_nhap_kho">
 
         <HorizontalScrollView
             android:layout_width="0dp"

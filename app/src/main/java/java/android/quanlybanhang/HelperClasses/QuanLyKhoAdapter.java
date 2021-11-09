@@ -1,7 +1,10 @@
 package java.android.quanlybanhang.HelperClasses;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.android.quanlybanhang.Model.BaoCaoKho;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BaoCao.ChiTietNhapKhoActivity;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuanLyKhoAdapter extends RecyclerView.Adapter<CustomBaoCaoKho>{
-
+    public static final String KEY_BAOCAO = "BAOCAO";
     private Context context;
     private List<BaoCaoKho> list;
 
@@ -33,6 +38,7 @@ public class QuanLyKhoAdapter extends RecyclerView.Adapter<CustomBaoCaoKho>{
         return new CustomBaoCaoKho(LayoutInflater.from(context).inflate(R.layout.item_quan_li_kho, parent, false));
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull CustomBaoCaoKho holder, int position) {
 
@@ -61,6 +67,11 @@ public class QuanLyKhoAdapter extends RecyclerView.Adapter<CustomBaoCaoKho>{
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ChiTietNhapKhoActivity.class);
+                    BaoCaoKho baoCaoKho = list.get(position);
+                    Log.d("aaa","bbb");
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(KEY_BAOCAO, baoCaoKho);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });

@@ -91,7 +91,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAddproduct);
         btnDonViTinhSanPham = findViewById(R.id.DonViTinhSanPham);
         btnThemDonViTinh = findViewById(R.id.themDonViTinh);
-        listView = findViewById(R.id.listGiaSanPham);
+        listView = findViewById(R.id.listSanPhamKho);
         //
         textName.setText(product.getNameProduct());
         textChitiet.setText(product.getChitiet());

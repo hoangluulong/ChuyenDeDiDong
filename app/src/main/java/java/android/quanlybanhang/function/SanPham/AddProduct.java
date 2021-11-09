@@ -98,7 +98,7 @@ public class AddProduct extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAddproduct);
         btnDonViTinhSanPham = findViewById(R.id.DonViTinhSanPham);
         btnThemDonViTinh = findViewById(R.id.themDonViTinh);
-        listView = findViewById(R.id.listGiaSanPham);
+        listView = findViewById(R.id.listSanPhamKho);
 
        //firebase
         mStogref = FirebaseStorage.getInstance().getReference(STR_UPLOAD);
