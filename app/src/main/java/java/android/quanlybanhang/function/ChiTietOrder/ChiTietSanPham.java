@@ -83,10 +83,8 @@ public class ChiTietSanPham extends AppCompatActivity {
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-//        StaticMonOrderModel staticMonOrderModel = getIntent().getSerializableExtra("sp");
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-//        id_khuvuc = intent.getStringExtra("id_khuvuc");
         key_sp = intent.getStringExtra("key_sanpham");
 
         staticMonOrderModel = (Product) bundle.getSerializable("sp");

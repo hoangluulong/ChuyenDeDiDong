@@ -115,6 +115,9 @@ public class ThanhToanActivity extends AppCompatActivity {
                     trangthai = snapshot1.getValue() + "";
                     Log.d("TrangThaima", trangthai + "chitiet");
                     getData();
+                    if(trangthai.equals("1")){
+                        bnt_threedot.setVisibility(View.GONE);
+                    }
                 }
 
             }
@@ -135,9 +138,14 @@ public class ThanhToanActivity extends AppCompatActivity {
     public void getData() {
         Log.d("PXTPRO", trangthai+"");
         if (trangthai.equals("0")) {
-            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban + "_" + id_khuvuc);
-        } else if (trangthai.equals("1")) {
-            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban);
+            if(id_ban + "_" + id_khuvuc!=null){
+                mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban + "_" + id_khuvuc);
+            }
+        }
+        if (trangthai.equals("1")) {
+            if(id_datban!=null){
+                mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban);
+            }
         }
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -318,15 +326,24 @@ public class ThanhToanActivity extends AppCompatActivity {
         return true;
     }
     private void HamTaodialog(int gravity){
+
         dialogban = new Dialog(ThanhToanActivity.this);
         dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogban.setContentView(R.layout.dailongthanhtoan);
+
         window = dialogban.getWindow();
+         if (window == null) {
+            return;
+        }
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windownAttributes = window.getAttributes();
         window.setAttributes(windownAttributes);
-        dialogban.setCancelable(true);
+        if (Gravity.BOTTOM == gravity) {
+            dialogban.setCancelable(true);
+        } else {
+            dialogban.setCancelable(false);
+        }
         gopban=dialogban.findViewById(R.id.tvgopban);
         chuyenban = dialogban.findViewById(R.id.tvchuyenban);
         OnclickChucnang(gopban,chuyenban);

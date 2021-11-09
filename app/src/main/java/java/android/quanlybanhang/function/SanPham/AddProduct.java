@@ -186,7 +186,6 @@ public class AddProduct extends AppCompatActivity {
                                               textSoluong.requestFocus();
                                           }
                                           else {
-
                                               String name = textName.getText().toString();
                                               String chitiet = textChitiet.getText().toString();
                                               Double gianhap = Double.parseDouble(textGianhap.getText().toString());

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -77,6 +78,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     ArrayList<ProuductPushFB1> carsList;
     ArrayList<ProductPushFB> carsList1;
     long date;
+    MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,16 +101,16 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         id_ban_thanhtoan = intent1.getStringExtra("id_ban");
         id_khuvuc_thanhtoan = intent1.getStringExtra("id_khuvuc");
 //        date = intent1.getLongExtra("date");
-        Log.d("list_as_string",id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan+"Ordermenu");
+        Log.d("list_as_string", id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan + "Ordermenu");
         String carListAsString = getIntent().getStringExtra("list_as_string");
-        String carListAsString1= getIntent().getStringExtra("list_as_string1");
+        String carListAsString1 = getIntent().getStringExtra("list_as_string1");
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
         }.getType();
         Type type1 = new TypeToken<ArrayList<ProductPushFB>>() {
         }.getType();
-        carsList1 = gson.fromJson(carListAsString1,type1);
-        carsList= gson.fromJson(carListAsString, type);
+        carsList1 = gson.fromJson(carListAsString1, type1);
+        carsList = gson.fromJson(carListAsString, type);
 
         dialogban = new Dialog(OrderMenu.this);
         dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -128,7 +130,11 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
 
 
                 }
-                       tieude(actionBar);
+//                if(trangthaigop.equals("1") ||trangthaigop.equals("2") ){
+//                    MenuItem m = menu.findItem(R.id.mangdi).setVisible(false);
+//
+//                }
+                tieude(actionBar);
             }
 
             @Override
@@ -139,19 +145,16 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         });
 
 
-
-
         getDataOrder();
         callback();
 
         items = new ArrayList<>();
         recyclerView2 = findViewById(R.id.rv_2);
-        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList,carsList1);
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList, carsList1);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticRvAdapter);
         staticRvAdapter.notifyDataSetChanged();
-
 
 
     }
@@ -159,7 +162,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     @Override
     public void GetBack(int position, ArrayList<StaticBanModel> items, String id_khuvuc) {
         id_khuvuc = item.get(position).getId_khuvuc();
-        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList,carsList1);
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList, carsList1);
         staticRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticRvAdapter);
 
@@ -175,21 +178,24 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int item_id = item.getItemId();
-        TextView ad ;
+        TextView ad;
+
 
         if (trangthaigop.equals("0")) {
-        if (item_id == R.id.mangdi) {
-            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
-            mDatabase.child("trangthai").setValue("1");
-            int code = (int) Math.floor(((Math.random() * 899999) + 100000));
-            Toast.makeText(this, "mang di", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(OrderMenu.this, MonOrder.class);
-            intent.putExtra("id_datban", code +"");
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+            if (item_id == R.id.mangdi) {
+                mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+                mDatabase.child("trangthai").setValue("1");
+                int code = (int) Math.floor(((Math.random() * 899999) + 100000));
+                Toast.makeText(this, "mang di", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(OrderMenu.this, MonOrder.class);
+                intent.putExtra("id_datban", code + "");
+                startActivity(intent);
+
+                finish();
+            }
         }
-        }
+
+
         return true;
     }
 
@@ -203,15 +209,11 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-//                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getKey() + "longac1");
-//                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getValue() + "long");
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-//                Log.d("ccc", "onChildChanged:" + dataSnapshot.getKey());
-//                Log.d("onChildChanged", "onChildChanged:" + dataSnapshot.getValue() + "longac1");
 //
 
             }
@@ -249,46 +251,48 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 item = new ArrayList<>();
-                if(snapshot.getValue() != null){
+                if (snapshot.getValue() != null) {
 
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    ArrayList<StaticBanModel> mm = new ArrayList<>();
-                    String trangthai = postSnapshot.child("trangthai").getValue() + "";
-                    String tenkhuvuc = postSnapshot.child("tenkhuvuc").getValue() + "";
-                    String id_khuvuc = postSnapshot.getKey();
-                    DataSnapshot sss = postSnapshot.child("ban");
-                    for (DataSnapshot aaa : sss.getChildren()) {
-                        String tenban = aaa.child("tenban").getValue() + "";
-                        String trangthai1 = aaa.child("trangthai").getValue() + "";
-                        String tennhanvien = aaa.child("tenNhanVien").getValue() + "";
-                        String gioDaorder = aaa.child("gioDaOder").getValue() + "";
-                        String id_ban = aaa.getKey();
-                        if (trangthaigop.equals("1")) {
-                            if (trangthai1.equals("2")) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        ArrayList<StaticBanModel> mm = new ArrayList<>();
+                        String trangthai = postSnapshot.child("trangthai").getValue() + "";
+                        String tenkhuvuc = postSnapshot.child("tenkhuvuc").getValue() + "";
+                        String id_khuvuc = postSnapshot.getKey();
+                        DataSnapshot sss = postSnapshot.child("ban");
+                        for (DataSnapshot aaa : sss.getChildren()) {
+                            String tenban = aaa.child("tenban").getValue() + "";
+                            String trangthai1 = aaa.child("trangthai").getValue() + "";
+                            String tennhanvien = aaa.child("tenNhanVien").getValue() + "";
+                            String gioDaorder = aaa.child("gioDaOder").getValue() + "";
+                            String id_ban = aaa.getKey();
+                            if (trangthaigop.equals("1")) {
+
+                                if (trangthai1.equals("2")) {
+                                    mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+//                                    img_nocart.setVisibility(View.GONE);
+                                }
+//                                else {
+//                                    img_nocart.setVisibility(View.VISIBLE);
+//                                }
+
+
+                            } else if (trangthaigop.equals("2")) {
+                                if (trangthai1.equals("1")) {
+                                    mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                                }
+                            } else {
                                 mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
 
+                            }
 
-                            }
-                            else {
-                                img_nocart.setVisibility(View.VISIBLE);
-                            }
-                        }
-                        else if(trangthaigop.equals("2")){
-                            if (trangthai1.equals("1")) {
-                                mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
-                            }
-                        }
-                        else {
-                            mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
-                        }
+
 //                            Log.d("keyabc",aaa.getKey()+"abc");
-                    }
-                    StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc, trangthai, id_khuvuc, mm);
-                    item.add(product);
+                        }
+                        StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc, trangthai, id_khuvuc, mm);
+                        item.add(product);
 
-                }
-                }
-                else {
+                    }
+                } else {
                     img_nocart.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
                 }
@@ -307,14 +311,14 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
             }
         });
     }
-    public void tieude(ActionBar actionBar){
-        if (trangthaigop.equals("0")){
+
+    public void tieude(ActionBar actionBar) {
+        if (trangthaigop.equals("0")) {
             actionBar.setTitle("Danh sách Bàn");
 
-        }else if(trangthaigop.equals("1")) {
+        } else if (trangthaigop.equals("1")) {
             actionBar.setTitle("Gộp bàn");
-        }
-        else if(trangthaigop.equals("2")) {
+        } else if (trangthaigop.equals("2")) {
             actionBar.setTitle("Chuyển Bàn");
         }
     }

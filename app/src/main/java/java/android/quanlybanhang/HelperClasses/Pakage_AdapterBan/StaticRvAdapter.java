@@ -173,6 +173,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.bacham.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 HamTaodialog(Gravity.BOTTOM,CrrItem);
                 Toast.makeText(orderMenu,"bacham",Toast.LENGTH_LONG).show();
 
@@ -220,6 +221,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                             for (int i=0;i<prouductPushFB1.size();i++){
                                 FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID()+"_"+Id_khuvuc).child("sanpham").push().setValue(prouductPushFB1.get(i));
                             }
+                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
                             FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
                             FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
 
@@ -238,6 +240,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                     ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
                             FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
                             String Id =CrrItem.getID()+"_"+Id_khuvuc;
                             String id =id_ban_thanhtoan+"_"+id_khuvuc_thanhtoan;
@@ -246,6 +249,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                                 FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("gioDaOder").setValue(productPushFBS.get(i).getDate());
 
                             }
+                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
                             database_order.QueryData("UPDATE "+TEN_BANG+" SET Id = '"+ Id +"' WHERE Id= '"+ id +"'");
 
                             FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
@@ -255,6 +259,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
                             database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
+                            notifyDataSetChanged();
 
                         }
                     }).setNegativeButton("No", null)
@@ -292,18 +297,25 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
     private void HamTaodialog(int gravity,StaticBanModel CrrItem){
-
+        if (window == null) {
+            return;
+        }
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windownAttributes = window.getAttributes();
         window.setAttributes(windownAttributes);
-        dialogban.setCancelable(true);
+        if (Gravity.BOTTOM == gravity) {
+            dialogban.setCancelable(true);
+        } else {
+            dialogban.setCancelable(false);
+        }
         datban=dialogban.findViewById(R.id.tvdatban);
         listdatban = dialogban.findViewById(R.id.listdatban);
         hoantac = dialogban.findViewById(R.id.hoantac);
         EvenlistDatban(datban,listdatban,hoantac,CrrItem);
 
         dialogban.show();
+
     }
     private void EvenlistDatban(TextView datban,TextView listdatban,TextView hoantac,StaticBanModel CrrItem){
             datban.setOnClickListener(new View.OnClickListener() {

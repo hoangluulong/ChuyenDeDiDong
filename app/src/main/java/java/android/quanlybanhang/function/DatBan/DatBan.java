@@ -15,6 +15,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.SimpleTimeZone;
+import java.util.Timer;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -27,6 +29,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -52,6 +55,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
     private static final String TIME_FORMAT_24 = "HH:mm:ss";
     Date date ;
     Timestamp timestamp;
+    Timestamp timestamp1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
         id_khuvuc = intent.getStringExtra("id_khuvuc");
         tenban = intent.getStringExtra("tenban");
         actionBar.setTitle("Đặt Bàn -"+tenban+"");
+
         bnt_datngay = findViewById(R.id.bnt_datngay);
         bnt_datgio = findViewById(R.id.bnt_datgio);
         bnt_datgiokt = findViewById(R.id.bnt_datgiokt);
@@ -87,10 +92,8 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
         bnt_datban.setOnClickListener(this);
 
         tvngayhientai.setText(hamlaydate());
-
-
-
     }
+
 
     @Override
     public void onClick(View v) {
@@ -144,12 +147,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
                     break;
                 case R.id.bnt_datban:
                     datBan();
-                    Intent intent = new Intent(DatBan.this, OrderMenu.class);
-                    intent.putExtra("id_ban",id_ban);
-                    Log.d("idkv",id_khuvuc+""+id_ban);
-                    intent.putExtra("id_khuvuc",id_khuvuc);
-                    startActivity(intent);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                     break;
             }
     }
@@ -167,31 +165,68 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
 
 
     public void  datBan(){
-
         String aa =txtTime.getText().toString()+" "+txtDate.getText().toString();
+        String dd =txttimekt.getText().toString()+" "+txtDate.getText().toString();
+        Log.d("hh:mm",aa);
         try {
-            java.util.Date date = new SimpleDateFormat("hh:mm dd-MM-yyyy").parse(aa);
-             timestamp = new Timestamp(date.getTime());
+            java.util.Date date1 = new SimpleDateFormat("hh:mm dd-MM-yyyy").parse(aa);
+             timestamp = new Timestamp(date1.getTime());
+
             timestamp.getTime();
 
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan").child(id_ban+"_"+id_khuvuc).child(timestamp.getTime()+"");
-        databaseReference.child("tenkhachhang").setValue(edttenkhachang.getText().toString());
-        databaseReference.child("id_bk").setValue(id_ban+"_"+id_khuvuc);
-        databaseReference.child("sodienthoai").setValue(editTextPhone.getText().toString());
-        databaseReference.child("sotiendattruoc").setValue(editTextNumber.getText().toString());
-        databaseReference.child("ngayhientai").setValue(tvngayhientai.getText().toString());
-        databaseReference.child("ngaydat").setValue(txtDate.getText().toString());
-        databaseReference.child("giodat").setValue(txtTime.getText().toString());
-        databaseReference.child("tenban").setValue(tenban);
-        databaseReference.child("gioketthuc").setValue(txttimekt.getText().toString());
+        try {
+            java.util.Date date = new SimpleDateFormat("hh:mm dd-MM-yyyy").parse(dd);
+            timestamp1 = new Timestamp(date.getTime());
+            timestamp1.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+
+        if (edttenkhachang.getText().toString().isEmpty()){
+            edttenkhachang.setError("Hãy nhập tên khách Hàng");
+            edttenkhachang.requestFocus();
+        }else if (editTextPhone.getText().toString().isEmpty()){
+            editTextPhone.setError("Hãy nhập Sô điện thoại");
+            editTextPhone.requestFocus();
+        }
+        else if (txtDate.getText().toString().equals("00:00:00")){
+            Toast.makeText(DatBan.this,"chưa nhập ngày đặt",Toast.LENGTH_LONG).show();
+        }
+        else if (txtTime.getText().toString().equals("00:00:00")){
+            Toast.makeText(DatBan.this,"chưa chọn giờ đặt",Toast.LENGTH_LONG).show();
+        }
+        else if (txttimekt.getText().toString().equals("00:00:00")){
+            Toast.makeText(DatBan.this,"chưa chọn giờ kết thúc",Toast.LENGTH_LONG).show();
+        }
+        else if(timestamp.getTime()>timestamp1.getTime()){
+            Toast.makeText(DatBan.this,"Giờ kết thúc nhỏ hơn giờ đặt",Toast.LENGTH_LONG).show();
+        }
+        else {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan").child(id_ban + "_" + id_khuvuc).child(timestamp.getTime() + "");
+            databaseReference.child("tenkhachhang").setValue(edttenkhachang.getText().toString());
+            databaseReference.child("id_bk").setValue(id_ban + "_" + id_khuvuc);
+            databaseReference.child("sodienthoai").setValue(editTextPhone.getText().toString());
+            databaseReference.child("sotiendattruoc").setValue(editTextNumber.getText().toString());
+            databaseReference.child("ngayhientai").setValue(tvngayhientai.getText().toString());
+            databaseReference.child("ngaydat").setValue(txtDate.getText().toString());
+            databaseReference.child("giodat").setValue(txtTime.getText().toString());
+            databaseReference.child("tenban").setValue(tenban);
+            databaseReference.child("gioketthuc").setValue(txttimekt.getText().toString());
+            Intent intent = new Intent(DatBan.this, OrderMenu.class);
+            intent.putExtra("id_ban",id_ban);
+            intent.putExtra("id_khuvuc",id_khuvuc);
+            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
 
 
     }
+
 
     @Override
     public void onBackPressed() {

@@ -65,7 +65,7 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
         holder.tvtenkhachhang.setText(CrrItem.getDatBanModels().get(position).getTenkhachhang());
         holder.tvsodienthoai.setText(CrrItem.getDatBanModels().get(position).getSodienthoai());
         holder.tvsotiendattruoc.setText(CrrItem.getDatBanModels().get(position).getSotiendadattruoc());
-        holder.tvgiodat.setText(CrrItem.getDatBanModels().get(position).getNgayhientai());
+        holder.tvngaydat.setText(CrrItem.getDatBanModels().get(position).getNgayhientai());
         holder.tvngaydatban.setText(CrrItem.getDatBanModels().get(position).getNgaydat());
         holder.tvgiodat.setText(CrrItem.getDatBanModels().get(position).getGiodat());
         holder.tvtenban.setText(CrrItem.getDatBanModels().get(position).getTenban());
