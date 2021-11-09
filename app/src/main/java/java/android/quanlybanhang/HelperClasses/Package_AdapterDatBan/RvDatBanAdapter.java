@@ -97,7 +97,11 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
 
     @Override
     public int getItemCount() {
-        return items.size();
+
+        if (items!=null){
+            return items.size() ;
+        }
+        return 0;
     }
 
     public class DatBanholder extends RecyclerView.ViewHolder {

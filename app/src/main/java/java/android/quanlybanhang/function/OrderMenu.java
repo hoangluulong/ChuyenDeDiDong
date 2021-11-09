@@ -61,7 +61,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     private ArcMenu arcMenu;//arc menu material
     ArrayList<StaticModelKhuVuc> item;
     private StaticModelKhuVuc product;
-    private Toolbar toolbar;//tool bar khai bao id
+    private Toolbar toolbar;
     ProgressBar progressBar;
     private Dialog dialogban;
     Window window;
@@ -127,13 +127,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     trangthaigop = snapshot1.getValue() + "";
-
-
                 }
-//                if(trangthaigop.equals("1") ||trangthaigop.equals("2") ){
-//                    MenuItem m = menu.findItem(R.id.mangdi).setVisible(false);
-//
-//                }
                 tieude(actionBar);
             }
 
@@ -282,11 +276,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                                 }
                             } else {
                                 mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
-
                             }
-
-
-//                            Log.d("keyabc",aaa.getKey()+"abc");
                         }
                         StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc, trangthai, id_khuvuc, mm);
                         item.add(product);

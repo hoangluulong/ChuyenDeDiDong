@@ -105,7 +105,12 @@ ArrayList<Product> staticMonOrderModels;
 
     @Override
     public int getItemCount() {
-        return staticMonOrderModels.size();
+
+        if (staticMonOrderModels!=null){
+            return
+                    staticMonOrderModels.size() ;
+        }
+        return 0;
     }
 
 

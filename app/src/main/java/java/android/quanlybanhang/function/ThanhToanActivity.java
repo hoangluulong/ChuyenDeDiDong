@@ -72,7 +72,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     private Dialog dialogban;
     Window window;
     ImageButton bnt_threedot;
-    TextView gopban,chuyenban;
+    TextView gopban,chuyenban,tachban;
     Long date;
 
     @Override
@@ -346,7 +346,8 @@ public class ThanhToanActivity extends AppCompatActivity {
         }
         gopban=dialogban.findViewById(R.id.tvgopban);
         chuyenban = dialogban.findViewById(R.id.tvchuyenban);
-        OnclickChucnang(gopban,chuyenban);
+        tachban = dialogban.findViewById(R.id.tvtachban);
+        OnclickChucnang(gopban,chuyenban,tachban);
         dialogban.show();
     }
     public  void OnclickMenuchucnang(){
@@ -357,7 +358,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             }
         });
     }
-    public void OnclickChucnang( TextView gopban, TextView chuyenban){
+    public void OnclickChucnang( TextView gopban, TextView chuyenban,TextView tachban){
         gopban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -387,6 +388,24 @@ public class ThanhToanActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String a = gson.toJson(listmon);
                 String b = gson.toJson(ListDate_yc);
+                intent.putExtra("list_as_string",a);
+                intent.putExtra("list_as_string1",b);
+                startActivity(intent);
+            }
+        });
+        tachban.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialogban.dismiss();
+                Intent intent = new Intent(ThanhToanActivity.this, TachBanActivity.class);
+                intent.putExtra("id_ban", id_ban);
+                intent.putExtra("id_khuvuc", id_khuvuc);
+                intent.putExtra("id_datban", id_datban);
+                Gson gson = new Gson();
+                String b = gson.toJson(ListDate_yc);
+                String a = gson.toJson(listmon);
+                Log.d("khabanh1",ListDate_yc.size()+"thanhtoan");
                 intent.putExtra("list_as_string",a);
                 intent.putExtra("list_as_string1",b);
                 startActivity(intent);

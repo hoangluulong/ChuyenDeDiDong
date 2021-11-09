@@ -119,17 +119,24 @@ public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.St
 
 
     }
-    private Double TinhTong(){
+    private Double TinhTong() {
         double tong = 0.0;
-        for (int i = 0; i < items.size(); i++) {
-            tong = tong+items.get(i).getSoluong()*items.get(i).getDonGia().get(i).getGiaBan();
+        if (items != null) {
+            for (int i = 0; i < items.size(); i++) {
+                tong = tong + items.get(i).getSoluong() * items.get(i).getDonGia().get(i).getGiaBan();
 
+            }
+            return tong;
         }
-        return tong;
-    }
+        return 0.0;
+   }
+
     @Override
     public int getItemCount() {
-        return items.size();
+        if (items!=null){
+            return items.size();
+        }
+        return 0;
     }
 
     public static class StaticRvCardHolder extends RecyclerView.ViewHolder{

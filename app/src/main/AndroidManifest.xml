@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
+            android:name=".function.TachBanActivity"
+            android:exported="false" />
+        <activity
             android:name=".function.DatBan.DanhSachDatBan"
             android:exported="false" />
         <activity

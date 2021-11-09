@@ -171,10 +171,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
         try {
             java.util.Date date1 = new SimpleDateFormat("hh:mm dd-MM-yyyy").parse(aa);
              timestamp = new Timestamp(date1.getTime());
-
             timestamp.getTime();
-
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -185,8 +182,6 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
         if (edttenkhachang.getText().toString().isEmpty()){
             edttenkhachang.setError("Hãy nhập tên khách Hàng");
             edttenkhachang.requestFocus();

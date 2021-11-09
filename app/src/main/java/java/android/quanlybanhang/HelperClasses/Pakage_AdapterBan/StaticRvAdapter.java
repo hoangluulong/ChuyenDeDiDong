@@ -198,7 +198,11 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
     @Override
     public int getItemCount() {
-        return staticBanModels.size() ;
+        if (staticBanModels!=null){
+            return staticBanModels.size() ;
+        }
+        return 0;
+
     }
     public String Hamlaygiohientai(){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

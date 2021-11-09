@@ -49,7 +49,11 @@ public class ThanhToanAdapter extends RecyclerView.Adapter<ThanhToanAdapter.Card
     @Override
     public int getItemCount() {
         Log.d("item.size",items.size()+"");
-        return items.size();
+
+        if (items!=null){
+            return items.size() ;
+        }
+        return 0;
     }
 
     public class CardDaOrderHoler extends RecyclerView.ViewHolder {

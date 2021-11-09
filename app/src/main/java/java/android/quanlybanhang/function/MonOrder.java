@@ -90,6 +90,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         id_datban= intent.getStringExtra("id_datban");
 //        trangthai= intent.getStringExtra("trangthai");
         Log.d("codetruong",id_datban+"Monorrder");
+        img_nocart = findViewById(R.id.img_nocart);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         listcard = new ArrayList<>();
@@ -150,7 +151,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                         Log.d("cccc", item.size() + "");
                     }
                 }
-                else {
+                else  {
                     img_nocart.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
                 }
