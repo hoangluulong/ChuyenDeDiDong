@@ -45,7 +45,7 @@ public class ApdapterKhuyenMai extends RecyclerView.Adapter<ApdapterKhuyenMai.Ad
     public void onBindViewHolder(@NonNull AdapterKhuyenMaiHolder holder, int position) {
         KhuyenMai khuyenMai = khuyenMais.get(position);
         holder.textViewTen.setText(khuyenMai.getGiaDeDuocKhuyenMai().toString());
-        holder.textViewLoai.setText(khuyenMai.getLoaiKhuyenmai());
+        holder.textViewLoai.setText(khuyenMai.getLoaiKhuyenmai()+"");
     }
 
     @Override
@@ -56,14 +56,12 @@ public class ApdapterKhuyenMai extends RecyclerView.Adapter<ApdapterKhuyenMai.Ad
     public class AdapterKhuyenMaiHolder extends RecyclerView.ViewHolder {
         TextView textViewTen;
         TextView textViewLoai;
-        TextView textViewTen1;
         ImageView imgXoa;
         ImageView imgSua;
         public AdapterKhuyenMaiHolder(@NonNull View itemView) {
             super(itemView);
             textViewTen = itemView.findViewById(R.id.text_tenKM);
             textViewLoai = itemView.findViewById(R.id.text_loaiKM);
-            textViewTen1 = itemView.findViewById(R.id.text_nameKM);
             imgXoa = itemView.findViewById(R.id.btnXoaKM);
             imgSua = itemView.findViewById(R.id.btnSuaKM);
 
@@ -87,6 +85,6 @@ public class ApdapterKhuyenMai extends RecyclerView.Adapter<ApdapterKhuyenMai.Ad
         }
 
 
-
     }
 }
+

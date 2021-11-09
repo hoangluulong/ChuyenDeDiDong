@@ -43,6 +43,7 @@ public class CaLam implements Serializable {
     }
 
     public void set1(Boolean[] cSang) {
+        this.caSang.clear();
         for (int i = 0; i < cSang.length; i++) {
             this.caSang.add(cSang[i]);
         }
@@ -54,6 +55,7 @@ public class CaLam implements Serializable {
     }
 
     public void set3(Boolean[] cToi) {
+        this.caToi.clear();
         for (int i = 0; i < cToi.length; i++) {
             this.caToi.add(cToi[i]);
         }
@@ -64,6 +66,7 @@ public class CaLam implements Serializable {
     }
 
     public void set2(Boolean[] cChieu) {
+        this.caChieu.clear();
         for (int i = 0; i < cChieu.length; i++) {
             this.caChieu.add(cChieu[i]);
         }

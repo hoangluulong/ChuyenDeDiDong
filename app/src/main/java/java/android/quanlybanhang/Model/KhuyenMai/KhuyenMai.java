@@ -10,6 +10,11 @@ public class KhuyenMai {
     public KhuyenMai() {
     }
 
+    public KhuyenMai(Double giaDeDuocKhuyenMai, int loaiKhuyenmai) {
+        this.giaDeDuocKhuyenMai = giaDeDuocKhuyenMai;
+        this.loaiKhuyenmai = loaiKhuyenmai;
+    }
+
     public KhuyenMai(Double giaDeDuocKhuyenMai, String idCuahang, int loaiKhuyenmai, Double phanTramKhuyenMai) {
         this.giaDeDuocKhuyenMai = giaDeDuocKhuyenMai;
         this.idCuahang = idCuahang;

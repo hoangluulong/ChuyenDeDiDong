@@ -141,7 +141,8 @@
                     android:text="Công việc"></TextView>
                 <CheckBox
                     android:layout_marginTop="10dp"
-                    android:id="@+id/checkcongviecBep"
+
+                    android:id="@+id/checkcongviecQuanlysanpham"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -150,7 +151,8 @@
                     android:text="@string/quanlynhanvien" />
                 <CheckBox
                     android:layout_marginTop="10dp"
-                    android:id="@+id/checkcongviecOder"
+
+                    android:id="@+id/checkcongviecQuanlynhanvien"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -172,21 +174,23 @@
                     android:textSize="17sp"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp"
-                    android:id="@+id/checkcongviecQuanlynhanvien"
+                    android:id="@+id/checkcongviecBep"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/oder" />
+                    android:text="@string/bep"/>
 
                 <CheckBox
                     android:layout_marginTop="10dp"
-                    android:id="@+id/checkcongviecQuanlysanpham"
+                    android:id="@+id/checkcongviecOder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="17sp"
                     android:textColor="@color/black"
-                    android:text="@string/bep" />
+                    android:text="@string/oder"
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -29,8 +29,10 @@ import java.android.quanlybanhang.function.KhachHang.ListNhomKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ThemKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ThemNhomKhachHang;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
 import java.android.quanlybanhang.function.KhuyenMai.ThemKhuyenMai;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
+import java.android.quanlybanhang.function.SanPham.ListCategory;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 
 //import java.android.quanlybanhang.login.LoginActivity;
@@ -78,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("aa");
-
-        myRef.setValue("Hello, World!");
-        mFirebaseAuth = FirebaseAuth.getInstance();
+//        // Write a message to the database
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("aa");
+//
+//        myRef.setValue("Hello, World!");
+//        mFirebaseAuth = FirebaseAuth.getInstance();
 
        /*lay id tung phan*/
         drawerLayout = findViewById(R.id.drawable_layout);
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "nhấn trở lại 1 lần nữa để thoát", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nhấn trở lại 1 lần nữa để thoát", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
 
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent1);
                 break;
             case R.id.ds_thuchi:
-                Intent intent2 = new Intent(MainActivity.this, ThemKhuyenMai.class);
+                Intent intent2 = new Intent(MainActivity.this, ListKhuyenMai.class);
                 startActivity(intent2);
                 break;
             case R.id.quanly:
