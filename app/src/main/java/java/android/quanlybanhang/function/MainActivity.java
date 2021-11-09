@@ -29,6 +29,7 @@ import java.android.quanlybanhang.function.KhachHang.ListNhomKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ThemKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ThemNhomKhachHang;
+import java.android.quanlybanhang.function.KhuyenMai.ThemKhuyenMai;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent1);
                 break;
             case R.id.ds_thuchi:
-                Intent intent2 = new Intent(MainActivity.this, ThemKhachHang.class);
+                Intent intent2 = new Intent(MainActivity.this, ThemKhuyenMai.class);
                 startActivity(intent2);
                 break;
             case R.id.quanly:

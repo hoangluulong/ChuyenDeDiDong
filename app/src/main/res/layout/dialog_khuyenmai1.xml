@@ -60,7 +60,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="16dp">
             <Button
-                android:id="@+id/btnhuyDiaLogThemDVT"
+                android:id="@+id/btnhuyDiaLogThemKM1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -70,7 +70,7 @@
                 android:alpha="0.4"
                 android:text="Hủy bỏ"></Button>
             <Button
-                android:id="@+id/btnthemDiaLogThemDVT"
+                android:id="@+id/btnthemDiaLogThemKM1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

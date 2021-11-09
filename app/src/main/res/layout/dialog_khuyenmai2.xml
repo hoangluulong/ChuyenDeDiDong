@@ -14,7 +14,7 @@
         android:textSize="16sp"
         android:gravity="center"
         android:background="@drawable/bg_titel_16"
-        android:text="Khuyến mãi loại 1"></TextView>
+        android:text="Khuyến mãi loại 2"></TextView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,17 +25,35 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@color/black"
-            android:text="Quận/Huyện"></TextView>
+            android:text="Giá khuyến mãi"></TextView>
+
+        <EditText
+            android:id="@+id/edtgia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_edittext"
+            android:layout_marginTop="5dp"
+            android:padding="12dp"
+            android:hint="Nhập giá"
+            ></EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:text="Quận/huyện"></TextView>
 
         <EditText
             android:id="@+id/edtquanhuyen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập quận/huyện"
             android:background="@drawable/bg_white_edittext"
             android:layout_marginTop="5dp"
             android:padding="12dp"
+            android:hint="Nhập quận/huyện"
             ></EditText>
+
 
 
         <LinearLayout
@@ -63,6 +81,5 @@
                 android:text="Thêm"></Button>
         </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>
