@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
@@ -40,73 +41,121 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Thời gian: "/>
+            android:text="Thời gian: "
+            android:textColor="@color/link"
+            android:fontFamily="@font/alike_angular"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/thoigian"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="18-10-2021 12:30:21"/>
-    </LinearLayout>
-    <LinearLayout
+            android:text="18-10-2021 12:30:21"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/alike_angular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Khách hàng: "/>
+            android:text="Khách hàng: "
+            android:textColor="@color/link"
+            android:fontFamily="@font/alike_angular"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
         <TextView
             android:id="@+id/tenkhachhang"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Hoàng Hữu Long "/>
-    </LinearLayout>
-    <LinearLayout
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/alike_angular"
+            android:text="dfsjsdfkjhsd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:fontFamily="@font/alike_angular"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/link"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:text="Phone:"/>
         <TextView
             android:id="@+id/phone"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/alike_angular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:text="0981986059"/>
-    </LinearLayout>
-    <LinearLayout
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Địa chỉ: "/>
+            android:layout_marginLeft="20dp"
+            android:text="Địa chỉ: "
+            android:textColor="@color/link"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/diachi"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:text="116/24 đường 17 -  linh trung - thủ đức - tp. Hồ Chí Minh "/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:fontFamily="@font/alike_angular"
+            android:text="116/24 đường 17 -  linh trung - thủ đức - tp. Hồ Chí Minh " />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -119,7 +168,7 @@
         android:paddingLeft="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/black1"
+        android:background="@color/linen"
         android:paddingRight="10dp">
 
         <TextView
@@ -179,12 +228,18 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/alike_angular"
+            android:textColor="@color/link"
             android:text="Tổng cộng "/>
         <TextView
             android:id="@+id/tongtien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/alike_angular"
+            android:textColor="@color/bac"
             android:layout_marginRight="20dp"
             android:text="2,000,000,0"/>
     </LinearLayout>
@@ -199,6 +254,9 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/alike_angular"
+            android:textColor="@color/link"
             android:text="Khuyến mại/giảm giá"/>
         <TextView
             android:id="@+id/khuyenmai"
@@ -206,6 +264,9 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/alike_angular"
+            android:textColor="@color/bac"
             android:text="2,000,000,0"/>
     </LinearLayout>
 
@@ -219,12 +280,18 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginRight="20dp"
-            android:text="Thanh toán"/>
+            android:text="Thanh toán"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/alike_angular"
+            android:textColor="@color/link"/>
         <TextView
             android:id="@+id/thanhTien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/alike_angular"
+            android:textColor="@color/bac"
             android:layout_marginRight="20dp"
             android:text="2,000,000,0"/>
     </LinearLayout>
@@ -241,10 +308,10 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/bg_ngay_baocao_close"
+            android:background="@drawable/bg_dong_dialog"
             android:fontFamily="@font/finger_paint"
             android:text="Đóng"
-            android:textColor="@color/white"
+            android:textColor="@color/bac"
             android:textSize="10sp" />
 
         <Button
@@ -252,7 +319,8 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/bg_xac_nhan"
+            android:background="@drawable/bg_kich_hoat"
+            android:textColor="@color/Python"
             android:text="Xác nhận"
             android:textSize="10sp" />
 

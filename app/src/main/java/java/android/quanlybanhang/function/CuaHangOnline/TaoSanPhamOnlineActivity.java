@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -34,10 +33,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,7 +78,6 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
     private Window window, window1;
     private Dialog dialog, dialog1;
     private EditText textGiaSanPham,textTenDonViTinh;
-    private Spinner spnDonViTinh;
     private Button btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
     private ArrayAdapter<String> adapter;
     private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
@@ -100,6 +96,9 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
     private String nhomSp = "";
     private ProgressBar progressBarlayout, progressBar;
     private ScrollView scrollView;
+    private AutoCompleteTextView spnTenDonViTinh2;
+    private String nhom = "";
+    private TextInputEditText title;
 
 
     private DatabaseReference mDatabase2;
@@ -131,9 +130,9 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         textTenDonViTinh = dialog1.findViewById(R.id.edtTenDonViTinh);
         btnDialogHuyThemDVT = dialog1.findViewById(R.id.btnhuyDiaLogThemDVT);
         btnThemDialogThemDVT = dialog1.findViewById(R.id.btnthemDiaLogThemDVT);
+        spnTenDonViTinh2 = dialog.findViewById(R.id.spnTenDonViTinh2);
 
         textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
-        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
         btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
         btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
         progressBar.setVisibility(View.INVISIBLE);
@@ -164,6 +163,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         drawerLayout = findViewById(R.id.drawable_layout);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_view);
+        title = findViewById(R.id.title);
 
         paramsImage = (LinearLayout.LayoutParams) layout_image.getLayoutParams();
         paramsImage1 = (LinearLayout.LayoutParams) layout_image1.getLayoutParams();
@@ -217,6 +217,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         String name =  tenSanPham.getText().toString();
         String soluong = soLuong.getText().toString();
         String moTaChiTiet = mota.getText().toString();
+        String titleText = title.getText().toString();
         if (!soluong.isEmpty()) {
             sLuong = Integer.parseInt(soluong);
         }
@@ -227,8 +228,11 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         }else if (soluong.isEmpty()) {
             soLuong.setError("Nhập số lượng");
             soLuong.requestFocus();
+        }else if (titleText.isEmpty()) {
+            title.setError("Nhập mô tả ngắn");
+            title.requestFocus();
         }else if (moTaChiTiet.isEmpty()) {
-            mota.setError("Nhập mô tả");
+            mota.setError("Nhập mô tả chi tiết");
             mota.requestFocus();
         }else if (listDonGia.size()<=0){
             Toast.makeText(TaoSanPhamOnlineActivity.this, "Thêm đơn vị tính! ", Toast.LENGTH_SHORT).show();
@@ -242,11 +246,12 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                         @Override
                         public void onSuccess(Uri uri) {
                             String key = mFirebaseDatabase.push().getKey();
+                            String imgProduct = uri.toString();
 
                             String img = uri.toString();
                             String status = "Còn";
-                            product = new Product(key,name,moTaChiTiet,nhomSp,0.0, sLuong, img, nameImage, status, listDonGia);
-                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            product = new Product(key, name, moTaChiTiet, nhomSp, 0.0, 123, imgProduct, nameImage, 0.0, status, listDonGia, ID_CUAHANG, false, titleText);
+                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG + "/sanpham/" + product.getNhomsanpham() + "/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(TaoSanPhamOnlineActivity.this, "Thành công!", Toast.LENGTH_SHORT).show();
@@ -255,6 +260,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                                     imgageView.setImageURI(null);
                                     giamGia.setText(null);
                                     listDonGia.clear();
+                                    title.setText(null);
                                     adapterDonGia.notifyDataSetChanged();
                                     nhomsanpham.setText(null);
                                     addImage.setBackgroundResource(R.drawable.border_image_dashed);
@@ -349,16 +355,27 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                     String name = donViTinh1.getDonViTinh();
                     listDonViTinh.add(name);
                 }
-                if (listDonViTinh.size() != 0) {
-                    adapter = new ArrayAdapter<String>(TaoSanPhamOnlineActivity.this, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
-                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
-                    spnDonViTinh.setAdapter(adapter);
-                }
+                nhom = listDonViTinh.get(0);
+
+                adapter = new ArrayAdapter<String>(TaoSanPhamOnlineActivity.this, R.layout.item_spinner1_setup_store, listDonViTinh);
+                spnTenDonViTinh2.setText(nhom);
+                spnTenDonViTinh2.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
+        spnTenDonViTinh2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nhom = parent.getItemAtPosition(position).toString();
+                spnTenDonViTinh2.setText(nhom);
+                adapter = new ArrayAdapter<String>(TaoSanPhamOnlineActivity.this, R.layout.item_spinner1_setup_store, listDonViTinh);
+                spnTenDonViTinh2.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -372,7 +389,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
             @Override
             public void onClick(View v) {
                 DonGia donGia = new DonGia();
-                donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
+                donGia.setTenDonGia(nhom);
                 donGia.setId(id);
                 if (textGiaSanPham.getText().toString().isEmpty()){
                     textGiaSanPham.setError("Hãy nhập giá !!!");
@@ -384,11 +401,15 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                     listDonGia.add(donGia);
                     dialog.dismiss();
                 }
-                textGiaSanPham.setText("");
-                adapterDonGia = new AdapterDonGia(TaoSanPhamOnlineActivity.this,listDonGia,dialog,window,spnDonViTinh,adapter,gravity);
-                listView.setLayoutManager(new LinearLayoutManager(TaoSanPhamOnlineActivity.this,LinearLayoutManager.VERTICAL,false));
-                listView.setAdapter(adapterDonGia);
-                adapterDonGia.notifyDataSetChanged();
+                if (nhom.isEmpty()) {
+                    spnTenDonViTinh2.setError("Đơn giá");
+                    spnTenDonViTinh2.requestFocus();
+                }else {
+                    adapterDonGia = new AdapterDonGia(TaoSanPhamOnlineActivity.this,listDonGia,dialog,window,adapter,gravity);
+                    listView.setLayoutManager(new LinearLayoutManager(TaoSanPhamOnlineActivity.this,LinearLayoutManager.VERTICAL,false));
+                    listView.setAdapter(adapterDonGia);
+                    adapterDonGia.notifyDataSetChanged();
+                }
             }
         });
 
@@ -430,13 +451,11 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                     adapterNhomSp = new ArrayAdapter<String>(TaoSanPhamOnlineActivity.this, R.layout.item_spinner1_setup_store, listNhom);
                     nhomsanpham.setAdapter(adapterNhomSp);
                     adapterNhomSp.notifyDataSetChanged();
-                    Log.d("qq", listNhom.size()+"");
                     progressBarlayout.setVisibility(View.INVISIBLE);
                     scrollView.setAlpha(1);
                 } else {
                     progressBarlayout.setVisibility(View.INVISIBLE);
                     scrollView.setAlpha(1);
-                    Log.d("qq not", listNhom.size()+"");
                 }
             }
 

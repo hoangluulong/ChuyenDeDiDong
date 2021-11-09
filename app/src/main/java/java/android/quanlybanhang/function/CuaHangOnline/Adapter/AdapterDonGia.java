@@ -30,7 +30,6 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
     private Dialog dialog;
     private Window window;
     private EditText textGiaSanPham;
-    private Spinner spinnerTenDonVIiTinh;
     private Button btnDialogHuyDVT,btnDialogThemDVT;
     private ArrayAdapter<String> adapter;
     private int gravity;
@@ -39,12 +38,11 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
         this.donGias = donGias;
         this.context1 = context1;
     }
-    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias,Dialog dialog,Window window,Spinner spinnerTenDonVIiTinh,ArrayAdapter<String> adapter,int gravity){
+    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias,Dialog dialog,Window window,ArrayAdapter<String> adapter,int gravity){
         this.donGias = donGias;
         this.context1 = context1;
         this.dialog = dialog;
         this.window = window;
-        this.spinnerTenDonVIiTinh = spinnerTenDonVIiTinh;
         this.adapter = adapter;
         this.gravity = gravity;
 
@@ -76,7 +74,6 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
             @Override
             public void onClick(View v) {
                 textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
-                spinnerTenDonVIiTinh = dialog.findViewById(R.id.spnTenDonViTinh);
                 btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
                 btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
                 textGiaSanPham.setText(donGia.getGiaBan()+"");
@@ -95,7 +92,6 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
                 }
                 if(donGia.getTenDonGia() != null){
                     int com = adapter.getPosition(donGia.getTenDonGia());
-                    spinnerTenDonVIiTinh.setSelection(com);
                 }
                 btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -106,7 +102,6 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
                 btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        holder.textView.setText(spinnerTenDonVIiTinh.getSelectedItem().toString());
                         holder.textViewGia.setText(textGiaSanPham.getText().toString());
                         dialog.dismiss();
                     }

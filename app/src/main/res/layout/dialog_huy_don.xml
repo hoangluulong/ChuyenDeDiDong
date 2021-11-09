@@ -14,7 +14,7 @@
         android:gravity="left"
         android:padding="7dp"
         android:text="Xác nhận hủy đơn hàng"
-        android:textColor="@color/black"
+        android:textColor="@color/btn_gio"
         android:textSize="20sp" />
 
     <TextView
@@ -22,8 +22,9 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:padding="10dp"
+        android:fontFamily="@font/alike_angular"
         android:text="Chọn hủy để xác nhận hủy, chọn đóng để trở lại !"
-        android:textColor="@color/black"
+        android:textColor="@color/link"
         android:textSize="20sp" />
 
     <View
@@ -43,9 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:background="@drawable/bg_ngay_baocao_close"
+            android:background="@drawable/bg_dong_dialog"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
+            android:textColor="@color/bac"
             android:text="Đóng"
             android:textSize="15sp" />
 
@@ -54,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/bg_huy"
+            android:background="@drawable/bg_xoa_van_chuyen"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
             android:text="Hủy"

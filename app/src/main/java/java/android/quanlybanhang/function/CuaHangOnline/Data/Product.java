@@ -19,6 +19,9 @@ public class Product implements Serializable {
     private ArrayList<DonGia> donGiaOrder;
     private String idCuaHang;
     private boolean up;
+    private String title;
+
+    //(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false);
 
     public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder) {
         this.id = id;
@@ -47,7 +50,7 @@ public class Product implements Serializable {
         this.donGiaOrder = donGiaOrder;
     }
 
-    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder, String idCuaHang, boolean up) {
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder, String idCuaHang, boolean up, String title) {
         this.id = id;
         this.nameProduct = nameProduct;
         this.chitiet = chitiet;
@@ -60,10 +63,19 @@ public class Product implements Serializable {
         this.status = status;
         this.donGiaOrder = donGiaOrder;
         this.idCuaHang = idCuaHang;
+        this.title = title;
         this.up = up;
     }
 
     public Product() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public ArrayList<DonGia> getDonGia() {

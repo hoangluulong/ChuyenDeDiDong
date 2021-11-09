@@ -190,6 +190,27 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="20dp"
+                                                android:hint="Mô tả ngắn"
+                                                app:hintEnabled="true">
+
+                                                <com.google.android.material.textfield.TextInputEditText
+                                                    android:id="@+id/title"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:gravity="left|top"
+                                                    android:inputType="textMultiLine"
+                                                    android:lines="2"
+                                                    android:textColor="@color/slate"
+                                                    app:boxStrokeColor="@color/vang">
+
+                                                </com.google.android.material.textfield.TextInputEditText>
+                                            </com.google.android.material.textfield.TextInputLayout>
+
+                                            <com.google.android.material.textfield.TextInputLayout
+                                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="20dp"
                                                 android:hint="Mô tả "
                                                 app:hintEnabled="true">
 

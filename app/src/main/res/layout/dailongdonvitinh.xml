@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_white_16"
     android:layout_margin="16dp"
     android:orientation="vertical">
@@ -27,12 +28,23 @@
             android:textColor="@color/black"
             android:text="Đơn vị quy đổi"></TextView>
 
-        <Spinner
-            android:id="@+id/spnTenDonViTinh"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/bg_white_spn"></Spinner>
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/spnTenDonViTinh2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="none"
+                android:background="@drawable/bg_white_spn"
+                android:textColor="@color/slate" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:layout_width="match_parent"

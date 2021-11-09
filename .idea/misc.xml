@@ -13,6 +13,7 @@
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable-xhdpi/goctron.xml" value="0.20416666666666666" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable-xhdpi/goctron_top_left_right.xml" value="0.3828125" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable-xhdpi/layout_radius50.xml" value="0.26510416666666664" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/bg_dong_dialog.xml" value="0.3828125" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/bg_layout.xml" value="0.253125" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/bg_luu.xml" value="0.3117948717948718" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/bg_ngay_baocao_close.xml" value="0.3117948717948718" />
@@ -26,8 +27,11 @@
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/buttom_bg.xml" value="1.0354166666666667" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/category_24.xml" value="0.3177083333333333" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/date_range_24.xml" value="0.3177083333333333" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/dialog_ngay.xml" value="0.3828125" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/dialog_ngay_top_right.xml" value="0.3828125" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/down_24.xml" value="0.26145833333333335" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/fastfood_24.xml" value="0.3177083333333333" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/item_layout_donhang_online.xml" value="0.3828125" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/shipping_24.xml" value="0.3177083333333333" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/storefront_24.xml" value="0.3177083333333333" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/up_24.xml" value="0.26145833333333335" />
@@ -71,12 +75,15 @@
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/activity_thoi_gian_lam_viec_online.xml" value="0.2552083333333333" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/activity_thong_tin_cua_hang_online.xml" value="0.25" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/activiy_updatenhanvien.xml" value="0.36666666666666664" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/bao_cao_sheet_dialog.xml" value="0.36666666666666664" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/custom_loading.xml" value="0.2640625" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dailong_donvitinh.xml" value="0.36666666666666664" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dailong_donvitinh2.xml" value="0.36666666666666664" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dailong_updatecategory.xml" value="0.2640625" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dailongdonvitinh.xml" value="0.33" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_date.xml" value="0.37864583333333335" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_don_hang_da_xac_nhan.xml" value="0.2640625" />
-        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_don_hang_online.xml" value="0.2640625" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_don_hang_online.xml" value="0.33" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_huy_don.xml" value="0.2640625" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_ngay_bao_bao.xml" value="0.2640625" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialogthemdonvitinh.xml" value="0.36666666666666664" />
@@ -92,7 +99,7 @@
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/fragment_danh_sanh_don_hang.xml" value="0.23854166666666668" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/fragment_don_hoan_thanh.xml" value="0.3015625" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/fragment_don_huy.xml" value="0.3015625" />
-        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/fragment_san_pham_quang_cao.xml" value="0.2640625" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/fragment_san_pham_quang_cao.xml" value="0.25" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/fragment_tao_san_pham_cua_hang_online.xml" value="0.2640625" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/header_menu.xml" value="0.3015625" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/header_menu2.xml" value="0.3015625" />
@@ -105,14 +112,15 @@
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_chi_so_san_pham.xml" value="0.24270833333333333" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_chi_so_san_pham2.xml" value="0.24270833333333333" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_chi_tiet_cap_nhat_kho.xml" value="0.24270833333333333" />
-        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_dang_xu_ly_do_online.xml" value="0.2640625" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_dang_xu_ly_do_online.xml" value="0.5" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_danh_sach_bien_lai.xml" value="0.2791666666666667" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_danh_sach_dia_chi_cua_hang_giao.xml" value="0.33" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_danhmucsanpham.xml" value="0.36666666666666664" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_dia_chi_cua_hang_giao.xml" value="0.36666666666666664" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_dialog_don_online.xml" value="0.2791666666666667" />
-        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_don_hang_cho_xac_nhan.xml" value="0.2796875" />
-        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_don_hang_da_xac_nhan.xml" value="0.2791666666666667" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_dialog_dongia.xml" value="0.36666666666666664" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_don_hang_cho_xac_nhan.xml" value="0.5" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_don_hang_da_xac_nhan.xml" value="0.5" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_imageview.xml" value="0.25" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_khuvuc.xml" value="0.2791666666666667" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/item_listdongia.xml" value="0.36666666666666664" />

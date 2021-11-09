@@ -24,12 +24,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:src="@drawable/date_24" />
 
@@ -39,27 +41,30 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
                     android:paddingLeft="7dp"
-                    android:textColor="@color/black"
+                    android:fontFamily="@font/alike_angular"
+                    android:textColor="@color/bac"
                     android:text="20-10-2021 12:30:14"
-                    android:textSize="13sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/thoigian_denhientai"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:paddingLeft="7dp"
                     android:textColor="@color/CPP"
-                    android:text="2 phút trước"
+                    android:text="277 phút trước"
+                    android:fontFamily="@font/alike_angular"
                     android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/trangthaidonhang"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="3"
                     android:paddingLeft="7dp"
                     android:gravity="center"
+                    android:fontFamily="@font/alike_angular"
                     android:textColor="@color/Python"
                     android:text="Đang sử lý"
                     android:textSize="13sp" />
@@ -69,14 +74,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:textColor="@color/purple_500"
-                    android:text="Tổng đơn:     "
+                    android:textColor="@color/coffee"
+                    android:text="Tổng đơn:"
+                    android:fontFamily="@font/alike_angular"
                     android:textSize="13sp" />
 
                 <TextView
@@ -84,41 +91,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:text="1,000,000,00"
-                    android:textSize="13sp" />
+                    android:text="1,000,000,000,000"
+                    android:textColor="@color/bac"
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/nguoiThucHien"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:paddingLeft="7dp"
                     android:gravity="right"
                     android:paddingRight="20dp"
+                    android:textColor="@color/bac"
                     android:text="NV: Hoàng Hữu Long"
-                    android:textSize="10sp" />
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="21dp">
+                android:layout_height="21dp"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:text="Khách hàng: "
-                    android:textColor="@color/purple_500"
+                    android:fontFamily="@font/alike_angular"
+                    android:textColor="@color/coffee"
                     android:textSize="13sp" />
 
                 <TextView
-                        android:id="@+id/lblKhachang"
+                    android:id="@+id/lblKhachang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:text="Hoàng Hữu Long"
-                    android:textSize="13sp" />
+                    android:textColor="@color/bac"
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -131,16 +146,19 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:text="ĐC/: "
-                    android:textColor="@color/purple_500"
-                    android:textSize="10sp" />
+                    android:fontFamily="@font/alike_angular"
+                    android:textColor="@color/coffee"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/lblDiaChi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
+                    android:textColor="@color/bac"
+                    android:fontFamily="@font/alike_angular"
                     android:text="116/24/đường 17 - linh trung - thử đức - thành phố hồ chí minh"
-                    android:textSize="10sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </LinearLayout>

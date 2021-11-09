@@ -3,11 +3,13 @@ package java.android.quanlybanhang.function.CuaHangOnline;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,6 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.ThoiGian;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +43,9 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
     private int mYear, mMonth, mDay, mHour, mMinute;
     private DatabaseReference mFirebaseDatabase;
     private TextView thonbao;
+    private ProgressBar progressBar;
+    private ScrollView scrollView;
+    private ThoiGian thoiGian;
 
     private String ID_CUAHANG;
     private ThongTinCuaHangSql thongTinCuaHangSql;
@@ -56,6 +64,9 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.giolamviec);
+        thoiGianBatDau.setEnabled(false);
+        thoiGianKetThuc.setEnabled(false);
+        xacNhan.setEnabled(false);
 
         getDataFirebase();
 
@@ -72,6 +83,8 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
         tamDung = findViewById(R.id.tamDung);
         xacNhan = findViewById(R.id.xacNhan);
         thonbao = findViewById(R.id.thonbao);
+        progressBar = findViewById(R.id.progressBar2);
+        scrollView = findViewById(R.id.scrollView);
 
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -92,7 +105,6 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
             case R.id.thoiGianBatDau:
                 TimePickerDialog timePickerDialog1 = new TimePickerDialog(this, R.style.TimePicker,
                         new TimePickerDialog.OnTimeSetListener() {
-
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
@@ -103,7 +115,7 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
                 timePickerDialog1.show();
                 break;
             case R.id.thoiGianKetThuc:
-                TimePickerDialog timePickerDialog2 = new TimePickerDialog(this,R.style.TimePicker,
+                TimePickerDialog timePickerDialog2 = new TimePickerDialog(this, R.style.TimePicker,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -113,20 +125,37 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
                 timePickerDialog2.show();
                 break;
             case R.id.tamDung:
-
+                kichHoat();
                 break;
             case R.id.xacNhan:
                 saveCheck();
                 break;
         }
     }
-    
+
     private void kichHoat() {
         if (isCheckStatus) {
             isCheckStatus = false;
-        }else {
+            tamDung.setText("Kích hoạt");
+            tamDung.setTextColor(getColor(R.color.Python));
+            tamDung.setBackgroundResource(R.drawable.bg_kich_hoat);
+            thonbao.setText("Cửa hàng của đang không mở, kích hoạt để mở");
+            xacNhan.setEnabled(false);
+            thoiGianBatDau.setEnabled(false);
+            thoiGianKetThuc.setEnabled(false);
+            xacNhan.setVisibility(View.GONE);
+        } else {
             isCheckStatus = true;
+            tamDung.setText("Tạm dừng");
+            tamDung.setTextColor(getColor(R.color.red));
+            tamDung.setBackgroundResource(R.drawable.bg_xoa_van_chuyen);
+            thonbao.setText("");
+            xacNhan.setEnabled(true);
+            thoiGianBatDau.setEnabled(true);
+            thoiGianKetThuc.setEnabled(true);
+            xacNhan.setVisibility(View.VISIBLE);
         }
+
         mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec/status").setValue(isCheckStatus);
     }
 
@@ -134,48 +163,88 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
         String batDau = thoiGianBatDau.getText().toString();
         String ketThuc = thoiGianKetThuc.getText().toString();
 
-        ThoiGian thoiGian = new ThoiGian(batDau, ketThuc, isCheckStatus);
-        mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec").setValue(thoiGian);
+        long a = dataC(batDau);
+        long b = dataC(ketThuc);
+
+        if (a > b) {
+            Toast.makeText(ThoiGianLamViecOnlineActivity.this, "Giờ bắt đầu sau giờ kết thúc", Toast.LENGTH_SHORT).show();
+        } else {
+            ThoiGian thoiGian = new ThoiGian(batDau, ketThuc, isCheckStatus);
+            mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec").setValue(thoiGian).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(ThoiGianLamViecOnlineActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ThoiGianLamViecOnlineActivity.this, "Lưu thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
-    private Date dataC(String dateStr){
+    private long dataC(String dateStr) {
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
         try {
             Date date = formatter.parse(dateStr);
-            return date;
+            Timestamp timestamp = new Timestamp(date.getTime());
+            return timestamp.getTime();
         } catch (Exception e) {
             Date date = new Date();
-            return date;
+            Timestamp timestamp = new Timestamp(date.getTime());
+            return timestamp.getTime();
         }
     }
 
     private void getDataFirebase() {
+
         mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ThoiGian thoiGian = snapshot.getValue(ThoiGian.class);
-                thoiGianBatDau.setText(thoiGian.getBatDau());
-                thoiGianKetThuc.setText(thoiGian.getKetThuc());
-                isCheckStatus = thoiGian.isStatus();
+                if (snapshot.getValue() != null) {
+                    thoiGian = snapshot.getValue(ThoiGian.class);
+                    thoiGianBatDau.setText(thoiGian.getBatDau());
+                    thoiGianKetThuc.setText(thoiGian.getKetThuc());
+                    isCheckStatus = thoiGian.isStatus();
 
-                if (isCheckStatus) {
-                    tamDung.setText("Tạm dừng");
-                    tamDung.setTextColor(getColor(R.color.red));
-                    tamDung.setBackgroundResource(R.drawable.bg_xoa_van_chuyen);
-                    thonbao.setText("");
-                    xacNhan.setEnabled(true);
-                }else {
+                    if (isCheckStatus) {
+                        thoiGianBatDau.setEnabled(true);
+                        thoiGianKetThuc.setEnabled(true);
+                        tamDung.setText("Tạm dừng");
+                        tamDung.setTextColor(getColor(R.color.red));
+                        tamDung.setBackgroundResource(R.drawable.bg_xoa_van_chuyen);
+                        thonbao.setText("");
+                        xacNhan.setEnabled(true);
+                        xacNhan.setVisibility(View.VISIBLE);
+                    } else {
+                        thoiGianBatDau.setEnabled(false);
+                        thoiGianKetThuc.setEnabled(false);
+                        tamDung.setText("Kích hoạt");
+                        tamDung.setTextColor(getColor(R.color.Python));
+                        tamDung.setBackgroundResource(R.drawable.bg_kich_hoat);
+                        thonbao.setText("Cửa hàng của  đang không mở, kích hoạt để mở");
+                        xacNhan.setEnabled(false);
+                        xacNhan.setVisibility(View.GONE);
+                    }
+                } else {
+                    thoiGian = new ThoiGian("8:00", "20:00", false);
+                    thoiGianBatDau.setEnabled(false);
+                    thoiGianKetThuc.setEnabled(false);
                     tamDung.setText("Kích hoạt");
                     tamDung.setTextColor(getColor(R.color.Python));
                     tamDung.setBackgroundResource(R.drawable.bg_kich_hoat);
-                    thonbao.setText("Cửa hàng của bạn đang không hoạt động, kích hoạt để bắt đầu");
+                    thonbao.setText("Cửa hàng của đang không mở, kích hoạt để mở");
                     xacNhan.setEnabled(false);
+                    xacNhan.setVisibility(View.GONE);
                 }
+                progressBar.setVisibility(View.INVISIBLE);
+                scrollView.setAlpha(1);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(ThoiGianLamViecOnlineActivity.this, "Lưu thất bại!", Toast.LENGTH_SHORT).show();
             }
         });
     }

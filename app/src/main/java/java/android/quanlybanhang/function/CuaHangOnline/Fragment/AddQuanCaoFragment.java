@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,7 +107,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private ImageView quangCaosanPhamIMG, imgageView;
     private TextView chonSanPham, btnTaoDonMoi, lblLoai, btnHuy, taoDon, addDonViTinh, addLoai;
     private AutoCompleteTextView nhomsanpham;
-    private TextInputEditText tenSanPham, soLuong, giaban, giamgia, mota;
+    private TextInputEditText tenSanPham, soLuong, giaban, giamgia, mota, title;
     private boolean setL1 = true;
     private Uri imageUri;
     private LinearLayout.LayoutParams params1, paramsImage, paramsImage1;
@@ -140,6 +139,8 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private String id;
     private DonViTinh donViTinh;
     private Product product;
+    private AutoCompleteTextView spnTenDonViTinh2;
+    private String nhom = "";
 
     private DatabaseReference mDatabase2;
 
@@ -179,6 +180,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
 
         textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
         spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        spnTenDonViTinh2 = dialog.findViewById(R.id.spnTenDonViTinh2);
         btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
         btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
 
@@ -210,6 +212,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         addDonViTinh = view.findViewById(R.id.addDonViTinh);
         addLoai = view.findViewById(R.id.addLoai);
         listView = view.findViewById(R.id.donViTinh);
+        title = view.findViewById(R.id.title);
 
         paramsImage = (LinearLayout.LayoutParams) layout_image.getLayoutParams();
         paramsImage1 = (LinearLayout.LayoutParams) layout_image1.getLayoutParams();
@@ -361,16 +364,17 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listDonViTinh = new ArrayList<>();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     DonViTinh donViTinh1 = snapshot1.getValue(DonViTinh.class);
                     String name = donViTinh1.getDonViTinh();
                     listDonViTinh.add(name);
                 }
-                if (listDonViTinh.size() != 0) {
-                    adapter = new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
-                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
-                    spnDonViTinh.setAdapter(adapter);
-                }
+
+                nhom = listDonViTinh.get(0);
+                adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listDonViTinh);
+                spnTenDonViTinh2.setText(nhom);
+                spnTenDonViTinh2.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -378,6 +382,18 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
 
             }
         });
+
+        spnTenDonViTinh2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nhom = parent.getItemAtPosition(position).toString();
+                spnTenDonViTinh2.setText(nhom);
+                adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listDonViTinh);
+                spnTenDonViTinh2.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
 
         btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -389,7 +405,6 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 DonGia donGia = new DonGia();
-                donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
                 donGia.setId(id);
                 if (textGiaSanPham.getText().toString().isEmpty()){
                     textGiaSanPham.setError("Hãy nhập giá !!!");
@@ -402,7 +417,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                     dialog.dismiss();
                 }
                 textGiaSanPham.setText("");
-                adapterDonGia = new AdapterDonGia(getContext(),listDonGia,dialog,window,spnDonViTinh,adapter,gravity);
+                adapterDonGia = new AdapterDonGia(getContext(),listDonGia,dialog,window,adapter,gravity);
                 listView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
                 listView.setAdapter(adapterDonGia);
                 adapterDonGia.notifyDataSetChanged();
@@ -410,7 +425,6 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         });
 
         dialog.show();
-
     }
 
     private String name;
@@ -426,6 +440,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         String sGiaBanText = giaban.getText().toString();
         String sGiamGiaText = giamgia.getText().toString();
         moTa = mota.getText().toString();
+        String titleText = title.getText().toString();
 
         if (!sLuongText.isEmpty()) {
             sLuong = Integer.parseInt(sLuongText);
@@ -464,6 +479,9 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         } else if (moTa.isEmpty()) {
             mota.setError("Mô tả sản phẩm");
             mota.requestFocus();
+        }else if (titleText.isEmpty()) {
+            mota.setError("Mô tả sản phẩm");
+            mota.requestFocus();
         } else if (listDonGia.size()<=0) {
             Toast.makeText(getContext(), "Chưa tạo đơn giá", Toast.LENGTH_SHORT).show();
         } else{
@@ -488,7 +506,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                             taoDon.setEnabled(true);
                             String status = "Còn";
                             String img = uri.toString();
-                            product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false);
+                            product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false, titleText);
                             DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
                             mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -505,6 +523,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                                     giaban.setText(null);
                                     imgageView.setImageURI(null);
                                     nhomsanpham.setText(null);
+                                    title.setText(null);
                                     addImage.setBackgroundResource(R.drawable.border_image_dashed);
                                     mota.setText(null);
                                     imageUri = null;

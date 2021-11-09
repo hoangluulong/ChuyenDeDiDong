@@ -117,7 +117,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private ThongTinCuaHang thongTinCuaHang;
 
     private int loai = 0;
-
     private int ViTri;
 
     @Override
@@ -595,50 +594,77 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         } else if (phone.isEmpty()) {
             edt_phone.setError("Nhập số điện thoại");
             edt_phone.requestFocus();
-        } else if (nameLogo == null && nameLogo.equals("")){
+        } else if (nameLogo == null || nameLogo.equals("")) {
             Toast.makeText(this, "Vui lòng chọn hình", Toast.LENGTH_SHORT).show();
-        }else if (imageLogoUri == null) {
-            Toast.makeText(this, "Vui lòng chọn hình", Toast.LENGTH_SHORT).show();
-        }else{
-            if (thongTinCuaHang.getNamelogo()!=null) {
-                if (!nameLogo.equals(thongTinCuaHang.getNamelogo())){
-                    Log.d("qqq", "abc");
-                    reference.child(thongTinCuaHang.getNamelogo()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            final StorageReference fileRef = reference.child(nameLogo);
-                            fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            thongTinCuaHang.setLogoUrl(uri.toString());
-                                            thongTinCuaHang.setNamelogo(nameLogo);
-                                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
-                                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
-                                        }
-                                    });
-                                }
-                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+        } else {
+            if (imageLogoUri != null) {
+                if (thongTinCuaHang.getNamelogo()!=null) {
+                    if (!nameLogo.equals(thongTinCuaHang.getNamelogo())){
+                        Log.d("qqq", "abc");
+                        reference.child(thongTinCuaHang.getNamelogo()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                final StorageReference fileRef = reference.child(nameLogo);
+                                fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                thongTinCuaHang.setLogoUrl(uri.toString());
+                                                thongTinCuaHang.setNamelogo(nameLogo);
+                                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
+                                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
+                                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                            }
+                                        });
+                                    }
+                                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                        }
-                    });
-                }
-                else {
-                    Log.d("qqq", "xyz");
+                            }
+                        });
+                    }
+                    else {
+
+                        final StorageReference fileRef = reference.child(nameLogo);
+                        fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        thongTinCuaHang.setLogoUrl(uri.toString());
+                                        thongTinCuaHang.setNamelogo(nameLogo);
+                                        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
+                                        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
+                                        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                    }
+                                });
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+                    }
+                }else {
+                    Log.d("qqq", "zzzz");
                     final StorageReference fileRef = reference.child(nameLogo);
                     fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -648,6 +674,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                                 public void onSuccess(Uri uri) {
                                     thongTinCuaHang.setLogoUrl(uri.toString());
                                     thongTinCuaHang.setNamelogo(nameLogo);
+                                    mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
                                     mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
                                     mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
                                 }
@@ -663,33 +690,10 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                         }
                     });
                 }
-            }else {
-                Log.d("qqq", "zzzz");
-                final StorageReference fileRef = reference.child(nameLogo);
-                fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                thongTinCuaHang.setLogoUrl(uri.toString());
-                                thongTinCuaHang.setNamelogo(nameLogo);
-                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
-                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
-                            }
-                        });
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
             }
+
             luu1.setText("Lưu");
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").setValue(ID_CUAHANG);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("moTa").setValue(moTa);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("name").setValue(nameCH);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("soDienThoai").setValue(phone).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -724,6 +728,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
             phuongxaAuto.setError("Chọn phường xã");
             phuongxaAuto.requestFocus();
         } else {
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("phuongXa").setValue(tenXa);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("quanHuyen").setValue(tenHuyen);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("tinhThanhPho").setValue(tenTinh);

@@ -63,7 +63,7 @@ public class CauHinhVanChuyenOnlineActivity extends AppCompatActivity implements
     private String tenHuyen;
     private String tenXa;
 
-    private boolean setL1 = true;
+    private boolean setL1 = false;
     private boolean setL2 = true;
 
     private ArrayAdapter<String> adapterTinh;
@@ -93,6 +93,10 @@ public class CauHinhVanChuyenOnlineActivity extends AppCompatActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        params1.height = 0;
+        tugiaoIMG.setImageResource(R.drawable.down_24);
+        tuGiao.setLayoutParams(params1);
     }
 
     private void IDLayout() {
