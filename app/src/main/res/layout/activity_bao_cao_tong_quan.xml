@@ -6,6 +6,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/layoutProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
@@ -105,14 +116,14 @@
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/baloo"
                         android:text="@string/so_0"
-                        android:textColor="@color/purple_200"
+                        android:textColor="@color/so_hoa_don"
                         android:textSize="20sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/purple_200"/>
+                        android:background="@color/so_hoa_don"/>
 
                 </androidx.cardview.widget.CardView>
 
@@ -132,14 +143,14 @@
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/baloo"
                         android:text="@string/so_0"
-                        android:textColor="@color/vang"
+                        android:textColor="@color/red"
                         android:textSize="20sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/vang"/>
+                        android:background="@color/red"/>
 
                 </androidx.cardview.widget.CardView>
 
