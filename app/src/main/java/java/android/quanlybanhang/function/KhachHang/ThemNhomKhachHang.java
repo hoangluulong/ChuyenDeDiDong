@@ -48,7 +48,7 @@ public class ThemNhomKhachHang extends AppCompatActivity {
                     String name = editTenNhom.getText().toString();
                     String ma = editMa.getText().toString();
                     String ghichu = editGhiChu.getText().toString();
-                    nhomKhachHang  = new NhomKhachHang(name,ma,ghichu);
+                    nhomKhachHang  = new NhomKhachHang(name,ma,ghichu,id);
                     mDatabase.child(id).setValue(nhomKhachHang);
                 }
                 editTenNhom.setText("");

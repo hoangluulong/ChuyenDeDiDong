@@ -24,7 +24,7 @@
             android:gravity="center"
             android:hint="T"
             android:textColor="@color/black"
-            android:textSize="40sp"></TextView>
+            android:textSize="20sp"></TextView>
 
             <LinearLayout
                 android:id="@+id/linerLayout"

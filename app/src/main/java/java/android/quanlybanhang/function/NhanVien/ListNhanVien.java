@@ -3,8 +3,11 @@ package java.android.quanlybanhang.function.NhanVien;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,9 +26,11 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.android.quanlybanhang.HelperClasses.Package_AdapterNhanVien.AdapterNhanVien;
+import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterCategory;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.ListCategory;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 import java.util.ArrayList;
 
@@ -39,15 +44,56 @@ public class ListNhanVien  extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
     private String STR_USER = "user";
+    private EditText searchView;
+    private ArrayList<NhanVien> listSearch;
+    private String key;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listnhanvien);
         recyclerView = findViewById(R.id.recyclerViewNhanVien);
+        searchView = findViewById(R.id.btn_searchnv);
         firebaseDatabase =  FirebaseDatabase.getInstance();
         floatingActionButton = findViewById(R.id.themnhanvien);
         mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(STR_USER);
         Danhsachnhanvien();
         Taonhanvienmoi();
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                key = searchView.getText().toString();
+                getListSearch(key);
+            }
+        });
+    }
+
+    private void getListSearch(String newText) {
+        listSearch = new ArrayList<>();
+        if(newText == null){
+            adapterNhanVien = new AdapterNhanVien(ListNhanVien.this,ListNhanVien.this,nhanViens);
+            recyclerView.setAdapter(adapterNhanVien);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListNhanVien.this, LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
+        }
+        for(int i =0; i < nhanViens.size();i++)
+        {
+            if(nhanViens.get(i).getUsername().toUpperCase().contains(newText.toUpperCase().trim())){
+                listSearch.add(nhanViens.get(i));
+            }
+        }
+        adapterNhanVien = new AdapterNhanVien(ListNhanVien.this,ListNhanVien.this,listSearch);
+        recyclerView.setAdapter(adapterNhanVien);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListNhanVien.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
     // Button thêm nhân viên
     public void Taonhanvienmoi(){

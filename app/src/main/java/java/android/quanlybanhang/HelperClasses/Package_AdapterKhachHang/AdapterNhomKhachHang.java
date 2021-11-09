@@ -26,18 +26,23 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.KhachHang.ListNhomKhachHang;
 import java.android.quanlybanhang.function.KhachHang.SuaKhachHang;
+import java.android.quanlybanhang.function.KhachHang.SuaNhomKhachHang;
 import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 public class AdapterNhomKhachHang extends RecyclerView.Adapter<AdapterNhomKhachHang.AdapterNhomKhachHangHolder> {
     ArrayList<NhomKhachHang> nhomKhachHangs;
     Context context;
+    ListNhomKhachHang listNhomKhachHang;
 
-    public AdapterNhomKhachHang(Context context,ArrayList<NhomKhachHang> nhomKhachHangs){
+    public AdapterNhomKhachHang(ListNhomKhachHang listNhomKhachHang,Context context,ArrayList<NhomKhachHang> nhomKhachHangs){
         this.nhomKhachHangs =nhomKhachHangs;
         this.context = context;
+        this.listNhomKhachHang = listNhomKhachHang;
     }
 
 
@@ -78,7 +83,17 @@ public class AdapterNhomKhachHang extends RecyclerView.Adapter<AdapterNhomKhachH
             imgSua.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    int position = getLayoutPosition();
+                    Intent intent = new Intent(context, SuaNhomKhachHang.class);
+                    intent.putExtra("Key_arrNKH",  nhomKhachHangs.get(position));
+                    context.startActivity(intent);
+                }
+            });
+            imgXoa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    listNhomKhachHang.delete(position);
                 }
             });
         }

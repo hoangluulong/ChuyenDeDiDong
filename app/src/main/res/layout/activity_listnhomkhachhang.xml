@@ -7,15 +7,20 @@
     tools:context=".function.SanPham.ListProduct"
     android:background="@color/white">
     <EditText
-        android:id="@+id/btn_searchkh"
-        android:padding="5dp"
-        android:layout_margin="10dp"
+        android:id="@+id/btn_searchnhomKH"
         android:layout_width="match_parent"
-        android:background="@drawable/bg_search_16"
-        android:iconifiedByDefault="false"
-        app:queryBackground="@null"
-        android:layout_height="wrap_content">
-    </EditText>
+        android:layout_height="50dp"
+        android:background="@drawable/edittext_style"
+        android:textColorHint="@color/black"
+        android:textSize="20sp"
+        android:hint="Search"
+        android:textStyle="normal"
+        android:drawableLeft="@drawable/ic_baseline_search_24"
+        android:layout_marginLeft="10dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="10dp"
+        android:gravity="start|center"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="80dp"

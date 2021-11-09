@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
 import java.android.quanlybanhang.function.KhachHang.SuaKhachHang;
 import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
 import java.util.ArrayList;
@@ -33,12 +34,14 @@ import java.util.ArrayList;
 public class AdapterKhachHang extends RecyclerView.Adapter<AdapterKhachHang.AdapterKhachHangHolder> {
     ArrayList<KhachHang> khachHangs;
     Context context;
+    ListKhachHang context1;
 
 
 
-    public AdapterKhachHang(Context context,ArrayList<KhachHang> khachHangs){
+    public AdapterKhachHang(ListKhachHang context1,Context context,ArrayList<KhachHang> khachHangs){
        this.khachHangs =khachHangs;
         this.context = context;
+        this.context1 = context1;
     }
 
 
@@ -81,6 +84,14 @@ public class AdapterKhachHang extends RecyclerView.Adapter<AdapterKhachHang.Adap
                     Intent intent = new Intent(context, SuaKhachHang.class);
                     intent.putExtra("Key_arrKH",khachHangs.get(position));
                     context.startActivity(intent);
+                }
+            });
+
+            imgXoa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    context1.delete(position);
                 }
             });
         }

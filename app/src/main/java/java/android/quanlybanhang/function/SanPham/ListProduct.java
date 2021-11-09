@@ -57,7 +57,6 @@ public class ListProduct  extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.themsanpham);
         recyclerView = findViewById(R.id.recyclerViewProduct);
         searchView = findViewById(R.id.btn_searchsp);
-
         firebaseDatabase =  FirebaseDatabase.getInstance();
         mDatabase = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
         searchView.addTextChangedListener(new TextWatcher() {
