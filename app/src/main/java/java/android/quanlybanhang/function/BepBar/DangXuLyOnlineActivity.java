@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,53 +64,65 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
     }
 
     private void getFirebase(String ID_BAN) {
-        Log.d("ZZ", "bb");
+        Log.d("abc", KEY_NGAY + " - " + ID_KEY);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                DonHang donHang = snapshot.getValue(DonHang.class);
-                Date date = formatDate(donHang.getTime());
-                donHang.setDate(date);
+                if (snapshot.getValue() != null) {
+                    Log.d("qqq", snapshot.getValue().toString());
+                    DonHang donHang = snapshot.getValue(DonHang.class);
+                    khuvuc.setText("ID " + donHang.getKey());
+                    double tong = TinhTongTien(donHang.getSanpham());
+                    ArrayList<SanPham> sanPhams = donHang.getSanpham();
+//                  soluong.setText(+ "");
+                    tongdon.setText((tong - donHang.getGiaKhuyenMai())+"");
+                    thoigian.setText(changeDate(ID_KEY) + "");
 
-                if (donHang.getTrangthai() == 2) {
-                    hoanthanh.setText("Xử lí");
-                }else if (donHang.getTrangthai() == 3) {
-                    hoanthanh.setText("Hoàn Thành");
-                }else if (donHang.getTrangthai() == 4) {
-                    hoanthanh.setText("Trả đơn");
+                    hoanthanh.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (donHang.getTrangthai() == 2) {
+                                mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(3);
+                                Toast.makeText(DangXuLyOnlineActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
+                                hoanthanh.setText("Hoàn Thành");
+                                donHang.setTrangthai(3);
+                            }else if (donHang.getTrangthai() == 3) {
+                                mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(4);
+                                Toast.makeText(DangXuLyOnlineActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
+                                hoanthanh.setText("Trả đơn");
+                                donHang.setTrangthai(4);
+                                onBackPressed();
+                            }else if (donHang.getTrangthai() == 4) {
+                                mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(5);
+                                Toast.makeText(DangXuLyOnlineActivity.this, "Đã trả đơn", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            }
+                        }
+                    });
+
+                    recycleview.setLayoutManager(new GridLayoutManager(DangXuLyOnlineActivity.this, 1));
+                    chiTietDonHangAdapter = new ChiTietDonHangOnlineAdapter(DangXuLyOnlineActivity.this, sanPhams);
+                    recycleview.setAdapter(chiTietDonHangAdapter);
+
+                    chiTietDonHangAdapter.notifyDataSetChanged();
+
+                }else {
+                    Log.d("qqq", "dhfksdj");
                 }
 
-                khuvuc.setText("ID " + donHang.getKey());
-                double tong = TinhTongTien(donHang.getSanpham());
-                ArrayList<SanPham> sanPhams = donHang.getSanpham();
-//                soluong.setText(+ "");
-                tongdon.setText((tong - donHang.getGiaKhuyenMai())+"");
-                thoigian.setText(changeDate(ID_KEY) + "");
+//                Date date = formatDate(donHang.getTime());
+//                donHang.setDate(date);
 
-                hoanthanh.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (donHang.getTrangthai() == 2) {
-                            mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(3);
-                            hoanthanh.setText("Hoàn Thành");
-                            donHang.setTrangthai(3);
-                        }else if (donHang.getTrangthai() == 3) {
-                            mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(4);
-                            hoanthanh.setText("Trả đơn");
-                            donHang.setTrangthai(4);
-                            onBackPressed();
-                        }else if (donHang.getTrangthai() == 4) {
-                            mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(5);
-                        }
-                    }
-                });
+//                if (donHang.getTrangthai() == 2) {
+//                    hoanthanh.setText("Xử lí");
+//                }else if (donHang.getTrangthai() == 3) {
+//                    hoanthanh.setText("Hoàn Thành");
+//                }else if (donHang.getTrangthai() == 4) {
+//                    hoanthanh.setText("Trả đơn");
+//                }
 
-                recycleview.setLayoutManager(new GridLayoutManager(DangXuLyOnlineActivity.this, 1));
-                chiTietDonHangAdapter = new ChiTietDonHangOnlineAdapter(DangXuLyOnlineActivity.this, sanPhams);
-                recycleview.setAdapter(chiTietDonHangAdapter);
 
-                chiTietDonHangAdapter.notifyDataSetChanged();
             }
 
             @Override

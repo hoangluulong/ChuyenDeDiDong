@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/goctron_top_left_right"
             android:orientation="vertical">
 
@@ -26,8 +27,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:textColor="@color/periwinkle"
                     android:maxLines="1"
+                    android:layout_marginTop="5dp"
+                    android:text="ID: 1111111111"
+                    android:fontFamily="@font/belgrano"
+                    android:textColor="@color/white"
                     android:textSize="17sp" />
                 <TextView
                     android:id="@+id/khuvuc"
@@ -35,7 +39,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:maxLines="1"
-                    android:textColor="@color/periwinkle"
+                    android:layout_marginTop="5dp"
+                    android:text="ID: 1111111111"
+                    android:fontFamily="@font/belgrano"
+                    android:textColor="@color/white"
                     android:textSize="17sp" />
 
                 <TextView
@@ -44,8 +51,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:layout_marginRight="5dp"
-                    android:textColor="@color/color_one"
+                    android:textColor="@color/vang"
                     android:maxLines="1"
+                    android:fontFamily="@font/alike_angular"
                     android:text="Đang xử lý"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -56,8 +64,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/examName"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/cream"
+                android:textColor="@color/background_baocao"
                 android:gravity="left"
+                android:fontFamily="@font/alike_angular"
                 android:text="15:30:20 20/10/2021"
                 android:textSize="13sp" />
 
@@ -68,6 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="0dp"
@@ -79,18 +90,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
                     android:textColor="@color/blue_berry"
+                    android:fontFamily="@font/alike_angular"
                     android:text="Số lượng:"/>
                 <TextView
                     android:id="@+id/soluong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue_berry"
+                    android:fontFamily="@font/alike_angular"
                     android:text="20"/>
             </LinearLayout>
             <LinearLayout
@@ -105,6 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="30dp"
+                        android:fontFamily="@font/alike_angular"
                         android:textColor="@color/blue_berry"
                         android:text="Tổng đơn:"/>
                     <TextView
@@ -112,6 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/blue_berry"
+                        android:fontFamily="@font/alike_angular"
                         android:text="20.400.500"/>
                 </LinearLayout>
             </LinearLayout>

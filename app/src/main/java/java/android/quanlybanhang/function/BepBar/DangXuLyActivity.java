@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -111,14 +112,18 @@ public class DangXuLyActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (sanPhamOder.getTrangThai() == 0) {
                             mDatabase.child(ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(1);
+                            Toast.makeText(DangXuLyActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                             sanPhamOder.setTrangThai(1);
                             hoanthanh.setText("Hoàn thành");
                         } else if (sanPhamOder.getTrangThai() == 1) {
                             mDatabase.child(ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(2);
+                            Toast.makeText(DangXuLyActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                             hoanthanh.setText("Xong");
                             onBackPressed();
                         } else if (sanPhamOder.getTrangThai() == 2) {
-//                            mDatabase.child("trangThai").setValue(3);
+                            mDatabase.child(ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(3);
+                            Toast.makeText(DangXuLyActivity.this, "Đã trả món", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
                         }
                     }
                 });

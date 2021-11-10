@@ -32,7 +32,7 @@ public class DonHangOnlineDangHoanThanhFragment extends Fragment {
     private DatabaseReference mDatabase;
     private DonOnlineChoChoXacNhanAdapter monViewHolder;
     private ArrayList<SanPham> sanPham;
-    View v;
+    private View v;
     private ArrayList<DonHang> donHangs;
     private ProgressBar progressBar;
     private TextView lblThongBao;
@@ -109,7 +109,7 @@ public class DonHangOnlineDangHoanThanhFragment extends Fragment {
     }
 
     private Date formatDate(String strDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss dd-MM-yyyy");
 
         try {
             Date date = simpleDateFormat.parse(strDate);

@@ -33,7 +33,6 @@ public class DonHangOfflineHoanThanhFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView lblThongBao;
     private ImageView imageView;
-
     View v;
     public DonHangOfflineHoanThanhFragment() {
     }
@@ -75,7 +74,7 @@ public class DonHangOfflineHoanThanhFragment extends Fragment {
                     long date = Long.parseLong(postSnapshot.child("date").getValue().toString());
                     int trangThai = Integer.parseInt(postSnapshot.child("trangThai").getValue().toString());
                     String nametable = postSnapshot.getKey();
-                    if (trangThai == 0) {
+                    if (trangThai == 2) {
                         ArrayList<Mon> listMon = new ArrayList<>();
                         for (DataSnapshot snap: postSnapshot.child("sanpham").getChildren()) {
                             String nameProduct = snap.child("nameProduct").getValue().toString();
