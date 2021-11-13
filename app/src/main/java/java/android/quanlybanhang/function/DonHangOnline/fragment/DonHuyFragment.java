@@ -1,15 +1,33 @@
 package java.android.quanlybanhang.function.DonHangOnline.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
+import java.android.quanlybanhang.function.DonHangOnline.adapter.DonHangHuyAdapter;
+import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,11 +76,95 @@ public class DonHuyFragment extends Fragment implements SwipeRefreshLayout.OnRef
         }
     }
 
+    private RecyclerView recyclerView;
+    private DonHangHuyAdapter donHangHuyAdapter;
+    private Dialog dialog;
+    private Dialog dialogHuy;
+
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
+    private ArrayList<DonHang> donHangs;
     private SupportFragmentDonOnline support = new SupportFragmentDonOnline();
+    private TextView lblThongBao;
+    private ProgressBar progressBar;
+    private SwipeRefreshLayout refreshLayout;
+    private View view;
+    private ImageView image;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_don_huy, container, false);
+        View view = inflater.inflate(R.layout.fragment_don_huy, container, false);
+
+        recyclerView = view.findViewById(R.id.recycleview);
+        lblThongBao = view.findViewById(R.id.lblThongBao);
+        progressBar = view.findViewById(R.id.progressBar);
+        refreshLayout = view.findViewById(R.id.swipeRefreshlayout);
+        image = view.findViewById(R.id.image);
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        donHangs = new ArrayList<>();
+        dialog = new Dialog(view.getContext());
+        dialogHuy = new Dialog(view.getContext());
+
+        getDataFireBase(view);
+        refreshLayout.setOnRefreshListener(this);
+
+        return view;
+    }
+
+    private void displayItem(View view) {
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
+        donHangHuyAdapter = new DonHangHuyAdapter(view.getContext(), donHangs);
+        recyclerView.setAdapter(donHangHuyAdapter);
+        donHangHuyAdapter.notifyDataSetChanged();
+    }
+
+    private void getDataFireBase(View view) {
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                donHangs = new ArrayList<>();
+                int i = 0;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot snap : postSnapshot.getChildren()) {
+                        DonHang donHang = snap.getValue(DonHang.class);
+                        if (donHang.getTrangthai() == 6) {
+                            donHangs.add(donHang);
+                            String key = snap.getKey();
+                            Date date = support.formatDate(donHangs.get(i).getTime());
+                            Log.d("qq", date.getYear()+"");
+                            donHangs.get(i).setDate(date);
+                            Log.d("date", date+"");
+                            donHangs.get(i).setKey(key);
+                            donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
+                            donHangs.get(i).setIdQuan("JxZOOK1RzcMM7pL5I6naGZfYSsu2");
+                            i++;
+                        }
+                    }
+                }
+                refreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.INVISIBLE);
+                if (donHangs.size() > 0) {
+                    lblThongBao.setText("");
+                    image.setImageResource(0);
+                }else {
+                    image.setImageResource(R.drawable.empty_list);
+                    lblThongBao.setText("Không có đơn hàng chờ xác nhận nào");
+                }
+                support.SapXepDate(donHangs);
+                displayItem(view);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
     }
 
     @Override

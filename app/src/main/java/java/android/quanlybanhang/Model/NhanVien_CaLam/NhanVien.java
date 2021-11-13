@@ -1,8 +1,9 @@
 package java.android.quanlybanhang.Model.NhanVien_CaLam;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NhanVien {
+public class NhanVien implements Serializable {
     String username;
     String email;
     ArrayList<Boolean> chucVu;
@@ -14,11 +15,17 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(String username, String email, String phone, String id) {
+
+    public NhanVien(String username, String phone) {
         this.username = username;
-        this.email = email;
         this.phone = phone;
-        this.id = id;
+    }
+
+    public NhanVien(String username, ArrayList<Boolean> chucVu, CaLam caLam, String phone) {
+        this.username = username;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
     }
 
     public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id) {

@@ -29,7 +29,6 @@
                     android:layout_marginStart="10dp"
                     android:maxLines="1"
                     android:layout_marginTop="5dp"
-                    android:text="ID: 1111111111"
                     android:fontFamily="@font/belgrano"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
@@ -40,7 +39,6 @@
                     android:layout_marginStart="10dp"
                     android:maxLines="1"
                     android:layout_marginTop="5dp"
-                    android:text="ID: 1111111111"
                     android:fontFamily="@font/belgrano"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
@@ -128,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/blue_berry"
                         android:fontFamily="@font/alike_angular"
-                        android:text="20.400.500"/>
+                        android:text=""/>
                 </LinearLayout>
             </LinearLayout>
 

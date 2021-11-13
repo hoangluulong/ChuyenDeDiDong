@@ -1,10 +1,12 @@
 package java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +18,6 @@ import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.Model.Product;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.CuaHangOnline.ThongTinCuaHangOnlineActivity;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 import java.android.quanlybanhang.function.SanPham.SuaSanPhamActivity;
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductViewHolder> {
     private ArrayList<Product> arrayList;
     private ListProduct context;
-    private ThongTinCuaHangOnlineActivity thongTinCuaHangOnlineActivity;
     private Context context2;
+
 
     public AdapterProduct(Context context2, ListProduct context,ArrayList<Product> arrayList) {
         this.arrayList = arrayList;
@@ -85,13 +86,13 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ProductV
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
-//                    context.update(position);
                     Intent intent = new Intent(context2, SuaSanPhamActivity.class);
                     intent.putExtra("Key_aray",arrayList.get(position));
                     context2.startActivity(intent);
 
                 }
             });
+
         }
     }
 }

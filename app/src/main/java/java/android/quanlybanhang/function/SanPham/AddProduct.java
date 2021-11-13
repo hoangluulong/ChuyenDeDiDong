@@ -1,15 +1,20 @@
 package java.android.quanlybanhang.function.SanPham;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,10 +52,10 @@ import java.android.quanlybanhang.R;
 import java.util.ArrayList;
 
 public class AddProduct extends AppCompatActivity {
-    private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
+    private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham, textTenDonViTinh;
     private Spinner spnNhomsanpham, spnDonViTinh;
-    private Button btnAdd, btnThemDonViTinh, btnDonViTinhSanPham;
-    private  ImageView btnChoose;
+    private Button btnAdd,btnHuy, btnThemDonViTinh, btnDonViTinhSanPham, btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
+    private ImageView btnChoose;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Product product;
     private ArrayList<String> arrayList;
@@ -61,12 +66,6 @@ public class AddProduct extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabase1;
     private DatabaseReference mDatabase2;
-    private View customLayout;
-    private AlertDialog.Builder builder;
-    private LayoutInflater inflater;
-    private LayoutInflater inflater1;
-    private View customLayout1;
-    private AlertDialog.Builder builder1;
     private ArrayList<String> listDonViTinh;
     private ArrayList<DonGia> listDonGia = new ArrayList<>();
     private AdapterDonGia adapterDonGia;
@@ -79,7 +78,10 @@ public class AddProduct extends AppCompatActivity {
     private String STR_UPLOAD = "uploads";
     private String STR_DONVITINH = "donvitinh";
     private String id;
-    private   ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapter;
+    private Dialog dialog, dialog1;
+    private Window window, window1;
+    private  Intent intent = new Intent();
 
 
     @Override
@@ -99,23 +101,24 @@ public class AddProduct extends AppCompatActivity {
         btnDonViTinhSanPham = findViewById(R.id.DonViTinhSanPham);
         btnThemDonViTinh = findViewById(R.id.themDonViTinh);
         listView = findViewById(R.id.listGiaSanPham);
+        btnHuy = findViewById(R.id.btnhuyAddProduct);
 
-       //firebase
+        //firebase
         mStogref = FirebaseStorage.getInstance().getReference(STR_UPLOAD);
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
         mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
         mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
         id = mDatabase1.push().getKey();
-        //dailong
-        builder = new AlertDialog.Builder(AddProduct.this);
-        inflater = AddProduct.this.getLayoutInflater();
-        customLayout = inflater.inflate(R.layout.activity_dailongthemdonvitinh, null);
-        builder.setView(customLayout);
-        builder1 = new AlertDialog.Builder(AddProduct.this);
-        inflater1 = AddProduct.this.getLayoutInflater();
-        customLayout1 = inflater.inflate(R.layout.activity_dailongdonvitinh, null);
-        builder1.setView(customLayout1);
-        //
+        //dialog
+        dialog = new Dialog(AddProduct.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailongdonvitinh);
+        window = dialog.getWindow();
+        dialog1 = new Dialog(AddProduct.this);
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.setContentView(R.layout.dialogthemdonvitinh);
+        window1 = dialog1.getWindow();
+
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,9 +126,31 @@ public class AddProduct extends AppCompatActivity {
                 openFileChoose();
             }
         });
-       uploadFile();
-       dailongDonViTinhSanPham();
-       dailongThemDonViTinh();
+
+        btnDonViTinhSanPham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dailongDonViTinhSanPham(Gravity.CENTER);
+            }
+        });
+        btnThemDonViTinh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int a = 10;
+                dailongThemDonViTinh(10);
+            }
+        });
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(AddProduct.this, ListProduct.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        uploadFile();
+
+
     }
 
     private String getFileExtenstion(Uri uri) {
@@ -150,88 +175,88 @@ public class AddProduct extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                     spnNhomsanpham.setAdapter(adapter);
                 }
-              btnAdd.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                      if (ImageUri != null) {
-                          StorageReference fileRefence = mStogref.child("uploads/" + System.currentTimeMillis() + "." + getFileExtenstion(ImageUri));
-                          fileRefence.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                              @Override
-                              public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (textName.getText().toString().isEmpty()) {
+                            textName.setError("Hãy nhập tên sản phẩm");
+                            textName.requestFocus();
+                        } else if (textChitiet.getText().toString().isEmpty()) {
+                            textChitiet.setError("Hãy nhập chi tiết sản phẩm");
+                            textChitiet.requestFocus();
+                        } else if (textGianhap.getText().toString().isEmpty()) {
+                            textGianhap.setError("Hãy nhập giá nhập sản phẩm");
+                            textGianhap.requestFocus();
+                        } else if (textSoluong.getText().toString().isEmpty()) {
+                            textSoluong.setError("Hãy nhập số lượng sản phẩm");
+                            textSoluong.requestFocus();
+                        } else if (ImageUri == null) {
+                            Toast.makeText(AddProduct.this, "No file upload", Toast.LENGTH_SHORT).show();
+                        } else if (listDonGia.size() == 0) {
+                            Toast.makeText(AddProduct.this, "Hãy chọn đơn vị tính cho sàn phẩm", Toast.LENGTH_SHORT).show();
+                        } else {
+                            StorageReference fileRefence = mStogref.child("uploads/" + System.currentTimeMillis() + "." + getFileExtenstion(ImageUri));
+                            fileRefence.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                  Handler handler = new Handler();
-                                  handler.postDelayed(new Runnable() {
-                                      @Override
-                                      public void run() {
-                                          progressBar.setProgress(0);
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progressBar.setProgress(0);
 
-                                      }
-                                  }, 5000);
+                                        }
+                                    }, 5000);
 
-                                  fileRefence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                      @Override
-                                      public void onSuccess(Uri uri) {
-                                          Toast.makeText(AddProduct.this, "Upload successfull", Toast.LENGTH_SHORT).show();
-                                          if (textName.getText().toString().isEmpty()){
-                                              textName.setError("Hãy nhập tên sản phẩm");
-                                              textName.requestFocus();
-                                          }else if (textChitiet.getText().toString().isEmpty()){
-                                              textChitiet.setError("Hãy nhập chi tiết sản phẩm");
-                                             textChitiet.requestFocus();
-                                          }else if(textGianhap.getText().toString().isEmpty()){
-                                              textGianhap.setError("Hãy nhập giá nhập sản phẩm");
-                                              textGianhap.requestFocus();
-                                          }else if(textSoluong.getText().toString().isEmpty()){
-                                              textSoluong.setError("Hãy nhập số lượng sản phẩm");
-                                              textSoluong.requestFocus();
-                                          }
-                                          else {
-
-                                              String name = textName.getText().toString();
-                                              String chitiet = textChitiet.getText().toString();
-                                              Double gianhap = Double.parseDouble(textGianhap.getText().toString());
-                                              Integer soluong = Integer.parseInt(textSoluong.getText().toString());
-                                              String nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
-                                              String img = uri.toString();
-                                              String status = "Còn";
-                                              product = new Product(id,name,chitiet,nhomsanpham,gianhap,listDonGia,soluong,img,status);
-                                              mDatabase1.child(nhomsanpham).child(id).setValue(product);
-                                          }
-                                          textName.setText("");
-                                          textSoluong.setText("");
-                                          textChitiet.setText("");
-                                          textGianhap.setText("");
-                                          listDonGia.clear();
-                                          Intent intent = new Intent();
-                                          intent = new Intent(AddProduct.this,ListProduct.class);
-                                          startActivity(intent);
-                                          finish();
-
-                                      }
-                                  });
+                                    fileRefence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            String name = textName.getText().toString();
+                                            String chitiet = textChitiet.getText().toString();
+                                            Double gianhap = Double.parseDouble(textGianhap.getText().toString());
+                                            Integer soluong = Integer.parseInt(textSoluong.getText().toString());
+                                            String nhomsanpham = spnNhomsanpham.getSelectedItem().toString();
+                                            String img = uri.toString();
+                                            String status = "Còn";
+                                            product = new Product(id, name, chitiet, nhomsanpham, gianhap, listDonGia, soluong, img, status);
+                                            mDatabase1.child(nhomsanpham).child(id).setValue(product);
+                                            textName.setText("");
+                                            textSoluong.setText("");
+                                            textChitiet.setText("");
+                                            textGianhap.setText("");
+                                            listDonGia.clear();
+                                        }
+                                    });
 
 
-                              }
-                          }).addOnFailureListener(new OnFailureListener() {
-                              @Override
-                              public void onFailure(@NonNull Exception e) {
-                                  Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
-                              }
-                          }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                              @Override
-                              public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                                  double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                                  progressBar.setProgress((int) progress);
-                              }
-                          });
-                      }
-                      else {
-                          Toast.makeText(AddProduct.this, "No file upload", Toast.LENGTH_SHORT).show();
-                      }
-                  }
-              });
+                                }
+                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                    double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                                    progressBar.setProgress((int) progress);
+                                }
+                            });
+
+
+                            intent = new Intent(AddProduct.this, ListProduct.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
+
+
+                    }
+                });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -239,111 +264,124 @@ public class AddProduct extends AppCompatActivity {
     }
 
     private void openFileChoose() {
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private void dailongDonViTinhSanPham(){
-        btnDonViTinhSanPham.setOnClickListener(new View.OnClickListener() {
+    private void dailongDonViTinhSanPham(int gravity) {
+        textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
+        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
+        btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
+
+        mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-
-                spnDonViTinh = customLayout.findViewById(R.id.spnTenDonViTinh);
-                textGiaSanPham = customLayout.findViewById(R.id.tedtGiaDonVi);
-                builder.setTitle("Đơn vị tính");
-                if(customLayout.getParent() != null){
-                    ((ViewGroup)customLayout.getParent()).removeView(customLayout);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listDonViTinh = new ArrayList<>();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    DonViTinh donViTinh1 = snapshot1.getValue(DonViTinh.class);
+                    String name = donViTinh1.getDonViTinh();
+                    listDonViTinh.add(name);
                 }
-                mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        listDonViTinh = new ArrayList<>();
-                        for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                            DonViTinh donViTinh1 = snapshot1.getValue(DonViTinh.class);
-                            String name = donViTinh1.getDonViTinh();
-                            listDonViTinh.add(name);
-                        }
-                        if (listDonViTinh.size() != 0) {
-                           adapter = new ArrayAdapter<String>(AddProduct.this, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
-                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
-                            spnDonViTinh.setAdapter(adapter);
-                        }
-                    }
+                if (listDonViTinh.size() != 0) {
+                    adapter = new ArrayAdapter<String>(AddProduct.this, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
+                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
+                    spnDonViTinh.setAdapter(adapter);
+                }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
-
-                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DonGia donGia = new DonGia();
-                        donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
-                        donGia.setId(id);
-                        if (textGiaSanPham.getText().toString().isEmpty()){
-                           textGiaSanPham.setError("Hãy nhập giá !!!");
-                           textGiaSanPham.requestFocus();
-                            builder.setCancelable(false);
-                            setFinishOnTouchOutside(true);
-                        }
-                        else {
-                            donGia.setGiaBan(Double.parseDouble(textGiaSanPham.getText().toString()));
-                            listDonGia.add(donGia);
-                        }
-                        textGiaSanPham.setText("");
-                        adapterDonGia = new AdapterDonGia(AddProduct.this,listDonGia,inflater,builder,customLayout,spnDonViTinh,adapter);
-                        listView.setLayoutManager(new LinearLayoutManager(AddProduct.this,LinearLayoutManager.VERTICAL,false));
-                        listView.setAdapter(adapterDonGia);
-                        adapterDonGia.notifyDataSetChanged();
-//                        adapterDonGia = new AdapterDonGia(AddProduct.this,listDonGia);
-//                        listView.setAdapter(adapterDonGia);
-                    }
-
-                });
-                builder.show();
             }
         });
+
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        window.setAttributes(windownAttributes);
+        if (Gravity.BOTTOM == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+        }
+        btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DonGia donGia = new DonGia();
+                donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
+                donGia.setId(id);
+                if (textGiaSanPham.getText().toString().isEmpty()) {
+                    textGiaSanPham.setError("Hãy nhập giá !!!");
+                    textGiaSanPham.requestFocus();
+                    setFinishOnTouchOutside(true);
+                } else {
+                    donGia.setGiaBan(Double.parseDouble(textGiaSanPham.getText().toString()));
+                    listDonGia.add(donGia);
+                    dialog.dismiss();
+                }
+                textGiaSanPham.setText("");
+                adapterDonGia = new AdapterDonGia(AddProduct.this, listDonGia, dialog, window, spnDonViTinh, adapter, gravity);
+                listView.setLayoutManager(new LinearLayoutManager(AddProduct.this, LinearLayoutManager.VERTICAL, false));
+                listView.setAdapter(adapterDonGia);
+                adapterDonGia.notifyDataSetChanged();
+
+            }
+        });
+
+        dialog.show();
+
+
     }
 
-    private void dailongThemDonViTinh(){
-       btnThemDonViTinh.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               if(customLayout1.getParent() != null){
-                   ((ViewGroup)customLayout1.getParent()).removeView(customLayout1);
-               }
-               builder1.setTitle("Thêm đơn vị tính");
-               textTenDonViTinh = customLayout1.findViewById(R.id.edtTenDonViTinh);
-               builder1.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
-                   }
-               });
-               builder1.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       String name = textTenDonViTinh.getText().toString();
-                       String id = mDatabase2.push().getKey();
-                       donViTinh = new DonViTinh(name,id);
-                       mDatabase2.child(id).setValue(donViTinh);
-                       textChitiet.setText("");
-                   }
+    private void dailongThemDonViTinh(int gravity) {
+        textTenDonViTinh = dialog1.findViewById(R.id.edtTenDonViTinh);
+        btnDialogHuyThemDVT = dialog1.findViewById(R.id.btnhuyDiaLogThemDVT);
+        btnThemDialogThemDVT = dialog1.findViewById(R.id.btnthemDiaLogThemDVT);
 
-               });
-               builder1.show();
-           }
-       });
+        if (window1 == null) {
+            return;
+        }
+        window1.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window1.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window1.getAttributes();
+        windownAttributes.gravity = gravity;
+        window1.setAttributes(windownAttributes);
+        if (Gravity.BOTTOM == gravity) {
+            dialog1.setCancelable(true);
+        } else {
+            dialog1.setCancelable(false);
+        }
+
+        btnDialogHuyThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
+        btnThemDialogThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = textTenDonViTinh.getText().toString();
+                String id = mDatabase2.push().getKey();
+                donViTinh = new DonViTinh(name, id);
+                mDatabase2.child(id).setValue(donViTinh);
+                textTenDonViTinh.setText("");
+                dialog1.dismiss();
+            }
+        });
+        dialog1.show();
 
 
     }
@@ -351,10 +389,9 @@ public class AddProduct extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PICK_IMAGE_REQUEST && resultCode== RESULT_OK
-                && data!=null && data.getData()!=null)
-        {
-            ImageUri=data.getData();
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            ImageUri = data.getData();
             imageView.setImageURI(ImageUri);
         }
 

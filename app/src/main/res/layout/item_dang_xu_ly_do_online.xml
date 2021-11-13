@@ -105,7 +105,6 @@
                     android:gravity="right"
                     android:paddingRight="20dp"
                     android:textColor="@color/bac"
-                    android:text="NV: Hoàng Hữu Long"
                     android:fontFamily="@font/alike_angular"
                     android:textSize="15sp" />
 

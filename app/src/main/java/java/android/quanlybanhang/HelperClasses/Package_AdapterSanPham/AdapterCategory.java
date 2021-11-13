@@ -36,6 +36,9 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryAdater holder, int position) {
         Category category = arrayList.get(position);
+        String name = category.getNameCategory().toUpperCase();
+        char nam =name.charAt(0) ;
+        holder.nameCategory1.setText(nam+"");
         holder.nameCategory.setText(category.getNameCategory());
 
     }
@@ -47,13 +50,14 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Catego
 
     class CategoryAdater extends RecyclerView.ViewHolder  {
         private TextView nameCategory;
+        private TextView nameCategory1;
         private ImageView imgXoa;
         private  ImageView imgSua;
 
         public CategoryAdater(View itemView) {
             super(itemView);
-
-            nameCategory = (TextView) itemView.findViewById(R.id.text_name);
+            nameCategory = itemView.findViewById(R.id.text_tenNSP);
+            nameCategory1 = (TextView) itemView.findViewById(R.id.text_name);
             imgSua = itemView.findViewById(R.id.btnSuaNSP);
             imgXoa = itemView.findViewById(R.id.btnXoaNSP);
 

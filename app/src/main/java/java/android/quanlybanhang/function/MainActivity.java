@@ -1,11 +1,8 @@
 package java.android.quanlybanhang.function;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -21,13 +18,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
-import java.android.quanlybanhang.Model.AddressVN.DiaChi;
-import java.android.quanlybanhang.Model.AddressVN.Huyen;
+import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.Account.SignInActivity;
@@ -35,15 +27,12 @@ import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
+import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
+import java.android.quanlybanhang.function.KhachHang.ListNhomKhachHang;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
+import java.android.quanlybanhang.function.KhuyenMai.ThemKhuyenMai;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 
 //import java.android.quanlybanhang.login.LoginActivity;
 
@@ -158,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.cuahang:
+            case R.id.nav_homes:
                 break;
             case R.id.ds_order:
                 Intent intent = new Intent(MainActivity.this, ListProduct.class);
@@ -169,15 +158,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent1);
                 break;
             case R.id.ds_thuchi:
-                Intent intent2 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent2 = new Intent(MainActivity.this, ListKhuyenMai.class);
                 startActivity(intent2);
                 break;
             case R.id.quanly:
-                Intent intent3 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent3 = new Intent(MainActivity.this, ListNhomKhachHang.class);
                 startActivity(intent3);
                 break;
             case R.id.profile:
-                Intent intent4 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent4 = new Intent(MainActivity.this, ListKhachHang.class);
                 startActivity(intent4);
                 break;
             case R.id.logout:

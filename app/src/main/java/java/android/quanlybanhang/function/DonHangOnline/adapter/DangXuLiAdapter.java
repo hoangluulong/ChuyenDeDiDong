@@ -53,8 +53,8 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
 
     @Override
     public void onBindViewHolder(@NonNull DonHangXuLy holder, int position) {
-        holder.trangthaidonhang.setText("Đang giao");
-        holder.nguoiThucHien.setText("Ship: "+ list.get(position).getShipper());
+        holder.trangthaidonhang.setText("Đơn hàng đang được xử lý");
+        holder.nguoiThucHien.setText("Nhân viên: "+ list.get(position).getShipper());
         holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
         holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());

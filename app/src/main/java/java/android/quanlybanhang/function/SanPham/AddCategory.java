@@ -20,7 +20,7 @@ public class AddCategory extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private EditText editTextAddCategory;
-    private Button btnAddCategory;
+    private Button btnAddCategory,btnHuy;
     private Category category;
     private String STR_NHOMSANPHAM ="danhmucsanpham";
     private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";

@@ -1,13 +1,20 @@
 package java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -25,24 +32,27 @@ import java.util.ArrayList;
 public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDonGiaHolder> {
     ArrayList<DonGia> donGias;
     Context context1;
-    private View customLayout1;
-    private AlertDialog.Builder builder1;
-    private LayoutInflater inflater;
-    private EditText editTextGia;
+    private Dialog dialog;
+    private Window window;
+    private EditText textGiaSanPham;
     private Spinner spinnerTenDonVIiTinh;
+    private Button btnDialogHuyDVT,btnDialogThemDVT;
     private ArrayAdapter<String> adapter;
+    private int gravity;
+
     public AdapterDonGia(Context context1,ArrayList<DonGia> donGias){
         this.donGias = donGias;
         this.context1 = context1;
     }
-    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias, LayoutInflater inflater,AlertDialog.Builder builder1,View customLayout1,Spinner spinnerTenDonVIiTinh ,ArrayAdapter<String> adapter){
+    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias,Dialog dialog,Window window,Spinner spinnerTenDonVIiTinh,ArrayAdapter<String> adapter,int gravity){
         this.donGias = donGias;
         this.context1 = context1;
-        this.inflater = inflater;
-       this.builder1 = builder1;
-       this.adapter =adapter;
-       this.spinnerTenDonVIiTinh = spinnerTenDonVIiTinh;
-       this.customLayout1 = customLayout1;
+        this.dialog = dialog;
+        this.window = window;
+        this.spinnerTenDonVIiTinh = spinnerTenDonVIiTinh;
+        this.adapter = adapter;
+        this.gravity = gravity;
+
     }
 
     @NonNull
@@ -64,41 +74,50 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
             public void onClick(View v) {
                 donGias.remove(donGia);
                 notifyDataSetChanged();
-                Log.d("dongia",donGia.getGiaBan()+"");
-
             }
         });
 
         holder.Sua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(customLayout1.getParent() != null){
-                    ((ViewGroup)customLayout1.getParent()).removeView(customLayout1);
+                textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
+                spinnerTenDonVIiTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+                btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
+                btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
+                textGiaSanPham.setText(donGia.getGiaBan()+"");
+                if (window == null) {
+                    return;
                 }
-                editTextGia = customLayout1.findViewById(R.id.tedtGiaDonVi);
-                spinnerTenDonVIiTinh =  customLayout1.findViewById(R.id.spnTenDonViTinh);
-                editTextGia.setText(donGia.getGiaBan()+"");
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                WindowManager.LayoutParams windownAttributes = window.getAttributes();
+                window.setAttributes(windownAttributes);
+                if(Gravity.BOTTOM == gravity){
+                    dialog.setCancelable(true);
+                }
+                else {
+                    dialog.setCancelable(false);
+                }
                 if(donGia.getTenDonGia() != null){
                     int com = adapter.getPosition(donGia.getTenDonGia());
                     spinnerTenDonVIiTinh.setSelection(com);
                 }
-                builder1.setTitle("Đơn vị tính");
-                builder1.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
-                builder1.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+                btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         holder.textView.setText(spinnerTenDonVIiTinh.getSelectedItem().toString());
-                        holder.textViewGia.setText(editTextGia.getText().toString());
+                        holder.textViewGia.setText(textGiaSanPham.getText().toString());
+                        textGiaSanPham.setText("");
+                        dialog.dismiss();
                     }
-
                 });
-                builder1.show();
-
+                dialog.show();
             }
         });
 

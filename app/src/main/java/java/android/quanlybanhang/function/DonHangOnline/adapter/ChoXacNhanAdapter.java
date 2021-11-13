@@ -265,7 +265,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
 
         DatabaseReference mFirebaseDatabase = mFirebaseInstance.getReference();
         list.get(position).setIdDonHang(key);
-        mFirebaseDatabase.child("DonHangOnline/DaDatDon/"+ list.get(position).getIdKhachhang() +"/" +key).setValue(list.get(position));
+        mFirebaseDatabase.child("DonHangOnline/DaDatDon/"+ list.get(position).getIdKhachhang() + "/" +key).setValue(list.get(position));
     }
 
     //TODO: setDuLieu Firebase hủy đơn

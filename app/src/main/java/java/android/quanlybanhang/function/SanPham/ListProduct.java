@@ -3,9 +3,12 @@ package java.android.quanlybanhang.function.SanPham;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ListProduct  extends AppCompatActivity {
 
@@ -41,6 +45,10 @@ public class ListProduct  extends AppCompatActivity {
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
     private Spinner spnNhomsanpham, spnDonViTinh;
     private Button btnChoose;
+    private EditText searchView;
+    private ArrayList<Product> listSearch;
+    String key;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +56,51 @@ public class ListProduct  extends AppCompatActivity {
         setContentView(R.layout.activity_list_product);
         floatingActionButton = findViewById(R.id.themsanpham);
         recyclerView = findViewById(R.id.recyclerViewProduct);
+        searchView = findViewById(R.id.btn_searchsp);
         firebaseDatabase =  FirebaseDatabase.getInstance();
         mDatabase = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                key = searchView.getText().toString();
+                getListSearch(key);
+
+            }
+        });
         Danhsachsanpham();
         Taosanphamoi();
-
     }
+
+    private void getListSearch(String newText) {
+        listSearch = new ArrayList<>();
+        if(newText == null){
+            adapterProduct = new AdapterProduct(ListProduct.this,ListProduct.this, listProduct);
+            recyclerView.setAdapter(adapterProduct);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListProduct.this, LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
+        }
+        for(int i =0; i < listProduct.size();i++)
+        {
+            if(listProduct.get(i).getNameProduct().toUpperCase().contains(newText.toUpperCase().trim())){
+                listSearch.add(listProduct.get(i));
+            }
+        }
+        adapterProduct = new AdapterProduct(ListProduct.this,ListProduct.this, listSearch);
+        recyclerView.setAdapter(adapterProduct);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListProduct.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
     //Button taọ sản phẩm mới
     public void Taosanphamoi(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +124,7 @@ public class ListProduct  extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<DonGia> donGias = new ArrayList();
+
                 listProduct = new ArrayList<>();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     DataSnapshot aaa = snapshot1;
@@ -102,7 +149,7 @@ public class ListProduct  extends AppCompatActivity {
     }
     //Xóa sản phẩm
     public void delete(final int position){
-         new AlertDialog.Builder(ListProduct.this).setMessage(
+        new AlertDialog.Builder(ListProduct.this).setMessage(
                 "Do you want to delete this item"
         ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
@@ -125,11 +172,6 @@ public class ListProduct  extends AppCompatActivity {
             }
         }).setNegativeButton("No", null)
                 .show();
-    }
-    //Sữa sàn phẩm
-    public void update(final int position){
-       
-
     }
 
 
