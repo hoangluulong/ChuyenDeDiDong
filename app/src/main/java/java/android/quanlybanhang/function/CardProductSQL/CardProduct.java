@@ -41,6 +41,7 @@ import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
 import java.android.quanlybanhang.function.MainActivity;
 import java.android.quanlybanhang.function.MonOrder;
+import java.android.quanlybanhang.function.OrderMenu;
 import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -61,7 +62,8 @@ public class CardProduct extends AppCompatActivity {
     String S;
     public Handler mHandler;
     String trangthai;
-    private DatabaseReference mDatabase;//khai bao database
+    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase2;//khai bao database
      private Product staticMonOrderModel;
      Button bntluu,bntthanhtoan;
     private Database_order database_order;
@@ -221,11 +223,51 @@ public class CardProduct extends AppCompatActivity {
                 Hamxulicardt();
                  productPushFB = new ProductPushFB(date,flag,trangThai,list);
                 if(trangthai.equals("1")) {
+                    if(productPushFB!=null){
+
                     FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban).setValue(productPushFB);
 
-                }
+                        }
+
+                    }
                else if(trangthai.equals("0")){
-                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
+                        mDatabase2 = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id);
+//                        mDatabase2.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                if(snapshot.getValue()==null){
+//                                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
+//
+//                                }
+//                                if (snapshot.getValue()!=null) {
+//                                    for (int i=0;i<list.size();i++){
+//                                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).child("sanpham").push().setValue(list.get(i));
+//                                    }
+////                                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).push().setValue(list);
+//
+//
+//                                }
+                           /* Log.d("mimina",(snapshot.getValue()+""));*/
+//                                if(snapshot.getValue()!=null){
+//
+//                                    for (int i=0;i<listSP.size();i++){
+//                                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).child("sanpham").push().setValue(listSP.get(i));
+//                                    }
+////                                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).child("sanpham").push().setValue(listSP);
+//                                }
+//                                else {
+                                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id).setValue(productPushFB);
+//                                 }
+
+
+
+//                            }
+
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
                     if(list.size()>0){
                         FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
                         FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
@@ -240,7 +282,7 @@ public class CardProduct extends AppCompatActivity {
                 intent.putExtra("id_datban",id_datban);
                 intent.putExtra("trangthai",trangthai);
                 startActivity(intent);
-//                XoaSpkhiOrder();
+                XoaSpkhiOrder();
                 Toast.makeText(CardProduct.this,"Order Thành Công",Toast.LENGTH_LONG).show();
 
             }
@@ -252,6 +294,15 @@ public class CardProduct extends AppCompatActivity {
         for(int i=0 ; i<lists.size();i++){
             listSP.get(i).setSoluong(lists.get(i).getSoluong());
         }
+    }
+    private void XoaSpkhiOrder() {
+        if (trangthai.equals("0")) {
+            database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
+        } else if (trangthai.equals("1")) {
+            database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id_datban + "'");
+        }
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -272,6 +323,10 @@ public class CardProduct extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
+        }
+        if(item_id==android.R.id.home){
+            onBackPressed();
+            return true;
         }
         return true;
     }
@@ -309,5 +364,6 @@ public class CardProduct extends AppCompatActivity {
         }
         return tong;
     }
+
 
 }

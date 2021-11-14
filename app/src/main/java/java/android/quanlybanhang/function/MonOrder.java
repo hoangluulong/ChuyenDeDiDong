@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -79,6 +80,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     ImageView img_nocart;
     String key_SanPham;
     ProgressBar progressBar;
+    Button bnt_huy;
    // LinearProgressIndicator
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,13 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         progressBar.setVisibility(View.VISIBLE);
         listcard = new ArrayList<>();
         bnt_card = findViewById(R.id.bnt_luu);
-
+        bnt_huy = findViewById(R.id.bnt_huy);
+        bnt_huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         bnt_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,5 +196,15 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        if(item_id==android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

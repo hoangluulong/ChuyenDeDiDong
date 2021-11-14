@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +61,7 @@ public class ChiTietSanPham extends AppCompatActivity {
     String S;
     String id_datban;
     String trangthai;
+    Button bnt_huy;
     ArrayList<String> listnew;
     private int position;
     private ArrayList<DonGia>arrdongia;
@@ -67,6 +69,7 @@ public class ChiTietSanPham extends AppCompatActivity {
    private AdapterLoaiGia adapterLoaiGia;
     private DatabaseReference mDatabase;//khai bao database
      private final String TEN_BANG="ProductSQL1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +86,13 @@ public class ChiTietSanPham extends AppCompatActivity {
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        bnt_huy = findViewById(R.id.bnt_huy);
+        bnt_huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         key_sp = intent.getStringExtra("key_sanpham");
@@ -93,6 +103,7 @@ public class ChiTietSanPham extends AppCompatActivity {
         image = staticMonOrderModel.getImgProduct();
         soluong = staticMonOrderModel.getSoluong();
         donGiaOrders = staticMonOrderModel.getDonGia();
+
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -253,7 +264,7 @@ public class ChiTietSanPham extends AppCompatActivity {
             int  soluong1=0;
         Log.d("yeuCaumss",yeuCau.getText().toString()+"ne");
             sluong=Integer.parseInt(soluong2.getText()+"");
-            Log.d("sllll",sl+"");
+            Log.d("sllllbe",sluong+"");
             while (cursor.moveToNext()) {
                String a = cursor.getString(0);
                 String tensp= cursor.getString(1);
@@ -262,15 +273,10 @@ public class ChiTietSanPham extends AppCompatActivity {
                 double  gias= cursor.getInt(4);
                 arrayList.add(new Product(a,tensp,soluong1,img,gias));
             }
-            Log.d("bbbs","aaaaaabbs");
-            Log.d("TrangThaine",trangthai);
             if( trangthai.equals("1")){
                 database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE Id= '"+id_datban+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
-                Log.d("TrangThaine",trangthai+"1A");
-            }else if(trangthai.equals(" ")) {
-                Log.d("TrangThaine",trangthai +"1B");
+            }else if(trangthai.equals("0")) {
                 database_order.QueryData("UPDATE "+TEN_BANG+" SET soluong = "+(soluong1+sluong)+" WHERE Id= '"+id+"' AND tensanpham= '"+tensps+"' AND loai='"+Loai+"'");
-
             }
         } else {
             Log.d("yeuCau","aaaaaabb");
@@ -290,6 +296,15 @@ public class ChiTietSanPham extends AppCompatActivity {
             }
         }
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        if(item_id==android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

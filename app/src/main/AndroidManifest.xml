@@ -64,7 +64,9 @@
         <activity android:name=".function.Manager" />
         <activity android:name=".function.Income" />
         <activity android:name=".function.Processing" />
-        <activity android:name=".function.OrderMenu" />
+        <activity android:name=".function.OrderMenu"
+            android:parentActivityName=".function.MainActivity"
+            android:exported="true"/>
         <activity android:name=".function.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

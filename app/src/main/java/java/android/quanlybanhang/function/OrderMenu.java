@@ -94,6 +94,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         img_nocart = findViewById(R.id.img_nocart);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -187,6 +188,10 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
 
                 finish();
             }
+        }
+        if(item_id==android.R.id.home){
+            onBackPressed();
+            return true;
         }
 
 

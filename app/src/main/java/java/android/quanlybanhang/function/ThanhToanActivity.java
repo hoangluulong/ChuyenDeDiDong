@@ -67,7 +67,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     private String trangthai;
     private String id_datban;
     private ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
-    private Toolbar toolbar;//tool bar khai bao id
+    private Toolbar toolbar;
     private ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
     private Dialog dialogban;
     Window window;
@@ -147,14 +147,16 @@ public class ThanhToanActivity extends AppCompatActivity {
                 mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban);
             }
         }
+
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    ListDate_yc = new ArrayList<ProductPushFB>();
+
                    for (DataSnapshot posSnapshot1 : snapshot.getChildren()) {
+                       ListDate_yc = new ArrayList<ProductPushFB>();
                        listmon = new ArrayList<ProuductPushFB1>();
-                       date = Long.parseLong(snapshot.child("date").getValue()+"");
+                        Long date1 = Long.parseLong(snapshot.child("date").getValue()+"");
                        Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue()+"");
                        int trangThais =Integer.parseInt(snapshot.child("trangThai").getValue()+"") ;
 
@@ -168,7 +170,8 @@ public class ThanhToanActivity extends AppCompatActivity {
                            String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
                            listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
                        }
-                       ListDate_yc.add(new ProductPushFB(date, flag,trangThais, listmon));
+                       ListDate_yc.add(new ProductPushFB(date1, flag,trangThais, listmon));
+                       Log.d("khabanh1",ListDate_yc.size()+"thanhtoan0");
                    }
                     for (int i = 0; i < listmon.size(); i++) {
                         giaTong += listmon.get(i).getGiaProudct()*listmon.get(i).getSoluong();
@@ -323,6 +326,10 @@ public class ThanhToanActivity extends AppCompatActivity {
             intent.putExtra("id_datban", id_datban);
             startActivity(intent);
         }
+        if(item_id==android.R.id.home){
+            onBackPressed();
+            return true;
+        }
         return true;
     }
     private void HamTaodialog(int gravity){
@@ -405,7 +412,6 @@ public class ThanhToanActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String b = gson.toJson(ListDate_yc);
                 String a = gson.toJson(listmon);
-                Log.d("khabanh1",ListDate_yc.size()+"thanhtoan");
                 intent.putExtra("list_as_string",a);
                 intent.putExtra("list_as_string1",b);
                 startActivity(intent);

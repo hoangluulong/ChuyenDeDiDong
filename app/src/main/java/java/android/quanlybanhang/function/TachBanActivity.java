@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.android.quanlybanhang.Common.ArrayListTachBan;
 import java.android.quanlybanhang.HelperClasses.PackageTachBan.AdapterTachBan;
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
@@ -23,7 +24,7 @@ import java.android.quanlybanhang.R;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class TachBanActivity extends AppCompatActivity {
+public class TachBanActivity extends AppCompatActivity implements ArrayListTachBan {
     private Toolbar toolbar;
     ProgressBar progressBar;
     String id_ban_thanhtoan;
@@ -54,12 +55,16 @@ public class TachBanActivity extends AppCompatActivity {
         }.getType();
         carsList1 = gson.fromJson(carListAsString1, type1);
         carsList = gson.fromJson(carListAsString, type);
-        
-        adapterTachBan = new AdapterTachBan(carsList);
+        Log.d("km",carsList1.size()+"");
+        adapterTachBan = new AdapterTachBan(carsList1,this,this);
         recyclerView = findViewById(R.id.rv_1);
         recyclerView.setLayoutManager(new LinearLayoutManager(TachBanActivity.this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setFocusable(false);
         recyclerView.setAdapter(adapterTachBan);
         adapterTachBan.notifyDataSetChanged();
+    }
+
+    @Override
+    public void arrTachBan(ArrayList<ProductPushFB> arrayList) {
+        
     }
 }

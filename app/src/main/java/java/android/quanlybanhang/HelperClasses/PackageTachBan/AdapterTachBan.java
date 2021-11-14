@@ -8,20 +8,28 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.android.quanlybanhang.Common.ArrayListTachBan;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.TachBanActivity;
 import java.util.ArrayList;
 
 public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanHodel> {
-    private ArrayList<ProuductPushFB1> items;
-
-    public AdapterTachBan(ArrayList<ProuductPushFB1> items){
+    private ArrayList<ProductPushFB> items;
+    ArrayList<ProductPushFB> itemtach;
+    int select;
+    ArrayListTachBan  arrayListTachBan;
+    TachBanActivity tachBanActivity;
+    public AdapterTachBan(ArrayList<ProductPushFB> items,TachBanActivity tachBanActivity,ArrayListTachBan  arrayListTachBan){
         this.items = items;
+        this.tachBanActivity = tachBanActivity;
+        this.arrayListTachBan = arrayListTachBan;
     }
     @NonNull
     @Override
@@ -33,12 +41,33 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
 
     @Override
     public void onBindViewHolder(@NonNull TachBanHodel holder, int position) {
-        ProuductPushFB1 crr = items.get(position);
-        Log.d("khabanh1",items.size()+"");
-        holder.tvtensanpham.setText(crr.getNameProduct());
-        holder.tvsoluong.setText(crr.getSoluong()+"");
-        holder.tvgiasanpham.setText(crr.getGiaProudct()+"");
-        holder.tvLoai.setText(crr.getLoai());
+        itemtach = new ArrayList<ProductPushFB>();
+        ProductPushFB crr = items.get(position);
+        if(items.size()>0 && items!=null){
+            holder.tvtensanpham.setText(items.get(position).getSanpham().get(position).getNameProduct());
+            holder.tvsoluong.setText(items.get(position).getSanpham().get(position).getSoluong()+"");
+            holder.tvgiasanpham.setText(items.get(position).getSanpham().get(position).getGiaProudct()+"");
+            holder.tvLoai.setText(items.get(position).getSanpham().get(position).getLoai());
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(holder.checkBox.isChecked()){
+                        itemtach.add(items.get(position));
+                    }
+                    else {
+                        itemtach.remove(items.get(position));
+                    }
+                    Log.d("itemtachs",itemtach.size()+"");
+                    arrayListTachBan.arrTachBan(itemtach);
+                }
+            });
+
+        }
+
+
+
+
+
 
     }
 
@@ -46,7 +75,6 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
     public int getItemCount() {
         if (items!=null){
             return items.size() ;
-
         }
         return 0;
     }
@@ -66,7 +94,7 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
             imgplus=itemView.findViewById(R.id.imgplus);
             tvsoluong=itemView.findViewById(R.id.tvsoluong);
 
-
         }
+
     }
 }
