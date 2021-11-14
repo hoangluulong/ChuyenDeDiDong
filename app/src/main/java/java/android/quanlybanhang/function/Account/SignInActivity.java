@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.Account;
 
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Model.CuaHangSignIn;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
 import java.android.quanlybanhang.database.ThongTinCuaHangSql;
@@ -45,6 +48,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView imageView;
     private TextInputEditText username, password;
     private CardView google;
+    private Dialog dialog;
+    private Window window;
 
     private ArrayList<CuaHangSignIn> dataAccount;
     private String idUser;
@@ -56,11 +61,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mAuth;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    private ProgressBar progressBar;
     private LinearLayout layout;
 
     //SQLite
     private DbBaoCao dataSql;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +84,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         google = findViewById(R.id.btn_google);
         layout = findViewById(R.id.layout);
         layout.setAlpha(1);
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
+        dialog = new Dialog(SignInActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_loading);
+        window = dialog.getWindow();
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
@@ -93,14 +100,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             sloganText.setText("Sign up succes! Sign in to continue...");
         }
 
-//        createRequest();
         mAuth = FirebaseAuth.getInstance();
 
-        //setOnclick
-//        facebook.setOnClickListener(this);
         sigupNow.setOnClickListener(this);
         google.setOnClickListener(this);
-//        facebook.setOnClickListener(this);
         login.setOnClickListener(this);
         forgetPass.setOnClickListener(this);
     }
@@ -173,14 +176,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(SignInActivity.this, "Fialds Are Empty!", Toast.LENGTH_LONG).show();
         } else if (!(email.isEmpty() && pass.isEmpty())) {
             login.setEnabled(false);
-            progressBar.setVisibility(View.VISIBLE);
+            dialog.show();
             mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         login.setEnabled(false);
-                        layout.getBackground().setAlpha(45);
                         Toast.makeText(SignInActivity.this, "Signin error", Toast.LENGTH_SHORT).show();
+                        login.setEnabled(true);
+                        dialog.dismiss();
                     } else {
                         idUser = mAuth.getUid();
                         getDataAccount(idUser);
@@ -195,7 +199,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void getDataAccount(String UID) {
-
         dataAccount = new ArrayList<>();
         mFirebaseDatabase.child("ACCOUNT_LOGIN/" + UID + "/CuaHang").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -207,8 +210,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     dataAccount.add(new CuaHangSignIn(chucvu, ID, name));
                 }
             }
-
-            //      hoanghuulong@gmail.com
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("BBB", "onCancelled");
@@ -233,7 +234,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             Intent intent1 = new Intent(SignInActivity.this, ChiNhanhSignInActivity.class);
                             intent1.putExtras(bundle);
                             startActivity(intent1);
-                            progressBar.setVisibility(View.INVISIBLE);
                             layout.getBackground().setAlpha(45);
                             login.setEnabled(false);
                             finish();
@@ -261,7 +261,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 if (thietLap == true) {
                     tenCuaHang = snapshot.child("tenCuaHang").getValue().toString();
                 }
-
             }
 
             @Override
@@ -277,11 +276,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void run() {
                 if (checkThietLap == true) {
-                    Log.d("AAA delay", "delayDataThietLap");
                     if (thietLap == true) {
                         checkThietLap = false;
-                        Bundle bundle = new Bundle();
-                        bundle.putString("ID_STORE", UID);
                         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(SignInActivity.this, "app_database.sqlite", null, 2);
                         thongTinCuaHangSql.createTable();
                         Cursor cursor = thongTinCuaHangSql.selectThongTin();
@@ -290,18 +286,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             while (cursor.moveToNext()) {
                                 IdOld = cursor.getString(0);
                             }
-                            thongTinCuaHangSql.UpdateCuaHang(UID, IdOld, tenCuaHang);
+                            thongTinCuaHangSql.UpdateCuaHang(dataAccount.get(0).getID(), IdOld, tenCuaHang);
                         }else {
-                            thongTinCuaHangSql.InsertThonTin(UID, tenCuaHang);
+                            thongTinCuaHangSql.InsertThonTin(dataAccount.get(0).getID(), tenCuaHang);
                         }
-                        progressBar.setVisibility(View.INVISIBLE);
                         login.setEnabled(false);
-                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                        intent.putExtras(intent);
-                        startActivity(intent);
+
+                        getDataUser(UID);
 
                     }else {
-                        progressBar.setVisibility(View.INVISIBLE);
                         login.setEnabled(false);
                         Bundle bundle = new Bundle();
                         bundle.putString("ID_USER" , UID );
@@ -320,32 +313,42 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }, 100);
     }
 
-    private void getDataUser (){
+    private void getDataUser (String UID){
+        thongTinCuaHangSql = new ThongTinCuaHangSql(SignInActivity.this, "app_database.sqlite", null, 2);
+        thongTinCuaHangSql.createTableUser();
+        Log.d("zz", "CuaHangOder/"+dataAccount.get(0).getID()+"/user/"+UID);
 
-    }
+        mFirebaseDatabase.child("CuaHangOder/"+dataAccount.get(0).getID()+"/user/"+UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Cursor cursor = thongTinCuaHangSql.selectUser();
+                NhanVien nhanVien = snapshot.getValue(NhanVien.class);
+                String quyen = "";
+                for (int i = 0; i < nhanVien.getChucVu().size(); i++) {
+                    if (nhanVien.getChucVu().get(i)) {
+                        quyen = quyen+ "1";
+                    }else{
+                        quyen = quyen+ "0";
+                    }
+                }
 
-    /**
-     * SQLite
-     * gọi hàm MangNgay, CustomNgay2
-     */
-    private void DatabaseSQlite() {
-        // Tạo database
-        dataSql = new DbBaoCao(this, "app_database.sqlite", null, 1);
-        dataSql.QueryData("CREATE TABLE IF NOT EXISTS Test(" +
-                "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "Ten, " +
-                "ChucVu, " +
-                "Quyen, ");
-
-        Cursor dataHienThiBaoCao = dataSql.GetData("SELECT * FROM Test");
-
-        if (dataHienThiBaoCao.getCount() > 0) {
-            while (dataHienThiBaoCao.moveToNext()) {
-                //dataSql.QueryData("UPDATE CongViec SET NgayBatDau = 'Long' WHERE Id = '5'");
+                if (cursor.getCount() > 0){
+                    String IdOld = "";
+                    while (cursor.moveToNext()) {
+                        IdOld = cursor.getString(0);
+                    }
+                    thongTinCuaHangSql.UpdateUser(UID, IdOld, nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                }else {
+                    thongTinCuaHangSql.InsertUser(UID, nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                }
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(intent);
             }
-        } else {
-            dataSql.QueryData("INSERT INTO Test VALUES(null, '" + "" + "', '" + "" + "', 1)");
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
-    //cuaHang
 }

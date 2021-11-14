@@ -145,5 +145,17 @@
         <item name="android:colorAccent">@color/red</item>
     </style>
 
+    <style name="thoiGianLamViec">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_marginLeft">7dp</item>
+        <item name="android:layout_marginRight">7dp</item>
+        <item name="android:background">@drawable/layout_radius50</item>
+        <item name="android:fontFamily">@font/basic</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/bac</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
 
 </resources>

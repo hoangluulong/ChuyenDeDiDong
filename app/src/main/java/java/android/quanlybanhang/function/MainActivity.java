@@ -3,6 +3,7 @@ package java.android.quanlybanhang.function;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -20,9 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.Account.SignInActivity;
+import java.android.quanlybanhang.function.Account.ThongTinAccountActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu, baocao, donOnline, bep, online;
+    RelativeLayout ordermenu, baocao, donOnline, bep, online,account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         donOnline = findViewById(R.id.donOnline);
         bep = findViewById(R.id.bep);
         online = findViewById(R.id.online);
+        account = findViewById(R.id.account);
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +99,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ThongTinAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Write a message to the database
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -116,8 +128,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.nav_homes);
 
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
-        Toast.makeText(this, thongTinCuaHangSql.IDCuaHang(), Toast.LENGTH_LONG).show();
 
+        Toast.makeText(this, thongTinCuaHangSql.IDUser(), Toast.LENGTH_LONG).show();
+        NhanVien nhanVien = thongTinCuaHangSql.selectUser();
+        Log.d("zz", thongTinCuaHangSql.IDCuaHang());
     }
 
     @Override
@@ -179,5 +193,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

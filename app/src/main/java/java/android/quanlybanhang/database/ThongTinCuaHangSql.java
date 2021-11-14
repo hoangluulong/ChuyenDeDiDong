@@ -17,7 +17,7 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
     }
 
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS "+NAME_TABLE+"(" +
+        String sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE + "(" +
                 "Id VARCHAR(50) PRIMARY KEY, " +
                 "tencuahang VARCHAR(50))";
         SQLiteDatabase database = getWritableDatabase();
@@ -26,7 +26,7 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
 
     public void InsertThonTin(String Id, String tenCuaHang) {
         createTable();
-        String sql = "INSERT INTO "+NAME_TABLE+" VALUES('"+Id+"', '"+tenCuaHang+"')";
+        String sql = "INSERT INTO " + NAME_TABLE + " VALUES('" + Id + "', '" + tenCuaHang + "')";
 
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
@@ -40,38 +40,41 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
     }
 
     public void UpdateCuaHang(String IdNew, String IdOld, String tenCuaHang) {
-        String sql = "UPDATE "+NAME_TABLE+" SET Id = '"+IdNew+"', tencuahang = '"+tenCuaHang+"' WHERE Id= '"+IdOld+"'";
+        String sql = "UPDATE " + NAME_TABLE + " SET Id = '" + IdNew + "', tencuahang = '" + tenCuaHang + "' WHERE Id= '" + IdOld + "'";
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
     }
 
-        public void createTableUser() {
-        String sql = "CREATE TABLE IF NOT EXISTS "+NAME_TABLE_USER+"(" +
+
+
+    public void createTableUser() {
+        String sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_USER + "(" +
                 "Id VARCHAR(50), " +
                 "ten VARCHAR(50), " +
                 "email VARCHAR(50), " +
+                "phone VARCHAR(50), " +
                 "quyen VARCHAR(50))";
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
     }
 
-    public void InsertUser(String Id, String tenCuaHang) {
+    public void InsertUser(String Id, String ten, String email, String phone, String quyen) {
         createTable();
-        String sql = "INSERT INTO "+NAME_TABLE+" VALUES('"+Id+"', '"+tenCuaHang+"')";
+        String sql = "INSERT INTO " + NAME_TABLE_USER + " VALUES('" + Id + "', '" + ten + "', '" + email + "', '"+phone+"', '" + quyen + "')";
 
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
     }
 
     public Cursor selectUser() {
-        String sql = "SELECT * FROM " + NAME_TABLE;
+        String sql = "SELECT * FROM " + NAME_TABLE_USER;
         SQLiteDatabase database = getReadableDatabase();
         return database.rawQuery(sql, null);
 
     }
 
-    public void UpdateUser(String IdNew, String IdOld, String tenCuaHang) {
-        String sql = "UPDATE "+NAME_TABLE+" SET Id = '"+IdNew+"', tencuahang = '"+tenCuaHang+"' WHERE Id= '"+IdOld+"'";
+    public void UpdateUser(String IdNew, String IdOld, String ten, String email,String phone, String quyen) {
+        String sql = "UPDATE " + NAME_TABLE_USER + " SET Id = '" + IdNew + "', ten = '"+ ten +"', email = '"+ email +"', phone = '"+phone+"', quyen='"+quyen+"' WHERE Id= '" + IdOld + "'";
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
     }
