@@ -72,10 +72,14 @@
         <activity
             android:name=".function.BaoCao.DanhSachBienLaiActivity"
             android:exported="true"
+            android:label="Danh sách biên lai"
             android:theme="@style/thameActionbar2" />
         <activity
             android:name=".function.BaoCao.BaoCaoSanPhamActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Báo cáo sản phẩm"
+            android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
+            android:theme="@style/thameActionbar2"/>
         <activity
             android:name=".function.BaoCao.BaoCaoTongQuanActivity"
             android:exported="true"

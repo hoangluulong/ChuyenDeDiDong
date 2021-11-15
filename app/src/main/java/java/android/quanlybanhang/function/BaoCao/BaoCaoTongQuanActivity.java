@@ -47,6 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDate;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Common.Utils;
 import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.R;
@@ -69,9 +70,7 @@ import java.util.TimeZone;
 public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
-    private final String ID_CUAHNAG = "Meskv6p2bkf89ferNygy5Kp1aAA3";
-    private final String ID_CUAHNAG1 = "Meskv6p2bkf89ferNygy5Kp1aAA3";
-    private final String ID_CUAHNAG2 = "Meskv6p2bkf89ferNygy5Kp1aAA3";
+    private String ID_CUAHNAG;
     private Locale localeVN = new Locale("vi", "VN");
     private NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
@@ -132,6 +131,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bao_cao_tong_quan);
         getIDLayout();
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHNAG = thongTinCuaHangSql.IDCuaHang();
 
         DatabaseSQlite();
 
@@ -592,15 +593,15 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                             listSP.add(a.child("sanpham"));
                             if (Integer.parseInt(a.child("status").getValue() + "") == 1) {
                                 slDaThanhToan++;
-                                tienDTT += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
+                                tienDTT += Double.parseDouble(a.child("tongtien").getValue() + "");
                             } else if (Integer.parseInt(a.child("status").getValue() + "") == 2) {
                                 slChuaThanhToan++;
-                                tienCTT += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
+                                tienCTT += Double.parseDouble(a.child("tongtien").getValue() + "");
                             } else if (Integer.parseInt(a.child("status").getValue() + "") == 3) {
                             }
                             if (Integer.parseInt(a.child("status").getValue() + "") == 4) {
                                 slBiHuy++;
-                                tienHoaDonBiHuy += Double.parseDouble(a.child("tongthanhtoan").getValue() + "");
+                                tienHoaDonBiHuy += Double.parseDouble(a.child("tongtien").getValue() + "");
                             }
                             if (Integer.parseInt(a.child("status").getValue() + "") == 5) {
 
@@ -641,8 +642,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                         ArrayList<String> list = new ArrayList<>();
                         for (DataSnapshot sp : listSP) {
                             for (DataSnapshot s : sp.getChildren()) {
-                                sanPham.add(new PieTongQuan(s.child("tensanpham").getValue().toString(), Integer.parseInt(s.child("soluong").getValue().toString())));
-                                list.add(s.child("tensanpham").getValue().toString());
+                                sanPham.add(new PieTongQuan(s.child("nameProduct").getValue().toString(), Integer.parseInt(s.child("soluong").getValue().toString())));
+                                list.add(s.child("nameProduct").getValue().toString());
                             }
                         }
 
