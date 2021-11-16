@@ -22,7 +22,8 @@ import java.util.ArrayList;
 
 public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanHodel> {
     private ArrayList<ProductPushFB> items;
-    ArrayList<ProductPushFB> itemtach;
+
+    ArrayList<ProuductPushFB1> itemtach;
     int select;
     ArrayListTachBan  arrayListTachBan;
     TachBanActivity tachBanActivity;
@@ -41,40 +42,72 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
 
     @Override
     public void onBindViewHolder(@NonNull TachBanHodel holder, int position) {
-        itemtach = new ArrayList<ProductPushFB>();
-        ProductPushFB crr = items.get(position);
+        itemtach = new ArrayList<ProuductPushFB1>();
+        ProductPushFB crr = items.get(0);
+
         if(items.size()>0 && items!=null){
-            holder.tvtensanpham.setText(items.get(position).getSanpham().get(position).getNameProduct());
-            holder.tvsoluong.setText(items.get(position).getSanpham().get(position).getSoluong()+"");
-            holder.tvgiasanpham.setText(items.get(position).getSanpham().get(position).getGiaProudct()+"");
-            holder.tvLoai.setText(items.get(position).getSanpham().get(position).getLoai());
+            int a =crr.getSanpham().get(position).getSoluong();
+            Log.d("dddd",a+"");
+                holder.tvtensanpham.setText(crr.getSanpham().get(position).getNameProduct());
+                holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
+                holder.tvgiasanpham.setText(crr.getSanpham().get(position).getGiaProudct()+"");
+                holder.tvLoai.setText(crr.getSanpham().get(position).getLoai());
+            holder.imgminus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
+                    if(crr.getSanpham().get(position).getSoluong()>0){
+                        items.get(0).getSanpham().get(position).setSoluong(items.get(0).getSanpham().get(position).getSoluong()-1);
+                        Log.d("dddd",items.get(0).getSanpham().get(position).getSoluong()+""+"");
+                        holder.tvsoluong.setText(items.get(0).getSanpham().get(position).getSoluong()+"");
+                        if(items.get(0).getSanpham().get(position).getSoluong()<1){
+                            itemtach.remove(items.get(0).getSanpham().get(position));
+                            holder.checkBox.setChecked(false);
+
+                        }
+                    }
+                }
+            });
+            holder.imgplus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
+
+                    if( items.get(0).getSanpham().get(position).getSoluong()<=a-1){
+                        items.get(0).getSanpham().get(position).setSoluong(items.get(0).getSanpham().get(position).getSoluong()+1);
+                        holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
+                    }
+                }
+            });
+
             holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(holder.checkBox.isChecked()){
-                        itemtach.add(items.get(position));
+                        holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
+                        if(items.get(0).getSanpham().get(position).getSoluong()==0){
+                            holder.checkBox.setChecked(false);
+                            itemtach.remove(items.get(0).getSanpham().get(position));
+                        }
+                        else {
+                            holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
+                        itemtach.add(items.get(0).getSanpham().get(position));
+                        }
                     }
                     else {
-                        itemtach.remove(items.get(position));
+                        itemtach.remove(items.get(0).getSanpham().get(position));
                     }
                     Log.d("itemtachs",itemtach.size()+"");
                     arrayListTachBan.arrTachBan(itemtach);
                 }
             });
-
         }
-
-
-
-
-
-
     }
 
     @Override
     public int getItemCount() {
         if (items!=null){
-            return items.size() ;
+            return items.get(0).getSanpham().size() ;
         }
         return 0;
     }

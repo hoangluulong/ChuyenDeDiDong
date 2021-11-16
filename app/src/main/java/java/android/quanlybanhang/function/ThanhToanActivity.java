@@ -37,6 +37,7 @@ import com.google.gson.Gson;
 
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
@@ -66,9 +67,9 @@ public class ThanhToanActivity extends AppCompatActivity {
     private TextView totalTxt;
     private String trangthai;
     private String id_datban;
-    private ArrayList<ProuductPushFB1> listmon = new ArrayList<>();
+    private ArrayList<ProuductPushFB1> listmon ;
     private Toolbar toolbar;
-    private ArrayList<ProductPushFB> ListDate_yc = new ArrayList<>();
+    private ArrayList<ProductPushFB> ListDate_yc ;
     private Dialog dialogban;
     Window window;
     ImageButton bnt_threedot;
@@ -152,14 +153,13 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-
-                   for (DataSnapshot posSnapshot1 : snapshot.getChildren()) {
-                       ListDate_yc = new ArrayList<ProductPushFB>();
+                    ListDate_yc = new ArrayList<>();
+                    Log.d("kssj","ssks");
                        listmon = new ArrayList<ProuductPushFB1>();
+                       ArrayList<ProuductPushFB1> mm = new ArrayList<>();
                         Long date1 = Long.parseLong(snapshot.child("date").getValue()+"");
                        Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue()+"");
                        int trangThais =Integer.parseInt(snapshot.child("trangThai").getValue()+"") ;
-
                        DataSnapshot sss = snapshot.child("sanpham");
                        for (DataSnapshot postSnapshot : sss.getChildren()) {
                            String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
@@ -169,10 +169,13 @@ public class ThanhToanActivity extends AppCompatActivity {
                            String Loai = postSnapshot.child("loai").getValue() + "";
                            String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
                            listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
+                           mm.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
                        }
-                       ListDate_yc.add(new ProductPushFB(date1, flag,trangThais, listmon));
-                       Log.d("khabanh1",ListDate_yc.size()+"thanhtoan0");
-                   }
+                       ProductPushFB product = new ProductPushFB(date1, flag,trangThais, mm);
+                       ListDate_yc.add(product);
+                       Log.d("khabanh1",ListDate_yc.size()+"thanhtoan012");
+//
+
                     for (int i = 0; i < listmon.size(); i++) {
                         giaTong += listmon.get(i).getGiaProudct()*listmon.get(i).getSoluong();
                     }
@@ -405,6 +408,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 dialogban.dismiss();
+                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
                 Intent intent = new Intent(ThanhToanActivity.this, TachBanActivity.class);
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);

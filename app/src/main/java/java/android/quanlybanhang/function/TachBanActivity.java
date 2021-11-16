@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.function;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +13,11 @@ import android.util.Log;
 import android.widget.Adapter;
 import android.widget.ProgressBar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,7 +31,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class TachBanActivity extends AppCompatActivity implements ArrayListTachBan {
+    private ArrayList<ProuductPushFB1> listmon ;
     private Toolbar toolbar;
+    private ArrayList<ProductPushFB> ListDate_yc ;
+    private DatabaseReference mDatabase;
     ProgressBar progressBar;
     String id_ban_thanhtoan;
     String id_khuvuc_thanhtoan;
@@ -62,9 +71,9 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         recyclerView.setAdapter(adapterTachBan);
         adapterTachBan.notifyDataSetChanged();
     }
-
     @Override
-    public void arrTachBan(ArrayList<ProductPushFB> arrayList) {
-        
+    public void arrTachBan(ArrayList<ProuductPushFB1> arrayList) {
+
+
     }
 }
