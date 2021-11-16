@@ -75,9 +75,16 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
                     khuvuc.setText("ID " + donHang.getKey());
                     double tong = TinhTongTien(donHang.getSanpham());
                     ArrayList<SanPham> sanPhams = donHang.getSanpham();
-//                  soluong.setText(+ "");
+                    soluong.setText(soLuong(donHang)+"");
                     tongdon.setText((tong - donHang.getGiaKhuyenMai())+"");
                     thoigian.setText(changeDate(ID_KEY) + "");
+                    if (donHang.getTrangthai() == 2) {
+                        hoanthanh.setText("Xử lí");
+                    } else  if (donHang.getTrangthai() == 3) {
+                        hoanthanh.setText("Hoàn thành");
+                    }else  if (donHang.getTrangthai() == 4) {
+                        hoanthanh.setText("Trả đơn");
+                    }
 
                     hoanthanh.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -108,21 +115,7 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
                     chiTietDonHangAdapter.notifyDataSetChanged();
 
                 }else {
-                    Log.d("qqq", "dhfksdj");
                 }
-
-//                Date date = formatDate(donHang.getTime());
-//                donHang.setDate(date);
-
-//                if (donHang.getTrangthai() == 2) {
-//                    hoanthanh.setText("Xử lí");
-//                }else if (donHang.getTrangthai() == 3) {
-//                    hoanthanh.setText("Hoàn Thành");
-//                }else if (donHang.getTrangthai() == 4) {
-//                    hoanthanh.setText("Trả đơn");
-//                }
-
-
             }
 
             @Override
@@ -145,7 +138,7 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
         return  aaa;
     }
 
-    private int soLuong(SanPhamOder sanPhamOder) {
+    private int soLuong(DonHang sanPhamOder) {
         int soLuong = 0;
         double tien = 0;
         for (int i = 0; i < sanPhamOder.getSanpham().size(); i++){

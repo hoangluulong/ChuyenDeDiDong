@@ -44,6 +44,7 @@
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/storefront_24.xml" value="0.3177083333333333" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/drawable/up_24.xml" value="0.26145833333333335" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/font/alike.xml" value="0.2671875" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/font/alike_angular.xml" value="0.35" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/font/armata.xml" value="0.33055555555555555" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/font/baloo.xml" value="0.33055555555555555" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/font/basic.xml" value="0.2671875" />
@@ -114,6 +115,7 @@
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_khuyenmai1.xml" value="0.10462962962962963" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_khuyenmai2.xml" value="0.10462962962962963" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_ngay_bao_bao.xml" value="0.2640625" />
+        <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_ngay_bao_bao_san_pham.xml" value="0.25" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialog_thutrongtuan.xml" value="0.25" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialogthemdiachikhachhang.xml" value="0.10462962962962963" />
         <entry key="..\:/HK5 -mobile/ChuyenDeDiDong/app/src/main/res/layout/dialogthemdonvitinh.xml" value="0.36666666666666664" />

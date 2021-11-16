@@ -80,7 +80,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         password = findViewById(R.id.edt_password);
         imageView = findViewById(R.id.imageView);
         forgetPass = findViewById(R.id.lbl_forget_pass);
-//        facebook =  findViewById(R.id.btn_facebook);
         google = findViewById(R.id.btn_google);
         layout = findViewById(R.id.layout);
         layout.setAlpha(1);
@@ -176,7 +175,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(SignInActivity.this, "Fialds Are Empty!", Toast.LENGTH_LONG).show();
         } else if (!(email.isEmpty() && pass.isEmpty())) {
             login.setEnabled(false);
-            dialog.show();
+            onDialog();
             mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -196,6 +195,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             Toast.makeText(SignInActivity.this, "Error Occurred!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void onDialog() {
+        if (window == null) {
+            return;
+        }
+        dialog.show();
     }
 
     private void getDataAccount(String UID) {
@@ -297,6 +303,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     }else {
                         login.setEnabled(false);
                         Bundle bundle = new Bundle();
+                        dialog.dismiss();
                         bundle.putString("ID_USER" , UID );
                         Toast.makeText(SignInActivity.this, "Signup succes", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignInActivity.this, StoreSetting.class);
@@ -304,8 +311,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         startActivity(intent);
                         finish();
                     }
-
-                    finish();
                 }else {
                     delayDataThietLap(UID);
                 }
@@ -341,6 +346,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 }else {
                     thongTinCuaHangSql.InsertUser(UID, nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
                 }
+                dialog.dismiss();
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -350,5 +356,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if ( dialog!=null && dialog.isShowing() ){
+            dialog.cancel();
+        }
     }
 }

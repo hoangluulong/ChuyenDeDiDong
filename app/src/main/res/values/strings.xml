@@ -92,4 +92,11 @@
     <string name="title_onbarding_quanli">Bán hàng dễ dàng</string>
     <string name="noidung_onbarding_quanli">Food app cung cấp tiện ích oder với giao diện dễ dàng thao tác, theo dõi biểu đồ các khu vực một cách chuẩn xác</string>
 
+    <string-array name="sort_product">
+        <item>Số lượng giảm</item>
+        <item>Số lượng tăng</item>
+        <item>Tiền thu giảm</item>
+        <item>Tiền thu tăng</item>
+    </string-array>
+
 </resources>

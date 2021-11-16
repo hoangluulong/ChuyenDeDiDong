@@ -3,12 +3,16 @@ package java.android.quanlybanhang.function.BaoCao.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +51,7 @@ import java.util.Random;
  * Use the {@link ChiSoSanPhamFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChiSoSanPhamFragment extends Fragment {
+public class ChiSoSanPhamFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -113,6 +117,8 @@ public class ChiSoSanPhamFragment extends Fragment {
     private ArrayList<String> listDays;
     private View view;
     private String ID_CuaHang = "";
+    private Spinner spinner;
+    private ArrayList<PieTongQuan> sp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,10 +137,11 @@ public class ChiSoSanPhamFragment extends Fragment {
         pieChart = (PieChart) view.findViewById(R.id.piechart);
         pieChartOnline = (PieChart) view.findViewById(R.id.piecharOnline);
         pieChartCuaHang = (PieChart) view.findViewById(R.id.piecharTaiQuan);
+        spinner = view.findViewById(R.id.spinner);
         listDays = MangNgay();
 
         progressBar.setVisibility(View.VISIBLE);
-        sanPham.setVisibility(View.INVISIBLE);
+        sanPham.setVisibility(View.GONE);
         getDataBienLai();
         setData();
         return view;
@@ -160,12 +167,9 @@ public class ChiSoSanPhamFragment extends Fragment {
                     }
 
                     if (demThu == dsSanPhamBienLai.size() && demThuOnline == dsSanPhamBienLaiOnline.size()) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        image.setImageResource(R.drawable.empty_list);
-                        lblThongBao.setText("Chưa có dữ liệu");
                         i= 0;
                     }else {
-                        ArrayList<PieTongQuan> sp = new ArrayList<>();
+                        sp = new ArrayList<>();
                         Random obj = new Random();
 
 
@@ -201,6 +205,13 @@ public class ChiSoSanPhamFragment extends Fragment {
                                     dsSanPham.get(i).setGia(dsSanPham.get(i).getGia() + dsSanPhamBienLai.get(j).getGiaProudct());
                                 }
                             }
+
+                            for (int j = 0; j < dsSanPhamBienLaiOnline.size(); j++) {
+                                if (dsSanPham.get(i).getName().equals(dsSanPhamBienLaiOnline.get(j).getNameProduct())) {
+                                    dsSanPham.get(i).setSoLuong(dsSanPham.get(i).getSoLuong() + dsSanPhamBienLaiOnline.get(j).getSoluong());
+                                    dsSanPham.get(i).setGia(dsSanPham.get(i).getGia() + dsSanPhamBienLaiOnline.get(j).getGiaProudct());
+                                }
+                            }
                         }
 
                         for (int i = 0; i < dsSanPham.size(); i++) {
@@ -208,8 +219,6 @@ public class ChiSoSanPhamFragment extends Fragment {
                                 sp.add(dsSanPham.get(i));
                             }
                         }
-
-                        sp = dsSanPham;
 
                         sp.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
 
@@ -232,11 +241,33 @@ public class ChiSoSanPhamFragment extends Fragment {
                         String colorCode2 = String.format("#%06x", obj.nextInt(0xffffff + 1));
 
                         int online = dsSanPhamBienLaiOnline.size();
-                        int cuuhang = dsSanPhamBienLai.size();
+                        int cuahang = dsSanPhamBienLai.size();
 
-                        int tong = online + cuuhang;
-                        int ptOnline = (online * 100) / tong;
-                        int ptCuaHang = (cuuhang * 100) / tong;
+                        int tong = online + cuahang;
+
+                        int ptOnline;
+                        int ptCuaHang;
+                        sanPham.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        lblThongBao.setText("");
+                        image.setImageResource(0);
+
+                        if (tong == 0) {
+                            ptOnline = 0;
+                            ptCuaHang = 0;
+                            sanPham.setVisibility(View.GONE);
+                            image.setImageResource(R.drawable.empty_list);
+                            lblThongBao.setText("Chưa có dữ liệu");
+                        }else if (online == 0 && cuahang != 0) {
+                            ptOnline = 0;
+                            ptCuaHang = 100;
+                        }else if (online != 0 && cuahang == 0){
+                            ptOnline = 100;
+                            ptCuaHang = 0;
+                        }else {
+                            ptOnline = (online * 100) / tong;
+                            ptCuaHang = (cuahang * 100)/ tong;
+                        }
 
                         phanTranCuaHang.setText(ptCuaHang + "%");
                         phanTranOnline.setText(ptOnline+"%");
@@ -249,12 +280,12 @@ public class ChiSoSanPhamFragment extends Fragment {
                         pieChartOnline.addPieSlice(
                                 new PieModel(
                                         "online",
-                                        cuuhang,
+                                        cuahang,
                                         Color.parseColor("#FFFFFFFF")));
                         pieChartCuaHang.addPieSlice(
                                 new PieModel(
                                         "Cửa hàng",
-                                        cuuhang,
+                                        cuahang,
                                         Color.parseColor(colorCode2)));
                         pieChartCuaHang.addPieSlice(
                                 new PieModel(
@@ -264,10 +295,11 @@ public class ChiSoSanPhamFragment extends Fragment {
 
                         i = 0;
                         progressBar.setVisibility(View.INVISIBLE);
-                        sanPham.setVisibility(View.VISIBLE);
-                        lblThongBao.setText("");
-                        image.setImageResource(0);
+                        Log.d("ssss", sp.size()+"");
                         displayItem(view, sp);
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.sort_product, android.R.layout.simple_spinner_item);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
                     }
 
                 }else {
@@ -290,6 +322,7 @@ public class ChiSoSanPhamFragment extends Fragment {
         recyclerView.setAdapter(chiSoSanPhamAdapter);
         chiSoSanPhamAdapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(linearLayoutManager);
+        spinner.setOnItemSelectedListener(this);
     }
 
     private void getDataBienLai() {
@@ -313,7 +346,6 @@ public class ChiSoSanPhamFragment extends Fragment {
                     } else {
                         checkThu.add(0);
                     }
-
                 }
 
                 @Override
@@ -393,12 +425,36 @@ public class ChiSoSanPhamFragment extends Fragment {
         return arrNgay;
     }
 
-    public String CustomNgay(Calendar calendar, int amount) {
+    private String CustomNgay(Calendar calendar, int amount) {
         String dinhDang = "dd/MM/yyyy";
         calendar.add(Calendar.DAY_OF_YEAR, amount);
         Date date = calendar.getTime();
         SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
         String startDate = formatter.format(date);
         return startDate;
+    }
+
+    private void sort(int position) {
+        displayItem(view, sp);
+        if (position == 0) {
+            sp.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
+        }else if (position == 1){
+            sp.sort((o1, o2) -> o1.getSoLuong() - o2.getSoLuong());
+        }else if (position == 2){
+            sp.sort((o1, o2) -> Double.compare(o2.getGia(), o1.getGia()));
+        }else if (position == 3){
+            sp.sort((o1, o2) -> Double.compare(o1.getGia(), o2.getGia()));
+        }
+        chiSoSanPhamAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        sort(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 }

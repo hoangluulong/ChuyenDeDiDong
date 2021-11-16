@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_ngay_top_right"
-        android:fontFamily="@font/baloo"
+        android:fontFamily="@font/belgrano"
         android:gravity="center"
         android:padding="7dp"
         android:text="@string/chon_ngay"
@@ -82,7 +82,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
-                android:text="chọn một ngày khác" />
+                android:text="chọn một ngày khác"
+                android:textColor="@color/black" />
 
         </LinearLayout>
     </RadioGroup>
@@ -114,6 +115,7 @@
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
             android:text="Đồng ý"
+            android:textColor="@color/white"
             android:textSize="15sp" />
 
     </LinearLayout>
