@@ -59,6 +59,7 @@
             android:background="@drawable/bg_xoa_van_chuyen"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
+            android:textColor="@color/red"
             android:text="Hủy"
             android:textSize="15sp" />
 

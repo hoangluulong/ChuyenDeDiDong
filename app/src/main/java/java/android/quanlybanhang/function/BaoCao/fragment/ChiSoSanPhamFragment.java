@@ -450,7 +450,6 @@ public class ChiSoSanPhamFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         sort(position);
     }
 

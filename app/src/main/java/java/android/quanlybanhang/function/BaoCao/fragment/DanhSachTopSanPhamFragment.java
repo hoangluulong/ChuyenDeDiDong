@@ -391,7 +391,6 @@ public class DanhSachTopSanPhamFragment extends Fragment implements View.OnClick
         }, 50);
     }
 
-
     private void getDataFirebase() {
         dsSanPhamBienLai.clear();
         dsSanPhamBienLaiOnline.clear();

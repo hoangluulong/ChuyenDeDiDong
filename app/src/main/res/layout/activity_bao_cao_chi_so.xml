@@ -41,9 +41,9 @@
                         app:egBarWidth="30dp"
                         app:egLegendHeight="40dp"/>
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
@@ -51,10 +51,14 @@
                             android:layout_height="wrap_content"
                             android:background="@color/so_hoa_don"
                             android:gravity="center"
-                            android:text="Biểu đồ doanh thu từng ngày"
-                            android:textColor="@color/white" />
+                            android:text="Biểu đồ doanh số tuần này"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
 
@@ -83,16 +87,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/so_hoa_don"
-                            android:gravity="center"
-                            android:text="Số hóa đơn"
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@color/doanh_so"
+                            android:background="@color/CPP"
                             android:gravity="center"
                             android:text="Doanh số"
                             android:textColor="@color/white" />
@@ -101,7 +96,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/doanh_thu"
+                            android:background="@color/Python"
                             android:gravity="center"
                             android:text="Doanh thu"
                             android:textColor="@color/white" />
@@ -110,7 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/chi_phi"
+                            android:background="@color/doanh_so"
                             android:gravity="center"
                             android:text="Chi phí"
                             android:textColor="@color/white" />
@@ -119,50 +114,31 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tốc độ tăng trưởng: 0.3"
                         android:layout_marginBottom="50dp"
                         android:layout_gravity="bottom"/>
 
-                    <Button
-                        android:id="@+id/btn_chon_ngay"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/white"
-                        android:text="Tháng này" />
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="bottom">
+                       <Button
+                           android:id="@+id/btn_chon_ngay"
+                           android:layout_width="0dp"
+                           android:layout_height="50dp"
+                           android:layout_weight="1"
 
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="8dp">
-
-                    <org.eazegraph.lib.charts.BarChart
-                        android:id="@+id/khachHang"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:layout_marginTop="40dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/so_hoa_don"
-                            android:gravity="center"
-                            android:text="Số lượng khách hàng"
-                            android:textColor="@color/white" />
-
-                    </LinearLayout>
+                           android:background="@color/white"
+                           android:textColor="@color/link"
+                           android:text="Tháng này" />
+                       <Button
+                           android:id="@+id/btn_chon_nam"
+                           android:layout_width="0dp"
+                           android:layout_height="50dp"
+                           android:layout_weight="1"
+                           android:background="@color/white"
+                           android:textColor="@color/link"
+                           android:text="Năm này" />
+                   </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 

@@ -43,6 +43,22 @@ public class SupportFragmentDonOnline {
         }
     }
 
+    public String formatDateS(String strDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss dd-MM-yyyy");
+        String dt = "";
+        try {
+            Date date = simpleDateFormat.parse(strDate);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            dt = formatter.format(date);
+            return dt;
+        } catch (Exception e) {
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            dt = formatter.format(date);
+            return dt;
+        }
+    }
+
     public void SapXepDate(ArrayList<DonHang> donHangs) {
         Collections.sort(donHangs, new Comparator<DonHang>() {
             public int compare(DonHang o1, DonHang o2) {
