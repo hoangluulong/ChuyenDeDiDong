@@ -19,32 +19,39 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.TachBanActivity;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanHodel> {
     private ArrayList<ProductPushFB> items;
 
-    ArrayList<ProuductPushFB1> itemtach;
+private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
+//    ArrayList<ProuductPushFB1> itemtach;
     int select;
+    Boolean as = false;
     ArrayListTachBan  arrayListTachBan;
     TachBanActivity tachBanActivity;
-    public AdapterTachBan(ArrayList<ProductPushFB> items,TachBanActivity tachBanActivity,ArrayListTachBan  arrayListTachBan){
-        this.items = items;
+    public AdapterTachBan(TachBanActivity tachBanActivity,ArrayListTachBan  arrayListTachBan){
+        this.items = new ArrayList<>();
         this.tachBanActivity = tachBanActivity;
         this.arrayListTachBan = arrayListTachBan;
+    }
+    public void  setData(ArrayList<ProductPushFB> items){
+        this.items = items;
     }
     @NonNull
     @Override
     public TachBanHodel onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tachban,parent,false);
         AdapterTachBan.TachBanHodel tachBanHodel = new AdapterTachBan.TachBanHodel(view);
+
         return tachBanHodel;
     }
 
     @Override
     public void onBindViewHolder(@NonNull TachBanHodel holder, int position) {
-        itemtach = new ArrayList<ProuductPushFB1>();
+//        itemtach = new ArrayList<ProuductPushFB1>();
         ProductPushFB crr = items.get(0);
-
+        tachBanHodels.add(holder);
         if(items.size()>0 && items!=null){
             int a =crr.getSanpham().get(position).getSoluong();
             Log.d("dddd",a+"");
@@ -52,7 +59,7 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
                 holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
                 holder.tvgiasanpham.setText(crr.getSanpham().get(position).getGiaProudct()+"");
                 holder.tvLoai.setText(crr.getSanpham().get(position).getLoai());
-            holder.imgminus.setOnClickListener(new View.OnClickListener() {
+                holder.imgminus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
@@ -60,11 +67,7 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
                         items.get(0).getSanpham().get(position).setSoluong(items.get(0).getSanpham().get(position).getSoluong()-1);
                         Log.d("dddd",items.get(0).getSanpham().get(position).getSoluong()+""+"");
                         holder.tvsoluong.setText(items.get(0).getSanpham().get(position).getSoluong()+"");
-                        if(items.get(0).getSanpham().get(position).getSoluong()<1){
-                            itemtach.remove(items.get(0).getSanpham().get(position));
-                            holder.checkBox.setChecked(false);
 
-                        }
                     }
                 }
             });
@@ -80,28 +83,31 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
                 }
             });
 
-            holder.checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(holder.checkBox.isChecked()){
-                        holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
-                        if(items.get(0).getSanpham().get(position).getSoluong()==0){
-                            holder.checkBox.setChecked(false);
-                            itemtach.remove(items.get(0).getSanpham().get(position));
-                        }
-                        else {
-                            holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
-                        itemtach.add(items.get(0).getSanpham().get(position));
-                        }
-                    }
-                    else {
-                        itemtach.remove(items.get(0).getSanpham().get(position));
-                    }
-                    Log.d("itemtachs",itemtach.size()+"");
-                    arrayListTachBan.arrTachBan(itemtach);
-                }
-            });
+//            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(holder.checkBox.isChecked()){
+//                        holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
+//                        if(items.get(0).getSanpham().get(position).getSoluong()==0){
+//                            holder.checkBox.setChecked(false);
+//                            itemtach.remove(items.get(0).getSanpham().get(position));
+//                        }
+//                        else {
+//                            holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
+//                        itemtach.add(items.get(0).getSanpham().get(position));
+//                        }
+//                    }
+//                    else {
+//                        holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
+//                        itemtach.remove(items.get(0).getSanpham().get(position));
+//                    }
+//                    Log.d("itemtachs",itemtach.size()+"");
+//                    holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
+//                    arrayListTachBan.arrTachBan(itemtach);
+//                }
+//            });
         }
+
     }
 
     @Override
@@ -128,6 +134,15 @@ public class AdapterTachBan extends RecyclerView.Adapter<AdapterTachBan.TachBanH
             tvsoluong=itemView.findViewById(R.id.tvsoluong);
 
         }
-
+    }
+    public ProductPushFB PublicArraylist(){
+      ProductPushFB productPushFBS = new ProductPushFB();
+        for (int i = 0; i <tachBanHodels.size() ; i++) {
+            if(tachBanHodels.get(i).checkBox.isChecked()){
+                productPushFBS.getSanpham().add( items.get(0).getSanpham().get(i));
+//                Toast.makeText(tachBanActivity,productPushFBS.getSanpham().size()+"abc" , Toast.LENGTH_SHORT).show();
+            }
+        }
+        return productPushFBS;
     }
 }

@@ -408,7 +408,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 dialogban.dismiss();
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
+                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("3");
                 Intent intent = new Intent(ThanhToanActivity.this, TachBanActivity.class);
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);

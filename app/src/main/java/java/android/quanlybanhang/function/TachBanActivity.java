@@ -10,8 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,9 +34,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class TachBanActivity extends AppCompatActivity implements ArrayListTachBan {
-    private ArrayList<ProuductPushFB1> listmon ;
+    private ArrayList<ProuductPushFB1> listmon;
     private Toolbar toolbar;
-    private ArrayList<ProductPushFB> ListDate_yc ;
+    private ArrayList<ProductPushFB> ListDate_yc;
     private DatabaseReference mDatabase;
     ProgressBar progressBar;
     String id_ban_thanhtoan;
@@ -42,11 +45,18 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
     ArrayList<ProuductPushFB1> carsList;
     AdapterTachBan adapterTachBan;
     RecyclerView recyclerView;
+    Button bnt_thanhtoan;
+    ArrayList<ProductPushFB> arrayList;
+    ArrayList<ProductPushFB> listDatach = new ArrayList<>();
+
+    ArrayList<ProuductPushFB1> arrayList1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tach_ban);
         toolbar = findViewById(R.id.toolbars);
+        bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Tách bàn");
@@ -64,16 +74,70 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         }.getType();
         carsList1 = gson.fromJson(carListAsString1, type1);
         carsList = gson.fromJson(carListAsString, type);
-        Log.d("km",carsList1.size()+"");
-        adapterTachBan = new AdapterTachBan(carsList1,this,this);
+//        arrayList = new ArrayList<>();
+//        Long date = carsList1.get(0).getDate();
+//        int trangthaine = carsList1.get(0).getTrangThai();
+//        Boolean flag = carsList1.get(0).isFlag();
+//        ArrayList<ProuductPushFB1> prouductPushFB1s = carsList1.get(0).getSanpham();
+//        arrayList.add(new ProductPushFB(date,flag,trangthaine,prouductPushFB1s) );
+
+//        arrayList.add(carsList1.get(0));
+        adapterTachBan = new AdapterTachBan(this, this);
+        adapterTachBan.setData(carsList1);
         recyclerView = findViewById(R.id.rv_1);
         recyclerView.setLayoutManager(new LinearLayoutManager(TachBanActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterTachBan);
         adapterTachBan.notifyDataSetChanged();
+
+        bnt_thanhtoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductPushFB kq = adapterTachBan.PublicArraylist();
+                for (int i = 0; i < carsList.size(); i++) {
+                    for (int x = 0; x < kq.getSanpham().size(); x++) {
+                        if (carsList.size() > 0) {
+                            if (carsList.get(i).getNameProduct().equals(kq.getSanpham().get(x).getNameProduct()) && carsList.get(i).getLoai().equals(kq.getSanpham().get(x).getLoai())) {
+                                if (carsList.get(i).getSoluong() > kq.getSanpham().get(x).getSoluong()) {
+                                    carsList.get(i).setSoluong(carsList.get(i).getSoluong() - kq.getSanpham().get(x).getSoluong());
+                                } else if (carsList.get(i).getSoluong() == kq.getSanpham().get(x).getSoluong()) {
+                                    if(carsList.size()>0){
+                                    carsList.remove(i);
+                                   }
+                                    else {
+                                    }
+                                }
+                            }
+                        } else {
+                            Toast.makeText(TachBanActivity.this, "Danh Sách Rỗng", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                Intent intent = new Intent(TachBanActivity.this, OrderMenu.class);
+                Bundle bundle = new Bundle();
+                intent.putExtra("id_banTachBan", id_ban_thanhtoan);
+                intent.putExtra("id_khuvucTachBan", id_khuvuc_thanhtoan);
+                intent.putExtra("en", kq);
+                Gson gson = new Gson();
+                String b = gson.toJson(carsList);
+                intent.putExtra("carsList",b);
+                intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
+
     @Override
     public void arrTachBan(ArrayList<ProuductPushFB1> arrayList) {
+//
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(TachBanActivity.this, OrderMenu.class);
+        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

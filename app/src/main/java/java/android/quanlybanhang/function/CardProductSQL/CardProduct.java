@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
@@ -43,6 +45,7 @@ import java.android.quanlybanhang.function.MainActivity;
 import java.android.quanlybanhang.function.MonOrder;
 import java.android.quanlybanhang.function.OrderMenu;
 import java.android.quanlybanhang.function.ThanhToanActivity;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -80,6 +83,7 @@ public class CardProduct extends AppCompatActivity {
     TextView tvsoluong, tongsanphams;
     String id_datban;
     Activity activity;
+    ArrayList<ProuductPushFB1> carsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +116,11 @@ public class CardProduct extends AppCompatActivity {
 //        trangthai1 = intent.getStringExtra("trangthai");
         Log.d("TrangThaima", trangthai + "Cardproduct");
         id = id_ban + "_" + id_khuvuc;
-
+//        String ListCartDaCo = getIntent().getStringExtra("carsList");
+//        Gson gson = new Gson();
+//        Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
+//        }.getType();
+//        carsList = gson.fromJson(ListCartDaCo, type);
         rv_3 = findViewById(R.id.rv_3);
         listcard = new ArrayList<Product>();
 //        list = new ArrayList<PushToFire>();

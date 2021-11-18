@@ -24,6 +24,10 @@ public class ProductPushFB implements Serializable {
     private int TrangThai;
     private ArrayList<ProuductPushFB1> sanpham;
 
+    public ProductPushFB() {
+        this.sanpham = new ArrayList<>();
+    }
+
     public ProductPushFB(long date, boolean flag, int trangThai, ArrayList<ProuductPushFB1> sanpham) {
         this.date = date;
         this.flag = flag;
