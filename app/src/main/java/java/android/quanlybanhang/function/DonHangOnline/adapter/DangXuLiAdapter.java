@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,12 +54,20 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
 
     @Override
     public void onBindViewHolder(@NonNull DonHangXuLy holder, int position) {
-        holder.trangthaidonhang.setText("Đơn hàng đang được xử lý");
-        holder.nguoiThucHien.setText("Nhân viên: "+ list.get(position).getShipper());
+        if (list.get(position).getTrangthai() == 3) {
+            holder.trangthaidonhang.setText("Đơn hàng đang được xử lý");
+            holder.trangthaidonhang.setTextColor(ContextCompat.getColor(context, R.color.color_one));
+        }else {
+            holder.trangthaidonhang.setText("Đơn hàng đã sẵn sàng");
+            holder.trangthaidonhang.setTextColor(ContextCompat.getColor(context, R.color.Python));
+        }
+
+        holder.nguoiThucHien.setText("NV: "+ list.get(position).getNhanVien());
         holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
         holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
+        holder.tv_id_donhang.setText(list.get(position).getIdDonHang());
 
         holder.layoutThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +84,7 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
     }
 
     public class DonHangXuLy extends RecyclerView.ViewHolder {
-        private TextView trangthaidonhang, nguoiThucHien, lblDonGia, lblThoiGian, thoigian_denhientai, lblKhachang, lblDiaChi;
+        private TextView trangthaidonhang, nguoiThucHien, lblDonGia, lblThoiGian, lblKhachang, lblDiaChi, tv_id_donhang;
         private LinearLayout layoutThongTin;
         public DonHangXuLy(@NonNull View ItemView) {
             super(ItemView);
@@ -84,9 +93,9 @@ public class DangXuLiAdapter extends RecyclerView.Adapter<DangXuLiAdapter.DonHan
             layoutThongTin = ItemView.findViewById(R.id.layoutThongTin);
             lblDonGia = ItemView.findViewById(R.id.lblDonGia);
             lblThoiGian = ItemView.findViewById(R.id.lblThoiGian);
-            thoigian_denhientai = ItemView.findViewById(R.id.thoigian_denhientai);
             lblKhachang = ItemView.findViewById(R.id.lblKhachang);
             lblDiaChi = ItemView.findViewById(R.id.lblDiaChi);
+            tv_id_donhang = ItemView.findViewById(R.id.tv_id_donhang);
         }
     }
 

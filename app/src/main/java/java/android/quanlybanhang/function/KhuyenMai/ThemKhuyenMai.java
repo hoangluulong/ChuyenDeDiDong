@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class ThemKhuyenMai extends AppCompatActivity {
     private Window window,window1;
     private DatabaseReference mDatabase;
     private KhuyenMai khuyenMai;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG;
     private String STR_KM = "khuyenmai";
     private Double gia;
     private Double phanTram;
@@ -61,6 +62,9 @@ public class ThemKhuyenMai extends AppCompatActivity {
         dialog1 = new Dialog(ThemKhuyenMai.this);
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog1.setContentView(R.layout.dialog_khuyenmai2);
+
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        STR_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         window1 = dialog1.getWindow();
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_KM);
         arrayList.add(1);

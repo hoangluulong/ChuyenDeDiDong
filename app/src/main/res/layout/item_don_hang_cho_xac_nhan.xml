@@ -74,6 +74,31 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/alike_angular"
                         android:paddingLeft="10dp"
+                        android:text="ID: "
+                        android:textColor="@color/coffee"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_id_donhang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/alike_angular"
+                        android:paddingLeft="10dp"
+                        android:text="12217432849923"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/alike_angular"
+                        android:paddingLeft="10dp"
                         android:text="Tổng đơn: "
                         android:textColor="@color/coffee"
                         android:textSize="14sp" />
@@ -156,7 +181,7 @@
                     android:layout_marginBottom="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_kich_hoat"
-                    android:fontFamily="@font/baloo"
+                    android:fontFamily="@font/alike_angular"
                     android:gravity="center"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
@@ -171,7 +196,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_xoa_van_chuyen"
-                    android:fontFamily="@font/baloo"
+                    android:fontFamily="@font/alike_angular"
                     android:gravity="center"
                     android:paddingTop="5dp"
                     android:text="Hủy đơn ✘"

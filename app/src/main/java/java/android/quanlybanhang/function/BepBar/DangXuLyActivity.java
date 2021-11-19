@@ -2,6 +2,7 @@ package java.android.quanlybanhang.function.BepBar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.ChiTietDonHangAdapter;
 import java.android.quanlybanhang.function.BepBar.Data.Mon;
@@ -28,11 +30,12 @@ import java.util.Date;
 
 public class DangXuLyActivity extends AppCompatActivity {
 
-    private final String ID_QUAN = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String ID_QUAN;
     private TextView khuvuc, soluong, tongdon, thoigian;
     private Button hoanthanh;
     private RecyclerView recycleview;
     private ChiTietDonHangAdapter chiTietDonHangAdapter;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
 
     private DatabaseReference mDatabase;
 
@@ -43,7 +46,8 @@ public class DangXuLyActivity extends AppCompatActivity {
         IDLayout();
         Intent intent = getIntent();
         String ID_BAN = intent.getStringExtra("key");
-
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_QUAN = thongTinCuaHangSql.IDCuaHang();
         getFirebase(ID_BAN);
     }
 
@@ -58,12 +62,13 @@ public class DangXuLyActivity extends AppCompatActivity {
 
     private void getFirebase(String ID_BAN) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child(ID_QUAN).child("sanphamorder/" + ID_BAN).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String key = snapshot.getKey();
                 SanPhamOder sanPhamOder;
 
+                Log.d("qqq", snapshot.child("date").getValue().toString());
                 long date = Long.parseLong(snapshot.child("date").getValue().toString());
                 int trangThai = Integer.parseInt(snapshot.child("trangThai").getValue().toString());
                 String nametable = snapshot.getKey();
@@ -111,17 +116,17 @@ public class DangXuLyActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (sanPhamOder.getTrangThai() == 0) {
-                            mDatabase.child(ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(1);
+                            mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(1);
                             Toast.makeText(DangXuLyActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                             sanPhamOder.setTrangThai(1);
                             hoanthanh.setText("Hoàn thành");
                         } else if (sanPhamOder.getTrangThai() == 1) {
-                            mDatabase.child(ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(2);
+                            mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(2);
                             Toast.makeText(DangXuLyActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                             hoanthanh.setText("Xong");
                             onBackPressed();
                         } else if (sanPhamOder.getTrangThai() == 2) {
-                            mDatabase.child(ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(3);
+                            mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(3);
                             Toast.makeText(DangXuLyActivity.this, "Đã trả món", Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         }

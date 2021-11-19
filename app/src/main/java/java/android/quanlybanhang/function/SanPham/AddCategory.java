@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.SanPham.Category;
 import java.android.quanlybanhang.R;
 
@@ -23,16 +24,19 @@ public class AddCategory extends AppCompatActivity {
     private Button btnAddCategory,btnHuy;
     private Category category;
     private String STR_NHOMSANPHAM ="danhmucsanpham";
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
+    private String ID_CUAHANG;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addcategory);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         editTextAddCategory = findViewById(R.id.editAdd);
         btnAddCategory = findViewById(R.id.btnAdd);
-        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
+        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_NHOMSANPHAM);
         ButtonLuu();
     }
 

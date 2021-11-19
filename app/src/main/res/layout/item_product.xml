@@ -18,7 +18,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="10dp"
             app:civ_border_width="2dp"></de.hdodenhof.circleimageview.CircleImageView>
 
         <LinearLayout
@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/textnameProduct"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="2dp"
@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/textnameStatus"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
@@ -57,9 +57,9 @@
                 android:textStyle="bold"></TextView>
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linerLayout1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_toEndOf="@+id/linerLayout"
             android:orientation="vertical">
@@ -68,31 +68,27 @@
                 android:id="@+id/btnXoaSP"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@+id/circle_imgView"
                 android:padding="2dp"
                 android:src="@drawable/delete_24"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"></ImageView>
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"></ImageView>
 
             <ImageView
                 android:id="@+id/btnSuaSP"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@+id/textnameProduct"
                 android:padding="2dp"
                 android:src="@drawable/edit_24"
                 android:text="Ten Category"
                 android:textColor="@android:color/black"
                 android:textSize="10sp"
-                android:textStyle="bold"></ImageView>
-        </LinearLayout>
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ImageView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 

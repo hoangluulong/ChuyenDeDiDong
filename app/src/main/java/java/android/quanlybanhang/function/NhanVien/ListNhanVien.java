@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterNhanVien.AdapterNhanVien;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
@@ -35,7 +36,7 @@ public class ListNhanVien  extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<NhanVien> nhanViens;
     private FloatingActionButton floatingActionButton;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_USER = "user";
     private EditText searchView;
     private ArrayList<NhanVien> listSearch;
@@ -47,7 +48,9 @@ public class ListNhanVien  extends AppCompatActivity {
         searchView = findViewById(R.id.btn_searchnv);
         firebaseDatabase =  FirebaseDatabase.getInstance();
         floatingActionButton = findViewById(R.id.themnhanvien);
-        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(STR_USER);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        String IDCUUAHANG = thongTinCuaHangSql.IDCuaHang();
+        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(IDCUUAHANG).child(STR_USER);
         Danhsachnhanvien();
         Taonhanvienmoi();
         searchView.addTextChangedListener(new TextWatcher() {

@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterCategory;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterProduct;
 import java.android.quanlybanhang.Model.SanPham.Category;
@@ -38,10 +39,11 @@ public class ListCategory extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private RecyclerView recyclerView;
     private AdapterCategory adapterCategory;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_NHOMSANPHAM = "danhmucsanpham";
     private EditText searchView;
     private ArrayList<Category> listSearch;
+    private String ID_CUAHANG;
     private String key;
 
     @Override
@@ -51,8 +53,11 @@ public class ListCategory extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_2);
         searchView = findViewById(R.id.btn_searchnsp);
         floatingActionButton = findViewById(R.id.themnhomsanpham);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
+        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_NHOMSANPHAM);
+
         Danhsachnhomsanpham();
         Taonhomsanpham();
         searchView.addTextChangedListener(new TextWatcher() {

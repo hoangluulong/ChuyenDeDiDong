@@ -1,6 +1,10 @@
 package java.android.quanlybanhang.function.DonHangOnline;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -9,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.TablayoutAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.fragment.FragmentAdapter;
 import java.util.ArrayList;
@@ -53,6 +58,27 @@ public class DuyetDonHangActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         tablayoutAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_donhang_online, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_donhang_online:
+                Intent intent = new Intent(DuyetDonHangActivity.this, BepActivity.class);
+                startActivity(intent);
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
 

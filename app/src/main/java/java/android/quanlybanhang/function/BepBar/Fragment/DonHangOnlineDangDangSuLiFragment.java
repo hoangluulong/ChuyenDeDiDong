@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.DonOnlineChoChoXacNhanAdapter;
 import java.android.quanlybanhang.function.BepBar.Data.DonHang;
@@ -32,6 +33,8 @@ public class DonHangOnlineDangDangSuLiFragment extends Fragment {
     private DatabaseReference mDatabase;
     private DonOnlineChoChoXacNhanAdapter monViewHolder;
     private ArrayList<SanPham> sanPham;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
     View v;
     private ArrayList<DonHang> donHangs;
     private ProgressBar progressBar;
@@ -50,6 +53,8 @@ public class DonHangOnlineDangDangSuLiFragment extends Fragment {
         progressBar = v.findViewById(R.id.progressBar);
         lblThongBao = v.findViewById(R.id.lblThongBao);
         imageView = v.findViewById(R.id.image);
+        thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -64,7 +69,7 @@ public class DonHangOnlineDangDangSuLiFragment extends Fragment {
 
     private void getDataFirebase() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 donHangs = new ArrayList<>();

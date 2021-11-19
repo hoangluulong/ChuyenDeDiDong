@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DonHangHuyAdapter;
@@ -90,6 +91,7 @@ public class DonHuyFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private SwipeRefreshLayout refreshLayout;
     private View view;
     private ImageView image;
+    private String ID_CUAHANG;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +105,8 @@ public class DonHuyFragment extends Fragment implements SwipeRefreshLayout.OnRef
         image = view.findViewById(R.id.image);
 
         progressBar.setVisibility(View.VISIBLE);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         donHangs = new ArrayList<>();
         dialog = new Dialog(view.getContext());
@@ -125,7 +129,7 @@ public class DonHuyFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private void getDataFireBase(View view) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
@@ -133,16 +137,14 @@ public class DonHuyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snap : postSnapshot.getChildren()) {
                         DonHang donHang = snap.getValue(DonHang.class);
-                        if (donHang.getTrangthai() == 6) {
+                        if (donHang.getTrangthai() == 7) {
                             donHangs.add(donHang);
                             String key = snap.getKey();
                             Date date = support.formatDate(donHangs.get(i).getTime());
-                            Log.d("qq", date.getYear()+"");
                             donHangs.get(i).setDate(date);
-                            Log.d("date", date+"");
+                            donHangs.get(i).setIdDonHang(key);
                             donHangs.get(i).setKey(key);
-                            donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
-                            donHangs.get(i).setIdQuan("JxZOOK1RzcMM7pL5I6naGZfYSsu2");
+                            donHangs.get(i).setIdDonHang(key);
                             i++;
                         }
                     }

@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterKhuyenMai.ApdapterKhuyenMai;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
@@ -32,13 +33,14 @@ public class ListKhuyenMai  extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private EditText searchView;
     private DatabaseReference mDatabase;
-    private String STR_CH = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CH;
     private String STR_KM = "khuyenmai";
     private ArrayList<KhuyenMai> arrayList;
     private ArrayList<KhuyenMai> listSearch;
     private ApdapterKhuyenMai apdapterKhuyenMai;
     private KhuyenMai khuyenMai;
     private String key;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,8 @@ public class ListKhuyenMai  extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewKhuyenMai);
         floatingActionButton = findViewById(R.id.themkhuyenmai);
         searchView = findViewById(R.id.btn_searchkm);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        STR_CH = thongTinCuaHangSql.IDCuaHang();
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_KM).child(STR_CH);
         searchView.addTextChangedListener(new TextWatcher() {
             @Override

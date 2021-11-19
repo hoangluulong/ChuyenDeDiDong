@@ -58,6 +58,8 @@ public class DonHangHoanThanhAdapter extends RecyclerView.Adapter<DonHangHoanTha
         holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
+        holder.tv_id_donhang.setText(list.get(position).getIdDonHang());
+        holder.nguoiThucHien.setText(list.get(position).getNhanVien());
 
         holder.layoutThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +76,7 @@ public class DonHangHoanThanhAdapter extends RecyclerView.Adapter<DonHangHoanTha
     }
 
     public class DonHoanThanh extends RecyclerView.ViewHolder {
-        private TextView trangthaidonhang, nguoiThucHien, lblDonGia, lblThoiGian, thoigian_denhientai, lblKhachang, lblDiaChi;
+        private TextView trangthaidonhang, nguoiThucHien, lblDonGia, lblThoiGian, lblKhachang, lblDiaChi, tv_id_donhang;
         private LinearLayout layoutThongTin;
         public DonHoanThanh(@NonNull View ItemView) {
             super(ItemView);
@@ -83,9 +85,9 @@ public class DonHangHoanThanhAdapter extends RecyclerView.Adapter<DonHangHoanTha
             layoutThongTin = ItemView.findViewById(R.id.layoutThongTin);
             lblDonGia = ItemView.findViewById(R.id.lblDonGia);
             lblThoiGian = ItemView.findViewById(R.id.lblThoiGian);
-            thoigian_denhientai = ItemView.findViewById(R.id.thoigian_denhientai);
             lblKhachang = ItemView.findViewById(R.id.lblKhachang);
             lblDiaChi = ItemView.findViewById(R.id.lblDiaChi);
+            tv_id_donhang = ItemView.findViewById(R.id.tv_id_donhang);
         }
     }
 

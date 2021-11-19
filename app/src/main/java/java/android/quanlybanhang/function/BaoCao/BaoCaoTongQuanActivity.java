@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -74,11 +73,10 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     private Locale localeVN = new Locale("vi", "VN");
     private NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
-    private TextView tien_tongtien, tien_nophaithu, tien_nophaitra, tien_doanhthu, tien_doanhso, tien_chuathanhtoan, tien_dathanhtoan, tien_dichvuphuthu, tien_comonhuy,
-            tien_hoadononline, tien_chitieu,
-            sl_doanhso, sl_chuathanhtoan, sl_dathanhtoan, sl_dichvuphuthu, sl_comonhuy, sl_hoadononline;
+    private TextView tien_tongtien, tien_doanhthu, tien_doanhso, tien_dathanhtoan, tien_comonhuy, tien_chitieu,
+            sl_doanhso, sl_dathanhtoan, sl_comonhuy;
     private Button thoiGianLamViec, btnChiNhanh;
-    private CardView cv_tongtien, cv_nophaithu, cv_nophaitra, cv_doanhthu, cv_chi, cv_doanhso, cv_chuathantoan, cv_dathanhtoan, cv_dicvuphuthu, cv_comonhuy, cv_hoadononline;
+    private CardView cv_tongtien, cv_doanhthu, cv_chi, cv_doanhso, cv_dathanhtoan, cv_comonhuy, cv_hoadononline;
     private BottomSheetDialog bottomSheetDialog;
     private View sheetView;
     private PieChart pieChart;
@@ -145,10 +143,11 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
         if (dsSanPham.size() == 0) {
             pieE.add(new PieEntry(0, "Chưa có dữ liệu"));
+            pieChart.setVisibility(View.GONE);
         } else {
             pieE.clear();
             int tongSPKhac = 0;
-
+            pieChart.setVisibility(View.VISIBLE);
             ArrayList<PieTongQuan> sanPham = new ArrayList<>();
             for (int i = 0; i < dsSanPham.size(); i++) {
                 if (dsSanPham.get(i).getSoLuong() > 0) {
@@ -196,37 +195,25 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
         //textview tien
         tien_tongtien = findViewById(R.id.tien_tongtien);
-        tien_nophaithu = findViewById(R.id.tien_nophaithu);
-        tien_nophaitra = findViewById(R.id.tien_nophaitra);
         tien_doanhthu = findViewById(R.id.tien_doanhthu);
         tien_doanhso = findViewById(R.id.tien_doanhso);
-        tien_chuathanhtoan = findViewById(R.id.tien_chuathanhtoan);
         tien_dathanhtoan = findViewById(R.id.tien_dathanhtoan);
-        tien_dichvuphuthu = findViewById(R.id.tien_dichvuphuthu);
         tien_comonhuy = findViewById(R.id.tien_comonhuy);
-        tien_hoadononline = findViewById(R.id.tien_hoadononline);
         tien_chitieu = findViewById(R.id.tien_chitieu);
 
         //Cardview
         cv_tongtien = findViewById(R.id.cv_tongtien);
-        cv_nophaithu = findViewById(R.id.cv_nophaithu);
-        cv_nophaitra = findViewById(R.id.cv_nophaitra);
         cv_doanhthu = findViewById(R.id.cv_doanhthu);
         cv_doanhso = findViewById(R.id.cv_doanhso);
-        cv_chuathantoan = findViewById(R.id.cv_chuathantoan);
         cv_dathanhtoan = findViewById(R.id.cv_dathanhtoan);
-        cv_dicvuphuthu = findViewById(R.id.cv_dicvuphuthu);
         cv_comonhuy = findViewById(R.id.cv_comonhuy);
         cv_hoadononline = findViewById(R.id.cv_hoadononline);
         cv_chi = findViewById(R.id.cv_chi);
 
         //textview soluong
         sl_doanhso = findViewById(R.id.sl_doanhso);
-        sl_chuathanhtoan = findViewById(R.id.sl_chuathanhtoan);
         sl_dathanhtoan = findViewById(R.id.sl_dathanhtoan);
-        sl_dichvuphuthu = findViewById(R.id.sl_dichvuphuthu);
-        sl_comonhuy = findViewById(R.id.sl_comonhuy);
-        sl_hoadononline = findViewById(R.id.sl_hoadononline);
+        sl_comonhuy = findViewById(R.id.sl_comonhuy);;
 
         //button
         thoiGianLamViec = findViewById(R.id.btnThoiGianLamViec);
@@ -245,13 +232,9 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     //onlcik
     private void setOnclick() {
         cv_tongtien.setOnClickListener(this);
-        cv_nophaithu.setOnClickListener(this);
-        cv_nophaitra.setOnClickListener(this);
         cv_doanhthu.setOnClickListener(this);
         cv_doanhso.setOnClickListener(this);
-        cv_chuathantoan.setOnClickListener(this);
         cv_dathanhtoan.setOnClickListener(this);
-        cv_dicvuphuthu.setOnClickListener(this);
         cv_comonhuy.setOnClickListener(this);
         cv_hoadononline.setOnClickListener(this);
         thoiGianLamViec.setOnClickListener(this);
@@ -260,12 +243,10 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         //Dialog
         bottomSheetDialog = new BottomSheetDialog(BaoCaoTongQuanActivity.this, R.style.BottomSheetBaoCao);
         sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bao_cao_sheet_dialog, (ViewGroup) findViewById(R.id.sheet_baocao));
-        sheetView.findViewById(R.id.viewTongQuan).setOnClickListener(BaoCaoTongQuanActivity.this);
         sheetView.findViewById(R.id.viewChiSo).setOnClickListener(BaoCaoTongQuanActivity.this);
         sheetView.findViewById(R.id.viewBanChay).setOnClickListener(BaoCaoTongQuanActivity.this);
         sheetView.findViewById(R.id.viewHoaDon).setOnClickListener(BaoCaoTongQuanActivity.this);
         sheetView.findViewById(R.id.viewKho).setOnClickListener(BaoCaoTongQuanActivity.this);
-        sheetView.findViewById(R.id.btnBaoCaoSetting).setOnClickListener(BaoCaoTongQuanActivity.this);
         sheetView.findViewById(R.id.btnBaoCaoClose).setOnClickListener(BaoCaoTongQuanActivity.this);
     }
 
@@ -274,56 +255,30 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         Intent intent;
         switch (v.getId()) {
             case R.id.cv_tongtien:
-                Toast.makeText(this, "Tổng tiền", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.cv_nophaithu:
-                Toast.makeText(this, "Nợ phải thu", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.cv_nophaitra:
-                Toast.makeText(this, "nợ phải trả", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cv_doanhthu:
-                Toast.makeText(this, "Doanh thu", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cv_chi:
-                Toast.makeText(this, "Chi tiêu", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cv_doanhso:
-                Toast.makeText(this, "Doanh số", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.cv_chuathantoan:
-                Toast.makeText(this, "Chưa thanh toán", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cv_dathanhtoan:
-                Toast.makeText(this, "Đã thanh toán", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.cv_dicvuphuthu:
-                Toast.makeText(this, "Dịch vụ phụ thu", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cv_comonhuy:
-                Toast.makeText(this, "Có món hủy", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cv_hoadononline:
-                Toast.makeText(this, "Hóa đơn online", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.viewTongQuan:
-                Toast.makeText(BaoCaoTongQuanActivity.this, "Báo cáo tổng quan", Toast.LENGTH_LONG).show();
-                bottomSheetDialog.dismiss();
                 break;
             case R.id.viewChiSo:
-                Toast.makeText(BaoCaoTongQuanActivity.this, "Báo cáo chỉ số", Toast.LENGTH_LONG).show();
                 intent = new Intent(BaoCaoTongQuanActivity.this, BaoCaoChiSoActivity.class);
                 startActivity(intent);
                 bottomSheetDialog.dismiss();
                 break;
             case R.id.viewBanChay:
-                Toast.makeText(BaoCaoTongQuanActivity.this, "Báo cáo sản phẩm bán chạy", Toast.LENGTH_LONG).show();
                 bottomSheetDialog.dismiss();
                 intent = new Intent(BaoCaoTongQuanActivity.this, BaoCaoSanPhamActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewHoaDon:
-                Toast.makeText(BaoCaoTongQuanActivity.this, "Báo cáo hóa đơn", Toast.LENGTH_LONG).show();
                 intent = new Intent(BaoCaoTongQuanActivity.this, DanhSachBienLaiActivity.class);
                 startActivity(intent);
                 bottomSheetDialog.dismiss();
@@ -333,10 +288,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 startActivity(intent);
                 bottomSheetDialog.dismiss();
                 break;
-            case R.id.btnBaoCaoSetting:
-                Toast.makeText(BaoCaoTongQuanActivity.this, "Cài đặt", Toast.LENGTH_LONG).show();
-                bottomSheetDialog.dismiss();
-                break;
             case R.id.btnBaoCaoClose:
                 bottomSheetDialog.dismiss();
                 break;
@@ -344,7 +295,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 openFeedbackDialog(Gravity.CENTER);
                 break;
             case R.id.btnChiNhanh:
-                Toast.makeText(BaoCaoTongQuanActivity.this, "Chi nhánh", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -364,9 +314,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 bottomSheetDialog.show();
                 break;
             case android.R.id.home:
-//                Intent intent = new Intent(BaoCaoTongQuanActivity.this, MainActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.slide_down_animate, R.anim.slide_out_down_animate);
                 finish();
                 break;
         }
@@ -522,8 +469,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     tien_tongtien.setText(formatStr(Double.parseDouble(dataSnapshot.child("tongTien").getValue().toString())));
-                    tien_nophaithu.setText(formatStr(Double.parseDouble(dataSnapshot.child("noPhaiTra").getValue().toString())));
-                    tien_nophaitra.setText(formatStr(Double.parseDouble(dataSnapshot.child("noPhaiThu").getValue().toString())));
                 }
             }
 
@@ -566,9 +511,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
                         tien_doanhso.setText("0");
                         sl_doanhso.setText("0");
-
-                        tien_chuathanhtoan.setText("0");
-                        sl_chuathanhtoan.setText("0");
 
                         tien_chitieu.setText("0");
 
@@ -615,12 +557,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
                         tien_doanhso.setText(formatStr(tienDTT));
                         sl_doanhso.setText(slDaThanhToan + "");
-
-                        tien_chuathanhtoan.setText(formatStr(tienCTT));
-                        sl_chuathanhtoan.setText(slChuaThanhToan + "");
-
-                        sl_dichvuphuthu.setText(slDichVuPhuThu + "");
-                        tien_dichvuphuthu.setText(formatStr(tienDVPT));
 
                         sl_comonhuy.setText(slBiHuy + "");
                         tien_comonhuy.setText(tienHoaDonBiHuy + "");
@@ -689,9 +625,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
                         tien_doanhso.setText("0");
                         sl_doanhso.setText("0");
-
-                        tien_chuathanhtoan.setText("0");
-                        sl_chuathanhtoan.setText("0");
 
                         tien_chitieu.setText("0");
 
@@ -840,7 +773,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 }
 
                 dongy.setEnabled(false);
-                Toast.makeText(BaoCaoTongQuanActivity.this, ngayBatDau + " -- " + ngayKetThuc, Toast.LENGTH_SHORT).show();
             }
         });
 

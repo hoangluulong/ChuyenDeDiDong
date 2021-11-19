@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.ChiTietDonHangOnlineAdapter;
 import java.android.quanlybanhang.function.BepBar.Data.DonHang;
@@ -32,7 +33,9 @@ import java.util.Date;
 
 public class DangXuLyOnlineActivity extends AppCompatActivity {
 
-    private final String ID_QUAN = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+    private String ID_QUAN;
+    private String userName;
     private TextView khuvuc, soluong, tongdon, thoigian;
     private Button hoanthanh;
     private RecyclerView recycleview;
@@ -50,8 +53,11 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ID_KEY = intent.getStringExtra("key");
         KEY_NGAY = intent.getStringExtra("key_ngay");
+        thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_QUAN = thongTinCuaHangSql.IDCuaHang();
+        userName = thongTinCuaHangSql.Username();
 
-        getFirebase(ID_KEY);
+        getFirebase();
     }
 
     private void IDLayout() {
@@ -63,14 +69,12 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
         recycleview = findViewById(R.id.recycleview);
     }
 
-    private void getFirebase(String ID_BAN) {
-        Log.d("abc", KEY_NGAY + " - " + ID_KEY);
+    private void getFirebase() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    Log.d("qqq", snapshot.getValue().toString());
                     DonHang donHang = snapshot.getValue(DonHang.class);
                     khuvuc.setText("ID " + donHang.getKey());
                     double tong = TinhTongTien(donHang.getSanpham());
@@ -78,30 +82,34 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
                     soluong.setText(soLuong(donHang)+"");
                     tongdon.setText((tong - donHang.getGiaKhuyenMai())+"");
                     thoigian.setText(changeDate(ID_KEY) + "");
+                    Log.d("ssss", donHang.getTrangthai()+"");
                     if (donHang.getTrangthai() == 2) {
                         hoanthanh.setText("Xử lí");
                     } else  if (donHang.getTrangthai() == 3) {
+
                         hoanthanh.setText("Hoàn thành");
-                    }else  if (donHang.getTrangthai() == 4) {
+                    } else  if (donHang.getTrangthai() == 4) {
                         hoanthanh.setText("Trả đơn");
                     }
 
                     hoanthanh.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Toast.makeText(DangXuLyOnlineActivity.this, "s", Toast.LENGTH_SHORT).show();
                             if (donHang.getTrangthai() == 2) {
-                                mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(3);
+                                mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(3);
+                                mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/nhanVien").setValue(userName);
                                 Toast.makeText(DangXuLyOnlineActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                                 hoanthanh.setText("Hoàn Thành");
                                 donHang.setTrangthai(3);
                             }else if (donHang.getTrangthai() == 3) {
-                                mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(4);
+                                mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(4);
                                 Toast.makeText(DangXuLyOnlineActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                                 hoanthanh.setText("Trả đơn");
                                 donHang.setTrangthai(4);
                                 onBackPressed();
                             }else if (donHang.getTrangthai() == 4) {
-                                mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(5);
+                                mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(5);
                                 Toast.makeText(DangXuLyOnlineActivity.this, "Đã trả đơn", Toast.LENGTH_SHORT).show();
                                 onBackPressed();
                             }

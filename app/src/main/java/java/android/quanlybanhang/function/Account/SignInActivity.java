@@ -240,7 +240,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             Intent intent1 = new Intent(SignInActivity.this, ChiNhanhSignInActivity.class);
                             intent1.putExtras(bundle);
                             startActivity(intent1);
-                            layout.getBackground().setAlpha(45);
                             login.setEnabled(false);
                             finish();
                         }else{

@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.BepBar.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.DonHangOfflineAdapter;
 import java.android.quanlybanhang.function.BepBar.Data.Mon;
@@ -33,6 +35,8 @@ public class DonHangOfflineChoSuLyFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView lblThongBao;
     private ImageView imageView;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
 
     View v;
     public DonHangOfflineChoSuLyFragment() {
@@ -48,6 +52,8 @@ public class DonHangOfflineChoSuLyFragment extends Fragment {
         progressBar = v.findViewById(R.id.progressBar);
         lblThongBao = v.findViewById(R.id.lblThongBao);
         imageView = v.findViewById(R.id.image);
+        thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         progressBar.setVisibility(View.VISIBLE);
         recyclerViewTable= v.findViewById(R.id.recycler);
@@ -64,7 +70,7 @@ public class DonHangOfflineChoSuLyFragment extends Fragment {
     private void onDataChange()
     {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("CuaHangOder/"+ID_CUAHANG).child("sanphamorder").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int i=0;

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,8 +23,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.DiaChiCuaHang;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.ChoXacNhanAdapter;
+import java.android.quanlybanhang.function.DonHangOnline.data.DiaChi;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,6 +85,9 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
     private SwipeRefreshLayout refreshLayout;
     private View view;
     private ImageView image;
+    private String ID_CUAHANG;
+    private DiaChi diaChiCuaHang;
+    private String strDiaChiChuaHang;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +107,12 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
         progressBar = view.findViewById(R.id.progressBar);
         refreshLayout = view.findViewById(R.id.swipeRefreshlayout);
         image = view.findViewById(R.id.image);
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
+        diemNhan();
         progressBar.setVisibility(View.VISIBLE);
 
         donHangs = new ArrayList<>();
@@ -121,27 +133,42 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
         choXacNhanAdapter.notifyDataSetChanged();
     }
 
+    private void diemNhan() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/ThongTinCuaHang").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                diaChiCuaHang = snapshot.getValue(DiaChi.class);
+                strDiaChiChuaHang = diaChiCuaHang.getSoNha() + " - " + diaChiCuaHang.getXa() + " - " + diaChiCuaHang.getHuyen() + " - " + diaChiCuaHang.getTinh();
+                Log.d("ss", strDiaChiChuaHang);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
     private void getDataFireBase(View view) {
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
                 int i = 0;
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String ngay = postSnapshot.getKey();
                     for (DataSnapshot snap : postSnapshot.getChildren()) {
                         DonHang donHang = snap.getValue(DonHang.class);
                         if (donHang.getTrangthai() == 0) {
                             donHangs.add(donHang);
                             String key = snap.getKey();
-                            Date date = support.formatDate(donHangs.get(i).getTime());
-                            Log.d("qq", date.getYear()+"");
+                            Date date = support.dateKey(ngay);
                             donHangs.get(i).setDate(date);
-                            Log.d("date", date+"");
                             donHangs.get(i).setKey(key);
-                            donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
-                            donHangs.get(i).setIdQuan("JxZOOK1RzcMM7pL5I6naGZfYSsu2");
+                            donHangs.get(i).setIdDonHang(key);
+                            donHangs.get(i).setDiemnhan(strDiaChiChuaHang);
+                            donHangs.get(i).setIdQuan(ID_CUAHANG);
                             i++;
                         }
                     }

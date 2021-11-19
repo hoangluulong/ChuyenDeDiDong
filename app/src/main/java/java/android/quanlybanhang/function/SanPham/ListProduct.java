@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterProduct;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
@@ -48,6 +49,7 @@ public class ListProduct  extends AppCompatActivity {
     private EditText searchView;
     private ArrayList<Product> listSearch;
     String key;
+    private String ID_CUAHANG;
 
 
     @Override
@@ -58,7 +60,10 @@ public class ListProduct  extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewProduct);
         searchView = findViewById(R.id.btn_searchsp);
         firebaseDatabase =  FirebaseDatabase.getInstance();
-        mDatabase = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+
+        mDatabase = firebaseDatabase.getReference("CuaHangOder/"+ID_CUAHANG).child("sanpham");
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -160,7 +165,7 @@ public class ListProduct  extends AppCompatActivity {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             DataSnapshot aaa = snapshot1;
                             Toast.makeText(ListProduct.this,listProduct.get(position).getId()+"",Toast.LENGTH_LONG).show();
-                            mDatabase1 = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham").child(aaa.getKey());
+                            mDatabase1 = firebaseDatabase.getReference("CuaHangOder/"+ID_CUAHANG).child("sanpham").child(aaa.getKey());
                             mDatabase1.child(listProduct.get(position).getId()).removeValue();
                         }
                     }

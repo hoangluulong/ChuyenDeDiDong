@@ -48,15 +48,31 @@
                     android:text="20-10-2021 12:30:14"
                     android:fontFamily="@font/alike_angular"
                     android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp">
+
                 <TextView
-                    android:id="@+id/lblThoiGianTruoc"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:gravity="left"
-                    android:textColor="@color/black"
-                    android:text="10 phút trước"
-                    android:textSize="8sp" />
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/coffee"
+                    android:text="ID: "
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_id_donhang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="14dp"
+                    android:text="2756758345"
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -114,22 +130,15 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
+            android:layout_marginTop="12dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đang chuẩn bị..."
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/Python"
-                android:textSize="9sp"/>
             <TextView
                 android:id="@+id/trangthai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chờ chế biến"
-                android:layout_marginTop="10dp"
+                android:textColor="@color/CPP"
                 android:textSize="10sp"/>
 
         </LinearLayout>
@@ -151,7 +160,7 @@
                 android:layout_marginBottom="2dp"
                 android:text="Hàng chờ ⤾"
                 android:textSize="10sp"
-                android:fontFamily="@font/baloo"
+                android:fontFamily="@font/alike_angular"
                 android:textColor="@color/Python" />
 
             <TextView
@@ -163,7 +172,7 @@
                 android:layout_marginTop="2dp"
                 android:text="Hủy đơn ✘"
                 android:textSize="10sp"
-                android:fontFamily="@font/baloo"
+                android:fontFamily="@font/alike_angular"
                 android:textColor="@color/red" />
         </LinearLayout>
 

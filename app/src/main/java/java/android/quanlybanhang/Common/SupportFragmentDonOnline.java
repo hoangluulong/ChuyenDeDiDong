@@ -43,6 +43,18 @@ public class SupportFragmentDonOnline {
         }
     }
 
+    public Date dateKey(String strDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            Date date = simpleDateFormat.parse(strDate);
+            return date;
+        } catch (Exception e) {
+            Date date = new Date();
+            return date;
+        }
+    }
+
     public String formatDateS(String strDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss dd-MM-yyyy");
         String dt = "";

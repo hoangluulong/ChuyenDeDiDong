@@ -238,10 +238,10 @@
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bnt_luu" />
+        app:layout_constraintStart_toEndOf="@+id/bnt_huy" />
 
     <Button
-        android:id="@+id/bnt_luu"
+        android:id="@+id/bnt_huy"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginStart="5dp"

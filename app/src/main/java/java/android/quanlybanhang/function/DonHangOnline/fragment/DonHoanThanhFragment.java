@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DonHangHoanThanhAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DonHangHuyAdapter;
@@ -90,6 +91,8 @@ public class DonHoanThanhFragment extends Fragment implements SwipeRefreshLayout
     private SwipeRefreshLayout refreshLayout;
     private View view;
     private ImageView image;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+    private String ID_CUAHANG;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,6 +104,8 @@ public class DonHoanThanhFragment extends Fragment implements SwipeRefreshLayout
         progressBar = view.findViewById(R.id.progressBar);
         refreshLayout = view.findViewById(R.id.swipeRefreshlayout);
         image = view.findViewById(R.id.image);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -117,7 +122,7 @@ public class DonHoanThanhFragment extends Fragment implements SwipeRefreshLayout
     private void getDataFireBase(View view) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
@@ -125,15 +130,15 @@ public class DonHoanThanhFragment extends Fragment implements SwipeRefreshLayout
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snap : postSnapshot.getChildren()) {
                         DonHang donHang = snap.getValue(DonHang.class);
-                        if (donHang.getTrangthai() == 5) {
+                        if (donHang.getTrangthai() == 6) {
                             donHangs.add(donHang);
+                            Log.d("aaaaa", "ssss");
                             String key = snap.getKey();
                             Date date = support.formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
-                            Log.d("date", date+"");
+                            donHangs.get(i).setIdDonHang(key);
+                            donHangs.get(i).setIdDonHang(key);
                             donHangs.get(i).setKey(key);
-                            donHangs.get(i).setDiemnhan("123 Trần Quang Hưng");
-                            donHangs.get(i).setIdQuan("JxZOOK1RzcMM7pL5I6naGZfYSsu2");
                             i++;
                         }
                     }
@@ -160,7 +165,7 @@ public class DonHoanThanhFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-
+//        getDataFireBase(view);
     }
 
     private void displayItem(View view) {

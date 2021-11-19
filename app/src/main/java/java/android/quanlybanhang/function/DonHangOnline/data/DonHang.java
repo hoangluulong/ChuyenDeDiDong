@@ -25,7 +25,7 @@ public class DonHang {
 
     public DonHang() { }
 
-    public DonHang(String diaChi, String time, int trangthai, String idKhachhang,String sdtkhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, int phuongThucThanhToan) {
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang,String sdtkhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, int phuongThucThanhToan, String diemnhan) {
         this.diaChi = diaChi;
         this.time = time;
         this.trangthai = trangthai;
@@ -40,7 +40,7 @@ public class DonHang {
         this.nhanVien = "";
         this.phoneShipper = "";
         this.shipper = "";
-        this.diemnhan = "123 Trần Duy Hưng";
+        this.diemnhan = diemnhan;
     }
 
     public DonHang(String diaChi, String diemnhan, String time, int trangthai, String idKhachhang,String sdtkhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan, String idQuan, String idDonHang) {

@@ -18,6 +18,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
     RelativeLayout ordermenu, baocao, donOnline, bep, online,account;
+    private DatabaseReference mDatabase;//khai bao database
+    private DatabaseReference mDatabase1;//khai bao database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bep = findViewById(R.id.bep);
         online = findViewById(R.id.online);
         account = findViewById(R.id.account);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban");
+        mDatabase.child("trangthai").setValue("0");
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,9 +143,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;

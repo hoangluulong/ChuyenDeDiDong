@@ -43,6 +43,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterDonGia;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
@@ -63,7 +64,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
     private RecyclerView listView;
     private String STR_NHOMSANPHAM = "danhmucsanpham";
     private String STR_SANPHAM = "sanpham";
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_UPLOAD = "uploads";
     private String STR_DONVITINH = "donvitinh";
     private String id;
@@ -122,10 +123,13 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
         gravity = Gravity.CENTER;
         //firebase
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        String IDCUUAHANG = thongTinCuaHangSql.IDCuaHang();
+
         mStogref = FirebaseStorage.getInstance().getReference();
-        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
-        mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
-        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
+        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(IDCUUAHANG).child(STR_NHOMSANPHAM);
+        mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(IDCUUAHANG).child(STR_SANPHAM);
+        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(IDCUUAHANG).child(STR_DONVITINH);
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +56,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                     listmon.add(monOrder);
                 }
             });
-            //
+    //
     private RecyclerView recyclerView,recyclerView2;//rv category mon, mon
     private StaticCategoryAdapter staticCategoryAdapter;
     ArrayList<Product> items= new ArrayList<>();//araylist mon
@@ -66,29 +69,41 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     String tenban;
     String id_ban;
     String id_khuvuc;
+    String id_datban;
+    String trangthai;
     StaticCardAdapter  staticCardAdapter ;
     ArrayList<Product> listcard= new ArrayList<>();//araylist mon
     Button bnt_card ;
     Interface_CategorySp_Sp interface_categorySp_sp ;
     ArrayList<DonGia> donGiaOrders;
     String value1;
+    ImageView img_nocart;
     String key_SanPham;
     ProgressBar progressBar;
+    Button bnt_huy;
+    // LinearProgressIndicator
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mon_order);
         Intent intent = getIntent();
-        Log.d("qq", intent+"");
-//        tenban = intent.getStringExtra("tenban");
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
-//        Log.d("aaa",tenban+"vvv");
+        id_datban= intent.getStringExtra("id_datban");
+//        trangthai= intent.getStringExtra("trangthai");
+        Log.d("codetruong",id_datban+"Monorrder");
+        img_nocart = findViewById(R.id.img_nocart);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        //menu toolbar
         listcard = new ArrayList<>();
         bnt_card = findViewById(R.id.bnt_luu);
+        bnt_huy = findViewById(R.id.bnt_huy);
+        bnt_huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         bnt_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,53 +111,57 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
                 Intent intent1 = new Intent(MonOrder.this, CardProduct.class);
                 intent1.putExtra("id_ban",id_ban);
                 intent1.putExtra("id_khuvuc",id_khuvuc);
+                intent1.putExtra("id_datban",id_datban);
+//                intent1.putExtra("trangthai",trangthai);
                 startActivity(intent1);
 
             }
         });
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-//viet su kien cho toolbar
         ActionBar actionBar = getSupportActionBar();
-//Thiết lập tiêu đề nếu muốn
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanpham");
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                 item = new ArrayList<>();
-                 donGiaOrders = new ArrayList<>();
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    ArrayList<Product> mm= new ArrayList<>();
-                    String tencategory= snapshot1.getKey()+"";
-                    DataSnapshot aaa = snapshot1;
-                    for (DataSnapshot snapshot2 : aaa.getChildren()){
-                        key_SanPham =snapshot2.getKey();
-                        staticMonOrderModel=snapshot2.getValue(Product.class);
-                        String nameProduct = staticMonOrderModel.getNameProduct();
-                        int soluong = Integer.parseInt(staticMonOrderModel.getSoluong()+"");
-                        String imgProduct = staticMonOrderModel.getImgProduct();
-                        String status = staticMonOrderModel.getStatus();
-                        String id = staticMonOrderModel.getId();
-                        DataSnapshot sss = snapshot2.child("donGia");
-                        for (DataSnapshot snapshot3 : sss.getChildren()){
+                item = new ArrayList<>();
+                donGiaOrders = new ArrayList<>();
+                if(snapshot.getValue() != null) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        ArrayList<Product> mm = new ArrayList<>();
+                        String tencategory = snapshot1.getKey() + "";
+                        DataSnapshot aaa = snapshot1;
+                        for (DataSnapshot snapshot2 : aaa.getChildren()) {
+                            key_SanPham = snapshot2.getKey();
+                            staticMonOrderModel = snapshot2.getValue(Product.class);
+                            String nameProduct = staticMonOrderModel.getNameProduct();
+                            int soluong = Integer.parseInt(staticMonOrderModel.getSoluong() + "");
+                            String imgProduct = staticMonOrderModel.getImgProduct();
+                            String status = staticMonOrderModel.getStatus();
+                            String id = staticMonOrderModel.getId();
+                            DataSnapshot sss = snapshot2.child("donGia");
+                            for (DataSnapshot snapshot3 : sss.getChildren()) {
+                                DonGia donGiaOrder = snapshot3.getValue(DonGia.class);
+                                donGiaOrders.add(donGiaOrder);
+                                Log.d("dongia.size", donGiaOrders.size() + "");
 
+                            }
 
-                            DonGia donGiaOrder = snapshot3.getValue(DonGia.class);
-                            donGiaOrders.add(donGiaOrder);
-                            Log.d("dongia.size", donGiaOrders.size()+"");
+                            mm.add(new Product(nameProduct, soluong, imgProduct, donGiaOrders, status, id));
+
 
                         }
-
-                        mm.add(new Product(nameProduct,soluong,imgProduct, donGiaOrders,status,id));
-
-
+                        StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory, mm);
+                        item.add(product);
+                        Log.d("cccc", item.size() + "");
                     }
-                    StaticCategoryMonModel product = new StaticCategoryMonModel(tencategory,mm);
-                    item.add(product);
-                    Log.d("cccc",item.size()+"");
+                }
+                else  {
+                    img_nocart.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
                 progressBar.setVisibility(View.INVISIBLE);
                 recyclerView = findViewById(R.id.rv_1);
@@ -161,16 +180,15 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
 
         recyclerView2 =findViewById(R.id.rv_2);
 
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc,key_SanPham);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,0,tenban,id_ban,id_khuvuc,key_SanPham,id_datban,trangthai);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticMonRvAdapter);
 
-
     }
     @Override
     public void GetBack1(int pos, ArrayList<Product> items) {
-        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc,key_SanPham);
+        staticMonRvAdapter = new StaticMonRvAdapter(items,MonOrder.this,item,pos,tenban,id_ban,id_khuvuc,key_SanPham,id_datban,trangthai);
         staticMonRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticMonRvAdapter);
     }
@@ -178,5 +196,15 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        if(item_id==android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -37,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
@@ -74,7 +75,7 @@ public class SuaKhachHang extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabase1;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_KHACHHANG = "khachhang";
     private String STR_NHOMKH = "nhomkhachhang";
     private ArrayList<String> arrayListNhomKH;
@@ -82,6 +83,7 @@ public class SuaKhachHang extends AppCompatActivity {
     private RadioGroup radioGroup;
     private KhachHang khachhang;
     private int com;
+    private String ID_CUAHANG;
 
 
     @Override
@@ -133,9 +135,12 @@ public class SuaKhachHang extends AppCompatActivity {
 //            gioiTinh = "Không";
         }
 
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+
         //firebase
-        mDatabase =  FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_KHACHHANG);
-        mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMKH);
+        mDatabase =  FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_KHACHHANG);
+        mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_NHOMKH);
 
         runOnUiThread(new Runnable() {
             @Override

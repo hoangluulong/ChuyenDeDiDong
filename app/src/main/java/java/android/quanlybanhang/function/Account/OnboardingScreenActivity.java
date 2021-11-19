@@ -3,6 +3,7 @@ package java.android.quanlybanhang.function.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -11,8 +12,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.android.quanlybanhang.HelperClasses.SliderAdapter;
+import java.android.quanlybanhang.Model.CuaHangSignIn;
 import java.android.quanlybanhang.R;
+import java.util.ArrayList;
 
 public class OnboardingScreenActivity extends AppCompatActivity {
 
@@ -22,6 +29,7 @@ public class OnboardingScreenActivity extends AppCompatActivity {
 
     SliderAdapter sliderAdapter;
     TextView[] dots;
+    private ArrayList<CuaHangSignIn> dataAccount;
 
     private int getItem = 0;
     @Override

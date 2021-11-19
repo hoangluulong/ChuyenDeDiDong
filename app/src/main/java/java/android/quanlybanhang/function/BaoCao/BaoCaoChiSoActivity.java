@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +35,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class BaoCaoChiSoActivity extends AppCompatActivity {
+public class BaoCaoChiSoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ValueLineChart lineChart;
     private BarChart mBarChart;
@@ -49,6 +50,7 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
     private ArrayList<String> listNgay2;
     private Button btn_chon_ngay;
     private Button btn_chon_nam;
+    private SwipeRefreshLayout refresh;
 
     //Firebase
     private FirebaseDatabase mFirebaseInstance;
@@ -66,7 +68,6 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
     private String ketThuc1, ketThuc2, ketThuc3, ketThuc4, ketThuc5, ketThuc6, ketThuc7, ketThuc8, ketThuc9, ketThuc10, ketThuc11, ketThuc12;
     private ArrayList<String> arr1, arr2, arr3, arr4, arr5, arr6, arr7, arr8, arr9, arr10, arr11, arr12;
     private boolean loai = false;
-    private int s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12;
     private ArrayList<Double> doubles = new ArrayList<>();
     private ArrayList<Double> doublesChiPhi = new ArrayList<>();
 
@@ -99,7 +100,6 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
                 setValues();
                 btn_chon_nam.setEnabled(true);
                 btn_chon_ngay.setEnabled(false);
-                Toast.makeText(BaoCaoChiSoActivity.this, "thang", Toast.LENGTH_SHORT).show();
                 btn_chon_nam.setBackgroundResource(R.color.white);
                 btn_chon_ngay.setBackgroundResource(R.color.colorShimmer);
             }
@@ -112,11 +112,12 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
                 setValuess();
                 btn_chon_ngay.setEnabled(true);
                 btn_chon_nam.setEnabled(false);
-                Toast.makeText(BaoCaoChiSoActivity.this, "nam", Toast.LENGTH_SHORT).show();
                 btn_chon_ngay.setBackgroundResource(R.color.white);
                 btn_chon_nam.setBackgroundResource(R.color.colorShimmer);
             }
         });
+        refresh.setOnRefreshListener(BaoCaoChiSoActivity.this);
+
     }
 
     private void IDLayout() {
@@ -124,6 +125,7 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
         mBarChart = findViewById(R.id.doanhThuNgay);
         btn_chon_ngay = findViewById(R.id.btn_chon_ngay);
         btn_chon_nam = findViewById(R.id.btn_chon_nam);
+        refresh = findViewById(R.id.refresh);
     }
 
     private void setLineChart() {
@@ -140,18 +142,18 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
                 float doanhSo = Float.parseFloat(doubles.get(i).toString());
                 float chiPhi = Float.parseFloat(doublesChiPhi.get(i).toString());
                 float doanhThu = doanhSo - chiPhi;
-                series2.addPoint(new ValueLinePoint(i + "", doanhSo));
-                series3.addPoint(new ValueLinePoint(i + "", doanhThu));
-                series4.addPoint(new ValueLinePoint(i + "", chiPhi));
+                series2.addPoint(new ValueLinePoint((i + 1) + "", doanhSo));
+                series3.addPoint(new ValueLinePoint((i + 1) + "", doanhThu));
+                series4.addPoint(new ValueLinePoint((i + 1) + "", chiPhi));
             }
         }else {
             for (int i = 0; i < listNgay2.size(); i++) {
                 float doanhSo = Float.parseFloat(listDoanhSo.get(i).toString());
                 float chiPhi = Float.parseFloat(listTienChi.get(i).toString());
                 float doanhThu = doanhSo - chiPhi;
-                series2.addPoint(new ValueLinePoint(i + "", doanhSo));
-                series3.addPoint(new ValueLinePoint(i + "", doanhThu));
-                series4.addPoint(new ValueLinePoint(i + "", chiPhi));
+                series2.addPoint(new ValueLinePoint((i + 1) + "", doanhSo));
+                series3.addPoint(new ValueLinePoint((i + 1) + "", doanhThu));
+                series4.addPoint(new ValueLinePoint((i + 1) + "", chiPhi));
             }
         }
 
@@ -253,6 +255,7 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
     private void getFirebaseBienLai() {
         listCheckSizeChi.clear();
         listTienChi.clear();
+        listDoanhSo.clear();
         if (listNgay2 != null) {
             listNgay2.clear();
         } else {
@@ -261,15 +264,14 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
-        Log.d("qqq", "set");
         if (loai == false) {
             ngayBatDau2 = "01/" + month + "/" + year;
             ngayKetThuc2 = setDateStartEnd(ngayBatDau2);
             ArrayList<String> listSteam = mangArr(ngayBatDau2, ngayKetThuc2);
             for (int i = listSteam.size() - 1; i >= 0; i--) {
                 listNgay2.add(listSteam.get(i));
-                Log.d("qqq", listNgay2.get(i));
             }
+            Log.d("qqq", listNgay2.size()+"");
 
             for (String st : listNgay2) {
                 mFirebaseDatabase.child("CuaHangOder/" + ID_CUA_HANG + "/bienlai/chi/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -280,7 +282,6 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
                             for (DataSnapshot snap : snapshot.getChildren()) {
                                 tong += Double.parseDouble(snap.child("tongchi").getValue().toString());
                             }
-                            Log.d("qqq", "dsfksdflsdkfnd");
                             listTienChi.add(tong);
                             listCheckSizeChi.add(1);
                         } else {
@@ -323,7 +324,6 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
         } else {
             ngayBatDau2 = "01/01/" + year;
             ngayKetThuc2 = "31/12/" + year;
-            Log.d("qqq", "esle");
             ArrayList<String> listSteam = mangArr(ngayBatDau2, ngayKetThuc2);
             for (int i = listSteam.size() - 1; i >= 0; i--) {
                 listNgay2.add(listSteam.get(i));
@@ -396,6 +396,7 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
                             listTienTuan.set(i, stamp);
                         }
                         setBarChart(listTienTuan);
+                        refresh.setRefreshing(false);
                     }
                 } else {
                     setValue();
@@ -405,7 +406,6 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
     }
 
     private void setValues() {
-        Log.d("qqq", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -427,15 +427,12 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
                             return;
                         } else {
                             setLineChart();
+                             refresh.setRefreshing(false);
                         }
                     } else {
-                        Log.d("qqq", "aaaa");
                         setValues();
                     }
-                } else {
-
                 }
-
             }
         }, 100);
     }
@@ -443,15 +440,19 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
     int demNgay = 0;
     int demNgay2 = 0;
     private void setValuess(){
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (loai == true) {
                     if (demNgay == listNgay2.size() && demNgay2 == listNgay2.size()) {
+                        demNgay = 0;
+                        demNgay2 = 0;
                         setLineChart();
                     } else {
                         setValuess();
+                        refresh.setRefreshing(false);
                     }
                 } else {
 
@@ -770,5 +771,14 @@ public class BaoCaoChiSoActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        getFirebaseThu();
+        getFirebaseBienLai();
+        setValue();
+        setValues();
+        setValuess();
     }
 }

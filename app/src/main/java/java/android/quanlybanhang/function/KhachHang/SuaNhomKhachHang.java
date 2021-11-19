@@ -12,16 +12,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.R;
 
 public class SuaNhomKhachHang  extends AppCompatActivity {
     private EditText editTenNhom,editMa,editGhiChu;
     private Button btnTao,btnHuy;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private  String STR_NKH = "nhomkhachhang";
     private NhomKhachHang nhomKhachHang;
     private DatabaseReference mDatabase;
+    private String ID_CUAHANG;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,8 +34,12 @@ public class SuaNhomKhachHang  extends AppCompatActivity {
         editGhiChu = findViewById(R.id.edtGhiChuNhomKhachHang);
         btnHuy = findViewById(R.id.btnhuyTaoNhomKhachhang);
         btnTao = findViewById(R.id.btnTaoNhomKhachhang);
+
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+
         nhomKhachHang = (NhomKhachHang) getIntent().getSerializableExtra("Key_arrNKH");
-        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NKH);
+        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_NKH);
 
         editTenNhom.setText(nhomKhachHang.getTenNhomKh());
         editMa.setText(nhomKhachHang.getTenNhomKh());

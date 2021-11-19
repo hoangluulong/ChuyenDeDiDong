@@ -52,11 +52,17 @@ public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiao
     @Override
     public void onBindViewHolder(@NonNull DonHangXuLy holder, int position) {
         holder.trangthaidonhang.setText("Đang giao");
-        holder.nguoiThucHien.setText("Ship: "+ list.get(position).getShipper());
+        if (list.get(position).getShipper()!= null) {
+            holder.nguoiThucHien.setText("Ship: "+ list.get(position).getShipper());
+        }else {
+            holder.nguoiThucHien.setText("");
+        }
+
         holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
         holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
+        holder.tv_id_donhang.setText(list.get(position).getIdDonHang());
 
         holder.layoutThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +79,7 @@ public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiao
     }
 
     public class DonHangXuLy extends RecyclerView.ViewHolder {
-        private TextView trangthaidonhang, nguoiThucHien, lblDonGia, lblThoiGian, thoigian_denhientai, lblKhachang, lblDiaChi;
+        private TextView trangthaidonhang, nguoiThucHien, lblDonGia, lblThoiGian, lblKhachang, lblDiaChi, tv_id_donhang;
         private LinearLayout layoutThongTin;
         public DonHangXuLy(@NonNull View ItemView) {
             super(ItemView);
@@ -82,9 +88,9 @@ public class DonHangDangGiaoAdapter extends RecyclerView.Adapter<DonHangDangGiao
             layoutThongTin = ItemView.findViewById(R.id.layoutThongTin);
             lblDonGia = ItemView.findViewById(R.id.lblDonGia);
             lblThoiGian = ItemView.findViewById(R.id.lblThoiGian);
-            thoigian_denhientai = ItemView.findViewById(R.id.thoigian_denhientai);
             lblKhachang = ItemView.findViewById(R.id.lblKhachang);
             lblDiaChi = ItemView.findViewById(R.id.lblDiaChi);
+            tv_id_donhang = ItemView.findViewById(R.id.tv_id_donhang);
         }
     }
 

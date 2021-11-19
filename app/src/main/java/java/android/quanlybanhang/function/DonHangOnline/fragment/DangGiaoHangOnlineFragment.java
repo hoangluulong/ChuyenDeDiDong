@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DonHangDangGiaoAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
@@ -85,6 +86,9 @@ public class DangGiaoHangOnlineFragment extends Fragment implements SwipeRefresh
     private View view;
     private SwipeRefreshLayout refreshLayout;
     private ImageView image;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,6 +99,8 @@ public class DangGiaoHangOnlineFragment extends Fragment implements SwipeRefresh
         progressBar = view.findViewById(R.id.progressBar);
         refreshLayout = view.findViewById(R.id.swipeRefreshlayout);
         image = view.findViewById(R.id.image);
+        thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         getDataFireBase(view);
         progressBar.setVisibility(View.VISIBLE);
@@ -114,7 +120,7 @@ public class DangGiaoHangOnlineFragment extends Fragment implements SwipeRefresh
     private void getDataFireBase(View view) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
@@ -122,8 +128,10 @@ public class DangGiaoHangOnlineFragment extends Fragment implements SwipeRefresh
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snap : postSnapshot.getChildren()) {
                         DonHang donHang = snap.getValue(DonHang.class);
-                        if (donHang.getTrangthai() == 4) {
+                        if (donHang.getTrangthai() == 5) {
+                            String key = snap.getKey();
                             donHangs.add(donHang);
+                            donHangs.get(i).setIdDonHang(key);
                             Date date = support.formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
                             i++;

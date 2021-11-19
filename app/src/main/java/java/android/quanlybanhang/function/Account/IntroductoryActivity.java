@@ -71,9 +71,7 @@ public class IntroductoryActivity extends AppCompatActivity {
                                                 Log.d("qq", snapshot.getValue().toString());
                                                 if (snapshot.getValue() != null) {
                                                     if (snapshot.getChildrenCount() > 1) {
-                                                        Intent intent = new Intent(IntroductoryActivity.this, ChiNhanhSignInActivity.class);
-                                                        startActivity(intent);
-                                                        finish();
+                                                        getDataAccount(id);
                                                     }else {
                                                         Intent intent = new Intent(IntroductoryActivity.this, MainActivity.class);
                                                         startActivity(intent);
@@ -130,5 +128,32 @@ public class IntroductoryActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void getDataAccount(String UID) {
+        dataAccount = new ArrayList<>();
+        mDatabase.child("ACCOUNT_LOGIN/" + UID + "/CuaHang").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    String name = snap.child("name").getValue().toString();
+                    String chucvu = snap.child("ChucVu").getValue().toString();
+                    String ID = snap.child("ID").getValue().toString();
+                    dataAccount.add(new CuaHangSignIn(chucvu, ID, name));
+                }
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("LIST_CHINHANH",(ArrayList<CuaHangSignIn>) dataAccount);
+                bundle.putString("ID_USER" , UID );
+                Intent intent = new Intent(IntroductoryActivity.this, ChiNhanhSignInActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("BBB", "onCancelled");
+            }
+
+        });
     }
 }

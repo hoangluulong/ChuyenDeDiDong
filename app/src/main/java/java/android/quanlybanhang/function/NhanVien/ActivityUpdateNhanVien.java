@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
@@ -54,13 +55,14 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
     private Boolean[] cTrua = new Boolean[7];
     private Boolean[] cToi = new Boolean[7];
     private int loai = 1; //1: casang, 2: trua, 3: toi
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_USER = "user";
     private DatabaseReference mData;
     private Boolean [] cSang1 = new Boolean[7];
     private Boolean [] cTrua1 = new Boolean[7];
     private Boolean [] cToi1 = new Boolean[7];
     private Intent intent;
+    private String ID_CUAHANG;
 
 
     @Override
@@ -80,6 +82,9 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
         checkBoxCaChieu = findViewById(R.id.checkCaChieuUpdate);
         checkBoxCaToi = findViewById(R.id.checkCaToiUpdate);
         nhanVien = (NhanVien) getIntent().getSerializableExtra("Key_arrayNV");
+
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         //dialog
 
@@ -106,7 +111,7 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
         cTrua = caLam.getCaChieu().toArray(new Boolean[0]);
         cToi = caLam.getCaToi().toArray(new Boolean[0]);
         //firebase
-        mData = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_USER);
+        mData = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_USER);
         onClickThu();
         getChucVu();
         getCaSang();

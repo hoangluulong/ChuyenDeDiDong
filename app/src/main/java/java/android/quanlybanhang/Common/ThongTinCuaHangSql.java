@@ -48,6 +48,23 @@ public class ThongTinCuaHangSql {
         return id;
     }
 
+    public String Username() {
+        java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSql = new java.android.quanlybanhang.database.ThongTinCuaHangSql(context, "app_database.sqlite", null, 2);
+        thongTinCuaHangSql.createTableUser();
+        Cursor cursor = thongTinCuaHangSql.selectUser();
+        String username = "";
+        if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    username = cursor.getString(1);
+                }
+            } else {
+
+            }
+        }
+        return username;
+    }
+
     public NhanVien selectUser() {
         NhanVien nhanVien = new NhanVien();
         java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSql = new java.android.quanlybanhang.database.ThongTinCuaHangSql(context, "app_database.sqlite", null, 2);

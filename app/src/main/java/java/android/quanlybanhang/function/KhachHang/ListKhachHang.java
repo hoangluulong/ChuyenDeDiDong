@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterKhachHang.AdapterKhachHang;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
 import java.android.quanlybanhang.R;
@@ -34,7 +35,7 @@ public class ListKhachHang extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private AdapterKhachHang adapterKhachHang;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_KH = "khachhang";
     private ArrayList<KhachHang> khachHangs;
     private DatabaseReference mDatabase;
@@ -43,6 +44,7 @@ public class ListKhachHang extends AppCompatActivity {
     private EditText searchView;
     private ArrayList<KhachHang> listSearch;
     private String key;
+    private String ID_CUAHANG;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +53,9 @@ public class ListKhachHang extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.themkhachhang);
         searchView = findViewById(R.id.btn_searchKH);
         firebaseDatabase =  FirebaseDatabase.getInstance();
-        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(STR_KH);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+        mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_KH);
         DanhSachKhachHang();
         ThemKhachHang();
         searchView.addTextChangedListener(new TextWatcher() {
@@ -151,7 +155,7 @@ public class ListKhachHang extends AppCompatActivity {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             DataSnapshot aaa = snapshot1;
                             Toast.makeText(ListKhachHang.this,khachHangs.get(position).getSoDT()+"",Toast.LENGTH_LONG).show();
-                            mDatabase1 = firebaseDatabase.getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khachhang").child(aaa.getKey());
+                            mDatabase1 = firebaseDatabase.getReference(STR_CUAHANG).child(ID_CUAHANG).child("khachhang").child(aaa.getKey());
                             mDatabase1.child(khachHangs.get(position).getSoDT()).removeValue();
                         }
                     }

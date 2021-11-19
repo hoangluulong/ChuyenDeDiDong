@@ -43,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterDonGia;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
@@ -74,7 +75,7 @@ public class AddProduct extends AppCompatActivity {
 
     private String STR_NHOMSANPHAM = "danhmucsanpham";
     private String STR_SANPHAM = "sanpham";
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_UPLOAD = "uploads";
     private String STR_DONVITINH = "donvitinh";
     private String id;
@@ -82,6 +83,7 @@ public class AddProduct extends AppCompatActivity {
     private Dialog dialog, dialog1;
     private Window window, window1;
     private  Intent intent = new Intent();
+    private String ID_CUAHANG;
 
 
     @Override
@@ -102,12 +104,14 @@ public class AddProduct extends AppCompatActivity {
         btnThemDonViTinh = findViewById(R.id.themDonViTinh);
         listView = findViewById(R.id.listGiaSanPham);
         btnHuy = findViewById(R.id.btnhuyAddProduct);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         //firebase
         mStogref = FirebaseStorage.getInstance().getReference(STR_UPLOAD);
-        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_NHOMSANPHAM);
-        mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_SANPHAM);
-        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
+        mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_NHOMSANPHAM);
+        mDatabase1 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_SANPHAM);
+        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_DONVITINH);
         id = mDatabase1.push().getKey();
         //dialog
         dialog = new Dialog(AddProduct.this);
