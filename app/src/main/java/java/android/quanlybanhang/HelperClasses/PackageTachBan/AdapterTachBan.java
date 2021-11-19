@@ -83,29 +83,6 @@ private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
                 }
             });
 
-//            holder.checkBox.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(holder.checkBox.isChecked()){
-//                        holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
-//                        if(items.get(0).getSanpham().get(position).getSoluong()==0){
-//                            holder.checkBox.setChecked(false);
-//                            itemtach.remove(items.get(0).getSanpham().get(position));
-//                        }
-//                        else {
-//                            holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
-//                        itemtach.add(items.get(0).getSanpham().get(position));
-//                        }
-//                    }
-//                    else {
-//                        holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
-//                        itemtach.remove(items.get(0).getSanpham().get(position));
-//                    }
-//                    Log.d("itemtachs",itemtach.size()+"");
-//                    holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
-//                    arrayListTachBan.arrTachBan(itemtach);
-//                }
-//            });
         }
 
     }
@@ -140,7 +117,9 @@ private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
         for (int i = 0; i <tachBanHodels.size() ; i++) {
             if(tachBanHodels.get(i).checkBox.isChecked()){
                 productPushFBS.getSanpham().add( items.get(0).getSanpham().get(i));
-//                Toast.makeText(tachBanActivity,productPushFBS.getSanpham().size()+"abc" , Toast.LENGTH_SHORT).show();
+                productPushFBS.setDate(items.get(0).getDate());
+                Log.d("Productsdatene",productPushFBS.getDate()+"Tachban");
+
             }
         }
         return productPushFBS;

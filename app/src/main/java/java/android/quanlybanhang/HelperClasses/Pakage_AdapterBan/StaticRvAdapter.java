@@ -75,6 +75,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     String id_khuvuc_tachban;
     ArrayList<ProuductPushFB1> carsListsaukhichon;
     String trangthai_tachBan;
+    private String trangthaichucnang;
+    String code_chucnang;
 
 
     public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels, OrderMenu orderMenu, ArrayList<StaticModelKhuVuc> items, String Id_khuvuc) {
@@ -86,7 +88,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     }
 
     public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels, OrderMenu orderMenu, ArrayList<StaticModelKhuVuc> items, String Id_khuvuc, Window window, Dialog dialogban, String trangthaigop, String id_ban_thanhtoan,
-                           String id_khuvuc_thanhtoan, ArrayList<ProuductPushFB1> prouductPushFB1, ArrayList<ProductPushFB> productPushFBS, ProductPushFB ProductTachBan, ArrayList<ProuductPushFB1> carsListsaukhichon, String id_ban_tachban, String id_khuvuc_tachban
+                           String id_khuvuc_thanhtoan, ArrayList<ProuductPushFB1> prouductPushFB1, ArrayList<ProductPushFB> productPushFBS, ProductPushFB ProductTachBan, ArrayList<ProuductPushFB1> carsListsaukhichon, String id_ban_tachban, String id_khuvuc_tachban,
+                           String trangthaichucnang, String code_chucnang
     ) {
         this.staticBanModels = staticBanModels;
         this.orderMenu = orderMenu;
@@ -103,7 +106,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         this.carsListsaukhichon = carsListsaukhichon;
         this.id_ban_tachban = id_ban_tachban;
         this.id_khuvuc_tachban = id_khuvuc_tachban;
-
+        this.trangthaichucnang = trangthaichucnang;
+        this.code_chucnang = code_chucnang;
     }
 
     public class StaticRvHolderBan extends RecyclerView.ViewHolder {
@@ -146,8 +150,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     @Override
     public void onBindViewHolder(@NonNull StaticRvHolderBan holder, int position) {
         StaticBanModel CrrItem = staticBanModels.get(position);
-//        hamdatban(CrrItem);
-        Log.d("list_as_string", id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan + "adapter");
+
+        Log.d("trangthaichucnang1", trangthaichucnang + "adapter");
         holder.tenPhucVu.setText(CrrItem.getTenNhanVien());
         holder.tenBan.setText(CrrItem.getTenban());
         holder.ngayGio.setText(changeDate(CrrItem.getGioDaOder()));
@@ -225,123 +229,144 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     }
 
     public void getData(StaticBanModel CrrItem) {
-        Log.d("trangthaigop", trangthaigop);
         mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (trangthaigop.equals("1")) {
-                    new AlertDialog.Builder(orderMenu).setMessage(
-                            "bạn có muốn gộp bàn không"
-                    ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            for (int i = 0; i < prouductPushFB1.size(); i++) {
-                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).child("sanpham").push().setValue(prouductPushFB1.get(i));
+
+                if (trangthaichucnang != null ) {
+                    if (trangthaichucnang.equals("1")) {
+                        new AlertDialog.Builder(orderMenu).setMessage(
+                                "bạn có muốn gộp bàn không"
+                        ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = 0; i < prouductPushFB1.size(); i++) {
+                                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).child("sanpham").push().setValue(prouductPushFB1.get(i));
+                                }
+//                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
+                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
+                                String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
+                                database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
                             }
-                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
-                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
-                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
+                        }).setNegativeButton("No", null)
+                                .show();
 
-                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
-                            String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
-                            database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
 
-                        }
-                    }).setNegativeButton("No", null)
-                            .show();
+                    } else if (trangthaichucnang.equals("2")) {
 
-                } else if (trangthaigop.equals("2")) {
+                        new AlertDialog.Builder(orderMenu).setMessage(
+                                "bạn có muốn Chuyển bàn không"
+                        ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                    new AlertDialog.Builder(orderMenu).setMessage(
-                            "bạn có muốn Chuyển bàn không"
-                    ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
+                                String Id = CrrItem.getID() + "_" + Id_khuvuc;
+                                String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
+                                for (int i = 0; i < productPushFBS.size(); i++) {
+                                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).setValue(productPushFBS.get(i));
+                                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("gioDaOder").setValue(productPushFBS.get(i).getDate());
+                                }
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+                                database_order.QueryData("UPDATE " + TEN_BANG + " SET Id = '" + Id + "' WHERE Id= '" + id + "'");
 
-                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
-                            String Id = CrrItem.getID() + "_" + Id_khuvuc;
-                            String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
-                            for (int i = 0; i < productPushFBS.size(); i++) {
-                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).setValue(productPushFBS.get(i));
-                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("gioDaOder").setValue(productPushFBS.get(i).getDate());
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
+
+                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
+
+
+                                database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
+                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
+                                notifyDataSetChanged();
+
                             }
-                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
-                            database_order.QueryData("UPDATE " + TEN_BANG + " SET Id = '" + Id + "' WHERE Id= '" + id + "'");
+                        }).setNegativeButton("No", null)
+                                .show();
+                    } else if (trangthaichucnang.equals("3")) {
+                        new AlertDialog.Builder(orderMenu).setMessage(
+                                "bạn chắc chắn tách món vào bàn này không"
+                        ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mDatabase3 = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID());
+                                mDatabase3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
-                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
+                                        trangthai_tachBan = snapshot.child("trangthai").getValue() + "";
+                                        ProductTachBan.getDate();
+                                        Log.d("ProductTachBandate", ProductTachBan.getDate() + "");
+                                        if (trangthai_tachBan.equals("2")) {
+                                            String ids = id_ban_tachban + "_" + id_khuvuc_tachban;
+                                            for (int i = 0; i < ProductTachBan.getSanpham().size(); i++) {
+                                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).child("sanpham").push().setValue(ProductTachBan.getSanpham().get(i));
+                                            }
+                                            if (carsListsaukhichon.size() == 0) {
+                                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).setValue(null);
+                                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
+                                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
+                                            } else {
+                                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).child("sanpham").setValue(carsListsaukhichon);
 
-                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
-
-
-                            database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
-                            notifyDataSetChanged();
-
-                        }
-                    }).setNegativeButton("No", null)
-                            .show();
-                }
-                if (trangthaigop.equals("3")) {
-                    new AlertDialog.Builder(orderMenu).setMessage(
-                            "bạn chắc chắn tách món vào bàn này không"
-                    ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mDatabase3 = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID());
-                            mDatabase3.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                    trangthai_tachBan = snapshot.child("trangthai").getValue() + "";
-                                    ProductTachBan.getDate();
-                                    Log.d("ProductTachBandate", ProductTachBan.getDate()+"");
-                                    if (trangthai_tachBan.equals("2")) {
-                                        String ids = id_ban_tachban+ "_" +id_khuvuc_tachban;
-                                        for (int i = 0; i < ProductTachBan.getSanpham().size(); i++) {
-                                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).child("sanpham").push().setValue(ProductTachBan.getSanpham().get(i));
-                                        }
-                                        if(carsListsaukhichon.size()==0){
-                                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).setValue(null);
-                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
-                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
-                                        }
-                                        else {
-                                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).child("sanpham").setValue(carsListsaukhichon);
+                                            }
+                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
 
                                         }
-                                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
+                                        if (trangthai_tachBan.equals("1")) {
+                                            String ids = id_ban_tachban + "_" + id_khuvuc_tachban;
+                                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).setValue(ProductTachBan);
+                                            if (carsListsaukhichon.size() == 0) {
+                                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).setValue(null);
+                                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
+                                                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
+                                            } else {
+                                                FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).child("sanpham").setValue(carsListsaukhichon);
+
+                                            }
+                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
+                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("gioDaOder").setValue(ProductTachBan.getDate());
+                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
+                                        }
 
                                     }
-                                      if(trangthai_tachBan.equals("1")){
-                                        String ids = id_ban_tachban + "_" + id_khuvuc_tachban;
-                                        FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).setValue(ProductTachBan);
-                                        if(carsListsaukhichon.size()==0){
-                                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).setValue(null);
-                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
-                                            FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
-                                        }
-                                        else {
-                                            FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(ids).child("sanpham").setValue(carsListsaukhichon);
 
-                                        }
-                                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
-                                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("gioDaOder").setValue(ProductTachBan.getDate());
-                                        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
                                     }
-                                      notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                                });
 //
-                        }
-                    }).setNegativeButton("No", null)
-                            .show();
+                            }
+                        }).setNegativeButton("No", null)
+                                .show();
 
+                    } else {
+                        if (snapshot.getValue() != null) {
+                            Intent intent = new Intent(orderMenu, ThanhToanActivity.class);
+                            intent.putExtra("id_ban", CrrItem.getID());
+                            Log.d("id_khuvuc_Truong", Id_khuvuc);
+                            intent.putExtra("id_khuvuc", Id_khuvuc);
+                            orderMenu.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(orderMenu, MonOrder.class);
+                            mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+                            mDatabase.child("trangthai").setValue("0");
+                            intent.putExtra("id_ban", CrrItem.getID());
+                            Log.d("id_khuvuc_Truong1", Id_khuvuc);
+                            intent.putExtra("id_khuvuc", Id_khuvuc);
+                            orderMenu.startActivity(intent);
+                        }
+
+                    }
                 } else {
                     if (snapshot.getValue() != null) {
                         Intent intent = new Intent(orderMenu, ThanhToanActivity.class);
@@ -359,8 +384,9 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                         orderMenu.startActivity(intent);
                     }
                 }
-            }
 
+
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -394,7 +420,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
     }
 
-    private void EvenlistDatban(TextView datban, TextView listdatban, TextView hoantac, StaticBanModel CrrItem) {
+    private void EvenlistDatban(TextView datban, TextView listdatban, TextView
+            hoantac, StaticBanModel CrrItem) {
         datban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

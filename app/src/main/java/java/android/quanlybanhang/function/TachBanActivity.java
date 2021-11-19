@@ -73,6 +73,7 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         Type type1 = new TypeToken<ArrayList<ProductPushFB>>() {
         }.getType();
         carsList1 = gson.fromJson(carListAsString1, type1);
+
         carsList = gson.fromJson(carListAsString, type);
 //        arrayList = new ArrayList<>();
 //        Long date = carsList1.get(0).getDate();

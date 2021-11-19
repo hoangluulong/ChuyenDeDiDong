@@ -116,11 +116,7 @@ public class CardProduct extends AppCompatActivity {
 //        trangthai1 = intent.getStringExtra("trangthai");
         Log.d("TrangThaima", trangthai + "Cardproduct");
         id = id_ban + "_" + id_khuvuc;
-//        String ListCartDaCo = getIntent().getStringExtra("carsList");
-//        Gson gson = new Gson();
-//        Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
-//        }.getType();
-//        carsList = gson.fromJson(ListCartDaCo, type);
+
         rv_3 = findViewById(R.id.rv_3);
         listcard = new ArrayList<Product>();
 //        list = new ArrayList<PushToFire>();

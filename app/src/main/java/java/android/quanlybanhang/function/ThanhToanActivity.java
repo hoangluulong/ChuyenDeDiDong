@@ -75,6 +75,8 @@ public class ThanhToanActivity extends AppCompatActivity {
     ImageButton bnt_threedot;
     TextView gopban,chuyenban,tachban;
     Long date;
+    String code1;
+    public String keyIDCuaHang = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,18 +99,15 @@ public class ThanhToanActivity extends AppCompatActivity {
         Intent intent1 = getIntent();
         id_ban = intent1.getStringExtra("id_ban");
 //        Log.d("getkeyabc",id_ban+"getabc");
-
         id_khuvuc = intent1.getStringExtra("id_khuvuc");
         id_datban = intent1.getStringExtra("id_datban");
-        Log.d("list_as_string",id_ban+"_"+id_khuvuc+"ThanhToan");
-//dialog
-
         OnclickMenuchucnang();
         bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
         id = id_ban + "_" + id_khuvuc;
         list = new ArrayList<>();
-
-        mDatabase1 = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("MangDi");
+        int code = (int) Math.floor(((Math.random() * 899999) + 100000));
+         code1=code+"";
+        mDatabase1 = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("MangDi");
         mDatabase1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -140,12 +139,12 @@ public class ThanhToanActivity extends AppCompatActivity {
         Log.d("PXTPRO", trangthai+"");
         if (trangthai.equals("0")) {
             if(id_ban + "_" + id_khuvuc!=null){
-                mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban + "_" + id_khuvuc);
+                mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc);
             }
         }
         if (trangthai.equals("1")) {
             if(id_datban!=null){
-                mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban);
+                mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("sanphamorder").child(id_datban);
             }
         }
 
@@ -173,8 +172,9 @@ public class ThanhToanActivity extends AppCompatActivity {
                        }
                        ProductPushFB product = new ProductPushFB(date1, flag,trangThais, mm);
                        ListDate_yc.add(product);
-                       Log.d("khabanh1",ListDate_yc.size()+"thanhtoan012");
+
 //
+
 
                     for (int i = 0; i < listmon.size(); i++) {
                         giaTong += listmon.get(i).getGiaProudct()*listmon.get(i).getSoluong();
@@ -209,7 +209,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (trangthai.equals("0")) {
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(keyIDCuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_ban").setValue(id_ban);
                     databaseReference.child("id_khuvuc").setValue(id_khuvuc);
                     databaseReference.child("tongtien").setValue(giaTong);
@@ -232,12 +232,12 @@ public class ThanhToanActivity extends AppCompatActivity {
                             Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
                         }
                     });
-                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
-                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
-                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
+                    FirebaseDatabase.getInstance().getReference().child(keyIDCuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
+                    FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
+                    FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
 
                 } else if (trangthai.equals("1")) {
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(keyIDCuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_datban").setValue(id_datban);
                     databaseReference.child("tongtien").setValue(giaTong);
                     databaseReference.child("status").setValue(1);
@@ -259,7 +259,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                             Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
                         }
                     });
-                    FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").child(id_datban).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child(keyIDCuaHang).child("sanphamorder").child(id_datban).removeValue();
                 }
             }
         });
@@ -374,10 +374,13 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialogban.dismiss();
                 Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("1");
+
+                FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("chucnang").child(code1).child("trangthai").setValue("1");
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);
                 intent.putExtra("id_datban", id_datban);
+                intent.putExtra("id_trangthai",code1);
+                Log.d("trangthaigopcode",code1+"thanhtoan");
                 Gson gson = new Gson();
                 String a = gson.toJson(listmon);
                 intent.putExtra("list_as_string",a);
@@ -390,10 +393,11 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialogban.dismiss();
                 Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("2");
+                FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("chucnang").child(code1).child("trangthai").setValue("2");
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);
                 intent.putExtra("id_datban", id_datban);
+                intent.putExtra("id_trangthai",code1);
                 intent.putExtra("date",date);
                 Gson gson = new Gson();
                 String a = gson.toJson(listmon);
@@ -408,11 +412,12 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 dialogban.dismiss();
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("3");
+                FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("chucnang").child(code1).child("trangthai").setValue("3");
                 Intent intent = new Intent(ThanhToanActivity.this, TachBanActivity.class);
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);
                 intent.putExtra("id_datban", id_datban);
+                intent.putExtra("id_trangthai",code1);
                 Gson gson = new Gson();
                 String b = gson.toJson(ListDate_yc);
                 String a = gson.toJson(listmon);
