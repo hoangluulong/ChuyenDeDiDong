@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.Account;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -21,7 +22,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Model.CuaHangSignIn;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.database.ThongTinCuaHangSql;
+import java.android.quanlybanhang.function.DonHangOnline.data.DiaChi;
 import java.android.quanlybanhang.function.MainActivity;
 import java.util.ArrayList;
 
@@ -42,6 +46,7 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
     private Boolean thietLap = false;
     private Boolean checkDataUser = false;
     private Boolean checkThietLap = false;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
+        thongTinCuaHangSql = new ThongTinCuaHangSql(ChiNhanhSignInActivity.this,"app_database.sqlite", null, 2);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -102,11 +108,33 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
 
     //Biến test
     private void getDataUser () {
-
+        checkDataUser = false;
+        checkThietLap= false;
+        Log.d("qqq", key);
         mFirebaseDatabase.child("CuaHangOder/"+key+"/user/"+ID_USER).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("AAA", snapshot.getValue()+"");
+                Cursor cursor = thongTinCuaHangSql.selectUser();
+                NhanVien nhanVien = snapshot.getValue(NhanVien.class);
+                String quyen = "";
+
+                for (int i = 0; i < nhanVien.getChucVu().size(); i++) {
+                    if (nhanVien.getChucVu().get(i)) {
+                        quyen = quyen + "1";
+                    }else{
+                        quyen = quyen + "0";
+                    }
+                }
+
+                if (cursor.getCount() > 0){
+                    String IdOld = "";
+                    while (cursor.moveToNext()) {
+                        IdOld = cursor.getString(0);
+                    }
+                    thongTinCuaHangSql.UpdateUser(ID_USER, IdOld, nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                }else {
+                    thongTinCuaHangSql.InsertUser(ID_USER, nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                }
                 checkDataUser = true;
             }
 
@@ -116,11 +144,23 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
             }
         });
 
-        mFirebaseDatabase.child("CuaHangOder/"+key+"/ThongTinCuaHang/ThietLap").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/"+key+"/ThongTinCuaHang").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                thietLap = (Boolean) snapshot.getValue();
-                Log.d("AAA", thietLap+"");
+                thongTinCuaHangSql.createTable();
+                Cursor cursor = thongTinCuaHangSql.selectThongTin();
+                DiaChi diaChi = snapshot.getValue(DiaChi.class);
+                if (cursor.getCount() > 0){
+                    String IdOld = "";
+                    while (cursor.moveToNext()) {
+                        IdOld = cursor.getString(0);
+                    }
+                    thongTinCuaHangSql.UpdateCuaHang(key, IdOld, diaChi.getTenCuaHang());
+                }else {
+                    thongTinCuaHangSql.InsertThonTin(key, diaChi.getTenCuaHang());
+                }
+
+                thietLap = (Boolean) snapshot.child("ThietLap").getValue();
                 checkThietLap = true;
             }
 

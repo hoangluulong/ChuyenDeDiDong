@@ -2,6 +2,7 @@ package java.android.quanlybanhang.function.BepBar.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,8 @@ public class DonOnlineChoChoXacNhanAdapter extends RecyclerView.Adapter<DonOnlin
         holder.examName.setText("ID: " +mList.get(position).getKey());
         holder.examDate.setText(changeDate(mList.get(position).getKey()));
 //        SanPhamDonHangOnlineAdapter sanphamHolder = new SanPhamDonHangOnlineAdapter(context, mList.get(position).getSanpham());
+
+        holder.tongtien.setText(tongDon(position)+"");
 
         if (mList.get(position).getTrangthai() == 2) {
             holder.xuly.setText("Xử lí");
@@ -118,7 +121,15 @@ public class DonOnlineChoChoXacNhanAdapter extends RecyclerView.Adapter<DonOnlin
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-YYYY hh:mm:ss");
         String aaa = simpleDateFormat.format(date1);
         return aaa;
+    }
 
+    private Double tongDon(int position) {
+        Double tong = 0.0;
+        for (int i = 0; i < mList.get(position).getSanpham().size(); i++) {
+            tong += mList.get(position).getSanpham().get(i).getGiaBan();
+        }
+
+        return tong;
     }
 
 }

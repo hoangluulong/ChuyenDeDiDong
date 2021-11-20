@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,8 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     private Dialog dialogHuy;
     private FormatDouble formatDouble;
     private SupportFragmentDonOnline support;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
 
 
     public ChoXacNhanAdapter (Context context, ArrayList<DonHang> list, Dialog dialog, Dialog dialogHuy) {
@@ -58,6 +61,8 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         this.dialogHuy = dialogHuy;
         formatDouble = new FormatDouble();
         support = new SupportFragmentDonOnline();
+        thongTinCuaHangSql = new ThongTinCuaHangSql(context);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
     }
 
     @NonNull
@@ -91,11 +96,12 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         holder.lblDiaChi.setText(list.get(position).getDiaChi());
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        holder.tv_id_donhang.setText(list.get(position).getIdDonHang());
         holder.lblXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 select = position;
-                setFirebaseXacNhanDonHang(list.get(select).getKey(), select);
+                setFirebaseXacNhanDonHang(select);
             }
         });
     }
@@ -106,10 +112,11 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     }
 
     public class DonChoXacNhan extends RecyclerView.ViewHolder {
-        private TextView lblThoiGian,lblDonGia, lblDiaChi, lblXacNhan, lblHuy, lblKhachang, thanhtoan;
+        private TextView lblThoiGian,lblDonGia, lblDiaChi, lblXacNhan, lblHuy, lblKhachang, thanhtoan,tv_id_donhang;
         private LinearLayout layoutThongTin;
         public DonChoXacNhan(@NonNull View ItemView) {
             super(ItemView);
+            tv_id_donhang = ItemView.findViewById(R.id.tv_id_donhang);
             lblThoiGian = ItemView.findViewById(R.id.lblThoiGian);
             lblDonGia = ItemView.findViewById(R.id.lblDonGia);
             lblDiaChi = ItemView.findViewById(R.id.lblDiaChi);
@@ -143,6 +150,9 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         tongtien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham())));
         khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));
         thanhTien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        tenkhachhang.setText(list.get(position).getTenKhachhang());
+        diachi.setText(list.get(position).getDiaChi());
+
 
         displayItem(recycleview, dialog, position);
         Log.d("www", list.get(position).getSanpham().size()+"");
@@ -162,7 +172,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         btn_xac_nhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFirebaseXacNhanDonHang(list.get(position).getKey(), position);
+                setFirebaseXacNhanDonHang(position);
                 dialog.dismiss();
             }
         });
@@ -188,8 +198,6 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
 
         Button btn_dong = dialogHuy.findViewById(R.id.btn_dong);
         Button btn_huy = dialogHuy.findViewById(R.id.btn_huy);
-
-
 
         if (Gravity.BOTTOM == gravity) {
             dialogHuy.setCancelable(true);
@@ -225,33 +233,13 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         itemDonHangAdapter.notifyDataSetChanged();
     }
 
-    //TODO: getFirebase Khách hàng
-    private void getFirebaseKhachHang (String IDKhachHang) {
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference();
-
-        mFirebaseDatabase.child("IDKhachHang").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("FIREBASE", "loadPost:onCancelled", databaseError.toException());
-            }
-        });
-    }
-
     //TODO: setDuLieu Firebase xác nhận
-    private void setFirebaseXacNhanDonHang (String IdDonHang, int position) {
+    private void setFirebaseXacNhanDonHang (int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         String key = mFirebaseDatabase.push().getKey();
-        Log.d("abc", support.ngayHientai(list.get(position).getDate()));
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Log.d("abc", list.get(position).getDate() + " - " +  list.get(position).getIdDonHang());
+        mFirebaseDatabase.child("CuaHangOder/"+ ID_CUAHANG +"/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+list.get(position).getIdDonHang()+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã xác nhận đơn", Toast.LENGTH_SHORT).show();
@@ -264,14 +252,15 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         });
 
         DatabaseReference mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("DonHangOnline/DaDatDon/"+ list.get(position).getIdKhachhang() +"/" +key).setValue(list.get(position));
+        list.get(position).setIdDonHang(list.get(position).getKey());
+        mFirebaseDatabase.child("DonHangOnline/DaDatDon/" + list.get(position).getIdKhachhang() + "/" +list.get(position).getIdDonHang()).setValue(list.get(position));
     }
 
     //TODO: setDuLieu Firebase hủy đơn
     private void setFirebaseHuyDonDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("CuaHangOder/"+ ID_CUAHANG +"/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="5dp"
@@ -28,20 +29,20 @@
         android:id="@+id/tvtensanpham"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
         android:text="title"
-        android:textStyle="bold"
-        android:textSize="18sp"
         android:textColor="#373b54"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imgsanpham"
-        app:layout_constraintTop_toTopOf="@+id/imgsanpham" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/minusCardBtn"
+        android:id="@+id/imgminus"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="15dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgsanpham"
         app:layout_constraintStart_toEndOf="@+id/imgsanpham"
@@ -56,18 +57,18 @@
         android:textColor="#373b54"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/minusCardBtn"
-        app:layout_constraintStart_toEndOf="@+id/minusCardBtn"
-        app:layout_constraintTop_toTopOf="@+id/minusCardBtn" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgminus"
+        app:layout_constraintStart_toEndOf="@+id/imgminus"
+        app:layout_constraintTop_toTopOf="@+id/imgminus" />
 
     <ImageView
-        android:id="@+id/plusCardBtn"
+        android:id="@+id/imgplus"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/minusCardBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/imgminus"
         app:layout_constraintStart_toEndOf="@+id/tvsoluong"
-        app:layout_constraintTop_toTopOf="@+id/minusCardBtn"
+        app:layout_constraintTop_toTopOf="@+id/imgminus"
         app:srcCompat="@drawable/plus" />
 
     <TextView
@@ -94,16 +95,16 @@
         app:layout_constraintTop_toTopOf="@+id/tvgiasanpham" />
 
     <TextView
-        android:id="@+id/totalEachItem"
+        android:id="@+id/Tong1SanPham"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
         android:textColor="#373b54"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/plusCardBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/imgplus"
         app:layout_constraintEnd_toEndOf="@+id/tvgiasanpham"
-        app:layout_constraintTop_toTopOf="@+id/plusCardBtn" />
+        app:layout_constraintTop_toTopOf="@+id/imgplus" />
 
     <TextView
         android:id="@+id/textView21"
@@ -113,7 +114,33 @@
         android:text="$"
         android:textColor="#ff3d00"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/totalEachItem"
-        app:layout_constraintEnd_toStartOf="@+id/totalEachItem"
-        app:layout_constraintTop_toTopOf="@+id/totalEachItem" />
+        app:layout_constraintBottom_toBottomOf="@+id/Tong1SanPham"
+        app:layout_constraintEnd_toStartOf="@+id/Tong1SanPham"
+        app:layout_constraintTop_toTopOf="@+id/Tong1SanPham" />
+
+    <TextView
+        android:id="@+id/tvLoai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="18dp"
+        android:text="Loại"
+        android:textColor="#373b54"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvsoluong"
+        app:layout_constraintStart_toEndOf="@+id/imgsanpham"
+        app:layout_constraintTop_toBottomOf="@+id/tvtensanpham" />
+
+    <ImageView
+        android:id="@+id/img_cancel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/icons8x"
+        app:layout_constraintBottom_toTopOf="@+id/Tong1SanPham"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvgiasanpham" />
 </androidx.constraintlayout.widget.ConstraintLayout>

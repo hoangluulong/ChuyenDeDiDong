@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     private FormatDouble formatDouble;
     private int select;
     private SupportFragmentDonOnline support;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
 
 
     public DaXacNhanAdapter(Context context, ArrayList<DonHang> list, Dialog dialog) {
@@ -51,6 +56,8 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
         this.select = 0;
         formatDouble = new FormatDouble();
         support = new SupportFragmentDonOnline();
+        thongTinCuaHangSql = new ThongTinCuaHangSql(context);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
     }
 
     @NonNull
@@ -70,10 +77,16 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
 
         if (list.get(position).getTrangthai() == 1) {
             holder.trangthai.setText("Chờ shipper");
+            holder.lblHangCho.setBackgroundResource(R.drawable.bg_cho_shipper);
+            holder.lblHangCho.setTextColor(ContextCompat.getColor(context, R.color.color_one));
+            holder.lblHangCho.setText("Chuyển bếp");
         }else if (list.get(position).getTrangthai() == 2) {
             holder.trangthai.setText("Chờ bếp");
+            holder.lblHangCho.setBackgroundResource(R.drawable.bg_kich_hoat);
+            holder.lblHangCho.setTextColor(ContextCompat.getColor(context, R.color.Python));
+            holder.lblHangCho.setText("Đang đợi");
+            holder.lblHangCho.setEnabled(false);
         }
-
 
         holder.lblHuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,17 +95,20 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             }
         });
 
-//        holder.lblHangCho.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setFirebaseXacNhanDonHang(list.get(position).getKey(), position);
-//            }
-//        });
-        holder.lblHangCho.setEnabled(true);
+        holder.lblHangCho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFirebaseXacNhanDonHang(list.get(position).getKey(), position);
+                if (list.get(position).getTrangthai() == 1) {
+                    holder.lblHangCho.setEnabled(false);
+                }
+            }
+        });
 
         holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
         holder.lblDonGia.setText(formatDouble.formatStr(list.get(position).getDonGia()));
+        holder.tv_id_donhang.setText(list.get(position).getIdDonHang());
     }
 
     @Override
@@ -101,7 +117,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     }
 
     public class DaXacNhan extends RecyclerView.ViewHolder {
-        private TextView lblThoiGian,lblDonGia, lblHuy, lblHangCho, lblKhachang,trangthai;
+        private TextView lblThoiGian,lblDonGia, lblHuy, lblHangCho, lblKhachang,trangthai, tv_id_donhang;
         private LinearLayout layoutThongTin;
         public DaXacNhan(@NonNull View ItemView) {
             super(ItemView);
@@ -112,6 +128,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             lblHangCho = ItemView.findViewById(R.id.lblHangCho);
             lblKhachang = ItemView.findViewById(R.id.lblKhachang);
             trangthai = ItemView.findViewById(R.id.trangthai);
+            tv_id_donhang = ItemView.findViewById(R.id.tv_id_donhang);
         }
     }
 
@@ -189,6 +206,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             @Override
             public void onClick(View v) {
                 dialogHuy.dismiss();
+                setFirebaseXacNhanDonHang(list.get(positon).getIdDonHang(), positon);
             }
         });
         dialogHuy.show();
@@ -207,15 +225,15 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     private void setFirebaseXacNhanDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang+"/trangthai").setValue(0).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang+"/trangthai").setValue(2).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(context, "Đã xác nhận đơn", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Đã chuyển đơn đến bếp", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Xác nhận đơn không thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Thất bại", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -224,7 +242,8 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
     private void setFirebaseHuyDonDonHang (String IdDonHang, int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat/"+support.
+                ngayHientai(list.get(position).getDate())+"/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();

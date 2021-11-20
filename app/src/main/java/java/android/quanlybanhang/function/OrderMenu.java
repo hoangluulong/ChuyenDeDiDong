@@ -1,236 +1,382 @@
-    package java.android.quanlybanhang.function;
+package java.android.quanlybanhang.function;
 
-    import android.content.Intent;
-    import android.os.Bundle;
-    import android.util.Log;
-    import android.view.Menu;
-    import android.view.MenuItem;
-    import android.view.View;
-    import android.widget.ProgressBar;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-    import androidx.annotation.NonNull;
-    import androidx.appcompat.app.ActionBar;
-    import androidx.appcompat.app.AppCompatActivity;
-    import androidx.appcompat.widget.Toolbar;
-    import androidx.recyclerview.widget.GridLayoutManager;
-    import androidx.recyclerview.widget.LinearLayoutManager;
-    import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-    import com.google.firebase.database.ChildEventListener;
-    import com.google.firebase.database.DataSnapshot;
-    import com.google.firebase.database.DatabaseError;
-    import com.google.firebase.database.DatabaseReference;
-    import com.google.firebase.database.FirebaseDatabase;
-    import com.google.firebase.database.ValueEventListener;
-    import com.sa90.materialarcmenu.ArcMenu;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.sa90.materialarcmenu.ArcMenu;
 
-    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
-    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticRvAdapter;
-    import java.android.quanlybanhang.Common.Interface_KhuVuc_ban;
-    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticRvAdapter;
+import java.android.quanlybanhang.Common.Interface_KhuVuc_ban;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 
-    import java.android.quanlybanhang.R;
-    import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
-    import java.util.ArrayList;
-    import java.util.Date;
+import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
+import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
+import java.android.quanlybanhang.Model.DatBan.DatBanModel;
+import java.android.quanlybanhang.Model.DatBan.ID_datban;
+import java.android.quanlybanhang.Model.Product;
+import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
+import java.android.quanlybanhang.function.CardProductSQL.CardProduct;
+import java.lang.reflect.Type;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
-    public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban {
-    private RecyclerView recyclerView,recyclerView2;//rv khu vuc ban
+public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban {
+    private RecyclerView recyclerView, recyclerView2;//rv khu vuc ban
     private StaticRvKhuVucAdapter staticRvKhuVucAdapter;//adapter khu vuc
-     ArrayList<StaticBanModel> items= new ArrayList<>();//araylist ban
-     StaticRvAdapter staticRvAdapter;//adapter ban
-     private DatabaseReference mDatabase;//khai bao database
-     Interface_KhuVuc_ban interfaceKhuVucBan ; //ham get back
-     private ArcMenu arcMenu;//arc menu material
-        ArrayList<StaticModelKhuVuc> item;
-       private StaticModelKhuVuc product ;
-     private Toolbar toolbar;//tool bar khai bao id
-        ProgressBar progressBar;
+    ArrayList<StaticBanModel> items = new ArrayList<>();//araylist ban
+    StaticRvAdapter staticRvAdapter;//adapter ban
+    private DatabaseReference mDatabase;//khai bao database
+    private DatabaseReference mDatabase1;
+    private DatabaseReference mDatabase2;
+    Interface_KhuVuc_ban interfaceKhuVucBan; //ham get back
+    private ArcMenu arcMenu;//arc menu material
+    ArrayList<StaticModelKhuVuc> item;
+    private StaticModelKhuVuc product;
+    private Toolbar toolbar;
+    ProgressBar progressBar;
+    private Dialog dialogban;
+    Window window;
+    String id_ban_thanhtoan;
+    String id_khuvuc_thanhtoan;
+    String id_ban_tachban;
+    String id_khuvuc_tachban;
+    String ids;
+    private ProuductPushFB1 prouductPushFB1;
+    ArrayList<DatBanModel> datBanModels;
+    ArrayList<ID_datban> ID_datbans;
+    String id_bk;
+    ImageView img_nocart;
+    private String trangthaine;
+    private String trangthaigop;
+    private String trangthaichucnang;
+    ArrayList<ProuductPushFB1> carsList;
+    ArrayList<ProuductPushFB1> carsListsaukhichon;
+    ArrayList<ProductPushFB> carsList1;
+    ProductPushFB productPushFB;
+    ProuductPushFB1 productPushFBtachbancs;
+    long date;
+    MenuItem menuItem;
+    String code_chucnang;
+    public String keyIDCuaHang = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_order_menu);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order_menu);
 //menu toolbar
-             toolbar = findViewById(R.id.toolbars);
-             setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.toolbars);
+        setSupportActionBar(toolbar);
 //             viet su kien cho toolbar
-            ActionBar actionBar = getSupportActionBar();
+
+        ActionBar actionBar = getSupportActionBar();
 //Thiết lập tiêu đề nếu muốn
-            actionBar.setTitle("");
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            progressBar = (ProgressBar) findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.VISIBLE);
+        actionBar.setTitle("");
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-//            progressBar.setProgress(80);
+        img_nocart = findViewById(R.id.img_nocart);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        Intent intent1 = getIntent();
 
-//arc menu them ban
-//            arcMenu = findViewById(R.id.arcmenu);
+        id_ban_thanhtoan = intent1.getStringExtra("id_ban");
+        id_khuvuc_thanhtoan = intent1.getStringExtra("id_khuvuc");
+        if(intent1.getStringExtra("id_trangthai")!= null){
+            code_chucnang = intent1.getStringExtra("id_trangthai");
+        }
+        id_ban_tachban = intent1.getStringExtra("id_banTachBan");
+        id_khuvuc_tachban = intent1.getStringExtra("id_khuvucTachBan");
+//        date = intent1.getLongExtra("date");
+        Log.d("list_as_string", id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan + "Ordermenu");
+        String carListAsString = getIntent().getStringExtra("list_as_string");
+        String carListAsString1 = getIntent().getStringExtra("list_as_string1");
 
-//database realtime khu vuc
-             mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc");
-//            Log.d("ccc",FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").getKey());
-            mDatabase.addValueEventListener(new ValueEventListener() {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
+        }.getType();
+        Type type1 = new TypeToken<ArrayList<ProductPushFB>>() {
+        }.getType();
+        carsList1 = gson.fromJson(carListAsString1, type1);
+        carsList = gson.fromJson(carListAsString, type);
+        if(getIntent().getStringExtra("carsList")!= null){
+            String ListCartDaCo = getIntent().getStringExtra("carsList");
+
+            Type type3 = new TypeToken<ArrayList<ProuductPushFB1>>() {
+            }.getType();
+            carsListsaukhichon = gson.fromJson(ListCartDaCo, type3);
+            Log.d("carsListsaukhichon",carsListsaukhichon.size()+"");
+        }
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            productPushFB = (ProductPushFB) getIntent().getSerializableExtra("en");
+
+
+        }
+
+        dialogban = new Dialog(OrderMenu.this);
+        dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogban.setContentView(R.layout.dailongban);
+        window = dialogban.getWindow();
+
+        ID_datbans = new ArrayList<>();
+        trangthaine = "0";
+
+        mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("MangDi");
+        mDatabase.child("trangthai").setValue(trangthaine);
+//
+//
+        if(code_chucnang==null){
+            code_chucnang ="123";
+            FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+            getDataOrder(actionBar);
+        }
+        else if(code_chucnang!=null) {
+            Log.d("trangthaigopcode",code_chucnang+"ordermenu");
+            mDatabase2 = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("chucnang").child(code_chucnang);
+            mDatabase2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                     item = new ArrayList<>();
-
-                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                        ArrayList<StaticBanModel> mm= new ArrayList<>();
-                        String trangthai= postSnapshot.child("trangthai").getValue()+"";
-                        String tenkhuvuc=postSnapshot.child("tenkhuvuc").getValue()+"";
-                        String id_khuvuc = postSnapshot.getKey();
-                        DataSnapshot sss = postSnapshot.child("ban");
-                        for (DataSnapshot aaa: sss.getChildren()){
-                            String tenban= aaa.child("tenban").getValue()+"";
-                            String trangthai1=aaa.child("trangthai").getValue()+"";
-                            String tennhanvien = aaa.child("tenNhanVien").getValue()+"";
-                            String gioDaorder = aaa.child("gioDaOder").getValue()+"";
-//                                              Log.d("TENBAN",aaa.child("tennhanvien").getValue()+"");
-                            String id_ban = aaa.getKey();
-//                            Log.d("TENBAN",aaa.child("tenban").getValue()+"");
-
-                            mm.add(new StaticBanModel(id_ban,tenban,trangthai1,tennhanvien,gioDaorder));
-//                            Log.d("keyabc",aaa.getKey()+"abc");
-                        }
-                        StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc,trangthai,id_khuvuc,mm);
-//                      Log.d("av",mm.size()+"avv");
-                        item.add(product);
-
+                    if (snapshot.getValue() != null) {
+                        trangthaichucnang = snapshot.child("trangthai").getValue()+"";
                     }
-                    progressBar.setVisibility(View.INVISIBLE);
-                    recyclerView = findViewById(R.id.rv_1);
-                    staticRvKhuVucAdapter = new StaticRvKhuVucAdapter(item,OrderMenu.this,OrderMenu.this);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(OrderMenu.this,LinearLayoutManager.HORIZONTAL,false));
-                    recyclerView.setAdapter(staticRvKhuVucAdapter);
-                    staticRvKhuVucAdapter.notifyDataSetChanged();
+                    getDataOrder(actionBar);
+                    tieude(actionBar);
 
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
+
             });
-            callback();
-
-//           final ArrayList<StaticModelKhuVuc> item = new ArrayList<>();
-//            item.add(new StaticModelKhuVuc("khu Vuc 2","1"));
-//            item.add(new StaticModelKhuVuc("khu Vuc 3","2"));
-//            item.add(new StaticModelKhuVuc("khu Vuc 4","1"));
-//            item.add(new StaticModelKhuVuc("khu Vuc 5","2"));
-
-//            recyclerView = findViewById(R.id.rv_1);
-//            staticRvKhuVucAdapter = new StaticRvKhuVucAdapter(item,this,this);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-//            recyclerView.setAdapter(staticRvKhuVucAdapter);
-
-            items = new ArrayList<>();
-            recyclerView2 =findViewById(R.id.rv_2);
-            staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,"");
-
-//            recyclerView2.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
-            recyclerView2.setLayoutManager(gridLayoutManager);
-            recyclerView2.setAdapter(staticRvAdapter);
-            staticRvAdapter.notifyDataSetChanged();
-
-//            recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                    super.onScrolled(recyclerView, dx, dy);
-//                    if(dy>0){
-//                        arcMenu.setVisibility(View.GONE);
-//                    }
-//                    else {
-//                        arcMenu.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            });
-
         }
 
-        @Override
-        public void GetBack(int position, ArrayList<StaticBanModel> items,String id_khuvuc) {
-            id_khuvuc = item.get(position).getId_khuvuc();
-         staticRvAdapter = new StaticRvAdapter(items,OrderMenu.this,item,id_khuvuc);
-         staticRvAdapter.notifyDataSetChanged();
-         recyclerView2.setAdapter(staticRvAdapter);
+        getDataOrder(actionBar);
+        Log.d("trangthaichucnang1", trangthaichucnang+ "activity");
+        callback();
 
+        items = new ArrayList<>();
+        recyclerView2 = findViewById(R.id.rv_2);
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList, carsList1,productPushFB,carsListsaukhichon,id_ban_tachban,id_khuvuc_tachban,trangthaichucnang,code_chucnang);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        recyclerView2.setLayoutManager(gridLayoutManager);
+        recyclerView2.setAdapter(staticRvAdapter);
+        staticRvAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void GetBack(int position, ArrayList<StaticBanModel> items, String id_khuvuc) {
+        id_khuvuc = item.get(position).getId_khuvuc();
+        staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList, carsList1,productPushFB,carsListsaukhichon,id_ban_tachban,id_khuvuc_tachban,trangthaichucnang,code_chucnang);
+        staticRvAdapter.notifyDataSetChanged();
+        recyclerView2.setAdapter(staticRvAdapter);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main3, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        TextView ad;
+
+
+        if (trangthaichucnang==null) {
+            if (item_id == R.id.mangdi) {
+                mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("MangDi");
+                mDatabase.child("trangthai").setValue("1");
+                int code = (int) Math.floor(((Math.random() * 899999) + 100000));
+                Toast.makeText(this, "mang di", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(OrderMenu.this, MonOrder.class);
+                intent.putExtra("id_datban", code + "");
+                startActivity(intent);
+                finish();
+            }
         }
-//
-//        @Override
-//        public void onBackPressed() {
-//            Intent intent = new Intent(OrderMenu.this,MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-
-            getMenuInflater().inflate(R.menu.menu_main2, menu);
+        if (item_id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
 
-        @Override
-        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-            return super.onOptionsItemSelected(item);
-        }
-        private void callback(){
-            ChildEventListener childEventListener = new ChildEventListener() {
+
+        return true;
+    }
+
+    public String Hamlaygiohientai() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Log.d("datenowww", timestamp.getTime() + "");
+        return timestamp.getTime() + "";
+    }
+
+    private void callback() {
+        ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getKey()+"longac1");
-                Log.d("onChildAdded", "onChildAdded:" + dataSnapshot.getValue()+"long");
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("ccc", "onChildChanged:" + dataSnapshot.getKey());
-                Log.d("onChildChanged", "onChildChanged:" + dataSnapshot.getValue()+"longac1");
 //
 
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-//
-//                // A comment has changed, use the key to determine if we are displaying this
-//                // comment and if so remove it.
-//                String commentKey = dataSnapshot.getKey();
-//
-//                // ...
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-//                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-//
-//                // A comment has changed position, use the key to determine if we are
-//                // displaying this comment and if so move it.
-//                Comment movedComment = dataSnapshot.getValue(Comment.class);
-//                String commentKey = dataSnapshot.getKey();
 
-                // ...
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-//                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-//                Toast.makeText(mContext, "Failed to load comments.",
-//                        Toast.LENGTH_SHORT).show();
+
             }
         };
-            mDatabase.addChildEventListener(childEventListener);}
-
-//        @Override
-//        public void onBackPressed() {
-//            Intent intent = new Intent(OrderMenu.this,MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        mDatabase.addChildEventListener(childEventListener);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(OrderMenu.this, MainActivity.class);
+        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    public void getDataOrder( ActionBar actionBar) {
+        mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("khuvuc");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                item = new ArrayList<>();
+                if (snapshot.getValue() != null) {
+
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        ArrayList<StaticBanModel> mm = new ArrayList<>();
+                        String trangthai = postSnapshot.child("trangthai").getValue() + "";
+                        String tenkhuvuc = postSnapshot.child("tenkhuvuc").getValue() + "";
+                        String id_khuvuc = postSnapshot.getKey();
+                        DataSnapshot sss = postSnapshot.child("ban");
+                        for (DataSnapshot aaa : sss.getChildren()) {
+                            String tenban = aaa.child("tenban").getValue() + "";
+                            String trangthai1 = aaa.child("trangthai").getValue() + "";
+                            String tennhanvien = aaa.child("tenNhanVien").getValue() + "";
+                            String gioDaorder = aaa.child("gioDaOder").getValue() + "";
+                            String id_ban = aaa.getKey();
+                            //gopban
+
+                            if(trangthaichucnang!=null) {
+                                if (trangthaichucnang.equals("1")) {
+                                    if (trangthai1.equals("2")) {
+                                        mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                                    }
+                                }
+
+                                //chuyen bàn
+                                else if (trangthaichucnang.equals("2")) {
+                                    if (trangthai1.equals("1")) {
+                                        mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                                    }
+                                }
+                                //tách bàn
+                                else if (trangthaichucnang.equals("3")) {
+
+                                    mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+
+                                }
+                                else {
+                                    mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                                }
+                            }else {
+                                actionBar.setTitle("Danh sách Bàn");
+                                mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                            }
+
+
+                        }
+                        StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc, trangthai, id_khuvuc, mm);
+                        item.add(product);
+
+                    }
+                } else {
+                    img_nocart.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+                progressBar.setVisibility(View.INVISIBLE);
+                recyclerView = findViewById(R.id.rv_1);
+                staticRvKhuVucAdapter = new StaticRvKhuVucAdapter(item, OrderMenu.this, OrderMenu.this);
+                recyclerView.setLayoutManager(new LinearLayoutManager(OrderMenu.this, LinearLayoutManager.HORIZONTAL, false));
+                recyclerView.setAdapter(staticRvKhuVucAdapter);
+                staticRvKhuVucAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void tieude(ActionBar actionBar) {
+        if(code_chucnang!=null) {
+            if (trangthaichucnang.equals("0") || trangthaichucnang == null) {
+                actionBar.setTitle("Danh sách Bàn");
+
+            } else if (trangthaichucnang.equals("1")) {
+                actionBar.setTitle("Gộp bàn");
+            } else if (trangthaichucnang.equals("2")) {
+                actionBar.setTitle("Chuyển Bàn");
+            } else if (trangthaichucnang.equals("3")) {
+                actionBar.setTitle("Tách Bàn");
+            }
+        }
+        else {
+            actionBar.setTitle("Danh sách Bàn");
+        }
+    }
+}

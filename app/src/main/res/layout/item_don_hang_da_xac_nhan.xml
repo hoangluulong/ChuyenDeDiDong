@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:background="@drawable/border_linerlayout"
         >
 
         <LinearLayout
@@ -27,11 +28,13 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:src="@drawable/date_24" />
 
@@ -41,30 +44,49 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
                     android:paddingLeft="7dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee"
                     android:text="20-10-2021 12:30:14"
-                    android:textSize="10sp" />
-                <TextView
-                    android:id="@+id/lblThoiGianTruoc"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:gravity="left"
-                    android:textColor="@color/black"
-                    android:text="10 phút trước"
-                    android:textSize="10sp" />
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:textColor="@color/purple_200"
+                    android:textColor="@color/coffee"
+                    android:text="ID: "
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_id_donhang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="14dp"
+                    android:text="2756758345"
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/coffee"
                     android:text="Khách hàng"
+                    android:fontFamily="@font/alike_angular"
                     android:textSize="13sp" />
 
                 <TextView
@@ -73,20 +95,23 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="14dp"
                     android:text="Hoàng Hữu Long gg"
-                    android:textSize="11sp" />
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:textColor="@color/purple_200"
+                    android:textColor="@color/coffee"
                     android:text="Tổng đơn: "
+                    android:fontFamily="@font/alike_angular"
                     android:textSize="13sp" />
 
                 <TextView
@@ -95,7 +120,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="14dp"
                     android:text="1,000,000,00"
-                    android:textSize="12sp" />
+                    android:fontFamily="@font/alike_angular"
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -104,22 +130,15 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
+            android:layout_marginTop="12dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đang chuẩn bị..."
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/Python"
-                android:textSize="9sp"/>
             <TextView
                 android:id="@+id/trangthai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chờ chế biến"
-                android:layout_marginTop="5dp"
+                android:textColor="@color/CPP"
                 android:textSize="10sp"/>
 
         </LinearLayout>
@@ -137,11 +156,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:gravity="center"
-                android:background="@drawable/bg_don_online"
+                android:background="@drawable/bg_kich_hoat"
                 android:layout_marginBottom="2dp"
                 android:text="Hàng chờ ⤾"
                 android:textSize="10sp"
-                android:fontFamily="@font/baloo"
+                android:fontFamily="@font/alike_angular"
                 android:textColor="@color/Python" />
 
             <TextView
@@ -149,11 +168,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:gravity="center"
-                android:background="@drawable/bg_don_online"
+                android:background="@drawable/bg_xoa_van_chuyen"
                 android:layout_marginTop="2dp"
                 android:text="Hủy đơn ✘"
                 android:textSize="10sp"
-                android:fontFamily="@font/baloo"
+                android:fontFamily="@font/alike_angular"
                 android:textColor="@color/red" />
         </LinearLayout>
 

@@ -1,8 +1,9 @@
 package java.android.quanlybanhang.Model.ChucNangThanhToan;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ProductPushFB {
+public class ProductPushFB implements Serializable {
     public ProductPushFB(long date, boolean flag) {
         this.date = date;
         this.flag = flag;
@@ -10,6 +11,7 @@ public class ProductPushFB {
 
     private long date;
     private boolean flag;
+    private int trangThai;
 
     public int getTrangThai() {
         return TrangThai;
@@ -21,6 +23,10 @@ public class ProductPushFB {
 
     private int TrangThai;
     private ArrayList<ProuductPushFB1> sanpham;
+
+    public ProductPushFB() {
+        this.sanpham = new ArrayList<>();
+    }
 
     public ProductPushFB(long date, boolean flag, int trangThai, ArrayList<ProuductPushFB1> sanpham) {
         this.date = date;

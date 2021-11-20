@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.DaXacNhanAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
@@ -89,6 +90,8 @@ public class DaXacNhanFragment extends Fragment implements SwipeRefreshLayout.On
     private SwipeRefreshLayout refreshLayout;
     private View view;
     private ImageView image;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+    private String ID_CUAHANG;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +101,8 @@ public class DaXacNhanFragment extends Fragment implements SwipeRefreshLayout.On
 
         recyclerView = view.findViewById(R.id.recycleview);
         dialog = new Dialog(view.getContext());
+        thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         lblThongBao = view.findViewById(R.id.lblThongBao);
         progressBar = view.findViewById(R.id.progressBar);
@@ -124,7 +129,7 @@ public class DaXacNhanFragment extends Fragment implements SwipeRefreshLayout.On
     private void getDataFireBase(View view) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 donHangs = new ArrayList<>();
@@ -134,6 +139,9 @@ public class DaXacNhanFragment extends Fragment implements SwipeRefreshLayout.On
                         DonHang donHang = snap.getValue(DonHang.class);
                         if (donHang.getTrangthai() == 1 || donHang.getTrangthai() == 2) {
                             donHangs.add(donHang);
+                            String key = snap.getKey();
+                            donHangs.get(i).setIdDonHang(key);
+                            donHangs.get(i).setKey(key);
                             Date date = support.formatDate(donHangs.get(i).getTime());
                             donHangs.get(i).setDate(date);
                             i++;

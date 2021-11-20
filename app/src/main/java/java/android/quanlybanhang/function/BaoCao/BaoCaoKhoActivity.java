@@ -13,12 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.android.quanlybanhang.HelperClasses.QuanLyKhoAdapter;
 import java.android.quanlybanhang.Model.BaoCaoKho;
 import java.android.quanlybanhang.R;
@@ -35,8 +29,6 @@ public class BaoCaoKhoActivity extends AppCompatActivity {
     private QuanLyKhoAdapter quanLyKhoAdapter;
     private List<BaoCaoKho> baoCaoKhos;
     private Button back;
-    private DatabaseReference mFirebaseDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +50,7 @@ public class BaoCaoKhoActivity extends AppCompatActivity {
         baoCaoKhos = new ArrayList<>();
 
         recyclerView.hasFixedSize();
-
+//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
         quanLyKhoAdapter = new QuanLyKhoAdapter(this, baoCaoKhos);
@@ -74,26 +66,16 @@ public class BaoCaoKhoActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFirebaseDatabase= FirebaseDatabase.getInstance().getReference();
-                mFirebaseDatabase.child("BaoCaoKho").child("id_CuaHang").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot snapshot1:snapshot.getChildren()){
-                            BaoCaoKho baoCaoKho=snapshot1.getValue(BaoCaoKho.class);
-                            baoCaoKhos.add(baoCaoKho);
+                baoCaoKhos.add(new BaoCaoKho("Hoàng Hữu Long 0", "20-08-2021", "20:39:00"));
+                baoCaoKhos.add(new BaoCaoKho("Hoàng Hữu Long 1", "23-08-2021", "20:40:00"));
+                baoCaoKhos.add(new BaoCaoKho("Hoàng Hữu Long 2", "20-08-2021", "20:59:00"));
+                baoCaoKhos.add(new BaoCaoKho("Hoàng Hữu Long 3", "21-08-2021", "20:37:01"));
+                baoCaoKhos.add(new BaoCaoKho("Hoàng Hữu Long 4", "20-08-2021", "20:36:04"));
+                baoCaoKhos.add(new BaoCaoKho("Hoàng Hữu Long 5", "25-08-2021", "20:36:03"));
 
-                        }
-                        quanLyKhoAdapter.isShimmer = false;
-                        sapXepList();
-                        quanLyKhoAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                quanLyKhoAdapter.isShimmer = false;
+                sapXepList();
+                quanLyKhoAdapter.notifyDataSetChanged();
             }
         }, 5000);
     }

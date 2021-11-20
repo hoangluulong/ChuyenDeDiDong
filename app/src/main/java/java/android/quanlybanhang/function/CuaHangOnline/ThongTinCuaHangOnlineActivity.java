@@ -53,6 +53,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.android.quanlybanhang.Common.DataAddress;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
@@ -116,7 +117,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
     private ThongTinCuaHang thongTinCuaHang;
 
     private int loai = 0;
-
     private int ViTri;
 
     @Override
@@ -133,14 +133,20 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.thongtin);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new docJSon().execute("https://provinces.open-api.vn/api/?depth=3");
-            }
-        });
         displayItem();
+        getThongTinChung();
+
+        DataAddress dataAddress = new DataAddress();
+        try {
+            listDiaChi = dataAddress.readCompanyJSONFile(this);
+            setDataText();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayItem() {
@@ -389,8 +395,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 tenXa = parent.getItemAtPosition(position).toString();
             }
         });
-
-        getThongTinChung();
     }
 
     @Override
@@ -501,7 +505,9 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 finish();
                 break;
             case R.id.sanpham:
-                Toast.makeText(this, "San pham", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, TaoSanPhamOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.quangcao:
                 intent = new Intent(this, QuangCaoActivity.class);
@@ -511,7 +517,9 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
             case R.id.thongtin:
                 break;
             case R.id.giolamviec:
-                Toast.makeText(this, "gio làm việc", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, ThoiGianLamViecOnlineActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.vanchuyen:
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
@@ -586,50 +594,77 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
         } else if (phone.isEmpty()) {
             edt_phone.setError("Nhập số điện thoại");
             edt_phone.requestFocus();
-        } else if (nameLogo == null && nameLogo.equals("")){
+        } else if (nameLogo == null || nameLogo.equals("")) {
             Toast.makeText(this, "Vui lòng chọn hình", Toast.LENGTH_SHORT).show();
-        }else if (imageLogoUri == null) {
-            Toast.makeText(this, "Vui lòng chọn hình", Toast.LENGTH_SHORT).show();
-        }else{
-            if (thongTinCuaHang.getNamelogo()!=null) {
-                if (!nameLogo.equals(thongTinCuaHang.getNamelogo())){
-                    Log.d("qqq", "abc");
-                    reference.child(thongTinCuaHang.getNamelogo()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            final StorageReference fileRef = reference.child(nameLogo);
-                            fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            thongTinCuaHang.setLogoUrl(uri.toString());
-                                            thongTinCuaHang.setNamelogo(nameLogo);
-                                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
-                                            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
-                                        }
-                                    });
-                                }
-                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+        } else {
+            if (imageLogoUri != null) {
+                if (thongTinCuaHang.getNamelogo()!=null) {
+                    if (!nameLogo.equals(thongTinCuaHang.getNamelogo())){
+                        Log.d("qqq", "abc");
+                        reference.child(thongTinCuaHang.getNamelogo()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                final StorageReference fileRef = reference.child(nameLogo);
+                                fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                thongTinCuaHang.setLogoUrl(uri.toString());
+                                                thongTinCuaHang.setNamelogo(nameLogo);
+                                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
+                                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
+                                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                            }
+                                        });
+                                    }
+                                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                        }
-                    });
-                }
-                else {
-                    Log.d("qqq", "xyz");
+                            }
+                        });
+                    }
+                    else {
+
+                        final StorageReference fileRef = reference.child(nameLogo);
+                        fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        thongTinCuaHang.setLogoUrl(uri.toString());
+                                        thongTinCuaHang.setNamelogo(nameLogo);
+                                        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
+                                        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
+                                        mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                    }
+                                });
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+                    }
+                }else {
+                    Log.d("qqq", "zzzz");
                     final StorageReference fileRef = reference.child(nameLogo);
                     fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -639,6 +674,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                                 public void onSuccess(Uri uri) {
                                     thongTinCuaHang.setLogoUrl(uri.toString());
                                     thongTinCuaHang.setNamelogo(nameLogo);
+                                    mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
                                     mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
                                     mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
                                 }
@@ -654,33 +690,10 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                         }
                     });
                 }
-            }else {
-                Log.d("qqq", "zzzz");
-                final StorageReference fileRef = reference.child(nameLogo);
-                fileRef.putFile(imageLogoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                thongTinCuaHang.setLogoUrl(uri.toString());
-                                thongTinCuaHang.setNamelogo(nameLogo);
-                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
-                                mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
-                            }
-                        });
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
             }
+
             luu1.setText("Lưu");
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").setValue(ID_CUAHANG);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("moTa").setValue(moTa);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("name").setValue(nameCH);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("soDienThoai").setValue(phone).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -715,6 +728,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
             phuongxaAuto.setError("Chọn phường xã");
             phuongxaAuto.requestFocus();
         } else {
+            mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("phuongXa").setValue(tenXa);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("quanHuyen").setValue(tenHuyen);
             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("tinhThanhPho").setValue(tenTinh);
@@ -748,74 +762,6 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 nameLogo = System.currentTimeMillis() + "." + getFileExtension(imageLogoUri);
             }
         }
-    }
-
-    class docJSon extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return docNoiDung_Tu_URL(strings[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            try {
-                JSONArray root = new JSONArray(s);
-                for (int i = 0; i < root.length(); i++) {
-                    JSONObject khuVuc = root.getJSONObject(i);
-                    String tinhTP = khuVuc.getString("name");
-                    JSONArray arrHuyen = khuVuc.getJSONArray("districts");
-                    ArrayList<Huyen> huyens = new ArrayList<>();
-                    for (int j = 0; j < arrHuyen.length(); j++) {
-                        JSONObject khuVucHuyen = arrHuyen.getJSONObject(j);
-                        String tenHuyen = khuVucHuyen.getString("name");
-                        JSONArray arrXa = khuVucHuyen.getJSONArray("wards");
-                        ArrayList<String> xas = new ArrayList<>();
-                        for (int k = 0; k < arrXa.length(); k++) {
-                            JSONObject khuVucXa = arrXa.getJSONObject(k);
-                            String xa = khuVucXa.getString("name");
-                            xas.add(xa);
-                        }
-                        Huyen huyen = new Huyen(tenHuyen, xas);
-                        huyens.add(huyen);
-                    }
-
-                    DiaChi diaChi = new DiaChi(tinhTP, huyens);
-
-                    listDiaChi.add(diaChi);
-                }
-                setDataText();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static String docNoiDung_Tu_URL(String theUrl) {
-        StringBuilder content = new StringBuilder();
-        try {
-            //Create a url object
-            URL url = new URL(theUrl);
-
-            //create a urlconnection object
-            URLConnection urlConnection = url.openConnection();
-
-            // wrap the urlconnection in a bufferedreader
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-
-            //read from the urlconnection via the bufferedreader
-            while ((line = bufferedReader.readLine()) != null) {
-                content.append(line + "\n");
-            }
-            bufferedReader.close();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return content.toString();
     }
 
     private String[] ArrayTinh() {

@@ -1,31 +1,58 @@
 package java.android.quanlybanhang.function.BaoCao;
 
+import javax.xml.transform.Source;
+
 public class SanPhamBaoCao {
-    private String tensanpham;
-    private String nhomsanpham;
-    private Double thanhtien;
+    private Double giaProudct;
+    private String nameProduct;
+    private String imgProduct;
+    private String loai;
     private int soluong;
-    private Double giatien;
     private String color;
+    private String yeuCau;
 
     public SanPhamBaoCao() {
     }
 
-    public SanPhamBaoCao(String tensanpham, String nhomsanpham, Double thanhtien, Double giatien, int soluong) {
-        this.tensanpham = tensanpham;
-        this.nhomsanpham = nhomsanpham;
-        this.thanhtien = thanhtien;
-        this.giatien = giatien;
+    public SanPhamBaoCao(Double giaProudct, String nameProduct, String imgProduct, String loai, int soluong, String yeuCau) {
+        this.giaProudct = giaProudct;
+        this.nameProduct = nameProduct;
+        this.imgProduct = imgProduct;
+        this.loai = loai;
         this.soluong = soluong;
-        this.color = "";
+        this.yeuCau = yeuCau;
     }
 
-    public String getColor() {
-        return color;
+    public Double getGiaProudct() {
+        return giaProudct;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setGiaProudct(Double giaProudct) {
+        this.giaProudct = giaProudct;
+    }
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public String getImgProduct() {
+        return imgProduct;
+    }
+
+    public void setImgProduct(String imgProduct) {
+        this.imgProduct = imgProduct;
+    }
+
+    public String getLoai() {
+        return loai;
+    }
+
+    public void setLoai(String loai) {
+        this.loai = loai;
     }
 
     public int getSoluong() {
@@ -36,35 +63,19 @@ public class SanPhamBaoCao {
         this.soluong = soluong;
     }
 
-    public String getTensanpham() {
-        return tensanpham;
+    public String getColor() {
+        return color;
     }
 
-    public void setTensanpham(String tensanpham) {
-        this.tensanpham = tensanpham;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public String getNhomsanpham() {
-        return nhomsanpham;
+    public String getYeuCau() {
+        return yeuCau;
     }
 
-    public void setNhomsanpham(String nhomsanpham) {
-        this.nhomsanpham = nhomsanpham;
-    }
-
-    public Double getThanhtien() {
-        return thanhtien;
-    }
-
-    public void setThanhtien(Double thanhtien) {
-        this.thanhtien = thanhtien;
-    }
-
-    public Double getGiatien() {
-        return giatien;
-    }
-
-    public void setGiatien(Double giatien) {
-        this.giatien = giatien;
+    public void setYeuCau(String yeuCau) {
+        this.yeuCau = yeuCau;
     }
 }

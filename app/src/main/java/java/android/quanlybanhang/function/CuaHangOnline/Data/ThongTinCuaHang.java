@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.CuaHangOnline.Data;
 
 public class ThongTinCuaHang {
+    private String id;
     private String name;
     private String soDienThoai;
     private String namelogo;
@@ -8,6 +9,15 @@ public class ThongTinCuaHang {
     private String moTa;
 
     public ThongTinCuaHang() {
+    }
+
+    public ThongTinCuaHang(String id, String name, String soDienThoai, String namelogo, String logoUrl, String moTa) {
+        this.id = id;
+        this.name = name;
+        this.soDienThoai = soDienThoai;
+        this.namelogo = namelogo;
+        this.logoUrl = logoUrl;
+        this.moTa = moTa;
     }
 
     public ThongTinCuaHang(String name, String soDienThoai, String moTa) {

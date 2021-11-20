@@ -19,7 +19,7 @@ public class FragmentAdapter extends FragmentStateAdapter implements SwipeRefres
             case 0:
                 return new AddQuanCaoFragment();
             case 1:
-                return new ChoXacNhanQuangCaoFragment();
+                return new SanPhamQuangCaoFragment();
             case 2:
                 return new AddQuanCaoFragment();
             case 3:

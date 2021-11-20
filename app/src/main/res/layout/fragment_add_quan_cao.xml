@@ -14,12 +14,13 @@
             android:id="@+id/scrollView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
             android:alpha="0.3"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -178,27 +179,6 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="20dp"
-                                            android:hint="Số lượng *"
-                                            app:hintEnabled="true">
-
-                                            <com.google.android.material.textfield.TextInputEditText
-                                                android:id="@+id/soLuong"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:inputType="phone"
-                                                android:textColor="@color/slate"
-                                                app:boxStrokeColor="@color/vang">
-
-                                            </com.google.android.material.textfield.TextInputEditText>
-
-                                        </com.google.android.material.textfield.TextInputLayout>
-
-
-                                        <com.google.android.material.textfield.TextInputLayout
-                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="20dp"
                                             android:hint="Giá bán *"
                                             app:hintEnabled="true">
 
@@ -206,7 +186,7 @@
                                                 android:id="@+id/giaban"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:inputType="phone"
+                                                android:inputType="number"
                                                 android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 
@@ -219,18 +199,19 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="20dp"
-                                            android:hint="Giảm giá *"
+                                            android:hint="Số lượng *"
                                             app:hintEnabled="true">
 
                                             <com.google.android.material.textfield.TextInputEditText
-                                                android:id="@+id/giamgia"
+                                                android:id="@+id/soLuong"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:inputType="phone"
+                                                android:inputType="number"
                                                 android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 
                                             </com.google.android.material.textfield.TextInputEditText>
+
                                         </com.google.android.material.textfield.TextInputLayout>
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -255,7 +236,28 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="20dp"
-                                            android:hint="Mô tả "
+                                            android:hint="Mô tả ngắn"
+                                            app:hintEnabled="true">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/title"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="left|top"
+                                                android:inputType="textMultiLine"
+                                                android:lines="2"
+                                                android:textColor="@color/slate"
+                                                app:boxStrokeColor="@color/vang">
+
+                                            </com.google.android.material.textfield.TextInputEditText>
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="20dp"
+                                            android:hint="Mô tả chi tiết"
                                             app:hintEnabled="true">
 
                                             <com.google.android.material.textfield.TextInputEditText
@@ -265,6 +267,61 @@
                                                 android:gravity="left|top"
                                                 android:inputType="textMultiLine"
                                                 android:lines="6"
+                                                android:textColor="@color/slate"
+                                                app:boxStrokeColor="@color/vang">
+
+                                            </com.google.android.material.textfield.TextInputEditText>
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="20dp"
+                                            android:gravity="center"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:id="@+id/addDonViTinh"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginRight="30dp"
+                                                android:background="@drawable/border_linerlayout"
+                                                android:backgroundTint="@color/ivory"
+                                                android:padding="10dp"
+                                                android:text="+ Thêm đơn vị tính" />
+
+                                            <TextView
+                                                android:id="@+id/addLoai"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginRight="30dp"
+                                                android:background="@drawable/border_linerlayout"
+                                                android:backgroundTint="@color/ivory"
+                                                android:padding="10dp"
+                                                android:text="+ Đơn vị tính" />
+                                        </LinearLayout>
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/donViTinh"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="20dp"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/border_linerlayout" />
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="20dp"
+                                            android:hint="Giảm giá *"
+                                            app:hintEnabled="true">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/giamgia"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:inputType="number"
                                                 android:textColor="@color/slate"
                                                 app:boxStrokeColor="@color/vang">
 

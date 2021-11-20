@@ -1,31 +1,23 @@
 package java.android.quanlybanhang.HelperClasses;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.android.quanlybanhang.Model.ChiTietNhapKho;
 import java.android.quanlybanhang.R;
-import java.util.List;
 
 public class ChiTietNhapKhoAdapter extends RecyclerView.Adapter<CustomChiTietNhapKho> {
 
     private Context context;
-    private List<ChiTietNhapKho> list;
-    public static final String KEY_BAOCAO = "BAOCAO";
+//    private List<SanPhamTop> list;
 
-    public ChiTietNhapKhoAdapter(Context context, List<ChiTietNhapKho> list) {
-        this.context = context;
-        this.list = list;
-        Log.d("triet", "onBindViewHolder: "+list.size());
-    }
+//    public ChiTietNhapKhoAdapter(Context context, List<SanPhamTop> list) {
+//        this.context = context;
+//        this.list = list;
+//    }
 
     public ChiTietNhapKhoAdapter(Context context){
         this.context = context;
@@ -39,26 +31,11 @@ public class ChiTietNhapKhoAdapter extends RecyclerView.Adapter<CustomChiTietNha
 
     @Override
     public void onBindViewHolder(@NonNull CustomChiTietNhapKho holder, int position) {
-        ChiTietNhapKho chiTietNhapKho=list.get(position);
-        holder.tensanPham.setText(chiTietNhapKho.getTenSanPham());
-        holder.solieuCu.setText(chiTietNhapKho.getSoLieuCu());
-        holder.solieuMoi.setText(chiTietNhapKho.getSoLieuMoi());
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                list.remove(chiTietNhapKho);
-            }
-        });
-
 
     }
 
     @Override
     public int getItemCount() {
-        if(list.size()==0){
-            return 0;
-        }else {
-            return list.size();
-        }
+        return 30;
     }
 }

@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.HelperClasses;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,51 +11,54 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.Model.SanPhamTop;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ChiSoSanPham2Adapter extends RecyclerView.Adapter<ChiSoSanPham2Adapter.CustomChiSoSanPham2> {
 
     private Context context;
-    private ArrayList<SanPhamTop> list;
+    private List<PieTongQuan> list;
 
-    public ChiSoSanPham2Adapter(Context context, ArrayList<SanPhamTop> list) {
+    public ChiSoSanPham2Adapter(Context context, List<PieTongQuan> sanPham){
         this.context = context;
-        this.list = list;
+        this.list = sanPham;
     }
 
     @NonNull
     @Override
     public CustomChiSoSanPham2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CustomChiSoSanPham2(LayoutInflater.from(context).inflate(R.layout.item_chi_so_san_pham2, parent, false));
+        return new CustomChiSoSanPham2(LayoutInflater.from(context).inflate(R.layout.item_chi_so_san_pham, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull CustomChiSoSanPham2 holder, int position) {
-        Log.d("qqq", list.size()+"");
-        holder.title.setText(list.get(position).getName()+"hoang huu long");
-        holder.soLuong.setText(list.get(position).getSoLuong()+"0000");
-        holder.gia.setText(formatStr(list.get(position).getGia()));
-    }
-
-    private String formatStr(double val) {
-        return String.format(Locale.US, "%,.2f", val);
+        holder.title.setText(list.get(position).getName());
+        holder.soLuong.setText(list.get(position).getSoLuong()+"");
+        holder.lblGia.setText(list.get(position).getGia()+"");
+        holder.soLuong.setTextColor(Color.parseColor(list.get(position).getColor()));
+        holder.title.setTextColor(Color.parseColor(list.get(position).getColor()));
+        holder.lblGia.setTextColor(Color.parseColor(list.get(position).getColor()));
     }
 
     @Override
     public int getItemCount() {
+        if (list == null) {
+            return 0;
+        }
         return list.size();
     }
 
     public class CustomChiSoSanPham2 extends RecyclerView.ViewHolder {
-        private TextView title, soLuong, gia;
+        private TextView title, soLuong, lblGia;
         public CustomChiSoSanPham2(@NonNull View ItemView) {
             super(ItemView);
             title = ItemView.findViewById(R.id.lblTitle);
             soLuong = ItemView.findViewById(R.id.lblSoLuong);
-            gia = ItemView.findViewById(R.id.gia);
+            lblGia = ItemView.findViewById(R.id.lblGia);
         }
     }
 }

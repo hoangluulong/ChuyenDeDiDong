@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function.BepBar.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.DonOnlineChoChoXacNhanAdapter;
 import java.android.quanlybanhang.function.BepBar.Data.DonHang;
@@ -32,7 +34,9 @@ public class DonHangOnlineDangHoanThanhFragment extends Fragment {
     private DatabaseReference mDatabase;
     private DonOnlineChoChoXacNhanAdapter monViewHolder;
     private ArrayList<SanPham> sanPham;
-    View v;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+    private View v;
     private ArrayList<DonHang> donHangs;
     private ProgressBar progressBar;
     private TextView lblThongBao;
@@ -50,6 +54,8 @@ public class DonHangOnlineDangHoanThanhFragment extends Fragment {
         progressBar = v.findViewById(R.id.progressBar);
         lblThongBao = v.findViewById(R.id.lblThongBao);
         imageView = v.findViewById(R.id.image);
+        thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -64,7 +70,7 @@ public class DonHangOnlineDangHoanThanhFragment extends Fragment {
 
     private void getDataFirebase() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 donHangs = new ArrayList<>();
@@ -73,6 +79,7 @@ public class DonHangOnlineDangHoanThanhFragment extends Fragment {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot snap : postSnapshot.getChildren()) {
                         DonHang donHang = snap.getValue(DonHang.class);
+
                         if (donHang.getTrangthai() == 4) {
                             donHangs.add(donHang);
                             Date date = formatDate(donHangs.get(i).getTime());
@@ -109,7 +116,7 @@ public class DonHangOnlineDangHoanThanhFragment extends Fragment {
     }
 
     private Date formatDate(String strDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.sss dd-MM-yyyy");
 
         try {
             Date date = simpleDateFormat.parse(strDate);

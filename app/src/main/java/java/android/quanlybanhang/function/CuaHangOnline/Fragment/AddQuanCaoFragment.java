@@ -1,27 +1,37 @@
 package java.android.quanlybanhang.function.CuaHangOnline.Fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,8 +47,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
+import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
+import java.android.quanlybanhang.Model.SanPham.DonViTinh;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.CuaHangOnline.Data.SanPhamQuangCao;
+import java.android.quanlybanhang.function.CuaHangOnline.Adapter.AdapterDonGia;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
+import java.android.quanlybanhang.function.CuaHangOnline.TaoSanPhamOnlineActivity;
 import java.util.ArrayList;
 
 /**
@@ -91,9 +105,9 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
 
     private LinearLayout btnQuangCaoSanPham, quangCaoSanPham, layout_image1, addImage, layout_image;
     private ImageView quangCaosanPhamIMG, imgageView;
-    private TextView chonSanPham, btnTaoDonMoi, lblLoai, btnHuy, taoDon;
+    private TextView chonSanPham, btnTaoDonMoi, lblLoai, btnHuy, taoDon, addDonViTinh, addLoai;
     private AutoCompleteTextView nhomsanpham;
-    private TextInputEditText tenSanPham, soLuong, giaban, giamgia, mota;
+    private TextInputEditText tenSanPham, soLuong, giaban, giamgia, mota, title;
     private boolean setL1 = true;
     private Uri imageUri;
     private LinearLayout.LayoutParams params1, paramsImage, paramsImage1;
@@ -109,6 +123,27 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private ArrayList<String> listNhom = new ArrayList<>();
     private ProgressBar progressBarLayout;
     private ScrollView scrollView;
+    private RecyclerView listView;
+
+    private Window window, window1;
+    private Dialog dialog, dialog1;
+    private EditText textGiaSanPham,textTenDonViTinh;
+    private Spinner spnDonViTinh;
+    private Button btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
+    private ArrayAdapter<String> adapter;
+    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_DONVITINH = "donvitinh";
+    private ArrayList<String> listDonViTinh;
+    private ArrayList<DonGia> listDonGia = new ArrayList<>();
+    private AdapterDonGia adapterDonGia;
+    private String id;
+    private DonViTinh donViTinh;
+    private Product product;
+    private AutoCompleteTextView spnTenDonViTinh2;
+    private String nhom = "";
+
+    private DatabaseReference mDatabase2;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,11 +162,34 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         progressBarLayout.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
 
+        dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailongdonvitinh);
+        window = dialog.getWindow(); dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailongdonvitinh);
+        window = dialog.getWindow();
+
+        dialog1 = new Dialog(getContext());
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.setContentView(R.layout.dialogthemdonvitinh);
+        window1 = dialog1.getWindow();
+        textTenDonViTinh = dialog1.findViewById(R.id.edtTenDonViTinh);
+        btnDialogHuyThemDVT = dialog1.findViewById(R.id.btnhuyDiaLogThemDVT);
+        btnThemDialogThemDVT = dialog1.findViewById(R.id.btnthemDiaLogThemDVT);
+
+        textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
+        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        spnTenDonViTinh2 = dialog.findViewById(R.id.spnTenDonViTinh2);
+        btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
+        btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
+
         getNhomSanPham();
         return view;
     }
 
     private void IDLayout(View view) {
+        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         quangCaoSanPham = view.findViewById(R.id.quangCaoSanPham);
@@ -151,6 +209,10 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         nhomsanpham = view.findViewById(R.id.nhomsanpham);
         progressBarLayout = view.findViewById(R.id.progressBarLayout);
         scrollView = view.findViewById(R.id.scrollView4);
+        addDonViTinh = view.findViewById(R.id.addDonViTinh);
+        addLoai = view.findViewById(R.id.addLoai);
+        listView = view.findViewById(R.id.donViTinh);
+        title = view.findViewById(R.id.title);
 
         paramsImage = (LinearLayout.LayoutParams) layout_image.getLayoutParams();
         paramsImage1 = (LinearLayout.LayoutParams) layout_image1.getLayoutParams();
@@ -160,6 +222,9 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         btnQuangCaoSanPham.setOnClickListener(this);
         addImage.setOnClickListener(this);
         taoDon.setOnClickListener(this);
+        addDonViTinh.setOnClickListener(this);
+        addLoai.setOnClickListener(this);
+
         taoDon.setEnabled(true);
 
         adapterNhomSp = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listNhom);
@@ -175,7 +240,6 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
             }
         });
         adapterNhomSp.notifyDataSetChanged();
-
     }
 
     private void getNhomSanPham() {
@@ -235,13 +299,137 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.addLoai:
+                donViTinh(Gravity.CENTER);
+                break;
+            case R.id.addDonViTinh:
+                themDonViTinh(Gravity.CENTER);
+                break;
         }
+    }
+
+    private void themDonViTinh(int gravity) {
+        if (window1 == null) {
+            return;
+        }
+        window1.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window1.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window1.getAttributes();
+        windownAttributes.gravity = gravity;
+        window1.setAttributes(windownAttributes);
+        if(Gravity.BOTTOM == gravity){
+            dialog1.setCancelable(true);
+        }
+        else {
+            dialog1.setCancelable(false);
+        }
+
+        btnDialogHuyThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
+        btnThemDialogThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = textTenDonViTinh.getText().toString();
+                String id = mDatabase2.push().getKey();
+                donViTinh = new DonViTinh(name,id);
+                mDatabase2.child(id).setValue(donViTinh);
+                textTenDonViTinh.setText("");
+                dialog1.dismiss();
+            }
+        });
+        dialog1.show();
+
+    }
+
+    private void donViTinh(int gravity){
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        window.setAttributes(windownAttributes);
+        if(Gravity.BOTTOM == gravity){
+            dialog.setCancelable(true);
+        }
+        else {
+            dialog.setCancelable(false);
+        }
+
+        mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listDonViTinh = new ArrayList<>();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    DonViTinh donViTinh1 = snapshot1.getValue(DonViTinh.class);
+                    String name = donViTinh1.getDonViTinh();
+                    listDonViTinh.add(name);
+                }
+
+                nhom = listDonViTinh.get(0);
+                adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listDonViTinh);
+                spnTenDonViTinh2.setText(nhom);
+                spnTenDonViTinh2.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        spnTenDonViTinh2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nhom = parent.getItemAtPosition(position).toString();
+                spnTenDonViTinh2.setText(nhom);
+                adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listDonViTinh);
+                spnTenDonViTinh2.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+        btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DonGia donGia = new DonGia();
+                donGia.setId(id);
+                if (textGiaSanPham.getText().toString().isEmpty()){
+                    textGiaSanPham.setError("Hãy nhập giá !!!");
+                    textGiaSanPham.requestFocus();
+                    getActivity().setFinishOnTouchOutside(true);
+                }
+                else {
+                    donGia.setGiaBan(Double.parseDouble(textGiaSanPham.getText().toString()));
+                    listDonGia.add(donGia);
+                    dialog.dismiss();
+                }
+                textGiaSanPham.setText("");
+                adapterDonGia = new AdapterDonGia(getContext(),listDonGia,dialog,window,adapter,gravity);
+                listView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+                listView.setAdapter(adapterDonGia);
+                adapterDonGia.notifyDataSetChanged();
+            }
+        });
+
+        dialog.show();
     }
 
     private String name;
     private int sLuong = 0;
-    private long gia = 0;
-    private long giamGia = 0;
+    private double giamGia = 0;
     private String moTa;
     private String nameImage;
 
@@ -252,15 +440,13 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         String sGiaBanText = giaban.getText().toString();
         String sGiamGiaText = giamgia.getText().toString();
         moTa = mota.getText().toString();
+        String titleText = title.getText().toString();
 
-        if (!sLuongText.isEmpty() && isNumeric(sLuongText)) {
+        if (!sLuongText.isEmpty()) {
             sLuong = Integer.parseInt(sLuongText);
         }
-        if (!sGiaBanText.isEmpty() && isNumeric(sGiaBanText)) {
-            gia = Long.parseLong(sGiaBanText);
-        }
-        if (!sGiamGiaText.isEmpty() && isNumeric(sGiamGiaText)) {
-            giamGia = Long.parseLong(sGiamGiaText);
+        if (!sGiamGiaText.isEmpty()) {
+            giamGia = Double.parseDouble(sGiamGiaText);
         }
 
         if (name.isEmpty()) {
@@ -290,13 +476,15 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         } else if (sLuong < 1) {
             soLuong.setError("Số lượng phải lớn hơn 1");
             soLuong.requestFocus();
-        } else if (gia < 1000) {
-            giaban.setError("Sản phẩm phải > 1000");
-            giaban.requestFocus();
-        } else if (giamGia > gia) {
-            giamgia.setError("giảm giá lớn hơn đơn giá");
-            giamgia.requestFocus();
-        } else {
+        } else if (moTa.isEmpty()) {
+            mota.setError("Mô tả sản phẩm");
+            mota.requestFocus();
+        }else if (titleText.isEmpty()) {
+            mota.setError("Mô tả sản phẩm");
+            mota.requestFocus();
+        } else if (listDonGia.size()<=0) {
+            Toast.makeText(getContext(), "Chưa tạo đơn giá", Toast.LENGTH_SHORT).show();
+        } else{
             taoDon.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
 
@@ -310,35 +498,39 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                         public void onSuccess(Uri uri) {
                             String key = mFirebaseDatabase.push().getKey();
                             Toast.makeText(getContext(), "Thành công", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.INVISIBLE);
-                            tenSanPham.setText(null);
-                            soLuong.setText(null);
-                            giamgia.setText(null);
-                            giaban.setText(null);
-                            imgageView.setImageURI(null);
-                            nhomsanpham.setText(null);
-                            addImage.setBackgroundResource(R.drawable.border_image_dashed);
-                            mota.setText(null);
-                            imageUri = null;
 
                             paramsImage.height = 0;
                             layout_image.setLayoutParams(paramsImage);
                             paramsImage1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                             layout_image1.setLayoutParams(paramsImage1);
                             taoDon.setEnabled(true);
-                            SanPhamQuangCao sanPhamQuangCao = new SanPhamQuangCao(ID_CUAHANG, key, name, sLuong, gia, giamGia, nhomSp, moTa, nameImage, uri.toString(), false, "20-11-2021", "22-11-2021");
-                            Log.d("qqq", sanPhamQuangCao.getImageUrl());
+                            String status = "Còn";
+                            String img = uri.toString();
+                            product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false, titleText);
                             DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
-                            mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(sanPhamQuangCao).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();
                                     name = null;
                                     sLuong = 0;
-                                    gia = 0;
                                     giamGia = 0;
                                     moTa = null;
                                     nameImage = null;
+                                    tenSanPham.setText(null);
+                                    soLuong.setText(null);
+                                    giamgia.setText(null);
+                                    giaban.setText(null);
+                                    imgageView.setImageURI(null);
+                                    nhomsanpham.setText(null);
+                                    title.setText(null);
+                                    addImage.setBackgroundResource(R.drawable.border_image_dashed);
+                                    mota.setText(null);
+                                    imageUri = null;
+                                    listDonGia.clear();
+                                    adapterDonGia.notifyDataSetChanged();
+                                    progressBar.setVisibility(View.INVISIBLE);
+
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

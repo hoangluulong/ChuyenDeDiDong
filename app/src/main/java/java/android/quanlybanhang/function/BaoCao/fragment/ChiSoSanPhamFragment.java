@@ -7,6 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -23,15 +30,20 @@ import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
 import java.android.quanlybanhang.Common.FormatDate;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.ChiSoSanPhamAdapter;
 import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BaoCao.SanPhamBaoCao;
+import java.android.quanlybanhang.function.CuaHangOnline.Data.Image;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -39,7 +51,7 @@ import java.util.Random;
  * Use the {@link ChiSoSanPhamFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChiSoSanPhamFragment extends Fragment {
+public class ChiSoSanPhamFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,25 +103,45 @@ public class ChiSoSanPhamFragment extends Fragment {
     //TODO: ID
     private PieChart pieChart, pieChartOnline, pieChartCuaHang;
     private RecyclerView recyclerView;
+    private RelativeLayout sanPham;
+    private ImageView image;
+    private TextView lblThongBao, phanTranOnline, phanTranCuaHang;
+    private ProgressBar progressBar;
     private ChiSoSanPhamAdapter chiSoSanPhamAdapter;
     private ArrayList<PieTongQuan> dsSanPham = new ArrayList<>();
     private ArrayList<SanPhamBaoCao> dsSanPhamBienLai = new ArrayList<>();
+    private ArrayList<SanPhamBaoCao> dsSanPhamBienLaiOnline = new ArrayList<>();
     private ArrayList<Integer> checkThu = new ArrayList<>();
+    private ArrayList<Integer> checkThuOnline = new ArrayList<>();
     private ArrayList<Integer> checkDSSP = new ArrayList<>();
     private ArrayList<String> listDays;
     private View view;
+    private String ID_CuaHang = "";
+    private Spinner spinner;
+    private ArrayList<PieTongQuan> sp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_chi_so_san_pham, container, false);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(view.getContext());
+        ID_CuaHang = thongTinCuaHangSql.IDCuaHang();
 
+        sanPham = view.findViewById(R.id.sanPham);
+        phanTranOnline = view.findViewById(R.id.phanTranOnline);
+        phanTranCuaHang = view.findViewById(R.id.phanTranCuaHang);
+        image = view.findViewById(R.id.image);
+        progressBar = view.findViewById(R.id.progressBar);
+        lblThongBao = view.findViewById(R.id.lblThongBao);
         pieChart = (PieChart) view.findViewById(R.id.piechart);
         pieChartOnline = (PieChart) view.findViewById(R.id.piecharOnline);
         pieChartCuaHang = (PieChart) view.findViewById(R.id.piecharTaiQuan);
+        spinner = view.findViewById(R.id.spinner);
         listDays = MangNgay();
 
+        progressBar.setVisibility(View.VISIBLE);
+        sanPham.setVisibility(View.GONE);
         getDataBienLai();
         setData();
         return view;
@@ -123,28 +155,36 @@ public class ChiSoSanPhamFragment extends Fragment {
             @Override
             public void run() {
                 int demThu = 0;
-                if (checkThu.size() == listDays.size()) {
-                    for (int i = 0; i < dsSanPhamBienLai.size(); i++) {
+                int demThuOnline = 0;
+                if (checkThu.size() == listDays.size() && checkThuOnline.size() == listDays.size()) {
+                    for (int i = 0; i < 7; i++) {
                         if (checkThu.get(i) == 0) {
                             demThu++;
                         }
+                        if (checkThuOnline.get(i) == 0) {
+                            demThuOnline++;
+                        }
                     }
 
-                    if (demThu == dsSanPhamBienLai.size()) {
-                        Toast.makeText(view.getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    if (demThu == dsSanPhamBienLai.size() && demThuOnline == dsSanPhamBienLaiOnline.size()) {
                         i= 0;
                     }else {
-                        ArrayList<PieTongQuan> sp = new ArrayList<>();
+                        sp = new ArrayList<>();
                         Random obj = new Random();
+
 
                         ArrayList<String> list = new ArrayList<>();
 
                         for (int i = 0; i< dsSanPhamBienLai.size(); i ++) {
-                            list.add(dsSanPhamBienLai.get(i).getTensanpham());
+                            list.add(dsSanPhamBienLai.get(i).getNameProduct());
+                        }
+                        for (int i = 0; i< dsSanPhamBienLaiOnline.size(); i++){
+                            list.add(dsSanPhamBienLaiOnline.get(i).getNameProduct());
                         }
 
                         int count = list.size();
                         for (int i = 0; i < count; i++){
+
                             for (int j = i + 1; j < count; j++){
                                 if (list.get(i).equals(list.get(j))){
                                     list.remove(j--);
@@ -160,23 +200,25 @@ public class ChiSoSanPhamFragment extends Fragment {
 
                         for (int i = 0; i < dsSanPham.size(); i++) {
                             for (int j = 0; j < dsSanPhamBienLai.size(); j++) {
-                                if (dsSanPham.get(i).getName().equals(dsSanPhamBienLai.get(j).getTensanpham())) {
+                                if (dsSanPham.get(i).getName().equals(dsSanPhamBienLai.get(j).getNameProduct())) {
                                     dsSanPham.get(i).setSoLuong(dsSanPham.get(i).getSoLuong() + dsSanPhamBienLai.get(j).getSoluong());
-                                    dsSanPham.get(i).setGia(dsSanPham.get(i).getGia() + dsSanPhamBienLai.get(j).getGiatien());
+                                    dsSanPham.get(i).setGia(dsSanPham.get(i).getGia() + dsSanPhamBienLai.get(j).getGiaProudct());
+                                }
+                            }
+
+                            for (int j = 0; j < dsSanPhamBienLaiOnline.size(); j++) {
+                                if (dsSanPham.get(i).getName().equals(dsSanPhamBienLaiOnline.get(j).getNameProduct())) {
+                                    dsSanPham.get(i).setSoLuong(dsSanPham.get(i).getSoLuong() + dsSanPhamBienLaiOnline.get(j).getSoluong());
+                                    dsSanPham.get(i).setGia(dsSanPham.get(i).getGia() + dsSanPhamBienLaiOnline.get(j).getGiaProudct());
                                 }
                             }
                         }
 
-//                        Log.d("sss", dsSanPham.get(0).getSoLuong()+"v" + dsSanPham.get(0).getGia());
-
                         for (int i = 0; i < dsSanPham.size(); i++) {
                             if (dsSanPham.get(i).getSoLuong() > 0 || dsSanPham.get(i).getGia() > 0) {
-                                Log.d("sss", dsSanPham.get(i).getName()+"v");
                                 sp.add(dsSanPham.get(i));
                             }
                         }
-
-                        sp = dsSanPham;
 
                         sp.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
 
@@ -198,8 +240,37 @@ public class ChiSoSanPhamFragment extends Fragment {
                         String colorCode1 = String.format("#%06x", obj.nextInt(0xffffff + 1));
                         String colorCode2 = String.format("#%06x", obj.nextInt(0xffffff + 1));
 
-                        int online = 10;
-                        int cuuhang = 20;
+                        int online = dsSanPhamBienLaiOnline.size();
+                        int cuahang = dsSanPhamBienLai.size();
+
+                        int tong = online + cuahang;
+
+                        int ptOnline;
+                        int ptCuaHang;
+                        sanPham.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        lblThongBao.setText("");
+                        image.setImageResource(0);
+
+                        if (tong == 0) {
+                            ptOnline = 0;
+                            ptCuaHang = 0;
+                            sanPham.setVisibility(View.GONE);
+                            image.setImageResource(R.drawable.empty_list);
+                            lblThongBao.setText("Chưa có dữ liệu");
+                        }else if (online == 0 && cuahang != 0) {
+                            ptOnline = 0;
+                            ptCuaHang = 100;
+                        }else if (online != 0 && cuahang == 0){
+                            ptOnline = 100;
+                            ptCuaHang = 0;
+                        }else {
+                            ptOnline = (online * 100) / tong;
+                            ptCuaHang = (cuahang * 100)/ tong;
+                        }
+
+                        phanTranCuaHang.setText(ptCuaHang + "%");
+                        phanTranOnline.setText(ptOnline+"%");
 
                         pieChartOnline.addPieSlice(
                                 new PieModel(
@@ -209,12 +280,12 @@ public class ChiSoSanPhamFragment extends Fragment {
                         pieChartOnline.addPieSlice(
                                 new PieModel(
                                         "online",
-                                        cuuhang,
+                                        cuahang,
                                         Color.parseColor("#FFFFFFFF")));
                         pieChartCuaHang.addPieSlice(
                                 new PieModel(
                                         "Cửa hàng",
-                                        cuuhang,
+                                        cuahang,
                                         Color.parseColor(colorCode2)));
                         pieChartCuaHang.addPieSlice(
                                 new PieModel(
@@ -223,8 +294,12 @@ public class ChiSoSanPhamFragment extends Fragment {
                                         Color.parseColor("#FFFFFFFF")));
 
                         i = 0;
-
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Log.d("ssss", sp.size()+"");
                         displayItem(view, sp);
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.sort_product, android.R.layout.simple_spinner_item);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
                     }
 
                 }else {
@@ -241,20 +316,22 @@ public class ChiSoSanPhamFragment extends Fragment {
     }
 
     private void displayItem(View view, ArrayList<PieTongQuan> sp) {
-        Log.d("sss", sp.size()+"");
         recyclerView = view.findViewById(R.id.recycler_chi_so_san_pham);
         chiSoSanPhamAdapter = new ChiSoSanPhamAdapter(view.getContext(), sp);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setAdapter(chiSoSanPhamAdapter);
         chiSoSanPhamAdapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(linearLayoutManager);
+        spinner.setOnItemSelectedListener(this);
     }
 
     private void getDataBienLai() {
         dsSanPhamBienLai.clear();
+        dsSanPhamBienLaiOnline.clear();
         checkThu.clear();
+        checkThuOnline.clear();
         for (String st : listDays) {
-            mFirebaseDatabase.child("CuaHangOder/Meskv6p2bkf89ferNygy5Kp1aAA3/bienlai/thu/" + st).addValueEventListener(new ValueEventListener() {
+            mFirebaseDatabase.child("CuaHangOder/"+ID_CuaHang+"/bienlai/thu/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
@@ -264,57 +341,119 @@ public class ChiSoSanPhamFragment extends Fragment {
                                 dsSanPhamBienLai.add(sanpham);
                             }
                         }
+
                         checkThu.add(1);
                     } else {
                         checkThu.add(0);
                     }
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
+            });
 
+            mFirebaseDatabase.child("CuaHangOder/"+ID_CuaHang+"/donhangonline/donhoanthanh/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            for (DataSnapshot snap : snapshot.child("sanpham").getChildren()) {
+                                String nameProduct = snap.child("nameProduct").getValue().toString();
+                                int soluong = Integer.parseInt(snap.child("soluong").getValue().toString());
+                                Double giaProudct = Double.parseDouble(snap.child("giaBan").getValue().toString()) * soluong;
+                                String image = snap.child("imgProduct").toString();
+
+                                SanPhamBaoCao sanpham = new SanPhamBaoCao();
+                                sanpham.setGiaProudct(giaProudct);
+                                sanpham.setLoai("");
+                                sanpham.setNameProduct(nameProduct);
+                                sanpham.setImgProduct(image);
+                                sanpham.setYeuCau("");
+                                sanpham.setSoluong(soluong);
+                                dsSanPhamBienLaiOnline.add(sanpham);
+                            }
+                        }
+                        checkThuOnline.add(1);
+                    } else {
+                        checkThuOnline.add(0);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
             });
         }
     }
 
 
     private ArrayList<String> MangNgay() {
+        Calendar c = GregorianCalendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String ngayBD = df.format(c.getTime());
+        c.add(Calendar.DATE, 6);
+        String ngayKT = df.format(c.getTime());
+
+
         ArrayList<String> arrNgay = new ArrayList<String>();
         FormatDate formatDate = new FormatDate();
 
-        int days = formatDate.truThoiGian("11/10/2021", "16/10/2021");
+        int days = formatDate.truThoiGian(ngayBD, ngayKT);
 
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
 
         try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse("16/10/2021");
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(ngayKT);
         } catch (ParseException e) {
 
         }
         cal.setTime(date);
 
         if (days != 0) {
-            arrNgay.add("16/10/2021".replaceAll("/", "-"));
+            arrNgay.add(ngayKT.replaceAll("/", "-"));
             for (int i = 0; i < days; i++) {
                 String ngay = CustomNgay(cal, -1).replaceAll("/", "-");
                 arrNgay.add(ngay);
             }
         } else {
-            String ngay = "11/10/2021".replaceAll("/", "-");
+            String ngay = ngayBD.replaceAll("/", "-");
             arrNgay.add(ngay);
         }
         return arrNgay;
     }
 
-    public String CustomNgay(Calendar calendar, int amount) {
+    private String CustomNgay(Calendar calendar, int amount) {
         String dinhDang = "dd/MM/yyyy";
         calendar.add(Calendar.DAY_OF_YEAR, amount);
         Date date = calendar.getTime();
         SimpleDateFormat formatter = new SimpleDateFormat(dinhDang);
         String startDate = formatter.format(date);
         return startDate;
+    }
+
+    private void sort(int position) {
+        displayItem(view, sp);
+        if (position == 0) {
+            sp.sort((o1, o2) -> o2.getSoLuong() - o1.getSoLuong());
+        }else if (position == 1){
+            sp.sort((o1, o2) -> o1.getSoLuong() - o2.getSoLuong());
+        }else if (position == 2){
+            sp.sort((o1, o2) -> Double.compare(o2.getGia(), o1.getGia()));
+        }else if (position == 3){
+            sp.sort((o1, o2) -> Double.compare(o1.getGia(), o2.getGia()));
+        }
+        chiSoSanPhamAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        sort(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 }

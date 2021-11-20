@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_baocao"
-    tools:context=".function.DonHangOnline.fragment.DonHuyFragment">
+    tools:context=".function.DonHangOnline.fragment.ChoXacNhanFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -17,8 +17,6 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/black1"
         android:layout_marginBottom="100dp"/>
 
     <TextView
@@ -26,16 +24,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:textSize="20sp"
+        android:textColor="@color/black1"
         android:layout_gravity="center" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </FrameLayout>

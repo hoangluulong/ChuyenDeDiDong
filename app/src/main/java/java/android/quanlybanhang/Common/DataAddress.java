@@ -2,10 +2,13 @@ package java.android.quanlybanhang.Common;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.android.quanlybanhang.Model.Address;
+import java.android.quanlybanhang.Model.AddressVN.DiaChi;
+import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.R;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,31 +19,39 @@ import java.util.ArrayList;
 
 public class DataAddress {
     // Read the company.json file and convert it to a java object.
-    private int stt = 70;
 
-    public ArrayList<Address> readCompanyJSONFile(Context context) throws IOException, JSONException {
+    public ArrayList<DiaChi> readCompanyJSONFile(Context context) throws IOException, JSONException {
 
-        String jsonText = readText(context, R.raw.vnaddress);
+        String jsonText = readText(context, R.raw.diachi);
 
-        ArrayList<Address> address = new ArrayList<>();
-        JSONObject jsonRootObject = new JSONObject(jsonText);
-        for(int i = 1; i < 64; i++) {
-            JSONObject jsonObject = jsonRootObject.getJSONObject(i+"");//lấy từng đối tượng ra
-            String name = jsonObject.optString("name").toString();
-            JSONObject jsonObjectHuyen = jsonObject.getJSONObject("districts");
+        ArrayList<DiaChi> listDiaChi = new ArrayList<>();
 
-            String[] huyen = new String[jsonObjectHuyen.length()];
-            for (int j = 0; j < jsonObjectHuyen.length(); j++){
-//                Log.d("AAA", i + " - " + name +" - "+ jsonObjectHuyen.optString(""+stt));
-                huyen[j] = jsonObjectHuyen.optString(""+stt);
-                stt++;
+        JSONArray root = new JSONArray(jsonText);
+        for (int i = 0; i < root.length(); i++) {
+            JSONObject khuVuc = root.getJSONObject(i);
+            String tinhTP = khuVuc.getString("name");
+            JSONArray arrHuyen = khuVuc.getJSONArray("districts");
+            ArrayList<Huyen> huyens = new ArrayList<>();
+            for (int j = 0; j < arrHuyen.length(); j++) {
+                JSONObject khuVucHuyen = arrHuyen.getJSONObject(j);
+                String tenHuyen = khuVucHuyen.getString("name");
+                JSONArray arrXa = khuVucHuyen.getJSONArray("wards");
+                ArrayList<String> xas = new ArrayList<>();
+                for (int k = 0; k < arrXa.length(); k++) {
+                    JSONObject khuVucXa = arrXa.getJSONObject(k);
+                    String xa = khuVucXa.getString("name");
+                    xas.add(xa);
+                }
+                Huyen huyen = new Huyen(tenHuyen, xas);
+                huyens.add(huyen);
             }
 
-            address.add(new Address(i - 1,name,huyen));
+            DiaChi diaChi = new DiaChi(tinhTP, huyens);
 
+            listDiaChi.add(diaChi);
         }
 
-        return address;
+        return listDiaChi;
     }
 
     private String readText(Context context, int resId) throws IOException {

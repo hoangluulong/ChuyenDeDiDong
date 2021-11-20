@@ -56,30 +56,14 @@
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/baloo"
                 android:gravity="center"
-                android:text="Coffee House"
+                android:text="FoodApp"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/textcontact"
                 app:layout_constraintEnd_toStartOf="@+id/imglogo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-            <TextView
-                android:id="@+id/textcontact"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="90dp"
-                android:layout_marginBottom="33dp"
-                android:fontFamily="@font/baloo"
-                android:text="Nhóm 5 Người "
-                android:textSize="12sp"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toTopOf="@+id/linear1"
-                app:layout_constraintEnd_toStartOf="@+id/imglogo"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textlogo" />
+
 
             <ImageView
                 android:id="@+id/imglogo"
@@ -131,9 +115,10 @@
                             android:layout_below="@id/imgorder"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:fontFamily="@font/baloo"
-                            android:text="Order menu"
-                            android:textSize="18sp"
+                            android:fontFamily="@font/alike_angular"
+                            android:text="Oder"
+                            android:textColor="@color/hong_nhat"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -171,9 +156,10 @@
                             android:layout_below="@id/imgchebien"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:fontFamily="@font/baloo"
-                            android:text="Processing"
-                            android:textSize="18sp"
+                            android:fontFamily="@font/alike_angular"
+                            android:text="Bếp"
+                            android:textColor="@color/hong_nhat"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -225,9 +211,10 @@
                             android:layout_below="@id/imgthuchi"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:fontFamily="@font/baloo"
-                            android:text="Income"
-                            android:textSize="18sp"
+                            android:fontFamily="@font/alike_angular"
+                            android:text="Báo cáo"
+                            android:textColor="@color/hong_nhat"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -265,9 +252,10 @@
                             android:layout_below="@id/imgquanly"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:fontFamily="@font/baloo"
-                            android:text="manager "
-                            android:textSize="18sp"
+                            android:fontFamily="@font/alike_angular"
+                            android:text="Thiết lập online"
+                            android:textColor="@color/hong_nhat"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -320,9 +308,10 @@
                             android:layout_below="@id/imgdsmon"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:fontFamily="@font/baloo"
-                            android:text="food list "
-                            android:textSize="18sp"
+                            android:fontFamily="@font/alike_angular"
+                            android:text="Đơn hàng online "
+                            android:textColor="@color/hong_nhat"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -331,7 +320,7 @@
                             android:layout_height="75dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="15dp"
-                            app:srcCompat="@drawable/thuchi" />
+                            app:srcCompat="@drawable/shop_65" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -348,6 +337,7 @@
                     app:cardUseCompatPadding="false">
 
                     <RelativeLayout
+                        android:id="@+id/account"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/xanh">
@@ -359,9 +349,10 @@
                             android:layout_below="@id/b"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:fontFamily="@font/baloo"
-                            android:text="manager "
-                            android:textSize="18sp"
+                            android:fontFamily="@font/alike_angular"
+                            android:text="Tùy chỉnh "
+                            android:textColor="@color/hong_nhat"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -370,7 +361,7 @@
                             android:layout_height="75dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="15dp"
-                            app:srcCompat="@drawable/quanly" />
+                            app:srcCompat="@drawable/shop_65" />
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>

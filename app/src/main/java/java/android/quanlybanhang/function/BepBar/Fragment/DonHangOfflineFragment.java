@@ -20,13 +20,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.DonHangOfflineAdapter;
+import java.android.quanlybanhang.function.BepBar.Data.Mon;
 import java.android.quanlybanhang.function.BepBar.Data.SanPhamOder;
 import java.util.ArrayList;
 
 public class DonHangOfflineFragment extends Fragment {
     private RecyclerView recyclerViewTable;
+    private String ID_CUAHANG;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
     private DatabaseReference mDatabase;
     private ArrayList<SanPhamOder> tableList;
     private DonHangOfflineAdapter donHangOfflineAdapter;
@@ -47,6 +51,8 @@ public class DonHangOfflineFragment extends Fragment {
         progressBar = v.findViewById(R.id.progressBar);
         lblThongBao = v.findViewById(R.id.lblThongBao);
         imageView = v.findViewById(R.id.image);
+        thongTinCuaHangSql = new ThongTinCuaHangSql(getContext());
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -64,19 +70,30 @@ public class DonHangOfflineFragment extends Fragment {
     private void onDataChange()
     {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("sanphamorder").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("CuaHangOder/"+ID_CUAHANG).child("sanphamorder").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int i=0;
-                tableList=new ArrayList<>();
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    SanPhamOder sanPhamOder = postSnapshot.getValue(SanPhamOder.class);
-                    String key=postSnapshot.getKey();
-                    if(sanPhamOder.getTrangThai()==0){
-                        tableList.add(sanPhamOder);
-                        tableList.get(i).setNameTable(key);
-                        donHangOfflineAdapter.setData(tableList);
-                        i++;
+                if (snapshot.getValue() != null) {
+                    int i=0;
+                    tableList=new ArrayList<>();
+                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                        long date = Long.parseLong(postSnapshot.child("date").getValue().toString());
+                        int trangThai = Integer.parseInt(postSnapshot.child("trangThai").getValue().toString());
+                        String nametable = postSnapshot.getKey();
+                        if (trangThai == 0) {
+                            ArrayList<Mon> listMon = new ArrayList<>();
+                            for (DataSnapshot snap: postSnapshot.child("sanpham").getChildren()) {
+                                String nameProduct = snap.child("nameProduct").getValue().toString();
+                                String yeuCau = snap.child("yeuCau").getValue().toString();
+                                long soLuong = Long.parseLong(snap.child("soluong").getValue().toString());
+                                Double giaProudct = Double.parseDouble(snap.child("giaProudct").getValue().toString());
+                                String imgProduct = snap.child("imgProduct").getValue().toString();
+                                Mon mon = new Mon(nameProduct, yeuCau, soLuong, giaProudct, imgProduct);
+                                listMon.add(mon);
+                            }
+                            SanPhamOder sanPhamOder = new SanPhamOder(nametable, listMon, date, trangThai);
+                            tableList.add(sanPhamOder);
+                        }
                     }
                 }
 

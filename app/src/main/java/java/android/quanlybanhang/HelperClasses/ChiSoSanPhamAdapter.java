@@ -10,9 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.R;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChiSoSanPhamAdapter extends RecyclerView.Adapter<ChiSoSanPhamAdapter.CustomChiSoSanPham> {
 
@@ -34,7 +38,10 @@ public class ChiSoSanPhamAdapter extends RecyclerView.Adapter<ChiSoSanPhamAdapte
     public void onBindViewHolder(@NonNull CustomChiSoSanPham holder, int position) {
         holder.title.setText(list.get(position).getName());
         holder.soLuong.setText(list.get(position).getSoLuong()+"");
+        holder.lblGia.setText(list.get(position).getGia()+"");
         holder.soLuong.setTextColor(Color.parseColor(list.get(position).getColor()));
+        holder.title.setTextColor(Color.parseColor(list.get(position).getColor()));
+        holder.lblGia.setTextColor(Color.parseColor(list.get(position).getColor()));
     }
 
     @Override
@@ -43,11 +50,12 @@ public class ChiSoSanPhamAdapter extends RecyclerView.Adapter<ChiSoSanPhamAdapte
     }
 
     public class CustomChiSoSanPham extends RecyclerView.ViewHolder {
-        private TextView title, soLuong;
+        private TextView title, soLuong, lblGia;
         public CustomChiSoSanPham(@NonNull View ItemView) {
             super(ItemView);
             title = ItemView.findViewById(R.id.lblTitle);
             soLuong = ItemView.findViewById(R.id.lblSoLuong);
+            lblGia = ItemView.findViewById(R.id.lblGia);
         }
     }
 }

@@ -1,11 +1,14 @@
 package java.android.quanlybanhang.function.Account;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -27,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.android.quanlybanhang.Data.CaLam;
 import java.android.quanlybanhang.Data.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView imageView;
     private TextInputEditText username, email, phone, password, confirm_password;
     private CardView google;
+    private Dialog dialog;
+    private Window window;
 
     //Firebase
     private DatabaseReference mFirebaseDatabase;
@@ -70,8 +76,37 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         google = findViewById(R.id.btn_google);
         confirm_password = findViewById(R.id.edt_confirm_password);
 
+        caLam.getCaSang().add(true);
+        caLam.getCaSang().add(true);
+        caLam.getCaSang().add(true);
+        caLam.getCaSang().add(true);
+        caLam.getCaSang().add(true);
+        caLam.getCaSang().add(true);
+        caLam.getCaSang().add(true);
+
+        caLam.getCaChieu().add(true);
+        caLam.getCaChieu().add(true);
+        caLam.getCaChieu().add(true);
+        caLam.getCaChieu().add(true);
+        caLam.getCaChieu().add(true);
+        caLam.getCaChieu().add(true);
+        caLam.getCaChieu().add(true);
+
+        caLam.getCaToi().add(true);
+        caLam.getCaToi().add(true);
+        caLam.getCaToi().add(true);
+        caLam.getCaToi().add(true);
+        caLam.getCaToi().add(true);
+        caLam.getCaToi().add(true);
+        caLam.getCaToi().add(true);
+
         signinNow.setOnClickListener(this);
         signup.setOnClickListener(this);
+
+        dialog = new Dialog(SignUpActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_loading);
+        window = dialog.getWindow();
     }
 
     @Override
@@ -86,7 +121,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 onBackPressed();
                 break;
             case R.id.btn_signup:
-
                 signup();
                 break;
         }
@@ -127,10 +161,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         else if(mail.isEmpty() && pass.isEmpty()){
             Toast.makeText(SignUpActivity.this,"Fialds Are Empty!", Toast.LENGTH_LONG).show();
         }else if(!(mail.isEmpty() && pass.isEmpty() && mPhone.isEmpty() &&userName.isEmpty() )){
+            dialog.show();
             mFirebaseAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()){
+                        dialog.dismiss();
                         Toast.makeText(SignUpActivity.this, "SignUp UnSuccessful, plese Try Again", Toast.LENGTH_SHORT).show();
                     }else{
                         String UID = mFirebaseAuth.getUid();
@@ -156,20 +192,32 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+KEY_CUAHANG).child("ID").setValue(UID);
                         mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+KEY_CUAHANG).child("name").setValue("Chi nhánh 1");
 
-//                        LoadingDialog loadingDialog = new LoadingDialog(SignUpActivity.this);
-//                        loadingDialog.startLoadingDialog();
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-//                                loadingDialog.dismissDialog();
                                 Bundle bundle = new Bundle();
                                 bundle.putString(KEY_CHILD_STORE , CUA_HANG+"/"+UID+"/user/"+UID );
                                 bundle.putString("ID_USER" , UID );
+                                ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(SignUpActivity.this, "app_database.sqlite", null, 2);
+                                thongTinCuaHangSql.createTableUser();
+                                Cursor cursor = thongTinCuaHangSql.selectUser();
+                                String quyen = "11111";
+
+                                if (cursor.getCount() > 0){
+                                    String IdOld = "";
+                                    while (cursor.moveToNext()) {
+                                        IdOld = cursor.getString(0);
+                                    }
+                                    thongTinCuaHangSql.UpdateUser(UID, IdOld, nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                                }else {
+                                    thongTinCuaHangSql.InsertUser(UID, nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                                }
 
                                 Toast.makeText(SignUpActivity.this, "Signup succes", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignUpActivity.this, StoreSetting.class);
                                 intent.putExtras(bundle);
+                                dialog.dismiss();
                                 startActivity(intent);
                                 finish();
                             }

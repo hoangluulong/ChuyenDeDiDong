@@ -32,7 +32,7 @@
             android:background="@color/white"
             android:elevation="1dp"
             app:navigationIcon="@drawable/menu_24"
-            app:title="Cấu hình vận chuyển"
+            app:title="Cài đặt quảng cáo"
             app:titleTextColor="@color/colorPrimaryDark" />
 
         <RelativeLayout

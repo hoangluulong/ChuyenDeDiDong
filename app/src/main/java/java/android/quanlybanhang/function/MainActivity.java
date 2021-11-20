@@ -1,8 +1,6 @@
 package java.android.quanlybanhang.function;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,30 +18,26 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
-import java.android.quanlybanhang.Model.AddressVN.DiaChi;
-import java.android.quanlybanhang.Model.AddressVN.Huyen;
+import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.Account.SignInActivity;
+import java.android.quanlybanhang.function.Account.ThongTinAccountActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
+import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
+import java.android.quanlybanhang.function.KhachHang.ListNhomKhachHang;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
+import java.android.quanlybanhang.function.KhuyenMai.ThemKhuyenMai;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 
 //import java.android.quanlybanhang.login.LoginActivity;
 
@@ -54,7 +48,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu, baocao, donOnline, bep, online;
+    RelativeLayout ordermenu, baocao, donOnline, bep, online,account;
+    private DatabaseReference mDatabase;//khai bao database
+    private DatabaseReference mDatabase1;//khai bao database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         donOnline = findViewById(R.id.donOnline);
         bep = findViewById(R.id.bep);
         online = findViewById(R.id.online);
+        account = findViewById(R.id.account);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban");
+        mDatabase.child("trangthai").setValue("0");
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +106,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ThongTinAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Write a message to the database
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -127,15 +135,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.nav_homes);
 
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
-        Toast.makeText(this, thongTinCuaHangSql.IDCuaHang(), Toast.LENGTH_LONG).show();
 
+        Toast.makeText(this, thongTinCuaHangSql.IDUser(), Toast.LENGTH_LONG).show();
+        NhanVien nhanVien = thongTinCuaHangSql.selectUser();
+        Log.d("zz", thongTinCuaHangSql.IDCuaHang());
     }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
@@ -158,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.cuahang:
+            case R.id.nav_homes:
                 break;
             case R.id.ds_order:
                 Intent intent = new Intent(MainActivity.this, ListProduct.class);
@@ -169,15 +180,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent1);
                 break;
             case R.id.ds_thuchi:
-                Intent intent2 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent2 = new Intent(MainActivity.this, ListKhuyenMai.class);
                 startActivity(intent2);
                 break;
             case R.id.quanly:
-                Intent intent3 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent3 = new Intent(MainActivity.this, ListNhomKhachHang.class);
                 startActivity(intent3);
                 break;
             case R.id.profile:
-                Intent intent4 = new Intent(MainActivity.this, OrderMenu.class);
+                Intent intent4 = new Intent(MainActivity.this, ListKhachHang.class);
                 startActivity(intent4);
                 break;
             case R.id.logout:
@@ -190,5 +201,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

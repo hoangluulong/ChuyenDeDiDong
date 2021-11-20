@@ -1,6 +1,5 @@
 package java.android.quanlybanhang.function.DonHangOnline.data;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,17 +14,18 @@ public class DonHang {
     private double donGia;
     private String key;
     private Date date;
-//    private String tenKhachHang;
+    private String sdtkhachhang;
     private String tenKhachhang;
     private String nhanVien;
     private String shipper;
     private String phoneShipper;
     private int phuongThucThanhToan;
     private String idQuan;
+    private String idDonHang;
 
     public DonHang() { }
 
-    public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, int phuongThucThanhToan) {
+    public DonHang(String diaChi, String time, int trangthai, String idKhachhang,String sdtkhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, int phuongThucThanhToan, String diemnhan) {
         this.diaChi = diaChi;
         this.time = time;
         this.trangthai = trangthai;
@@ -40,7 +40,27 @@ public class DonHang {
         this.nhanVien = "";
         this.phoneShipper = "";
         this.shipper = "";
-        this.diemnhan = "123 Trần Duy Hưng";
+        this.diemnhan = diemnhan;
+    }
+
+    public DonHang(String diaChi, String diemnhan, String time, int trangthai, String idKhachhang,String sdtkhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan, String idQuan, String idDonHang) {
+        this.diaChi = diaChi;
+        this.diemnhan = diemnhan;
+        this.time = time;
+        this.trangthai = trangthai;
+        this.idKhachhang = idKhachhang;
+        this.giaKhuyenMai = giaKhuyenMai;
+        this.sanpham = sanpham;
+        this.donGia = donGia;
+        this.key = key;
+        this.date = date;
+        this.tenKhachhang = tenKhachhang;
+        this.nhanVien = nhanVien;
+        this.shipper = shipper;
+        this.phoneShipper = phoneShipper;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.idQuan = idQuan;
+        this.idDonHang = idDonHang;
     }
 
     public DonHang(String diaChi, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String tenKhachhang, int phuongThucThanhToan) {
@@ -114,6 +134,43 @@ public class DonHang {
         this.phoneShipper = phoneShipper;
         this.phuongThucThanhToan = phuongThucThanhToan;
         this.idQuan = idQuan;
+    }
+
+    public DonHang(String diaChi, String diemnhan, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String sdtkhachhang, String tenKhachhang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan, String idQuan, String idDonHang) {
+        this.diaChi = diaChi;
+        this.diemnhan = diemnhan;
+        this.time = time;
+        this.trangthai = trangthai;
+        this.idKhachhang = idKhachhang;
+        this.giaKhuyenMai = giaKhuyenMai;
+        this.sanpham = sanpham;
+        this.donGia = donGia;
+        this.key = key;
+        this.date = date;
+        this.sdtkhachhang = sdtkhachhang;
+        this.tenKhachhang = tenKhachhang;
+        this.nhanVien = nhanVien;
+        this.shipper = shipper;
+        this.phoneShipper = phoneShipper;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.idQuan = idQuan;
+        this.idDonHang = idDonHang;
+    }
+
+    public String getSdtkhachhang() {
+        return sdtkhachhang;
+    }
+
+    public void setSdtkhachhang(String sdtkhachhang) {
+        this.sdtkhachhang = sdtkhachhang;
+    }
+
+    public String getIdDonHang() {
+        return idDonHang;
+    }
+
+    public void setIdDonHang(String idDonHang) {
+        this.idDonHang = idDonHang;
     }
 
     public String getIdQuan() {
