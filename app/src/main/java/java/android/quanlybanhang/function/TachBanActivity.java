@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.android.quanlybanhang.Common.ArrayListTachBan;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.PackageTachBan.AdapterTachBan;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
@@ -44,11 +45,14 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
 
     ArrayList<ProuductPushFB1> arrayList1;
     String code_chucnang;
+    String id_CuaHang ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tach_ban);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
         bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
         setSupportActionBar(toolbar);
@@ -72,14 +76,6 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         carsList1 = gson.fromJson(carListAsString1, type1);
 
         carsList = gson.fromJson(carListAsString, type);
-//        arrayList = new ArrayList<>();
-//        Long date = carsList1.get(0).getDate();
-//        int trangthaine = carsList1.get(0).getTrangThai();
-//        Boolean flag = carsList1.get(0).isFlag();
-//        ArrayList<ProuductPushFB1> prouductPushFB1s = carsList1.get(0).getSanpham();
-//        arrayList.add(new ProductPushFB(date,flag,trangthaine,prouductPushFB1s) );
-
-//        arrayList.add(carsList1.get(0));
         adapterTachBan = new AdapterTachBan(this, this);
         adapterTachBan.setData(carsList1);
         recyclerView = findViewById(R.id.rv_1);
@@ -110,7 +106,7 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
                         }
                     }
                 }
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("3");
+                FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("3");
                 Intent intent = new Intent(TachBanActivity.this, OrderMenu.class);
                 Bundle bundle = new Bundle();
                 intent.putExtra("id_banTachBan", id_ban_thanhtoan);
@@ -129,15 +125,13 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
 
     @Override
     public void arrTachBan(ArrayList<ProuductPushFB1> arrayList) {
-//
     }
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(TachBanActivity.this, OrderMenu.class);
-//        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
-        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
-        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
+        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

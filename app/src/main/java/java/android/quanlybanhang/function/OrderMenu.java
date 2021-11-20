@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sa90.materialarcmenu.ArcMenu;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticRvAdapter;
 import java.android.quanlybanhang.Common.Interface_KhuVuc_ban;
@@ -83,23 +84,19 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     ArrayList<ProuductPushFB1> carsListsaukhichon;
     ArrayList<ProductPushFB> carsList1;
     ProductPushFB productPushFB;
-    ProuductPushFB1 productPushFBtachbancs;
-    long date;
-    MenuItem menuItem;
+
     String code_chucnang;
-    public String keyIDCuaHang = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    String id_CuaHang ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_menu);
-//menu toolbar
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-//             viet su kien cho toolbar
-
         ActionBar actionBar = getSupportActionBar();
-//Thiết lập tiêu đề nếu muốn
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -152,18 +149,18 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         ID_datbans = new ArrayList<>();
         trangthaine = "0";
 
-        mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("MangDi");
+        mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("MangDi");
         mDatabase.child("trangthai").setValue(trangthaine);
 //
 //
         if(code_chucnang==null){
             code_chucnang ="123";
-            FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
             getDataOrder(actionBar);
         }
         else if(code_chucnang!=null) {
             Log.d("trangthaigopcode",code_chucnang+"ordermenu");
-            mDatabase2 = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("chucnang").child(code_chucnang);
+            mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang);
             mDatabase2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -221,7 +218,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
 
         if (trangthaichucnang==null) {
             if (item_id == R.id.mangdi) {
-                mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("MangDi");
+                mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("MangDi");
                 mDatabase.child("trangthai").setValue("1");
                 int code = (int) Math.floor(((Math.random() * 899999) + 100000));
                 Toast.makeText(this, "mang di", Toast.LENGTH_LONG).show();
@@ -280,15 +277,15 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(OrderMenu.this, MainActivity.class);
-        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
-        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
+        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
 
     public void getDataOrder( ActionBar actionBar) {
-        mDatabase = FirebaseDatabase.getInstance().getReference(keyIDCuaHang).child("khuvuc");
+        mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

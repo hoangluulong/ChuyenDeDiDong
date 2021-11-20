@@ -4,12 +4,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ramotion.foldingcell.FoldingCell;
+import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
@@ -35,9 +37,16 @@ public class ThanhToanAdapter extends RecyclerView.Adapter<ThanhToanAdapter.Card
     @Override
     public void onBindViewHolder(@NonNull CardDaOrderHoler holder, int position) {
         ProuductPushFB1 CrItem=items.get(position);
-        holder.tensanpham.setText(CrItem.getNameProduct()+"");
-        holder.giasanpham.setText(CrItem.getYeuCau()+"");
-//        holder.soluongSanpham.setText(CrItem.getSoluong()+"");
+        holder.tvtensanpham.setText(CrItem.getNameProduct());
+        holder.tvtensanphamtrong.setText(CrItem.getNameProduct());
+        holder.tvgiasanphamngoai.setText(CrItem.getGiaProudct()+"");
+        holder.tvloaisanphamtrong.setText(CrItem.getLoai());
+        holder.tvgiasanphamtrong.setText(CrItem.getGiaProudct()+"");
+        holder.tvghichu.setText(CrItem.getYeuCau());
+        holder.tvsoluongsanphamtrong.setText("X"+CrItem.getSoluong()+"");
+        holder.tonggiasanphamtrong.setText(CrItem.getSoluong()*CrItem.getGiaProudct()+"");
+        holder.tvsoluong.setText("X"+CrItem.getSoluong()+"");
+        Picasso.get().load(CrItem.getImgProduct()).into(holder.imgsanpham);
         holder.foldingCell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,21 +57,29 @@ public class ThanhToanAdapter extends RecyclerView.Adapter<ThanhToanAdapter.Card
 
     @Override
     public int getItemCount() {
-        Log.d("item.size",items.size()+"");
+
         return items.size();
     }
 
     public class CardDaOrderHoler extends RecyclerView.ViewHolder {
-        TextView tensanpham ;
-        TextView giasanpham;
-//        TextView soluongSanpham;
+
+        TextView tvtensanpham,tvtensanphamtrong,tvloaisanphamtrong,tvgiasanphamtrong,tvghichu,tvsoluongsanphamtrong,tonggiasanphamtrong,tvsoluong,tvgiasanphamngoai;
         FoldingCell foldingCell;
+        ImageView imgsanpham;
         public CardDaOrderHoler(@NonNull View itemView) {
             super(itemView);
             foldingCell= itemView.findViewById(R.id.folding_cell);
-            tensanpham= itemView.findViewById(R.id.tvtensanpham);
-            giasanpham = itemView.findViewById(R.id.tvgiasanpham);
-//            soluongSanpham = itemView.findViewById(R.id.tvsoluong);
+            tvtensanphamtrong= itemView.findViewById(R.id.tvtensanphamtrong);
+            tvtensanpham= itemView.findViewById(R.id.tvtensanpham);
+            tvgiasanphamngoai= itemView.findViewById(R.id.tvgiasanphamngoai);
+            tvloaisanphamtrong= itemView.findViewById(R.id.tvloaisanphamtrong);
+            tvgiasanphamtrong= itemView.findViewById(R.id.tvgiasanphamtrong);
+            tvghichu= itemView.findViewById(R.id.tvghichu);
+            tvsoluongsanphamtrong= itemView.findViewById(R.id.tvsoluongsanphamtrong);
+            tonggiasanphamtrong= itemView.findViewById(R.id.tonggiasanphamtrong);
+            tvsoluong= itemView.findViewById(R.id.tvsoluong);
+            imgsanpham= itemView.findViewById(R.id.imgsanpham);
+
 
         }
     }

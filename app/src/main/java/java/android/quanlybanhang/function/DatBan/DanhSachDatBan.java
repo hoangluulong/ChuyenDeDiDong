@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterDatBan.RvDatBanAdapter;
 import java.android.quanlybanhang.Model.DatBan.DatBanModel;
 import java.android.quanlybanhang.Model.DatBan.ID_datban;
@@ -43,11 +44,13 @@ public class DanhSachDatBan extends AppCompatActivity {
     TextView rong;
     private Toolbar toolbar;
     RvDatBanAdapter datBanAdapter;
-
+    String id_CuaHang ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danh_sach_dat_ban);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
         Intent intent = getIntent();
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
@@ -67,7 +70,7 @@ public class DanhSachDatBan extends AppCompatActivity {
     }
 
     private void hamdatban(){
-        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan");
+        mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan");
         mDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -129,7 +132,7 @@ public class DanhSachDatBan extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(ID_datbans.size()>0){
-                    FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan").child(abc).child(ID_datbans.get(position).getDatBanModels().get(position).getId_ngaydat()).removeValue();
+                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(abc).child(ID_datbans.get(position).getDatBanModels().get(position).getId_ngaydat()).removeValue();
                     ID_datbans.remove(position);
                 }
             }

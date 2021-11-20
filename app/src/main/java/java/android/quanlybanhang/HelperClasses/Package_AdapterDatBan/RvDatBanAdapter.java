@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.DatBan.ID_datban;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
@@ -23,6 +24,7 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
   private   ArrayList<ID_datban> items;
     private DatabaseReference mDatabaĐanh;
     private DanhSachDatBan danhSachDatBan;
+    String id_CuaHang ;
     public RvDatBanAdapter(ArrayList<ID_datban> items, DanhSachDatBan danhSachDatBan){
         this.items = items;
         this.danhSachDatBan = danhSachDatBan;
@@ -31,6 +33,8 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
     @NonNull
     @Override
     public DatBanholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(danhSachDatBan);
+        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listdatban,parent,false);
 
         DatBanholder datBanholder = new DatBanholder(view);
@@ -51,7 +55,6 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
             holder.isclick.setLayoutParams(params);
         }
         ID_datban CrrItem = items.get(position);
-        Log.d("CrrItem",position+"");
         holder.tvtenkhachhang.setText(CrrItem.getDatBanModels().get(position).getTenkhachhang());
         holder.tvsodienthoai.setText(CrrItem.getDatBanModels().get(position).getSodienthoai());
         holder.tvsotiendattruoc.setText(CrrItem.getDatBanModels().get(position).getSotiendadattruoc());
@@ -75,7 +78,7 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
             public void onClick(View v) {
                 String[] words=items.get(position).getDatBanModels().get(position).getId_bk().split("_");
 
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(words[1]).child("ban").child(words[0]).child("trangthai").setValue("4");
+                FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(words[1]).child("ban").child(words[0]).child("trangthai").setValue("4");
                 holder.check.setEnabled(true);
                 holder.check.setBackgroundResource(R.color.bac);
             }

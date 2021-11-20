@@ -9,9 +9,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
+        <activity
+            android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff"
+            android:exported="false" />
         <activity
             android:name=".function.Account.ThongTinAccountActivity"
             android:exported="true" />
@@ -56,7 +61,7 @@
         <activity android:name=".function.Income" />
         <activity android:name=".function.Processing" />
         <activity android:name=".function.OrderMenu" />
-        <activity android:name=".function.MainActivity"></activity> <!-- Sign in, SignUp -->
+        <activity android:name=".function.MainActivity" /> <!-- Sign in, SignUp -->
         <activity
             android:name=".function.Account.StoreSetting"
             android:exported="true" />
@@ -79,7 +84,7 @@
             android:exported="true"
             android:label="Báo cáo sản phẩm"
             android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
-            android:theme="@style/thameActionbar2"/>
+            android:theme="@style/thameActionbar2" />
         <activity
             android:name=".function.BaoCao.BaoCaoTongQuanActivity"
             android:exported="true"
@@ -233,12 +238,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".function.Account.ChiNhanhSignInActivity"
-            android:enabled="true"/>
-
+        <activity
+            android:name=".function.Account.ChiNhanhSignInActivity"
+            android:enabled="true" />
         <activity
             android:name=".function.TachBanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".function.DatBan.DatBan"
+            android:exported="false" />
+        <activity
+            android:name=".function.DatBan.DanhSachDatBan"
             android:exported="false" />
     </application>
 

@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.OrderMenu;
 import java.sql.Date;
@@ -47,11 +48,14 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
     Date date ;
     Timestamp timestamp;
     Timestamp timestamp1;
+    String id_CuaHang ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dat_ban);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -193,7 +197,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
             Toast.makeText(DatBan.this,"Giờ kết thúc nhỏ hơn giờ đặt",Toast.LENGTH_LONG).show();
         }
         else {
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("DatBan").child(id_ban + "_" + id_khuvuc).child(timestamp.getTime() + "");
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(id_ban + "_" + id_khuvuc).child(timestamp.getTime() +"");
             databaseReference.child("tenkhachhang").setValue(edttenkhachang.getText().toString());
             databaseReference.child("id_bk").setValue(id_ban + "_" + id_khuvuc);
             databaseReference.child("sodienthoai").setValue(editTextPhone.getText().toString());

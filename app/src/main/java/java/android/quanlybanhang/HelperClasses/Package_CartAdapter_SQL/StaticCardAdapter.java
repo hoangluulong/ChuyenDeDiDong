@@ -74,7 +74,6 @@ public class StaticCardAdapter extends RecyclerView.Adapter<StaticCardAdapter.St
         holder.Loai.setText(CrItem.getDonGia().get(position).getTenDonGia());
         holder.giasanpham.setText(CrItem.getDonGia().get(position).getGiaBan()+"");
         holder.Tong1SanPham.setText(CrItem.getDonGia().get(position).getGiaBan()*CrItem.getSoluong()+"");
-        Log.d("tvsoluong",CrItem.getSoluong()+"");
         Picasso.get().load(CrItem.getImgProduct()).into(holder.imgsanpham);
         holder.imgplus.setOnClickListener(new View.OnClickListener() {
             @Override

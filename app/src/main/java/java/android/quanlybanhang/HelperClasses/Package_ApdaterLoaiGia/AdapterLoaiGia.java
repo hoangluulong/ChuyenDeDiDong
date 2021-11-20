@@ -56,8 +56,6 @@ public class AdapterLoaiGia extends RecyclerView.Adapter<AdapterLoaiGia.DonGiaHo
         if(select==position){
             holder.checkBox.setChecked(true);
             items.get(position).setCheck(true);
-//            Loai= items.get(position).getTenDonGia();
-//            Log.d("LoaiKKK",Loai);
             items.get(position).setTenLoaiChung(items.get(position).getTenDonGia());
             gia=items.get(position).getGiaBan();
 //            Log.d("LoaiKKK",gia+"");
