@@ -11,11 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,7 +59,8 @@ import java.util.ArrayList;
 public class SuaSanPhamActivity extends AppCompatActivity {
     private Product product;
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
-    private Spinner spnNhomsanpham, spnDonViTinh;
+    private Spinner spnNhomsanpham;
+    private AutoCompleteTextView spnDonViTinh;
     private Button btnAdd,btnHuy, btnThemDonViTinh, btnDonViTinhSanPham,btnDialogHuyDVT,btnDialogThemDVT,btnDialogHuyThemDVT,btnThemDialogThemDVT;
     private ImageView btnChoose;
     private ImageView imageView;
@@ -120,7 +125,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog1.setContentView(R.layout.dialogthemdonvitinh);
         window1 = dialog1.getWindow();
-        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh2);
         gravity = Gravity.CENTER;
         //firebase
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
@@ -171,7 +176,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                 if (arrayList.size() != 0) {
 
                 }
-                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this,donGias,dialog,window,spnDonViTinh,adapter,gravity);
+                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this,donGias,dialog,window,spnDonViTinh,adapter,gravity, listDonViTinh);
                 listView.setLayoutManager(new LinearLayoutManager(SuaSanPhamActivity.this,LinearLayoutManager.VERTICAL,false));
                 listView.setAdapter(adapterDonGia);
                 adapterDonGia.notifyDataSetChanged();
@@ -362,7 +367,12 @@ public class SuaSanPhamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DonGia donGia = new DonGia();
-                donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
+                spnDonViTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        donGia.setTenDonGia(parent.getItemAtPosition(position).toString());
+                    }
+                });
                 donGia.setId(id);
                 if (textGiaSanPham.getText().toString().isEmpty()) {
                     textGiaSanPham.setError("Hãy nhập giá !!!");
@@ -374,7 +384,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
                 textGiaSanPham.setText("");
-                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this, donGias, dialog, window, spnDonViTinh, adapter, gravity);
+                adapterDonGia = new AdapterDonGia(SuaSanPhamActivity.this, donGias, dialog, window, spnDonViTinh, adapter, gravity, listDonViTinh);
                 listView.setLayoutManager(new LinearLayoutManager(SuaSanPhamActivity.this, LinearLayoutManager.VERTICAL, false));
                 listView.setAdapter(adapterDonGia);
                 adapterDonGia.notifyDataSetChanged();
@@ -450,6 +460,21 @@ public class SuaSanPhamActivity extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
 
         return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
 

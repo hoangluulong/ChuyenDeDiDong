@@ -180,20 +180,21 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
-                        login.setEnabled(false);
                         Toast.makeText(SignInActivity.this, "Signin error", Toast.LENGTH_SHORT).show();
                         login.setEnabled(true);
                         dialog.dismiss();
                     } else {
+                        login.setEnabled(true);
                         idUser = mAuth.getUid();
                         getDataAccount(idUser);
                         delaySignin(idUser);
                     }
-
                 }
             });
         } else {
             Toast.makeText(SignInActivity.this, "Error Occurred!", Toast.LENGTH_LONG).show();
+            login.setEnabled(true);
+            dialog.dismiss();
         }
     }
 
@@ -242,7 +243,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             startActivity(intent1);
                             login.setEnabled(false);
                             finish();
-                        }else{
+                        }else if (dataAccount.size() == 0) {
+                            Toast.makeText(SignInActivity.this, "Signin error", Toast.LENGTH_SHORT).show();
+                            mAuth.signOut();
+                            login.setEnabled(true);
+                            dialog.dismiss();
+                        } else {
                             getDataThietLap();
                             delayDataThietLap(UID);
                         }

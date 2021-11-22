@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -103,8 +105,6 @@ public class ListNhanVien  extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent = new Intent(ListNhanVien.this, AddNhanVien.class);
                                 startActivity(intent);
-                                finish();
-
                             }
                         }).show();
             }
@@ -146,5 +146,20 @@ public class ListNhanVien  extends AppCompatActivity {
             }
         }).setNegativeButton("No", null)
                 .show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

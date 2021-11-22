@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -111,7 +113,6 @@ public class ListCategory extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent = new Intent(ListCategory.this, AddCategory.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }).show();
             }
@@ -179,5 +180,20 @@ public class ListCategory extends AppCompatActivity {
         });
 
         builder.create().show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

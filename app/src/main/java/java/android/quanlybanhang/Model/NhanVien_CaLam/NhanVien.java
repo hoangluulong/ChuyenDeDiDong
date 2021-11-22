@@ -10,6 +10,8 @@ public class NhanVien implements Serializable {
     CaLam caLam;
     String phone;
     String id;
+    String avata;
+    String nameAvata;
 
 
     public NhanVien() {
@@ -35,6 +37,43 @@ public class NhanVien implements Serializable {
         this.caLam = caLam;
         this.phone = phone;
         this.id = id;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, String avata) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.avata = avata;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, String avata, String nameAvata) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.avata = avata;
+        this.nameAvata = nameAvata;
+    }
+
+    public String getNameAvata() {
+        return nameAvata;
+    }
+
+    public void setNameAvata(String nameAvata) {
+        this.nameAvata = nameAvata;
+    }
+
+    public String getAvata() {
+        return avata;
+    }
+
+    public void setAvata(String avata) {
+        this.avata = avata;
     }
 
     public ArrayList<Boolean> getChucVu() {

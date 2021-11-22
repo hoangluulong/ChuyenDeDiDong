@@ -67,6 +67,7 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
     }
 
     public Cursor selectUser() {
+        createTableUser();
         String sql = "SELECT * FROM " + NAME_TABLE_USER;
         SQLiteDatabase database = getReadableDatabase();
         return database.rawQuery(sql, null);

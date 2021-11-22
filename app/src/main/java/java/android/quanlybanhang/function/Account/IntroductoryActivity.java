@@ -50,7 +50,7 @@ public class IntroductoryActivity extends AppCompatActivity {
 
         lottie = findViewById(R.id.lottie);
 
-        int secs = 5; // Delay in seconds
+        int secs = 2; // Delay in seconds
 
         Utils.delay(secs, new Utils.DelayCallback() {
             @Override

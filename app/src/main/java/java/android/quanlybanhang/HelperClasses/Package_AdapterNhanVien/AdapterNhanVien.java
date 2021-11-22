@@ -11,11 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.NhanVien.ActivityUpdateNhanVien;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVienViewHolder> {
@@ -42,6 +46,9 @@ public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVi
         NhanVien nhanVien = arrayList.get(position);
         holder.textViewName.setText(nhanVien.getUsername());
         holder.textViewSDT.setText(nhanVien.getPhone());
+        if (nhanVien.getAvata() != null) {
+            Picasso.get().load(nhanVien.getAvata()).into(holder.usernhanvien);
+        }
     }
 
 
@@ -56,6 +63,7 @@ public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVi
         private TextView textViewSDT;
         private ImageView imgSua;
         private ImageView imgXoa;
+        private CircleImageView usernhanvien;
 
 
         public NhanVienViewHolder(@NonNull View itemView) {
@@ -64,6 +72,7 @@ public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVi
             textViewSDT = itemView.findViewById(R.id.edtextSDT);
             imgXoa = itemView.findViewById(R.id.btnXoaNV);
             imgSua = itemView.findViewById(R.id.btnSuaNV);
+            usernhanvien = itemView.findViewById(R.id.usernhanvien);
 
             imgSua.setOnClickListener(new View.OnClickListener() {
                 @Override

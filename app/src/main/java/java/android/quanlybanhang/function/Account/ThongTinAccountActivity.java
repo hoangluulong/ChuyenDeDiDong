@@ -1,32 +1,49 @@
 package java.android.quanlybanhang.function.Account;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ThongTinAccountActivity extends AppCompatActivity implements View.OnClickListener{
+public class ThongTinAccountActivity extends AppCompatActivity implements View.OnClickListener {
     private DatabaseReference mDatabase;
     private FirebaseDatabase firebaseDatabase;
     private String STR_CUAHANG;
     private String ID_USER;
+    private Uri imageUri;
     private TextView userName, usernameSmoll, email, soDienThoai;
     private TextView mondaySang, tuesdaySang, wednesdaySang, thursdaySang, fridaySang, saturdaySang, sundaySang;
     private TextView mondayChieu, tuesdayChieu, wednesdayChieu, thursdayChieu, fridayChieu, saturdayChieu, sundayChieu;
@@ -35,7 +52,12 @@ public class ThongTinAccountActivity extends AppCompatActivity implements View.O
     private ImageView editIMG;
     private ProgressBar progressbar;
     private ScrollView scrollView;
-    ThongTinCuaHangSql thongTinCuaHangSql;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+    private StorageReference reference = FirebaseStorage.getInstance().getReference("hinhanh");
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
+    private String ID_CUAHANG;
+    private NhanVien nhanVien;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +65,11 @@ public class ThongTinAccountActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_thong_tin_account);
         IDLayout();
         thongTinCuaHangSql = new ThongTinCuaHangSql(this);
-        firebaseDatabase =  FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
         STR_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         ID_USER = thongTinCuaHangSql.IDUser();
-        mDatabase = firebaseDatabase.getReference("CuaHangOder/"+STR_CUAHANG).child("user/"+ID_USER);
+        mDatabase = firebaseDatabase.getReference("CuaHangOder/" + STR_CUAHANG).child("user/" + ID_USER);
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         getFirebase();
     }
 
@@ -54,13 +77,17 @@ public class ThongTinAccountActivity extends AppCompatActivity implements View.O
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() !=  null) {
-                    NhanVien nhanVien  = snapshot.getValue(NhanVien.class);
+                if (snapshot.getValue() != null) {
+                    nhanVien = snapshot.getValue(NhanVien.class);
                     Log.d("qq", nhanVien.getUsername());
                     soDienThoai.setText(nhanVien.getPhone());
                     userName.setText(nhanVien.getUsername());
                     usernameSmoll.setText(nhanVien.getUsername());
                     email.setText(nhanVien.getEmail());
+                    if (nhanVien.getAvata() != null){
+                        Picasso.get().load(nhanVien.getAvata()).into(imageAvata);
+                    }
+
                     if (nhanVien.getCaLam().getCaSang().get(0) == true) {
                         mondaySang.setBackgroundResource(R.drawable.layout_radius50_red);
                         mondaySang.setTextColor(getResources().getColor(R.color.Java, null));
@@ -148,7 +175,7 @@ public class ThongTinAccountActivity extends AppCompatActivity implements View.O
                         sundayToi.setTextColor(getResources().getColor(R.color.Java, null));
                     }
 
-                }else {
+                } else {
                 }
                 scrollView.setAlpha(1);
                 progressbar.setVisibility(View.INVISIBLE);
@@ -195,32 +222,85 @@ public class ThongTinAccountActivity extends AppCompatActivity implements View.O
         sundayToi = findViewById(R.id.sundayToi);
         scrollView = findViewById(R.id.scrollView);
         progressbar = findViewById(R.id.progressbar);
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+
+        editIMG.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.editIMG:
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, 2);
+                break;
+        }
     }
 
-//    private static final int PICK_IMAGE_ID = 234; // the number doesn't matter
-//    ImagePicker imagePicker = new ImagePicker();
-//
-//    public void onPickImage() {
-//
-//        Intent chooseImageIntent = imagePicker.getPickImageIntent(this);
-//        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch(requestCode) {
-//            case PICK_IMAGE_ID:
-//                Bitmap bitmap = imagePicker.getImageFromResult(this, resultCode, data);
-//                // TODO use bitmap
-//                break;
-//            default:
-//                super.onActivityResult(requestCode, resultCode, data);
-//                break;
-//        }
-//    }
+    private String getFileExtension(Uri mUri) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(mUri));
+    }
+
+    private void uploadToFirebase(Uri uri) {
+        String name = System.currentTimeMillis() + "." + getFileExtension(uri);
+        final StorageReference fileRef = reference.child(name);
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String urlAvata = uri.toString();
+                        nhanVien.setAvata(urlAvata);
+                        nhanVien.setNameAvata(name);
+                        mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHANG).child("user/"+ID_USER ).setValue(nhanVien);
+                        Toast.makeText(ThongTinAccountActivity.this, "Cập nhật avata thành công!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            if (imageUri != null) {
+                uploadToFirebase(imageUri);
+                imageAvata.setImageURI(imageUri);
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
+    }
+
+
 }

@@ -12,11 +12,15 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,7 +58,7 @@ import java.util.ArrayList;
 
 public class AddProduct extends AppCompatActivity {
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham, textTenDonViTinh;
-    private Spinner spnNhomsanpham, spnDonViTinh;
+    private Spinner spnNhomsanpham;
     private Button btnAdd,btnHuy, btnThemDonViTinh, btnDonViTinhSanPham, btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
     private ImageView btnChoose;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -72,6 +76,7 @@ public class AddProduct extends AppCompatActivity {
     private AdapterDonGia adapterDonGia;
     private RecyclerView listView;
     private DonViTinh donViTinh;
+    private AutoCompleteTextView spnDonViTinh;
 
     private String STR_NHOMSANPHAM = "danhmucsanpham";
     private String STR_SANPHAM = "sanpham";
@@ -276,7 +281,7 @@ public class AddProduct extends AppCompatActivity {
 
     private void dailongDonViTinhSanPham(int gravity) {
         textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
-        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh2);
         btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
         btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
 
@@ -324,7 +329,14 @@ public class AddProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DonGia donGia = new DonGia();
-                donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
+
+                spnDonViTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        donGia.setTenDonGia(parent.getItemAtPosition(position).toString());
+                    }
+                });
+
                 donGia.setId(id);
                 if (textGiaSanPham.getText().toString().isEmpty()) {
                     textGiaSanPham.setError("Hãy nhập giá !!!");
@@ -336,7 +348,7 @@ public class AddProduct extends AppCompatActivity {
                     dialog.dismiss();
                 }
                 textGiaSanPham.setText("");
-                adapterDonGia = new AdapterDonGia(AddProduct.this, listDonGia, dialog, window, spnDonViTinh, adapter, gravity);
+                adapterDonGia = new AdapterDonGia(AddProduct.this, listDonGia, dialog, window, spnDonViTinh, adapter, gravity, listDonViTinh);
                 listView.setLayoutManager(new LinearLayoutManager(AddProduct.this, LinearLayoutManager.VERTICAL, false));
                 listView.setAdapter(adapterDonGia);
                 adapterDonGia.notifyDataSetChanged();
@@ -398,8 +410,21 @@ public class AddProduct extends AppCompatActivity {
             ImageUri = data.getData();
             imageView.setImageURI(ImageUri);
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }
 

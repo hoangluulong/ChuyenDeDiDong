@@ -63,9 +63,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         online = findViewById(R.id.online);
         account = findViewById(R.id.account);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban");
-        mDatabase.child("trangthai").setValue("0");
-
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ThongTinAccountActivity.class);
+                Intent intent = new Intent(MainActivity.this, ThietLapActivity.class);
                 startActivity(intent);
             }
         });

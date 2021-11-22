@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -76,6 +79,7 @@ public class AddNhanVien extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addnhanvien);
 
+
         //add ca lam
         for (int i = 0; i < 3; i ++) {
             for (int j = 0; j < 7; j ++) {
@@ -121,7 +125,6 @@ public class AddNhanVien extends AppCompatActivity {
         checkBoxCaToi = findViewById(R.id.checkCaToi);
         btnTaoNhanVien = findViewById(R.id.btnTaoUser);
         btnhuyTaoNhanVien = findViewById(R.id.btnhuyTaoNhanVien);
-        mFirebaseAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
@@ -773,69 +776,63 @@ public class AddNhanVien extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
-                                Toast.makeText(AddNhanVien.this, "SignUp UnSuccessful, plese Try Again ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddNhanVien.this, "Tạo không thành công, hãy thử lại ", Toast.LENGTH_LONG).show();
+                            }else {
+                                if (checkQLNV.isChecked()){
+                                    congViec.set(0,true);
+                                }
+                                else {
+                                    congViec.set(0,false);
+                                }
+                                if (checkQLSP.isChecked()){
+
+                                    congViec.set(1,true);
+                                }
+                                else {
+                                    congViec.set(1,false);
+                                }
+                                if (checkThuchi.isChecked()){
+                                    congViec.set(2,true);
+                                }
+                                else {
+                                    congViec.set(2,false);
+                                }
+                                if (checkBep.isChecked()){
+
+                                    congViec.set(3,true);
+                                }
+                                else {
+                                    congViec.set(3,false);
+                                }
+                                if (checkOder.isChecked()){
+
+                                    congViec.set(4,true);
+                                }
+                                else {
+                                    congViec.set(4,false);
+                                }
+
+                                caLam.set1(mangNgay2[0]);
+                                caLam.set2(mangNgay2[1]);
+                                caLam.set3(mangNgay2[2]);
+
+                                String name = edtTenNhanVien.getText().toString();
+                                String phone = edtPhone.getText().toString();
+                                nhanVien = new NhanVien(name,email,congViec,caLam,phone,mFirebaseAuth.getUid());
+                                mData2.child("CuaHangOder/"+ID_CUAHANG+"/user/"+mFirebaseAuth.getUid()).setValue(nhanVien);
+
+                                edtEmail.setText("");
+                                edtPassword.setText("");
+                                edtTenNhanVien.setText("");
+                                edtPhone.setText("");
+
+
+                                mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("ChucVu").setValue(0);
+                                mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("ID").setValue(ID_CUAHANG);
+                                mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("name").setValue("Chi nhánh 1");
+
+                                finish();
                             }
-                            //cong viec
-                            if (checkQLNV.isChecked()){
-
-                                congViec.set(0,true);
-                            }
-                            else {
-                                congViec.set(0,false);
-                            }
-                            if (checkQLSP.isChecked()){
-
-                                congViec.set(1,true);
-                            }
-                            else {
-                                congViec.set(1,false);
-                            }
-                            if (checkThuchi.isChecked()){
-                                congViec.set(2,true);
-                            }
-                            else {
-                                congViec.set(2,false);
-                            }
-                            if (checkBep.isChecked()){
-
-                                congViec.set(3,true);
-                            }
-                            else {
-                                congViec.set(3,false);
-                            }
-                            if (checkOder.isChecked()){
-
-                                congViec.set(4,true);
-                            }
-                            else {
-                                congViec.set(4,false);
-                            }
-
-                            caLam.set1(mangNgay2[0]);
-                            caLam.set2(mangNgay2[1]);
-                            caLam.set3(mangNgay2[2]);
-
-                            String name = edtTenNhanVien.getText().toString();
-                            String phone = edtPhone.getText().toString();
-                            nhanVien = new NhanVien(name,email,congViec,caLam,phone,mFirebaseAuth.getUid());
-                            mData2.child("CuaHangOder/"+ID_CUAHANG+"/user/"+mFirebaseAuth.getUid()).setValue(nhanVien);
-
-                            edtEmail.setText("");
-                            edtPassword.setText("");
-                            edtTenNhanVien.setText("");
-                            edtPhone.setText("");
-
-
-                            mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("ChucVu").setValue(0);
-                            mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("ID").setValue(ID_CUAHANG);
-                            mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("name").setValue("Chi nhánh 1");
-
-
-                            Intent intent = new Intent();
-                            intent = new Intent(AddNhanVien.this, ListNhanVien.class);
-                            startActivity(intent);
-                            finish();
-
                         }
 
                     });
@@ -845,6 +842,21 @@ public class AddNhanVien extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
 }
