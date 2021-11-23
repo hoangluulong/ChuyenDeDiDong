@@ -38,6 +38,7 @@ import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
 import java.android.quanlybanhang.function.KhuyenMai.ThemKhuyenMai;
 import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiOff;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
+import java.android.quanlybanhang.function.SanPham.AddProduct;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 
 //import java.android.quanlybanhang.login.LoginActivity;
@@ -63,9 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bep = findViewById(R.id.bep);
         online = findViewById(R.id.online);
         account = findViewById(R.id.account);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban");
-        mDatabase.child("trangthai").setValue("0");
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.ds_chebien:
-                Intent intent1 = new Intent(MainActivity.this, ListNhanVien.class);
+                Intent intent1 = new Intent(MainActivity.this, AddProduct.class);
                 startActivity(intent1);
                 break;
             case R.id.ds_thuchi:

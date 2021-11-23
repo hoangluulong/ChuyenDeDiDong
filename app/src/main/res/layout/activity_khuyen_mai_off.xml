@@ -123,13 +123,12 @@
             app:startIconDrawable="@drawable/userne1">
 
             <AutoCompleteTextView
-                android:id="@+id/spnTenDonViTinh2"
+                android:id="@+id/spnNhomKhachHang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:focusable="false"
                 android:inputType="none"
-                android:text="Thạch"
                 android:textColor="@color/slate" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -151,7 +150,7 @@
 
                 <Button
 
-                    android:id="@+id/themDonViTinh"
+                    android:id="@+id/giakhuyenmai"
                     android:layout_width="10dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.75"
@@ -159,12 +158,12 @@
                     android:drawableLeft="@drawable/icons8plus"
                     android:fontFamily="@font/baloo"
                     android:gravity="center_vertical"
-                    android:text="Thêm đơn vị tính"
+                    android:text="Thêm giá khuyến mãi"
                     android:textColor="@color/black"
                     android:textSize="15sp"></Button>
 
                 <Button
-                    android:id="@+id/DonViTinhSanPham"
+                    android:id="@+id/themkhoanggia"
                     android:layout_width="10dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.75"
@@ -172,7 +171,7 @@
                     android:drawableLeft="@drawable/icons8plus"
                     android:fontFamily="@font/baloo"
                     android:gravity="center_vertical"
-                    android:text="Đơn vị sản phẩm"
+                    android:text="Chọn Gia Khuyến Mãi"
                     android:textColor="@color/black"
                     android:textSize="15sp"></Button>
             </LinearLayout>

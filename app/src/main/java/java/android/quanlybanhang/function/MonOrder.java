@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
+import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.CardProductSQL.CardProduct;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterDanhMuc_Mon.StaticCategoryAdapter;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterDanhMuc_Mon.StaticCategoryMonModel;
@@ -60,7 +63,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     private StaticCategoryAdapter staticCategoryAdapter;
     ArrayList<Product> items = new ArrayList<>();//araylist mon
     StaticMonRvAdapter staticMonRvAdapter;//adapter ban
-    private DatabaseReference mDatabase;//khai bao database
+    private DatabaseReference mDatabase,mDatabase1;
     private Toolbar toolbar;//tool bar khai bao id
     ArrayList<StaticCategoryMonModel> item;
     Product staticMonOrderModel;
@@ -70,6 +73,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     String id_khuvuc;
     String id_datban;
     String trangthai;
+    String trangthaimangdi;
     StaticCardAdapter staticCardAdapter;
     ArrayList<Product> listcard = new ArrayList<>();//araylist mon
     Button bnt_card;
@@ -81,6 +85,10 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
     ProgressBar progressBar;
     Button bnt_huy;
     String id_CuaHang;
+    TextView soluongdem;
+    String S;
+    private Database_order database_order;
+    private final String TEN_BANG = "ProductSQL1";
 
     // LinearProgressIndicator
     @Override
@@ -89,6 +97,7 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         setContentView(R.layout.activity_mon_order);
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         id_CuaHang = "CuaHangOder/" + thongTinCuaHangSql.IDCuaHang();
+
         Intent intent = getIntent();
         id_ban = intent.getStringExtra("id_ban");
         id_khuvuc = intent.getStringExtra("id_khuvuc");
@@ -202,4 +211,5 @@ public class MonOrder extends AppCompatActivity implements Interface_CategorySp_
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

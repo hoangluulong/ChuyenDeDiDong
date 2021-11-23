@@ -57,6 +57,7 @@ private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
                 holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
                 holder.tvgiasanpham.setText(crr.getSanpham().get(position).getGiaProudct()+"");
                 holder.tvLoai.setText(crr.getSanpham().get(position).getLoai());
+                holder.Tong1SanPham.setText(items.get(0).getSanpham().get(position).getSoluong()*items.get(0).getSanpham().get(position).getGiaProudct()+"");
                 holder.imgminus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,6 +65,7 @@ private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
                     if(crr.getSanpham().get(position).getSoluong()>0){
                         items.get(0).getSanpham().get(position).setSoluong(items.get(0).getSanpham().get(position).getSoluong()-1);
                         holder.tvsoluong.setText(items.get(0).getSanpham().get(position).getSoluong()+"");
+                        holder.Tong1SanPham.setText(items.get(0).getSanpham().get(position).getSoluong()*items.get(0).getSanpham().get(position).getGiaProudct()+"");
 
                     }
                 }
@@ -76,6 +78,7 @@ private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
                     if( items.get(0).getSanpham().get(position).getSoluong()<=a-1){
                         items.get(0).getSanpham().get(position).setSoluong(items.get(0).getSanpham().get(position).getSoluong()+1);
                         holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
+                        holder.Tong1SanPham.setText(items.get(0).getSanpham().get(position).getSoluong()*items.get(0).getSanpham().get(position).getGiaProudct()+"");
                     }
                 }
             });

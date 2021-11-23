@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item> <!--custom animation style-->
+    </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
     <!--  style so luong layout activity_bao_cao_tong_quan  -->
     <style name="tien_HoaDon" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
@@ -152,6 +163,7 @@
         <item name="android:textColor">@color/blue_berry</item>
         <item name="android:textColorPrimary">@color/blue_berry</item>
         <item name="android:colorAccent">@color/red</item>
+
     </style>
 
     <style name="thoiGianLamViec">
