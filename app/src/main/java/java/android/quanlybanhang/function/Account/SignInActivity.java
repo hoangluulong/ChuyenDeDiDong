@@ -326,7 +326,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void getDataUser (String UID){
         thongTinCuaHangSql = new ThongTinCuaHangSql(SignInActivity.this, "app_database.sqlite", null, 2);
         thongTinCuaHangSql.createTableUser();
-        Log.d("zz", "CuaHangOder/"+dataAccount.get(0).getID()+"/user/"+UID);
 
         mFirebaseDatabase.child("CuaHangOder/"+dataAccount.get(0).getID()+"/user/"+UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

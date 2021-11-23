@@ -7,16 +7,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.BaoCao.model.BienLai;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class DanhSachHoaDonAdapter extends RecyclerView.Adapter<DanhSachHoaDonAdapter.CustomChiSoSanPham> {
 
     private Context context;
+    private ArrayList<BienLai> list;
 
-    public DanhSachHoaDonAdapter(Context context) {
+    public DanhSachHoaDonAdapter(Context context, ArrayList<BienLai> list) {
         this.context = context;
+        this.list = list;
+    }
+
+    public void setData(ArrayList<BienLai> list) {
+        this.list = list;
     }
 
     @NonNull
@@ -27,53 +39,47 @@ public class DanhSachHoaDonAdapter extends RecyclerView.Adapter<DanhSachHoaDonAd
 
     @Override
     public void onBindViewHolder(@NonNull CustomChiSoSanPham holder, int position) {
-        if (position == 0) {
-            holder.ngay.setText("13/10/2021");
-            holder.gio.setText("10:30 AM");
-            holder.gia.setText("240,000,00");
-            holder.ten.setText("Hoang Huu Long");
-        }else if (position == 1) {
-            holder.ngay.setText("13/10/2021");
-            holder.gio.setText("10:30 AM");
-            holder.gia.setText("300,000,00");
-            holder.ten.setText("Huu Long Hoang");
-        }else if (position == 2) {
-            holder.ngay.setText("12/10/2021");
-            holder.gio.setText("09:30 AM");
-            holder.gia.setText("100,000,00");
-            holder.ten.setText("Long Hoang Huu");
-        }else if (position == 3) {
-            holder.ngay.setText("20/10/2021");
-            holder.gio.setText("03:30 PM");
-            holder.gia.setText("100,000,00");
-            holder.ten.setText("Long Long Huu");
-        }else if (position == 4) {
-            holder.ngay.setText("30/09/2021");
-            holder.gio.setText("01:30 AM");
-            holder.gia.setText("90,000,00");
-            holder.ten.setText("Long Hoang Huu");
-        }
-        else if (position == 5) {
-            holder.ngay.setText("12/01/2021");
-            holder.gio.setText("09:30 AM");
-            holder.gia.setText("111,000,00");
-            holder.ten.setText("Long Hoang Huu");
+        holder.ngay.setText(setUpDate(list.get(position).getKey()));
+        holder.tv_iDdonhang.setText(list.get(position).getKey());
+        holder.tv_tongtien.setText(list.get(position).getTongtien()+"");
+        if (list.get(position).isLoai()== false) {
+            holder.tv_loai.setText("Cửa hàng");
+            holder.tv_loai.setTextColor(ContextCompat.getColor(context, R.color.so_hoa_don));
+        }else {
+            holder.tv_loai.setText("Online");
+            holder.tv_loai.setTextColor(ContextCompat.getColor(context, R.color.Python));
         }
     }
 
     @Override
     public int getItemCount() {
-        return 30;
+        if (list == null){
+            return 0;
+        }
+        return list.size();
     }
 
     public class CustomChiSoSanPham extends RecyclerView.ViewHolder {
-        private TextView ngay, gio, gia, ten;
+        private TextView ngay, tv_loai, tv_trangthai, tv_iDdonhang, tv_tongtien;
         public CustomChiSoSanPham(@NonNull View ItemView) {
             super(ItemView);
             ngay = ItemView.findViewById(R.id.ngay);
-            gio = ItemView.findViewById(R.id.gio);
-            gia = ItemView.findViewById(R.id.gia);
-            ten = ItemView.findViewById(R.id.ten);
+            tv_loai = ItemView.findViewById(R.id.tv_loai);
+            tv_trangthai = ItemView.findViewById(R.id.tv_trangthai);
+            tv_iDdonhang = ItemView.findViewById(R.id.tv_iDdonhang);
+            tv_tongtien = ItemView.findViewById(R.id.tv_tongtien);
         }
+    }
+
+    private String setUpDate(String str) {
+        long log = Long.parseLong(str);
+        Timestamp timestamp = new Timestamp(log);
+        java.sql.Date date = new java.sql.Date(timestamp.getTime());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String dt = formatter.format(date);
+
+        return  dt;
+
     }
 }

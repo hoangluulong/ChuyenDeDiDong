@@ -4,14 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ProductPushFB implements Serializable {
-    public ProductPushFB(long date, boolean flag) {
-        this.date = date;
-        this.flag = flag;
-    }
 
     private long date;
     private boolean flag;
     private int trangThai;
+    private int TrangThai;
+    private ArrayList<ProuductPushFB1> sanpham;
+
+    public ProductPushFB(long date, boolean flag) {
+        this.date = date;
+        this.flag = flag;
+    }
 
     public int getTrangThai() {
         return TrangThai;
@@ -20,9 +23,6 @@ public class ProductPushFB implements Serializable {
     public void setTrangThai(int trangThai) {
         TrangThai = trangThai;
     }
-
-    private int TrangThai;
-    private ArrayList<ProuductPushFB1> sanpham;
 
     public ProductPushFB() {
         this.sanpham = new ArrayList<>();

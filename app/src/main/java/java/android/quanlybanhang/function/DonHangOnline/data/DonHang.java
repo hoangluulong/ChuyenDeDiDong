@@ -3,7 +3,7 @@ package java.android.quanlybanhang.function.DonHangOnline.data;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class DonHang {
+public class    DonHang {
     private String diaChi;
     private String diemnhan;
     private String time;

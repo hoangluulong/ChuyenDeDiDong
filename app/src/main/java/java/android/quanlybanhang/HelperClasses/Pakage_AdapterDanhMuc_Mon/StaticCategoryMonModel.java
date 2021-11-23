@@ -4,6 +4,10 @@ import java.android.quanlybanhang.Model.Product;
 import java.util.ArrayList;
 
 public class StaticCategoryMonModel {
+    private String tenCategory;
+    private String image ;
+    ArrayList<Product> staticMonOrderModels;
+
     public String getTenCategory() {
         return tenCategory;
     }
@@ -28,10 +32,6 @@ public class StaticCategoryMonModel {
         this.tenCategory = tenCategory;
     }
 
-    private String tenCategory;
-    private String image ;
-
-
     public ArrayList<Product> getStaticMonOrderModels() {
         return staticMonOrderModels;
     }
@@ -39,8 +39,6 @@ public class StaticCategoryMonModel {
     public void setStaticMonOrderModels(ArrayList<Product> staticMonOrderModels) {
         this.staticMonOrderModels = staticMonOrderModels;
     }
-
-    ArrayList<Product> staticMonOrderModels;
 
     public StaticCategoryMonModel(String tenCategory, ArrayList<Product> staticMonOrderModels) {
         this.tenCategory = tenCategory;
