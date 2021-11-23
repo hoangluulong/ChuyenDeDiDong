@@ -186,6 +186,7 @@ public class ThanhToanActivity extends AppCompatActivity {
 
                 } else {
                     bnt_thanhtoan.setEnabled(false);
+
                 }
             }
 
@@ -220,10 +221,12 @@ public class ThanhToanActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                             XoaSpkhiOrder();
+                            bnt_thanhtoan.setEnabled(true);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            bnt_thanhtoan.setEnabled(false);
                             Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -270,7 +273,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     public String Hamlaygiohientai() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Log.d("datenowww", timestamp.getTime() + "");
-        return timestamp.getTime() + "";
+        return timestamp.getTime()+"";
     }
 
     private void getDatasql() {
