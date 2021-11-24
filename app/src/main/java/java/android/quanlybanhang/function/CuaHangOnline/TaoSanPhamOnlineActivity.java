@@ -80,7 +80,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
     private EditText textGiaSanPham,textTenDonViTinh;
     private Button btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
     private ArrayAdapter<String> adapter;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_DONVITINH = "donvitinh";
     private ArrayList<String> listDonViTinh;
     private ArrayList<DonGia> listDonGia = new ArrayList<>();
@@ -107,9 +107,9 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tao_san_pham_online);
-        IDLayout();
         thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+        IDLayout();
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -141,7 +141,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
     }
 
     private void IDLayout() {
-        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
+        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_DONVITINH);
         mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
         tenSanPham = findViewById(R.id.tenSanPham);
         soLuong = findViewById(R.id.soLuong);
@@ -213,7 +213,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
     private int sLuong = 0;
 
     private void TaoDon(Uri uri){
-        nameImage = System.currentTimeMillis() + "." + getFileExtension(uri);
+
         String name =  tenSanPham.getText().toString();
         String soluong = soLuong.getText().toString();
         String moTaChiTiet = mota.getText().toString();
@@ -237,6 +237,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         }else if (listDonGia.size()<=0){
             Toast.makeText(TaoSanPhamOnlineActivity.this, "Thêm đơn vị tính! ", Toast.LENGTH_SHORT).show();
         }else {
+            nameImage = System.currentTimeMillis() + "." + getFileExtension(uri);
             progressBar.setVisibility(View.VISIBLE);
             final StorageReference fileRef = reference.child(nameImage);
             fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -355,12 +356,15 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                     String name = donViTinh1.getDonViTinh();
                     listDonViTinh.add(name);
                 }
-                nhom = listDonViTinh.get(0);
+                if (listDonViTinh != null && listDonViTinh.size() > 0) {
+                    nhom = listDonViTinh.get(0);
 
-                adapter = new ArrayAdapter<String>(TaoSanPhamOnlineActivity.this, R.layout.item_spinner1_setup_store, listDonViTinh);
-                spnTenDonViTinh2.setText(nhom);
-                spnTenDonViTinh2.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                    adapter = new ArrayAdapter<String>(TaoSanPhamOnlineActivity.this, R.layout.item_spinner1_setup_store, listDonViTinh);
+                    spnTenDonViTinh2.setText(nhom);
+                    spnTenDonViTinh2.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override

@@ -2,13 +2,6 @@ package java.android.quanlybanhang.function.CuaHangOnline.Fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,7 +71,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
 
     private RecyclerView recycleview;
     private SanPhamQuangCaoAdapter sanPhamQuangCaoAdapter;
-    private ArrayList<Product>  listQuanCao = new ArrayList<>();
+    private ArrayList<Product> listQuanCao = new ArrayList<>();
     private ProgressBar progressBarLayout;
     private LinearLayout.LayoutParams params;
     private LinearLayout danhsach, btnMatHangQuangCao;
@@ -128,7 +127,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
     private void displayRecycleView() {
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        sanPhamQuangCaoAdapter = new SanPhamQuangCaoAdapter(getContext(),listQuanCao, this);
+        sanPhamQuangCaoAdapter = new SanPhamQuangCaoAdapter(getContext(), listQuanCao, this);
         recycleview.setAdapter(sanPhamQuangCaoAdapter);
         sanPhamQuangCaoAdapter.notifyDataSetChanged();
 
@@ -138,11 +137,17 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Product product = dataSnapshot.getValue(Product.class);
-                listQuanCao.add(product);
-                progressBarLayout.setVisibility(View.INVISIBLE);
-                scrollView.setAlpha(1);
-                sanPhamQuangCaoAdapter.notifyDataSetChanged();
+                if (dataSnapshot.getValue() != null) {
+                    Product product = dataSnapshot.getValue(Product.class);
+                    listQuanCao.add(product);
+                    progressBarLayout.setVisibility(View.INVISIBLE);
+                    scrollView.setAlpha(1);
+                    sanPhamQuangCaoAdapter.notifyDataSetChanged();
+                } else {
+                    progressBarLayout.setVisibility(View.INVISIBLE);
+                    scrollView.setAlpha(1);
+                }
+
             }
 
             @Override
@@ -159,9 +164,11 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
                     }
                 }
             }
+
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -172,14 +179,14 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnMatHangQuangCao:
                 if (setL) {
                     params.height = 0;
                     setL = false;
                     quangCaosanPhamIMG.setImageResource(R.drawable.down_24);
                     danhsach.setLayoutParams(params);
-                }else {
+                } else {
                     params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     setL = true;
                     quangCaosanPhamIMG.setImageResource(R.drawable.up_24);
@@ -197,16 +204,16 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 sanPhamQuangCaoAdapter.notifyDataSetChanged();
-                FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao/"+ID_CUAHANG+"/sanpham/"+listQuanCao
+                FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + listQuanCao
                         .get(position).getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(getContext(), "Đã xóa",Toast.LENGTH_SHORT ).show();
+                        Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Lỗi",Toast.LENGTH_SHORT ).show();
+                        Toast.makeText(getContext(), "Lỗi", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

@@ -13,13 +13,14 @@ import android.widget.LinearLayout;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.Account.ThongTinAccountActivity;
 import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
+import java.android.quanlybanhang.function.NhanVien.ChamCongNhanVienActivity;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListCategory;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 
 
 public class ThietLapActivity extends AppCompatActivity implements View.OnClickListener{
-    private LinearLayout layout_taikhoan, layout_quanlynhanvien,layout_sanpham, layout_danhmuc,layout_nhomkhachang;
+    private LinearLayout layout_taikhoan, layout_quanlynhanvien,layout_sanpham, layout_danhmuc,layout_nhomkhachang, layout_khuyenmai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +31,14 @@ public class ThietLapActivity extends AppCompatActivity implements View.OnClickL
         layout_sanpham = findViewById(R.id.layout_sanpham);
         layout_danhmuc = findViewById(R.id.layout_danhmuc);
         layout_nhomkhachang = findViewById(R.id.layout_nhomkhachang);
+        layout_khuyenmai = findViewById(R.id.layout_khuyenmai);
 
         layout_taikhoan.setOnClickListener(this);
         layout_quanlynhanvien.setOnClickListener(this);
         layout_sanpham.setOnClickListener(this);
         layout_danhmuc.setOnClickListener(this);
         layout_nhomkhachang.setOnClickListener(this);
-
+        layout_khuyenmai.setOnClickListener(this);
     }
 
     @Override
@@ -61,6 +63,10 @@ public class ThietLapActivity extends AppCompatActivity implements View.OnClickL
             case R.id.layout_nhomkhachang:
                 Intent intent5 = new Intent(ThietLapActivity.this, ListKhachHang.class);
                 startActivity(intent5);
+                break;
+            case R.id.layout_khuyenmai:
+                Intent intent6 = new Intent(ThietLapActivity.this, ChamCongNhanVienActivity.class);
+                startActivity(intent6);
                 break;
         };
     }

@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else {
             if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
+                finish();
                 return;
             }
 

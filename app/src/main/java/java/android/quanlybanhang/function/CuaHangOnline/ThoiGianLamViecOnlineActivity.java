@@ -43,7 +43,7 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
     private int mYear, mMonth, mDay, mHour, mMinute;
     private DatabaseReference mFirebaseDatabase;
     private TextView thonbao;
-    private ProgressBar progressBar;
+    private ProgressBar progressBar,progressBarMini;
     private ScrollView scrollView;
     private ThoiGian thoiGian;
 
@@ -67,6 +67,7 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
         thoiGianBatDau.setEnabled(false);
         thoiGianKetThuc.setEnabled(false);
         xacNhan.setEnabled(false);
+        progressBarMini.setVisibility(View.GONE);
 
         getDataFirebase();
 
@@ -84,6 +85,7 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
         xacNhan = findViewById(R.id.xacNhan);
         thonbao = findViewById(R.id.thonbao);
         progressBar = findViewById(R.id.progressBar2);
+        progressBarMini = findViewById(R.id.progressBar);
         scrollView = findViewById(R.id.scrollView);
 
         final Calendar c = Calendar.getInstance();
@@ -134,29 +136,45 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
     }
 
     private void kichHoat() {
-        if (isCheckStatus) {
-            isCheckStatus = false;
-            tamDung.setText("Kích hoạt");
-            tamDung.setTextColor(getColor(R.color.Python));
-            tamDung.setBackgroundResource(R.drawable.bg_kich_hoat);
-            thonbao.setText("Cửa hàng của đang không mở, kích hoạt để mở");
-            xacNhan.setEnabled(false);
-            thoiGianBatDau.setEnabled(false);
-            thoiGianKetThuc.setEnabled(false);
-            xacNhan.setVisibility(View.GONE);
-        } else {
-            isCheckStatus = true;
-            tamDung.setText("Tạm dừng");
-            tamDung.setTextColor(getColor(R.color.red));
-            tamDung.setBackgroundResource(R.drawable.bg_xoa_van_chuyen);
-            thonbao.setText("");
-            xacNhan.setEnabled(true);
-            thoiGianBatDau.setEnabled(true);
-            thoiGianKetThuc.setEnabled(true);
-            xacNhan.setVisibility(View.VISIBLE);
-        }
+        progressBarMini.setVisibility(View.VISIBLE);
+        mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thongtin/name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    if (isCheckStatus) {
+                        isCheckStatus = false;
+                        tamDung.setText("Kích hoạt");
+                        tamDung.setTextColor(getColor(R.color.Python));
+                        tamDung.setBackgroundResource(R.drawable.bg_kich_hoat);
+                        thonbao.setText("Cửa hàng của đang không mở, kích hoạt để mở");
+                        xacNhan.setEnabled(false);
+                        thoiGianBatDau.setEnabled(false);
+                        thoiGianKetThuc.setEnabled(false);
+                        xacNhan.setVisibility(View.GONE);
+                    } else {
+                        isCheckStatus = true;
+                        tamDung.setText("Tạm dừng");
+                        tamDung.setTextColor(getColor(R.color.red));
+                        tamDung.setBackgroundResource(R.drawable.bg_xoa_van_chuyen);
+                        thonbao.setText("");
+                        xacNhan.setEnabled(true);
+                        thoiGianBatDau.setEnabled(true);
+                        thoiGianKetThuc.setEnabled(true);
+                        xacNhan.setVisibility(View.VISIBLE);
+                    }
+                    progressBarMini.setVisibility(View.GONE);
+                    mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec/status").setValue(isCheckStatus);
+                }else {
+                    Toast.makeText(ThoiGianLamViecOnlineActivity.this, "Chưa thiết lập thông tin cửa hàng", Toast.LENGTH_SHORT).show();
+                    progressBarMini.setVisibility(View.GONE);
+                }
+            }
 
-        mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec/status").setValue(isCheckStatus);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void saveCheck() {
@@ -198,7 +216,6 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
     }
 
     private void getDataFirebase() {
-
         mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

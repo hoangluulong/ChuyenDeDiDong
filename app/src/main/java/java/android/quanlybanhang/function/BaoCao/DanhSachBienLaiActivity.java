@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -65,7 +67,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class DanhSachBienLaiActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class DanhSachBienLaiActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemSelectedListener {
 
     private RecyclerView recycleview;
     private DanhSachHoaDonAdapter danhSachHoaDonAdapter;
@@ -74,6 +76,9 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
     private ThongTinCuaHangSql thongTinCuaHangSql;
     private String ID_CUAHANG;
     private ArrayList<BienLai> arrayList = new ArrayList<>();
+    private ArrayList<BienLai> arrayListAll = new ArrayList<>();
+    private ArrayList<BienLai> arrayListLoai1 = new ArrayList<>();
+    private ArrayList<BienLai> arrayListLoai2 = new ArrayList<>();
     private ProgressBar progressBar;
     private ImageView image;
     private TextView tv_thongbao,tv_sTongDon;
@@ -97,6 +102,7 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
         mFirebaseDatabase = mFirebaseInstance.getReference();
         thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+        spinner.setOnItemSelectedListener(DanhSachBienLaiActivity.this);
         dialogDate();
         displayItem();
         getDataBL();
@@ -112,6 +118,9 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
         }else {
             arrayList.clear();
         }
+        arrayListAll.clear();
+        arrayListLoai1.clear();
+        arrayListLoai2.clear();
         if (loai == 1) {
             listNgay = MangNgay();
         }else {
@@ -127,7 +136,8 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
                             BienLai bienLai = dataSnapshot.getValue(BienLai.class);
                             bienLai.setLoai(false);
                             bienLai.setKey(dataSnapshot.getKey());
-                            arrayList.add(0, bienLai);
+                            arrayListAll.add(0, bienLai);
+                            arrayListLoai1.add(0, bienLai);
                         }
                         listCheckSizeCuaHang.add(1);
                     }else {
@@ -166,7 +176,8 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
                                 bienLai.setTongtien(200000);
                                 bienLai.setKey(dataSnapshot.getKey());
                                 bienLai.setLoai(true);
-                                arrayList.add(bienLai);
+                                arrayListAll.add(bienLai);
+                                arrayListLoai2.add(bienLai);
                             }
 
                         }
@@ -181,7 +192,6 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
 
                 }
             });
-
         }
     }
 
@@ -210,6 +220,7 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
                         danhSachHoaDonAdapter.notifyDataSetChanged();
                         return;
                     } else {
+                        arrayList.addAll(arrayListAll);
                         progressBar.setVisibility(View.GONE);
                         image.setImageResource(0);
                         tv_thongbao.setText("");
@@ -233,6 +244,11 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
         swipeRefreshlayout = findViewById(R.id.swipeRefreshlayout);
 
         swipeRefreshlayout.setOnRefreshListener(DanhSachBienLaiActivity.this);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(DanhSachBienLaiActivity.this, R.array.sort_bienlai, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
     }
 
     private void displayItem(){
@@ -399,5 +415,30 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
     public void onRefresh() {
         getDataBL();
         setData();
+    }
+
+    private void locLoai (int position) {
+        arrayList.clear();
+        danhSachHoaDonAdapter.notifyDataSetChanged();
+        if (position == 0) {
+            arrayList.addAll(arrayListAll);
+        }else if (position == 1){
+            arrayList.addAll(arrayListLoai1);
+        }else if (position == 2) {
+            arrayList.addAll(arrayListLoai2);
+
+        }
+        tv_sTongDon.setText(arrayList.size() + "");
+        danhSachHoaDonAdapter.notifyDataSetChanged();
+        return;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        locLoai(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 }

@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.ChamCong;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.util.ArrayList;
@@ -78,7 +79,6 @@ public class AddNhanVien extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addnhanvien);
-
 
         //add ca lam
         for (int i = 0; i < 3; i ++) {
@@ -818,7 +818,8 @@ public class AddNhanVien extends AppCompatActivity {
 
                                 String name = edtTenNhanVien.getText().toString();
                                 String phone = edtPhone.getText().toString();
-                                nhanVien = new NhanVien(name,email,congViec,caLam,phone,mFirebaseAuth.getUid());
+                                ChamCong chamCong = new ChamCong(0, 0, 0);
+                                nhanVien = new NhanVien(name,email,congViec,caLam,phone,mFirebaseAuth.getUid(), chamCong);
                                 mData2.child("CuaHangOder/"+ID_CUAHANG+"/user/"+mFirebaseAuth.getUid()).setValue(nhanVien);
 
                                 edtEmail.setText("");

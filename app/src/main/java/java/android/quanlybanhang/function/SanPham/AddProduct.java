@@ -310,6 +310,7 @@ public class AddProduct extends AppCompatActivity {
         if (window == null) {
             return;
         }
+
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windownAttributes = window.getAttributes();
@@ -352,13 +353,10 @@ public class AddProduct extends AppCompatActivity {
                 listView.setLayoutManager(new LinearLayoutManager(AddProduct.this, LinearLayoutManager.VERTICAL, false));
                 listView.setAdapter(adapterDonGia);
                 adapterDonGia.notifyDataSetChanged();
-
             }
         });
 
         dialog.show();
-
-
     }
 
     private void dailongThemDonViTinh(int gravity) {
@@ -398,8 +396,6 @@ public class AddProduct extends AppCompatActivity {
             }
         });
         dialog1.show();
-
-
     }
 
     @Override

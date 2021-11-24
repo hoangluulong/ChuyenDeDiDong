@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.NhanVien.ActivityUpdateNhanVien;
+import java.android.quanlybanhang.function.NhanVien.ChamCongNhanVienActivity;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.util.ArrayList;
 
@@ -64,6 +65,7 @@ public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVi
         private ImageView imgSua;
         private ImageView imgXoa;
         private CircleImageView usernhanvien;
+        private  View view;
 
 
         public NhanVienViewHolder(@NonNull View itemView) {
@@ -73,6 +75,7 @@ public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVi
             imgXoa = itemView.findViewById(R.id.btnXoaNV);
             imgSua = itemView.findViewById(R.id.btnSuaNV);
             usernhanvien = itemView.findViewById(R.id.usernhanvien);
+            view = itemView.findViewById(R.id.view);
 
             imgSua.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,6 +83,16 @@ public class AdapterNhanVien extends RecyclerView.Adapter<AdapterNhanVien.NhanVi
                     int position = getLayoutPosition();
                     Intent intent = new Intent(context1, ActivityUpdateNhanVien.class);
                     intent.putExtra("Key_arrayNV", arrayList.get(position));
+                    context1.startActivity(intent);
+                }
+            });
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    Intent intent = new Intent(context1, ChamCongNhanVienActivity.class);
+                    intent.putExtra("ID_NHANVIEN", arrayList.get(position).getId());
                     context1.startActivity(intent);
                 }
             });

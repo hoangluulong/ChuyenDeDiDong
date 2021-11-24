@@ -131,7 +131,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private Spinner spnDonViTinh;
     private Button btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
     private ArrayAdapter<String> adapter;
-    private String STR_CUAHANG = "JxZOOK1RzcMM7pL5I6naGZfYSsu2";
+    private String STR_CUAHANG = "CuaHangOder";
     private String STR_DONVITINH = "donvitinh";
     private ArrayList<String> listDonViTinh;
     private ArrayList<DonGia> listDonGia = new ArrayList<>();
@@ -189,7 +189,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     }
 
     private void IDLayout(View view) {
-        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(STR_DONVITINH);
+        mDatabase2 = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_DONVITINH);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         quangCaoSanPham = view.findViewById(R.id.quangCaoSanPham);
@@ -369,12 +369,13 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                     String name = donViTinh1.getDonViTinh();
                     listDonViTinh.add(name);
                 }
-
-                nhom = listDonViTinh.get(0);
-                adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listDonViTinh);
-                spnTenDonViTinh2.setText(nhom);
-                spnTenDonViTinh2.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                if (listDonViTinh != null && listDonViTinh.size() > 0) {
+                    nhom = listDonViTinh.get(0);
+                    adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner1_setup_store, listDonViTinh);
+                    spnTenDonViTinh2.setText(nhom);
+                    spnTenDonViTinh2.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override

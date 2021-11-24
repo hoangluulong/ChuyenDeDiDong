@@ -110,7 +110,6 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
     private void getDataUser () {
         checkDataUser = false;
         checkThietLap= false;
-        Log.d("qqq", key);
         mFirebaseDatabase.child("CuaHangOder/"+key+"/user/"+ID_USER).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -181,9 +180,11 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
                     if (thietLap == false) {
                         Intent intent = new Intent(ChiNhanhSignInActivity.this, StoreSetting.class);
                         startActivity(intent);
+                        finish();
                     }else {
                         Intent intent = new Intent(ChiNhanhSignInActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }else{
                     delayLoadata();

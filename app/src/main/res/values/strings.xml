@@ -99,4 +99,10 @@
         <item>Tiền thu tăng</item>
     </string-array>
 
+    <string-array name="sort_bienlai">
+        <item>Tất cả</item>
+        <item>Cửa hàng</item>
+        <item>Online</item>
+    </string-array>
+
 </resources>

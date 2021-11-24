@@ -23,17 +23,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
+            android:name=".function.NhanVien.ChamCongNhanVienActivity"
+            android:label="Chấm công nhân viên"
+            android:theme="@style/thameActionbar2"
+            android:parentActivityName=".function.NhanVien.ListNhanVien"
+            android:exported="true" />
+        <activity
             android:name=".function.ThietLapActivity"
             android:exported="true"
-            android:theme="@style/thameActionbar4"
             android:label="Tiện ích"
-            android:parentActivityName=".function.MainActivity"/>
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.Account.ThongTinAccountActivity"
             android:exported="true"
-            android:theme="@style/thameActionbar2"
             android:label=""
-            android:parentActivityName=".function.ThietLapActivity"/>
+            android:parentActivityName=".function.ThietLapActivity"
+            android:theme="@style/thameActionbar2" />
         <activity
             android:name=".function.ThanhToanActivity"
             android:exported="true" />
@@ -43,10 +49,8 @@
         <activity
             android:name=".function.SanPham.SuaSanPhamActivity"
             android:exported="true" />
-        <activity
-            android:name=".function.SanPham.AddCategory" />
-        <activity
-            android:name=".function.SanPham.AddProduct" />
+        <activity android:name=".function.SanPham.AddCategory" />
+        <activity android:name=".function.SanPham.AddProduct" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -248,6 +252,7 @@
         <activity
             android:name=".function.TachBanActivity"
             android:exported="false" />
+
     </application>
 
 </manifest>

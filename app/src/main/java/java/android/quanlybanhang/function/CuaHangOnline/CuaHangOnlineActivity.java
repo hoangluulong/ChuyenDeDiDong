@@ -39,8 +39,8 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private TextInputEditText edtThongTinChuyenKhoan, ghiChu;
-    private CheckBox checkboxKhachHangDenLay, checkboxDonViVanChuyen, checkboxTuGiao, checkboxChuyenKhoan, checkboxTienMat;
-    private CardView cauhinhvanchuyen;
+    private CheckBox checkboxChuyenKhoan, checkboxTienMat;
+//    private CardView cauhinhvanchuyen;
     private LinearLayout layoutThongTinChuyenKhoan;
     private TextView dangKy, addLoai;
     private LinearLayout.LayoutParams params;
@@ -82,12 +82,12 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
         navigationView = findViewById(R.id.nav_view);
         edtThongTinChuyenKhoan = findViewById(R.id.edtThongTinChuyenKhoan);
         ghiChu = findViewById(R.id.ghiChu);
-        checkboxKhachHangDenLay = findViewById(R.id.checkboxKhachHangDenLay);
-        checkboxDonViVanChuyen = findViewById(R.id.checkboxDonViVanChuyen);
-        checkboxTuGiao = findViewById(R.id.checkboxTuGiao);
+//        checkboxKhachHangDenLay = findViewById(R.id.checkboxKhachHangDenLay);
+//        checkboxDonViVanChuyen = findViewById(R.id.checkboxDonViVanChuyen);
+//        checkboxTuGiao = findViewById(R.id.checkboxTuGiao);
         checkboxChuyenKhoan = findViewById(R.id.checkboxChuyenKhoan);
         checkboxTienMat = findViewById(R.id.checkboxTienMat);
-        cauhinhvanchuyen = findViewById(R.id.cauhinhvanchuyen);
+//        cauhinhvanchuyen = findViewById(R.id.cauhinhvanchuyen);
         layoutThongTinChuyenKhoan = findViewById(R.id.layoutThongTinChuyenKhoan);
         dangKy = findViewById(R.id.dangKy);
         drawerLayout = findViewById(R.id.drawable_layout);
@@ -99,20 +99,20 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
         progressBar2 = findViewById(R.id.progressBar2);
 
         checkboxChuyenKhoan.setOnClickListener(this);
-        checkboxTuGiao.setOnClickListener(this);
+//        checkboxTuGiao.setOnClickListener(this);
         dangKy.setOnClickListener(this);
-        cauhinhvanchuyen.setOnClickListener(this);
+//        cauhinhvanchuyen.setOnClickListener(this);
     }
 
     private void getData() {
-        mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("vanChuyen").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thongtin").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
                     HinhThucGiaoHang hinhThucGiaoHang = snapshot.getValue(HinhThucGiaoHang.class);
-                    checkboxKhachHangDenLay.setChecked(hinhThucGiaoHang.isKhacHangDenLay());
-                    checkboxDonViVanChuyen.setChecked(hinhThucGiaoHang.isQuaDoiTac());
-                    checkboxTuGiao.setChecked(hinhThucGiaoHang.isTuGiao());
+//                    checkboxKhachHangDenLay.setChecked(hinhThucGiaoHang.isKhacHangDenLay());
+//                    checkboxDonViVanChuyen.setChecked(hinhThucGiaoHang.isQuaDoiTac());
+//                    checkboxTuGiao.setChecked(hinhThucGiaoHang.isTuGiao());
                     checkboxChuyenKhoan.setChecked(hinhThucGiaoHang.isChuyenKhoan());
                     checkboxTienMat.setChecked(hinhThucGiaoHang.isTienMat());
                     edtThongTinChuyenKhoan.setText(hinhThucGiaoHang.getThongTinChuyenKhoan());
@@ -124,9 +124,9 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                         layoutThongTinChuyenKhoan.setLayoutParams(params);
                     }
 
-                    if (hinhThucGiaoHang.isTuGiao()) {
-                        cauhinhvanchuyen.setVisibility(View.VISIBLE);
-                    }
+//                    if (hinhThucGiaoHang.isTuGiao()) {
+//                        cauhinhvanchuyen.setVisibility(View.VISIBLE);
+//                    }
                 }else {
                 }
                 progressBar2.setVisibility(View.INVISIBLE);
@@ -150,27 +150,27 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
             params.height = 0;
             layoutThongTinChuyenKhoan.setLayoutParams(params);
         }
-        if (checkboxTuGiao.isChecked()) {
-            cauhinhvanchuyen.setVisibility(View.VISIBLE);
-        } else {
-            cauhinhvanchuyen.setVisibility(View.INVISIBLE);
-        }
+//        if (checkboxTuGiao.isChecked()) {
+//            cauhinhvanchuyen.setVisibility(View.VISIBLE);
+//        } else {
+//            cauhinhvanchuyen.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.checkboxTuGiao:
-                if (checkboxTuGiao.isChecked()) {
-                    cauhinhvanchuyen.setVisibility(View.VISIBLE);
-                } else {
-                    cauhinhvanchuyen.setVisibility(View.INVISIBLE);
-                }
-                break;
-            case R.id.cauhinhvanchuyen:
-                Intent intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.checkboxTuGiao:
+//                if (checkboxTuGiao.isChecked()) {
+//                    cauhinhvanchuyen.setVisibility(View.VISIBLE);
+//                } else {
+//                    cauhinhvanchuyen.setVisibility(View.INVISIBLE);
+//                }
+//                break;
+//            case R.id.cauhinhvanchuyen:
+//                Intent intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.checkboxChuyenKhoan:
                 if (checkboxChuyenKhoan.isChecked()) {
                     layoutThongTinChuyenKhoan.setVisibility(View.VISIBLE);
@@ -191,13 +191,13 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
     private void saveData() {
         HinhThucGiaoHang hinhThucGiaoHang = new HinhThucGiaoHang();
 
-        hinhThucGiaoHang.setKhacHangDenLay(checkboxKhachHangDenLay.isChecked());
-        hinhThucGiaoHang.setQuaDoiTac(checkboxDonViVanChuyen.isChecked());
-        hinhThucGiaoHang.setTuGiao(checkboxTuGiao.isChecked());
+//        hinhThucGiaoHang.setKhacHangDenLay(checkboxKhachHangDenLay.isChecked());
+//        hinhThucGiaoHang.setQuaDoiTac(checkboxDonViVanChuyen.isChecked());
+//        hinhThucGiaoHang.setTuGiao(checkboxTuGiao.isChecked());
         hinhThucGiaoHang.setChuyenKhoan(checkboxChuyenKhoan.isChecked());
         hinhThucGiaoHang.setTienMat(checkboxTienMat.isChecked());
 
-        int dem1 = demHinhThucGiaoHang(hinhThucGiaoHang);
+//        int dem1 = demHinhThucGiaoHang(hinhThucGiaoHang);
         int dem2 = demHinhThucChuyenKhoan(hinhThucGiaoHang);
 
         String thongTinChuyenKhoan = edtThongTinChuyenKhoan.getText().toString();
@@ -208,9 +208,10 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
         if (noiDungThoanhToan.isEmpty()) {
             noiDungThoanhToan = "";
         }
-        if (dem1 < 1) {
-            Toast.makeText(CuaHangOnlineActivity.this, "Ít nhất một hình thức giao hàng", Toast.LENGTH_SHORT).show();
-        } else if (dem2 < 1) {
+//        if (dem1 < 1) {
+//            Toast.makeText(CuaHangOnlineActivity.this, "Ít nhất một hình thức giao hàng", Toast.LENGTH_SHORT).show();
+//        } else
+        if (dem2 < 1) {
             Toast.makeText(CuaHangOnlineActivity.this, "Ít nhất một hình thanh toán", Toast.LENGTH_SHORT).show();
         }else if (hinhThucGiaoHang.isChuyenKhoan() && thongTinChuyenKhoan.isEmpty()) {
             edtThongTinChuyenKhoan.setError("Nhập thông tin chuyển khoản");
@@ -220,17 +221,23 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
             dangKy.setText("");
             hinhThucGiaoHang.setGhiChu(noiDungThoanhToan);
             hinhThucGiaoHang.setThongTinChuyenKhoan(thongTinChuyenKhoan);
-            mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("vanChuyen").setValue(hinhThucGiaoHang).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+            mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thongtin/chuyenKhoan").setValue(hinhThucGiaoHang.isChuyenKhoan());
+            mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thongtin/ghiChu").setValue(hinhThucGiaoHang.getGhiChu());
+            mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thongtin/thongTinChuyenKhoan").setValue(hinhThucGiaoHang.getThongTinChuyenKhoan());
+            mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thongtin/tienMat").setValue(hinhThucGiaoHang.isTienMat()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     progressBar.setVisibility(View.INVISIBLE);
                     dangKy.setText("Lưu");
-                    Toast.makeText(CuaHangOnlineActivity.this, "Thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CuaHangOnlineActivity.this, "Đã lưu", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(CuaHangOnlineActivity.this, "Thất bại!", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    dangKy.setText("Lưu");
+                    Toast.makeText(CuaHangOnlineActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -275,20 +282,22 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
         return true;
     }
 
-    private int demHinhThucGiaoHang(HinhThucGiaoHang hinhThucGiaoHang) {
-        int dem = 0;
-        if (hinhThucGiaoHang.isTuGiao()) {
-            dem ++;
-        }
-        if (hinhThucGiaoHang.isKhacHangDenLay()) {
-            dem ++;
-        }
-        if (hinhThucGiaoHang.isQuaDoiTac()) {
-            dem ++;
-        }
+//    private int demHinhThucGiaoHang(HinhThucGiaoHang hinhThucGiaoHang) {
+//        int dem = 0;
+//        if (hinhThucGiaoHang.isTuGiao()) {
+//            dem ++;
+//        }
+    
+//        if (hinhThucGiaoHang.isKhacHangDenLay()) {
+//            dem ++;
+//        }
 
-        return dem;
-    }
+//        if (hinhThucGiaoHang.isQuaDoiTac()) {
+//            dem ++;
+//        }
+//
+//        return dem;
+//    }
 
     private int demHinhThucChuyenKhoan(HinhThucGiaoHang hinhThucGiaoHang) {
         int dem = 0;
