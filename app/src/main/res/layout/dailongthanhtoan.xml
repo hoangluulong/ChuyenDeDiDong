@@ -46,14 +46,23 @@
         android:gravity="center"
         android:text="Tách Bàn "></TextView>
     <TextView
-        android:id="@+id/bnt_huy"
+        android:id="@+id/tvhuydon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textColor="@color/xanh"
         android:textSize="16sp"
         android:gravity="center"
-        android:text="Hủy"></TextView>
+        android:text="Hủy Thanh Toán"></TextView>
+    <TextView
+        android:id="@+id/thoat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/xanh"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="Đóng"></TextView>
 
 
 

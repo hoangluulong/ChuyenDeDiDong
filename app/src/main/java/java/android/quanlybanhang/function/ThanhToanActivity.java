@@ -70,25 +70,26 @@ public class ThanhToanActivity extends AppCompatActivity {
     private TextView totalTxt;
     private String trangthai;
     private String id_datban;
-    private ArrayList<ProuductPushFB1> listmon ;
+    private ArrayList<ProuductPushFB1> listmon;
     private Toolbar toolbar;
-    private ArrayList<ProductPushFB> ListDate_yc ;
+    private ArrayList<ProductPushFB> ListDate_yc;
     private Dialog dialogban;
     Window window;
     ImageButton bnt_threedot;
-    TextView gopban,chuyenban,tachban,bnt_huy;
-
+    TextView gopban, chuyenban, tachban, thoat, tvhuydon;
+    TextView title;
     Long date;
     String code1;
-    private Window  window1;
+    private Window window1;
     private Dialog dialog, dialog1;
-    String id_CuaHang ;
+    String id_CuaHang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanhtoan);
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
-        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
+        id_CuaHang = "CuaHangOder/" + thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
         getDatasql();
@@ -110,7 +111,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         id = id_ban + "_" + id_khuvuc;
         list = new ArrayList<>();
         int code = (int) Math.floor(((Math.random() * 899999) + 100000));
-        code1=code+"";
+        code1 = code + "";
         mDatabase1 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("MangDi");
         mDatabase1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -119,7 +120,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     trangthai = snapshot1.getValue() + "";
                     Log.d("TrangThaima", trangthai + "chitiet");
                     getData();
-                    if(trangthai.equals("1")){
+                    if (trangthai.equals("1")) {
                         bnt_threedot.setVisibility(View.GONE);
                     }
                 }
@@ -141,12 +142,12 @@ public class ThanhToanActivity extends AppCompatActivity {
 
     public void getData() {
         if (trangthai.equals("0")) {
-            if(id_ban + "_" + id_khuvuc!=null){
+            if (id_ban + "_" + id_khuvuc != null) {
                 mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc);
             }
         }
         if (trangthai.equals("1")) {
-            if(id_datban!=null){
+            if (id_datban != null) {
                 mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id_datban);
             }
         }
@@ -156,12 +157,12 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
                     ListDate_yc = new ArrayList<>();
-                    Log.d("kssj","ssks");
+                    Log.d("kssj", "ssks");
                     listmon = new ArrayList<ProuductPushFB1>();
                     ArrayList<ProuductPushFB1> mm = new ArrayList<>();
-                    Long date1 = Long.parseLong(snapshot.child("date").getValue()+"");
-                    Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue()+"");
-                    int trangThais =Integer.parseInt(snapshot.child("trangThai").getValue()+"") ;
+                    Long date1 = Long.parseLong(snapshot.child("date").getValue() + "");
+                    Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue() + "");
+                    int trangThais = Integer.parseInt(snapshot.child("trangThai").getValue() + "");
                     DataSnapshot sss = snapshot.child("sanpham");
                     for (DataSnapshot postSnapshot : sss.getChildren()) {
                         String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
@@ -173,10 +174,10 @@ public class ThanhToanActivity extends AppCompatActivity {
                         listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
                         mm.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
                     }
-                    ProductPushFB product = new ProductPushFB(date1, flag,trangThais, mm);
+                    ProductPushFB product = new ProductPushFB(date1, flag, trangThais, mm);
                     ListDate_yc.add(product);
                     for (int i = 0; i < listmon.size(); i++) {
-                        giaTong += listmon.get(i).getGiaProudct()*listmon.get(i).getSoluong();
+                        giaTong += listmon.get(i).getGiaProudct() * listmon.get(i).getSoluong();
                     }
                     totalTxt.setText(giaTong + "");
                     recyclerView = findViewById(R.id.rv_3);
@@ -186,7 +187,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     recyclerView.setFocusable(false);
                     recyclerView.setAdapter(thanhToanAdapter);
                     thanhToanAdapter.notifyDataSetChanged();
-                    if(listmon.size()>0){
+                    if (listmon.size() > 0) {
                         bnt_thanhtoan.setEnabled(true);
                     }
 
@@ -226,7 +227,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     public String Hamlaygiohientai() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Log.d("datenowww", timestamp.getTime() + "");
-        return timestamp.getTime()+"";
+        return timestamp.getTime() + "";
     }
 
     private void getDatasql() {
@@ -280,13 +281,14 @@ public class ThanhToanActivity extends AppCompatActivity {
             intent.putExtra("id_datban", id_datban);
             startActivity(intent);
         }
-        if(item_id==android.R.id.home){
+        if (item_id == android.R.id.home) {
             onBackPressed();
             return true;
         }
         return true;
     }
-    private void HamTaodialog(int gravity){
+
+    private void HamTaodialog(int gravity) {
 
         dialogban = new Dialog(ThanhToanActivity.this);
         dialogban.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -296,7 +298,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         if (window == null) {
             return;
         }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windownAttributes = window.getAttributes();
         window.setAttributes(windownAttributes);
@@ -305,14 +307,16 @@ public class ThanhToanActivity extends AppCompatActivity {
         } else {
             dialogban.setCancelable(false);
         }
-        gopban=dialogban.findViewById(R.id.tvgopban);
+        gopban = dialogban.findViewById(R.id.tvgopban);
         chuyenban = dialogban.findViewById(R.id.tvchuyenban);
         tachban = dialogban.findViewById(R.id.tvtachban);
-        bnt_huy = dialog.findViewById(R.id.bnt_huy);
-        OnclickChucnang(gopban,chuyenban,tachban,bnt_huy);
+        thoat = dialogban.findViewById(R.id.thoat);
+        tvhuydon = dialogban.findViewById(R.id.tvhuydon);
+        OnclickChucnang(gopban, chuyenban, tachban, thoat, tvhuydon);
         dialogban.show();
     }
-    public void OnclickMenuchucnang(){
+
+    public void OnclickMenuchucnang() {
         bnt_threedot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,7 +324,8 @@ public class ThanhToanActivity extends AppCompatActivity {
             }
         });
     }
-    public void OnclickChucnang( TextView gopban, TextView chuyenban,TextView tachban,TextView bnt_huy){
+
+    public void OnclickChucnang(TextView gopban, TextView chuyenban, TextView tachban, TextView thoat, TextView tvhuydon) {
         gopban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -331,10 +336,10 @@ public class ThanhToanActivity extends AppCompatActivity {
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);
                 intent.putExtra("id_datban", id_datban);
-                intent.putExtra("id_trangthai",code1);
+                intent.putExtra("id_trangthai", code1);
                 Gson gson = new Gson();
                 String a = gson.toJson(listmon);
-                intent.putExtra("list_as_string",a);
+                intent.putExtra("list_as_string", a);
 
                 startActivity(intent);
             }
@@ -348,13 +353,13 @@ public class ThanhToanActivity extends AppCompatActivity {
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);
                 intent.putExtra("id_datban", id_datban);
-                intent.putExtra("id_trangthai",code1);
-                intent.putExtra("date",date);
+                intent.putExtra("id_trangthai", code1);
+                intent.putExtra("date", date);
                 Gson gson = new Gson();
                 String a = gson.toJson(listmon);
                 String b = gson.toJson(ListDate_yc);
-                intent.putExtra("list_as_string",a);
-                intent.putExtra("list_as_string1",b);
+                intent.putExtra("list_as_string", a);
+                intent.putExtra("list_as_string1", b);
                 startActivity(intent);
             }
         });
@@ -368,98 +373,170 @@ public class ThanhToanActivity extends AppCompatActivity {
                 intent.putExtra("id_ban", id_ban);
                 intent.putExtra("id_khuvuc", id_khuvuc);
                 intent.putExtra("id_datban", id_datban);
-                intent.putExtra("id_trangthai",code1);
+                intent.putExtra("id_trangthai", code1);
                 Gson gson = new Gson();
                 String b = gson.toJson(ListDate_yc);
                 String a = gson.toJson(listmon);
-                intent.putExtra("list_as_string",a);
-                intent.putExtra("list_as_string1",b);
+                intent.putExtra("list_as_string", a);
+                intent.putExtra("list_as_string1", b);
                 startActivity(intent);
             }
         });
-        bnt_huy.setOnClickListener(new View.OnClickListener() {
+        thoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(ThanhToanActivity.this, "Đóng", Toast.LENGTH_LONG).show();
                 dialogban.dismiss();
             }
         });
+        tvhuydon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dailonghuydonhang();
+                Toast.makeText(ThanhToanActivity.this, "Hủy Thanh Toán", Toast.LENGTH_LONG).show();
+                title.setText("Bạn Chắc Chắn Muốn Hủy Đơn Hàng");
+                dialogban.dismiss();
+                dialog1.show();
+            }
+        });
     }
-     private void dailongsucces() {
-         dialog = new Dialog(ThanhToanActivity.this);
-         dialog.setContentView(R.layout.dialog_thanhtoan_aleart);
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_dialog_background));
-         }
-         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-         dialog.setCancelable(false); //Optional
-         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
 
-         Button Okay = dialog.findViewById(R.id.btn_okay);
-         Button Cancel = dialog.findViewById(R.id.btn_cancel);
+    private void dailongsucces() {
+        dialog = new Dialog(ThanhToanActivity.this);
+        dialog.setContentView(R.layout.dialog_thanhtoan_aleart);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_dialog_background));
+        }
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false); //Optional
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
 
-         Okay.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 if (trangthai.equals("0")) {
-                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
-                     databaseReference.child("id_ban").setValue(id_ban);
-                     databaseReference.child("id_khuvuc").setValue(id_khuvuc);
-                     databaseReference.child("tongtien").setValue(giaTong);
-                     databaseReference.child("status").setValue(1);
-                     databaseReference.child("id_khachhang").setValue("aaa");
-                     databaseReference.child("id_nhanvien").setValue("aaa");
-                     databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
-                         @Override
-                         public void onSuccess(Void unused) {
+        Button Okay = dialog.findViewById(R.id.btn_okay);
+        Button Cancel = dialog.findViewById(R.id.btn_cancel);
 
-                             XoaSpkhiOrder();
+        Okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (trangthai.equals("0")) {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
+                    databaseReference.child("id_ban").setValue(id_ban);
+                    databaseReference.child("id_khuvuc").setValue(id_khuvuc);
+                    databaseReference.child("tongtien").setValue(giaTong);
+                    databaseReference.child("status").setValue(1);
+                    databaseReference.child("id_khachhang").setValue("aaa");
+                    databaseReference.child("id_nhanvien").setValue("aaa");
+                    databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
 
-                         }
-                     }).addOnFailureListener(new OnFailureListener() {
-                         @Override
-                         public void onFailure(@NonNull Exception e) {
-                             Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
-                         }
-                     });
-                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
-                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
-                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
+                            XoaSpkhiOrder();
 
-                 } else if (trangthai.equals("1")) {
-                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
-                     databaseReference.child("id_datban").setValue(id_datban);
-                     databaseReference.child("tongtien").setValue(giaTong);
-                     databaseReference.child("status").setValue(1);
-                     databaseReference.child("id_khachhang").setValue("aaa");
-                     databaseReference.child("id_nhanvien").setValue("aaa");
-                     databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
-                         @Override
-                         public void onSuccess(Void unused) {
-                             XoaSpkhiOrder();
-                         }
-                     }).addOnFailureListener(new OnFailureListener() {
-                         @Override
-                         public void onFailure(@NonNull Exception e) {
-                             Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
-                         }
-                     });
-                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).removeValue();
-                 }
-                 Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
-                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                 startActivity(intent);
-                 finish();
-                 dialog.dismiss();
-             }
-         });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
+                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
+                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
 
-         Cancel.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 dialog.dismiss();
-             }
-         });
+                } else if (trangthai.equals("1")) {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
+                    databaseReference.child("id_datban").setValue(id_datban);
+                    databaseReference.child("tongtien").setValue(giaTong);
+                    databaseReference.child("status").setValue(1);
+                    databaseReference.child("id_khachhang").setValue("aaa");
+                    databaseReference.child("id_nhanvien").setValue("aaa");
+                    databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            XoaSpkhiOrder();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).removeValue();
+                }
+                Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                dialog.dismiss();
+            }
+        });
 
-     }
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private void dailonghuydonhang() {
+        dialog1 = new Dialog(ThanhToanActivity.this);
+        dialog1.setContentView(R.layout.dialog_thanhtoan_aleart);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog1.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_dialog_background));
+        }
+        dialog1.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog1.setCancelable(false);
+        dialog1.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        title = dialog1.findViewById(R.id.title);
+        Button Okay = dialog1.findViewById(R.id.btn_okay);
+        Button Cancel = dialog1.findViewById(R.id.btn_cancel);
+
+        Okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (trangthai.equals("0")) {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
+                    databaseReference.child("id_ban").setValue(id_ban);
+                    databaseReference.child("id_khuvuc").setValue(id_khuvuc);
+                    databaseReference.child("tongtien").setValue(giaTong);
+                    databaseReference.child("status").setValue(1);
+                    databaseReference.child("id_khachhang").setValue("aaa");
+                    databaseReference.child("id_nhanvien").setValue("aaa");
+                    databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                            XoaSpkhiOrder();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
+                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
+                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
+
+                }
+                Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+//                dialog1.dismiss();
+
+            }
+        });
+
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
+
+    }
 
 }
