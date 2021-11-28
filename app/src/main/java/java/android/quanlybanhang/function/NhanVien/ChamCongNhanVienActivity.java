@@ -75,6 +75,7 @@ public class ChamCongNhanVienActivity extends AppCompatActivity implements View.
 
     private void IDLayout() {
         progressBarLamMoi = findViewById(R.id.progressBarLamMoi);
+        progressBarLuu = findViewById(R.id.progressBarLuu);
         imageAvata = findViewById(R.id.imageAvata);
         username = findViewById(R.id.username);
         tv_luu = findViewById(R.id.tv_luu);

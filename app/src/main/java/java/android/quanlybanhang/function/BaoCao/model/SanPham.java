@@ -1,6 +1,8 @@
 package java.android.quanlybanhang.function.BaoCao.model;
 
-public class SanPham {
+import java.io.Serializable;
+
+public class SanPham implements Serializable {
     private String Loai;
     private String nameProduct;
     private String yeuCau;

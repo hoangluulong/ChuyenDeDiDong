@@ -57,7 +57,7 @@ public class AddNhanVien extends AppCompatActivity {
     private  Boolean T7 = false;
     private  Boolean CN = false;
     private ArrayList<Boolean> congViec = new ArrayList<>(5);
-    private  CheckBox checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi;
+    private  CheckBox checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi, checkquanlycuahangonline, checkkhachhang, checkkhuyenmai;;
     private TextView Th2,Th3,Th4,Th5,Th6,Th7,chuNhat;
     private String STR_USER = "user";
     private Dialog dialog;
@@ -93,6 +93,9 @@ public class AddNhanVien extends AppCompatActivity {
         congViec.add(2,false);
         congViec.add(3,false);
         congViec.add(4,false);
+        congViec.add(5,false);
+        congViec.add(6,false);
+        congViec.add(7,false);
         // dialog
         dialog = new Dialog(AddNhanVien.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -106,6 +109,9 @@ public class AddNhanVien extends AppCompatActivity {
         checkQLNV = findViewById(R.id.checkcongviecQuanlynhanvien);
         checkOder = findViewById(R.id.checkcongviecOder);
         checkThuchi =  findViewById(R.id.checkcongviecThuchi);
+        checkquanlycuahangonline = findViewById(R.id.checkquanlycuahangonline);
+        checkkhachhang = findViewById(R.id.checkkhachhang);
+        checkkhuyenmai = findViewById(R.id.checkkhuyenmai);
 
         Th2 = dialog.findViewById(R.id.checkBox2);
         Th3 = dialog.findViewById(R.id.checkBox3);
@@ -812,6 +818,25 @@ public class AddNhanVien extends AppCompatActivity {
                                     congViec.set(4,false);
                                 }
 
+                                if (checkquanlycuahangonline.isChecked()){
+                                    congViec.set(5,true);
+                                }
+                                else {
+                                    congViec.set(5,false);
+                                }
+                                if (checkkhachhang.isChecked()){
+                                    congViec.set(6,true);
+                                }
+                                else {
+                                    congViec.set(6,false);
+                                }
+                                if (checkkhuyenmai.isChecked()){
+                                    congViec.set(7,true);
+                                }
+                                else {
+                                    congViec.set(7,false);
+                                }
+
                                 caLam.set1(mangNgay2[0]);
                                 caLam.set2(mangNgay2[1]);
                                 caLam.set3(mangNgay2[2]);
@@ -820,6 +845,7 @@ public class AddNhanVien extends AppCompatActivity {
                                 String phone = edtPhone.getText().toString();
                                 ChamCong chamCong = new ChamCong(0, 0, 0);
                                 nhanVien = new NhanVien(name,email,congViec,caLam,phone,mFirebaseAuth.getUid(), chamCong);
+                                nhanVien.setChuCuaHang(false);
                                 mData2.child("CuaHangOder/"+ID_CUAHANG+"/user/"+mFirebaseAuth.getUid()).setValue(nhanVien);
 
                                 edtEmail.setText("");

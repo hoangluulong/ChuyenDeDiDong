@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -43,6 +44,8 @@ public class ListNhanVien  extends AppCompatActivity {
     private EditText searchView;
     private ArrayList<NhanVien> listSearch;
     private String key;
+    private NhanVien nhanVien = new NhanVien();
+    private boolean isChu;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listnhanvien);
@@ -52,7 +55,10 @@ public class ListNhanVien  extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.themnhanvien);
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         String IDCUUAHANG = thongTinCuaHangSql.IDCuaHang();
+        nhanVien = thongTinCuaHangSql.selectUser();
+        isChu = thongTinCuaHangSql.isChu();
         mDatabase = firebaseDatabase.getReference(STR_CUAHANG).child(IDCUUAHANG).child(STR_USER);
+//        mDatabase1 = firebaseDatabase.getReference(STR_CUAHANG).child(IDCUUAHANG).child("lichSuHoatDong");
         Danhsachnhanvien();
         Taonhanvienmoi();
         searchView.addTextChangedListener(new TextWatcher() {
@@ -102,9 +108,13 @@ public class ListNhanVien  extends AppCompatActivity {
                         .setAction("Thêm", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent();
-                                intent = new Intent(ListNhanVien.this, AddNhanVien.class);
-                                startActivity(intent);
+                                if (nhanVien.getChucVu().get(0) || isChu) {
+                                    Intent intent = new Intent();
+                                    intent = new Intent(ListNhanVien.this, AddNhanVien.class);
+                                    startActivity(intent);
+                                }else {
+                                    Toast.makeText(ListNhanVien.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }).show();
             }
@@ -117,10 +127,6 @@ public class ListNhanVien  extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 nhanViens = new ArrayList<>();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
-//                    String name = snapshot1.child("username").getValue().toString();
-//                    String phone = snapshot1.child("phone").getValue().toString();
-//                    CaLam caLam = snapshot1.child("caLam").getValue(CaLam.class);
-//                    ArrayList<Boolean>  chucVu = (ArrayList<Boolean>) snapshot1.child("chucVu").getValue();
                     NhanVien nhanVien = snapshot1.getValue(NhanVien.class);
                     nhanViens.add(nhanVien);
                 }

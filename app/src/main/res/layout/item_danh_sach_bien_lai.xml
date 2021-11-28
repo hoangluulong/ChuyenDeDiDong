@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/border_linerlayout_v2"
+    android:id="@+id/allLinear"
     android:orientation="vertical">
 
     <LinearLayout

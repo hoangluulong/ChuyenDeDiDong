@@ -88,17 +88,35 @@ public class ThongTinCuaHangSql {
         return nhanVien;
     }
 
+    public boolean isChu() {
+        java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSql = new java.android.quanlybanhang.database.ThongTinCuaHangSql(context, "app_database.sqlite", null, 2);
+        thongTinCuaHangSql.createTableChuCuaHang();
+        Cursor cursor = thongTinCuaHangSql.selectChuCuaHang();
+        String check = "";
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                check = cursor.getString(1);
+            }
+        } else {
+
+        }
+        boolean res = Boolean.parseBoolean(check);
+
+        return res;
+    }
+
     private ArrayList<Boolean> chucQuyen(String quyenStr) {
         char[] ch = quyenStr.toCharArray();
         ArrayList<Boolean> quyenArr = new ArrayList<>();
         for (int i = 0; i < ch.length; i++) {
-            int so = Integer.parseInt(ch[i]+"");
+            int so = Integer.parseInt(ch[i] + "");
             if (so == 1) {
                 quyenArr.add(true);
-            }else if (so == 0) {
+            } else if (so == 0) {
                 quyenArr.add(false);
             }
         }
-        return  quyenArr;
+        return quyenArr;
     }
 }

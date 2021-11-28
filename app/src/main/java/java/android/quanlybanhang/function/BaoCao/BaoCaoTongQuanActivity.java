@@ -452,7 +452,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
             });
 
-            mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHNAG + "/bienlai/chi/" + st).addValueEventListener(new ValueEventListener() {
+            mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHNAG + "/bienlai/chi/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
@@ -493,7 +493,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             });
         }
 
-        mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHNAG + "/bienlai/taichinh").addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHNAG + "/bienlai/taichinh").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {

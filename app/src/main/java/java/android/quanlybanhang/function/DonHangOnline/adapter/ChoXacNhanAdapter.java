@@ -237,7 +237,6 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     private void setFirebaseXacNhanDonHang (int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        String key = mFirebaseDatabase.push().getKey();
         Log.d("abc", list.get(position).getDate() + " - " +  list.get(position).getIdDonHang());
         mFirebaseDatabase.child("CuaHangOder/"+ ID_CUAHANG +"/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+list.get(position).getIdDonHang()+"/trangthai").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -302,7 +302,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             thongTinCuaHangSql.InsertThonTin(dataAccount.get(0).getID(), tenCuaHang);
                         }
                         login.setEnabled(false);
-
                         getDataUser(UID);
 
                     }else {
@@ -326,19 +325,27 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void getDataUser (String UID){
         thongTinCuaHangSql = new ThongTinCuaHangSql(SignInActivity.this, "app_database.sqlite", null, 2);
         thongTinCuaHangSql.createTableUser();
+        thongTinCuaHangSql.createTableChuCuaHang();
 
         mFirebaseDatabase.child("CuaHangOder/"+dataAccount.get(0).getID()+"/user/"+UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Cursor cursor = thongTinCuaHangSql.selectUser();
+                Cursor cursor1 = thongTinCuaHangSql.selectChuCuaHang();
                 NhanVien nhanVien = snapshot.getValue(NhanVien.class);
                 String quyen = "";
+
                 for (int i = 0; i < nhanVien.getChucVu().size(); i++) {
                     if (nhanVien.getChucVu().get(i)) {
                         quyen = quyen+ "1";
                     }else{
                         quyen = quyen+ "0";
                     }
+                }
+                if (cursor1.getCount() > 0) {
+                    thongTinCuaHangSql.UpdateChuCuaHang(nhanVien.isChuCuaHang()+"");
+                }else {
+                    thongTinCuaHangSql.InsertChuCuaHang(nhanVien.isChuCuaHang()+"");
                 }
 
                 if (cursor.getCount() > 0){
@@ -353,6 +360,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 dialog.dismiss();
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override

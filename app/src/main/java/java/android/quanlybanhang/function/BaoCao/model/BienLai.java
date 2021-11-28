@@ -1,9 +1,10 @@
 package java.android.quanlybanhang.function.BaoCao.model;
 
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BienLai {
+public class BienLai implements Serializable {
     private String id_ban;
     private String id_khachhang;
     private String id_khuvuc;
@@ -11,14 +12,16 @@ public class BienLai {
     private int status;
     private float tongtien;
     private String id_datban;
-    private ArrayList<SanPham> sanPham;
     private String key;
     private boolean loai;
+    private ArrayList<SanPham> sanpham;
 
     public BienLai() {
     }
 
-    public BienLai(String id_ban, String id_khachhang, String id_khuvuc, String id_nhanvien, int status, float tongtien, String id_datban, ArrayList<SanPham> sanPham) {
+
+
+    public BienLai(String id_ban, String id_khachhang, String id_khuvuc, String id_nhanvien, int status, float tongtien, String id_datban, ArrayList<SanPham> sanpham) {
         this.id_ban = id_ban;
         this.id_khachhang = id_khachhang;
         this.id_khuvuc = id_khuvuc;
@@ -26,7 +29,15 @@ public class BienLai {
         this.status = status;
         this.tongtien = tongtien;
         this.id_datban = id_datban;
-        this.sanPham = sanPham;
+        this.sanpham = sanpham;
+    }
+
+    public ArrayList<SanPham> getSanpham() {
+        return sanpham;
+    }
+
+    public void setSanpham(ArrayList<SanPham> sanpham) {
+        this.sanpham = sanpham;
     }
 
     public String getKey() {
@@ -43,14 +54,6 @@ public class BienLai {
 
     public void setLoai(boolean loai) {
         this.loai = loai;
-    }
-
-    public ArrayList<SanPham> getSanPham() {
-        return sanPham;
-    }
-
-    public void setSanPham(ArrayList<SanPham> sanPham) {
-        this.sanPham = sanPham;
     }
 
     public String getId_ban() {

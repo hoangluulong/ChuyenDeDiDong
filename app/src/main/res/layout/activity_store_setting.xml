@@ -56,7 +56,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/name_store">
+                        android:hint="Tên chi nhánh">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtTenCuaHang"
@@ -141,19 +141,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-
-
-                <Switch
-                    android:id="@+id/sw_sample_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="right"
-                    android:text="Sử dụng dữ liệu mẫu"
-                    android:textColor="@color/bar"
-                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btn_complete"

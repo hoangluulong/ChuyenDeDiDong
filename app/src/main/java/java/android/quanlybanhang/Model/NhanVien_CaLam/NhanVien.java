@@ -13,7 +13,7 @@ public class NhanVien implements Serializable {
     String avata;
     String nameAvata;
     ChamCong chamcong;
-
+    boolean chuCuaHang;
 
     public NhanVien() {
     }
@@ -72,6 +72,27 @@ public class NhanVien implements Serializable {
         this.avata = avata;
         this.nameAvata = nameAvata;
         this.chamcong = chamcong;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, String avata, String nameAvata, ChamCong chamcong, boolean chuCuaHang) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.avata = avata;
+        this.nameAvata = nameAvata;
+        this.chamcong = chamcong;
+        this.chuCuaHang = chuCuaHang;
+    }
+
+    public boolean isChuCuaHang() {
+        return chuCuaHang;
+    }
+
+    public void setChuCuaHang(boolean chuCuaHang) {
+        this.chuCuaHang = chuCuaHang;
     }
 
     public ChamCong getChamcong() {

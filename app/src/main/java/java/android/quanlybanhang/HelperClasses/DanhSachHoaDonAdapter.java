@@ -1,18 +1,23 @@
 package java.android.quanlybanhang.HelperClasses;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BaoCao.model.BienLai;
+import java.android.quanlybanhang.function.BienLaiActivity;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,6 +66,7 @@ public class DanhSachHoaDonAdapter extends RecyclerView.Adapter<DanhSachHoaDonAd
 
     public class CustomChiSoSanPham extends RecyclerView.ViewHolder {
         private TextView ngay, tv_loai, tv_trangthai, tv_iDdonhang, tv_tongtien;
+        private LinearLayout allLinear;
         public CustomChiSoSanPham(@NonNull View ItemView) {
             super(ItemView);
             ngay = ItemView.findViewById(R.id.ngay);
@@ -68,6 +74,18 @@ public class DanhSachHoaDonAdapter extends RecyclerView.Adapter<DanhSachHoaDonAd
             tv_trangthai = ItemView.findViewById(R.id.tv_trangthai);
             tv_iDdonhang = ItemView.findViewById(R.id.tv_iDdonhang);
             tv_tongtien = ItemView.findViewById(R.id.tv_tongtien);
+            allLinear = ItemView.findViewById(R.id.allLinear);
+
+            allLinear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    Intent intent = new Intent(context, BienLaiActivity.class);
+                    intent.putExtra("BIENLAI", list.get(position));
+                    context.startActivity(intent);
+                }
+            });
+
         }
     }
 

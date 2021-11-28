@@ -9,6 +9,7 @@ public class NhanVien {
     CaLam caLam;
     String phone;
     String id;
+    boolean chuCuaHang;
 
     public NhanVien() {
     }
@@ -27,6 +28,24 @@ public class NhanVien {
         this.caLam = caLam;
         this.phone = phone;
         this.id = id;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, boolean chuCuaHang) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.chuCuaHang = chuCuaHang;
+    }
+
+    public boolean isChuCuaHang() {
+        return chuCuaHang;
+    }
+
+    public void setChuCuaHang(boolean chuCuaHang) {
+        this.chuCuaHang = chuCuaHang;
     }
 
     public ArrayList<Boolean> getChucVu() {

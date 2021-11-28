@@ -104,7 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="50dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -161,6 +162,37 @@
                     android:textSize="17sp"
                     android:textColor="@color/black"
                     android:text="@string/bep" />
+                <CheckBox
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/checkquanlycuahangonline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:text="@string/cuahangonline"
+                    />
+                <CheckBox
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/checkkhachhang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:text="@string/khachhang"
+                    />
+                <CheckBox
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/checkkhuyenmai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:text="@string/khuyenmai"
+                    />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

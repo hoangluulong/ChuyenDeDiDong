@@ -23,11 +23,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
-            android:name=".function.NhanVien.ChamCongNhanVienActivity"
-            android:label="Chấm công nhân viên"
-            android:theme="@style/thameActionbar2"
-            android:parentActivityName=".function.NhanVien.ListNhanVien"
+            android:name=".function.ChiTieuActivity"
             android:exported="true" />
+        <activity
+            android:name=".function.Account.TaoChiNhanhActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.Account.ChiNhanhActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.BienLaiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.NhanVien.ChamCongNhanVienActivity"
+            android:exported="true"
+            android:label="Chấm công nhân viên"
+            android:parentActivityName=".function.NhanVien.ListNhanVien"
+            android:theme="@style/thameActionbar2" />
         <activity
             android:name=".function.ThietLapActivity"
             android:exported="true"
@@ -252,7 +264,6 @@
         <activity
             android:name=".function.TachBanActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

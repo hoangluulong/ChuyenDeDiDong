@@ -2,7 +2,6 @@ package java.android.quanlybanhang.function.Account;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,25 +18,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.android.quanlybanhang.Common.DataAddress;
 import java.android.quanlybanhang.Model.Address;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
-import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
 import java.android.quanlybanhang.database.ThongTinCuaHangSql;
-import java.android.quanlybanhang.function.CuaHangOnline.CauHinhVanChuyenOnlineActivity;
 import java.android.quanlybanhang.function.MainActivity;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class StoreSetting extends AppCompatActivity implements View.OnClickListener {
@@ -48,7 +36,6 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
 
     private AutoCompleteTextView autoCompleteTextView1, autoCompleteTextView2, spinner_xaAuto;
     private Button btnComplete;
-    private Switch aSwitch;
     private TextInputEditText edtTenCuaHang, sonha_soduong;
 
     private ArrayAdapter<String> adapter1;
@@ -75,6 +62,7 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mFirebaseAuth;
 
     private final static String KEY_CHILD_STORE = "KEY_CHILD_STORE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,14 +75,13 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
         if (bundle != null) {
             KEY_CHILD = bundle.getString(KEY_CHILD_STORE, "");
             ID_USER = bundle.getString("ID_USER", "");
-        }else{
+        } else {
             Log.d("AAA", "null");
         }
 
         autoCompleteTextView1 = findViewById(R.id.spinner_province);
         autoCompleteTextView2 = findViewById(R.id.spinner_district);
         btnComplete = findViewById(R.id.btn_complete);
-        aSwitch = findViewById(R.id.sw_sample_data);
         edtTenCuaHang = findViewById(R.id.edtTenCuaHang);
         sonha_soduong = findViewById(R.id.sonha_soduong);
         spinner_xaAuto = findViewById(R.id.spinner_xa);
@@ -138,7 +125,7 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
                 adapter3 = new ArrayAdapter<String>(StoreSetting.this, R.layout.item_spinner1_setup_store,
                         listDiaChi.get(position).getHuyens().get(0).getXa());
                 spinner_xaAuto.setText(listDiaChi.get(position).getHuyens().get(0).getXa().get(0));
-                tenXa =  listDiaChi.get(position).getHuyens().get(0).getXa().get(0);
+                tenXa = listDiaChi.get(position).getHuyens().get(0).getXa().get(0);
             }
         });
 
@@ -150,7 +137,7 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
                 adapter3 = new ArrayAdapter<String>(StoreSetting.this, R.layout.item_spinner1_setup_store,
                         listDiaChi.get(ViTri).getHuyens().get(position).getXa());
                 spinner_xaAuto.setText(listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0));
-                tenXa =  listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0);
+                tenXa = listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0);
                 spinner_xaAuto.setAdapter(adapter3);
             }
         });
@@ -166,7 +153,7 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
     }
 
     //sử dụng dữ liễu mẫu
-    private void setUpStore () {
+    private void setUpStore() {
         Intent intent1 = new Intent(StoreSetting.this, MainActivity.class);
         startActivity(intent1);
     }
@@ -181,47 +168,43 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
                 if (nameStore.isEmpty()) {
                     edtTenCuaHang.setError("Can not be empty");
                     edtTenCuaHang.requestFocus();
-                }else if (tenTinh == null) {
+                } else if (tenTinh == null) {
                     autoCompleteTextView1.setError("Can not be empty");
                     autoCompleteTextView1.requestFocus();
-                }else if (tenHuyen == null) {
+                } else if (tenHuyen == null) {
                     autoCompleteTextView2.setError("Can not be empty");
                     autoCompleteTextView2.requestFocus();
-                }else if (tenXa == null) {
+                } else if (tenXa == null) {
                     autoCompleteTextView2.setError("Can not be empty");
                     autoCompleteTextView2.requestFocus();
-                }else if (sonha.isEmpty()) {
+                } else if (sonha.isEmpty()) {
                     sonha_soduong.setError("Can not be empty");
                     sonha_soduong.requestFocus();
-                }else{
-                    if (aSwitch.isChecked() == true) {
-                        setUpStore();
-                    }else{
-                        mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/tenCuaHang").setValue(nameStore);
-                        mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/tinh").setValue(tenTinh);
-                        mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/huyen").setValue(tenHuyen);
-                        mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/xa").setValue(tenXa);
-                        mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/soNha").setValue(tenXa);
-                        mFirebaseDatabase.child("CuaHangOder/"+ID_USER+"/ThongTinCuaHang/ThietLap").setValue(true);
+                } else {
+                    mFirebaseDatabase.child("CuaHangOder/" + ID_USER + "/ThongTinCuaHang/tenCuaHang").setValue(nameStore);
+                    mFirebaseDatabase.child("CuaHangOder/" + ID_USER + "/ThongTinCuaHang/tinh").setValue(tenTinh);
+                    mFirebaseDatabase.child("CuaHangOder/" + ID_USER + "/ThongTinCuaHang/huyen").setValue(tenHuyen);
+                    mFirebaseDatabase.child("CuaHangOder/" + ID_USER + "/ThongTinCuaHang/xa").setValue(tenXa);
+                    mFirebaseDatabase.child("CuaHangOder/" + ID_USER + "/ThongTinCuaHang/soNha").setValue(tenXa);
+                    mFirebaseDatabase.child("CuaHangOder/" + ID_USER + "/ThongTinCuaHang/ThietLap").setValue(true);
 
-                        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(StoreSetting.this, "app_database.sqlite", null, 2);
-                        thongTinCuaHangSql.createTable();
-                        Cursor cursor = thongTinCuaHangSql.selectThongTin();
-                        if (cursor.getCount() > 0){
-                            String IdOld = "";
-                            while (cursor.moveToNext()) {
-                                IdOld = cursor.getString(0);
-                            }
-                            thongTinCuaHangSql.UpdateCuaHang(ID_USER, IdOld, nameStore);
-                        }else {
-                            thongTinCuaHangSql.InsertThonTin(ID_USER, nameStore);
+                    ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(StoreSetting.this, "app_database.sqlite", null, 2);
+                    thongTinCuaHangSql.createTable();
+                    Cursor cursor = thongTinCuaHangSql.selectThongTin();
+                    if (cursor.getCount() > 0) {
+                        String IdOld = "";
+                        while (cursor.moveToNext()) {
+                            IdOld = cursor.getString(0);
                         }
-
-                        Intent intent1 = new Intent(StoreSetting.this, MainActivity.class);
-                        startActivity(intent1);
+                        thongTinCuaHangSql.UpdateCuaHang(ID_USER, IdOld, nameStore);
+                    } else {
+                        thongTinCuaHangSql.InsertThonTin(ID_USER, nameStore);
                     }
 
-
+                    Intent intent1 = new Intent(StoreSetting.this, MainActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent1);
                 }
                 break;
         }
@@ -231,7 +214,7 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
 
         String[] arr = new String[listDiaChi.size()];
 
-        for (int i = 0; i < listDiaChi.size(); i++){
+        for (int i = 0; i < listDiaChi.size(); i++) {
             arr[i] = listDiaChi.get(i).getTenTinhTP();
         }
 
@@ -241,7 +224,7 @@ public class StoreSetting extends AppCompatActivity implements View.OnClickListe
     private String[] ArrayHuyen(int pos) {
         String[] arr = new String[listDiaChi.get(pos).getHuyens().size()];
 
-        for (int i = 0; i < listDiaChi.get(pos).getHuyens().size(); i++){
+        for (int i = 0; i < listDiaChi.get(pos).getHuyens().size(); i++) {
             arr[i] = listDiaChi.get(pos).getHuyens().get(i).getTenHuyen();
         }
 

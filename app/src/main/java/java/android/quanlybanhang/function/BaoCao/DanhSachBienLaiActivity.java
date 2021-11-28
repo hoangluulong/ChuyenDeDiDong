@@ -139,6 +139,7 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
                             arrayListAll.add(0, bienLai);
                             arrayListLoai1.add(0, bienLai);
                         }
+
                         listCheckSizeCuaHang.add(1);
                     }else {
                         listCheckSizeCuaHang.add(0);
@@ -170,9 +171,10 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
                                     s.setSoluong(soluong);
                                     s.setImgProduct(img);
                                     sp.add(s);
+
                                 }
 
-                                bienLai.setSanPham(sp);
+                                bienLai.setSanpham(sp);
                                 bienLai.setTongtien(200000);
                                 bienLai.setKey(dataSnapshot.getKey());
                                 bienLai.setLoai(true);

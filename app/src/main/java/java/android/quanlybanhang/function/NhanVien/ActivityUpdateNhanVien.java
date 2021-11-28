@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class ActivityUpdateNhanVien extends AppCompatActivity {
 
     private EditText editHoTen, editPhone;
-    private CheckBox checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi;
+    private CheckBox checkBep,checkQLNV,checkQLSP,checkOder ,checkThuchi, checkquanlycuahangonline, checkkhachhang, checkkhuyenmai;
     private TextView Th2,Th3,Th4,Th5,Th6,Th7,chuNhat;
     private CaLam caLam = new CaLam();
     private   Boolean QUANLYSP = false;
@@ -78,6 +78,9 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
         checkBep = findViewById(R.id.checkcongviecBepUpdate);
         checkOder = findViewById(R.id.checkcongviecOderUpdate);
         checkThuchi = findViewById(R.id.checkcongviecThuchiUpdate);
+        checkquanlycuahangonline = findViewById(R.id.checkquanlycuahangonline);
+        checkkhachhang = findViewById(R.id.checkkhachhang);
+        checkkhuyenmai = findViewById(R.id.checkkhuyenmai);
         btnCapNhat = findViewById(R.id.btnThayDoiNhanVien);
         btnHuy = findViewById(R.id.btnhuyThayDoi);
         checkBoxCaSang = findViewById(R.id.checkCaSangUpdate);
@@ -460,6 +463,21 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
             checkOder.setChecked(true);
         }else {
             checkOder.setChecked(false);
+        }
+        if (congViec.get(5) == true) {
+            checkquanlycuahangonline.setChecked(true);
+        }else {
+            checkquanlycuahangonline.setChecked(false);
+        }
+        if (congViec.get(6) == true) {
+            checkkhachhang.setChecked(true);
+        }else {
+            checkkhachhang.setChecked(false);
+        }
+        if (congViec.get(7) == true) {
+            checkkhuyenmai.setChecked(true);
+        }else {
+            checkkhuyenmai.setChecked(false);
         }
     }
 
@@ -1036,6 +1054,24 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
                     else {
                         congViec.set(4,false);
                     }
+                    if (checkquanlycuahangonline.isChecked()){
+                        congViec.set(5,true);
+                    }
+                    else {
+                        congViec.set(5,false);
+                    }
+                    if (checkkhachhang.isChecked()){
+                        congViec.set(6,true);
+                    }
+                    else {
+                        congViec.set(6,false);
+                    }
+                    if (checkkhuyenmai.isChecked()){
+                        congViec.set(7,true);
+                    }
+                    else {
+                        congViec.set(7,false);
+                    }
                     caLam.set1(mangNgay2[0]);
                     caLam.set2(mangNgay2[1]);
                     caLam.set3(mangNgay2[2]);
@@ -1046,9 +1082,6 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
                     mData.child(nhanVien.getId()).child("phone").setValue(phone);
                     mData.child(nhanVien.getId()).child("caLam").setValue(caLam);
                     mData.child(nhanVien.getId()).child("chucVu").setValue(congViec);
-                    Intent intent = new Intent();
-                    intent = new Intent(ActivityUpdateNhanVien.this, ListNhanVien.class);
-                    startActivity(intent);
                     finish();
                 }
             }
