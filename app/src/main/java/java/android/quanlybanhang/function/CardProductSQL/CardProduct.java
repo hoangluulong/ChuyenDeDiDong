@@ -259,6 +259,8 @@ public class CardProduct extends AppCompatActivity {
                         }
                     });
                     if (listSP.size() > 0) {
+                        String tennhanvien= thongTinCuaHangSql.selectUser().getUsername();
+                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("tenNhanVien").setValue(tennhanvien);
                         FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
                         FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
                     }
@@ -350,91 +352,91 @@ public class CardProduct extends AppCompatActivity {
     }
 
 
-    private void pushData(ArrayList<ProuductPushFB1> list, long date, boolean flag, int trangThai) {
-        bntluu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Hamxulicardt();
-                productPushFB = new ProductPushFB(date, flag, trangThai, list);
-                if (trangthai.equals("1")) {
-                    if (productPushFB != null) {
-                        FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban);
-
-                    }
-                } else if (trangthai.equals("0")) {
-                    Log.d("kssj", "dsjdskdjk1");
-                    mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id);
-                    mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.getValue() != null) {
-                                ListDate_yc = new ArrayList<>();
-                                Log.d("kssj", "dsjdskdjk2");
-                                listmon = new ArrayList<ProuductPushFB1>();
-                                ArrayList<ProuductPushFB1> mm = new ArrayList<>();
-                                Long date1 = Long.parseLong(snapshot.child("date").getValue() + "");
-                                Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue() + "");
-                                int trangThais = Integer.parseInt(snapshot.child("trangThai").getValue() + "");
-                                DataSnapshot sss = snapshot.child("sanpham");
-                                for (DataSnapshot postSnapshot : sss.getChildren()) {
-                                    String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
-                                    int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
-                                    String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
-                                    Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
-                                    String Loai = postSnapshot.child("loai").getValue() + "";
-                                    String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
-                                    listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
-
-                                }
-                                Log.d("kssj", listmon.size() + "listmon");
-                                Log.d("kssj", list.size() + "list");
-                                for (int i = 0; i < list.size(); i++) {
-                                    for (int x = 0; x < listmon.size(); x++) {
-                                        if (list.get(i).equals(listmon.get(x).getNameProduct()) && list.get(i).getLoai().equals(listmon.get(x).getLoai())) {
-                                            list.get(i).setSoluong(list.get(i).getSoluong() + listmon.get(x).getSoluong());
-                                        } else {
-//                                            listmon.add(list.get(i));
-                                            list.add(listmon.get(i));
-                                        }
-
-                                    }
-                                }
-                                ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, list);
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs);
-
-
-                            } else {
-                                Log.d("kssj", "dsjdskdjk3");
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB);
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    if (list.size() > 0) {
-                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
-                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
-                    }
-                }
-
-
-                Intent intent = new Intent(CardProduct.this, ThanhToanActivity.class);
-                intent.putExtra("id_ban", id_ban);
-                intent.putExtra("id_khuvuc", id_khuvuc);
-                intent.putExtra("id_datban", id_datban);
-                intent.putExtra("trangthai", trangthai);
-                startActivity(intent);
-                XoaSpkhiOrder();
-                Toast.makeText(CardProduct.this, "Order Thành Công", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
+//    private void pushData(ArrayList<ProuductPushFB1> list, long date, boolean flag, int trangThai) {
+//        bntluu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Hamxulicardt();
+//                productPushFB = new ProductPushFB(date, flag, trangThai, list);
+//                if (trangthai.equals("1")) {
+//                    if (productPushFB != null) {
+//                        FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban);
+//
+//                    }
+//                } else if (trangthai.equals("0")) {
+//                    Log.d("kssj", "dsjdskdjk1");
+//                    mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id);
+//                    mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            if (snapshot.getValue() != null) {
+//                                ListDate_yc = new ArrayList<>();
+//                                Log.d("kssj", "dsjdskdjk2");
+//                                listmon = new ArrayList<ProuductPushFB1>();
+//                                ArrayList<ProuductPushFB1> mm = new ArrayList<>();
+//                                Long date1 = Long.parseLong(snapshot.child("date").getValue() + "");
+//                                Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue() + "");
+//                                int trangThais = Integer.parseInt(snapshot.child("trangThai").getValue() + "");
+//                                DataSnapshot sss = snapshot.child("sanpham");
+//                                for (DataSnapshot postSnapshot : sss.getChildren()) {
+//                                    String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
+//                                    int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
+//                                    String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
+//                                    Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
+//                                    String Loai = postSnapshot.child("loai").getValue() + "";
+//                                    String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
+//                                    listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
+//
+//                                }
+//                                Log.d("kssj", listmon.size() + "listmon");
+//                                Log.d("kssj", list.size() + "list");
+//                                for (int i = 0; i < list.size(); i++) {
+//                                    for (int x = 0; x < listmon.size(); x++) {
+//                                        if (list.get(i).equals(listmon.get(x).getNameProduct()) && list.get(i).getLoai().equals(listmon.get(x).getLoai())) {
+//                                            list.get(i).setSoluong(list.get(i).getSoluong() + listmon.get(x).getSoluong());
+//                                        } else {
+////                                            listmon.add(list.get(i));
+//                                            list.add(listmon.get(i));
+//                                        }
+//
+//                                    }
+//                                }
+//                                ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, list);
+//                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs);
+//
+//
+//                            } else {
+//                                Log.d("kssj", "dsjdskdjk3");
+//                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB);
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
+//                    if (list.size() > 0) {
+//                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
+//                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
+//                    }
+//                }
+//
+//
+//                Intent intent = new Intent(CardProduct.this, ThanhToanActivity.class);
+//                intent.putExtra("id_ban", id_ban);
+//                intent.putExtra("id_khuvuc", id_khuvuc);
+//                intent.putExtra("id_datban", id_datban);
+//                intent.putExtra("trangthai", trangthai);
+//                startActivity(intent);
+//                XoaSpkhiOrder();
+//                Toast.makeText(CardProduct.this, "Order Thành Công", Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
+//
+//    }
 
     private void Hamxulicardt() {
         ArrayList<Product> lists = staticCartAdapter.getItems();

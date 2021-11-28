@@ -78,7 +78,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     String abc;
     private ArrayList<ProuductPushFB1> listmon;
     ArrayList<DatBanModel> datBanModels, datBanModel1;
-
+String TrangThaiBan_doimau;
 
     public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels, OrderMenu orderMenu, ArrayList<StaticModelKhuVuc> items, String Id_khuvuc) {
         this.staticBanModels = staticBanModels;
@@ -161,19 +161,33 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.tenBan.setText(CrrItem.getTenban());
         holder.ngayGio.setText(changeDate(CrrItem.getGioDaOder()));
         holder.trangThai.setText(CrrItem.getTrangthai());
-
+        //ban hu
         if (staticBanModels.get(position).getTrangthai().equals("3")) {
             holder.cardview_ban.setBackgroundResource(R.color.red);
             holder.constraintLayout.setEnabled(false);
 
         }
+        //da order nhung chua co mon
         if (staticBanModels.get(position).getTrangthai().equals("2")) {
             holder.cardview_ban.setBackgroundResource(R.color.maudat);
 
 
         }
+        //da dat ban
         if (staticBanModels.get(position).getTrangthai().equals("4")) {
             holder.cardview_ban.setBackgroundResource(R.color.bac);
+
+
+        }
+        //da order cho lay
+        if (staticBanModels.get(position).getTrangthai().equals("5")) {
+            holder.cardview_ban.setBackgroundResource(R.color.xanh);
+
+
+        }
+        //dang an
+        if (staticBanModels.get(position).getTrangthai().equals("6")) {
+            holder.cardview_ban.setBackgroundResource(R.color.purple_200);
 
 
         }
@@ -311,6 +325,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                                                                 }
                                                             }
                                                             if (datBanModels.size() > 0) {
+
                                                                 if (datBanModel1.size() > 0) {
                                                                     Log.d("datBanModel1datban", "if11");
                                                                     double tien_bangop = Double.parseDouble(datBanModel1.get(0).getSotiendadattruoc());
@@ -358,7 +373,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
                                                                 }
 
-                                                            } else {
+                                                            }
+                                                            else {
                                                                 if(datBanModel1.size()>0){
                                                                     Log.d("datBanModel1datban", "01");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
@@ -369,19 +385,22 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                                                                     database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
                                                                 }
-                                                                 else  {
+                                                                else {
                                                                     Log.d("datBanModel1datban", "00");
+                                                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
-                                                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
                                                                     String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
                                                                     database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
                                                                 }
 
+
                                                             }
+
                                                         }
+
                                                     }
 
                                                     @Override
@@ -401,13 +420,19 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
                     }
                     else if (trangthaichucnang.equals("2")) {
+                        gettrangthaiban();
                         new AlertDialog.Builder(orderMenu).setMessage(
                                 "bạn có muốn Chuyển bàn không"
                         ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-                                FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
+//khanh
+                               if(TrangThaiBan_doimau!=null) {
+                                   FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue(TrangThaiBan_doimau);
+                               }
+                               else {
+                                   FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
+                               }
                                 String Id = CrrItem.getID() + "_" + Id_khuvuc;
                                 String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
                                 for (int i = 0; i < productPushFBS.size(); i++) {
@@ -460,7 +485,8 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                             }
                         }).setNegativeButton("No", null)
                                 .show();
-                    } else if (trangthaichucnang.equals("3")) {
+                    }
+                    else if (trangthaichucnang.equals("3")) {
                         new AlertDialog.Builder(orderMenu).setMessage(
                                 "bạn chắc chắn tách món vào bàn này không"
                         ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -742,6 +768,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
             hoantac.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (id_ngaydat != null) {
                         FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(CrrItem.getID() + "_" + Id_khuvuc).child(id_ngaydat).child("trangthai").setValue("0");
                     }
@@ -800,6 +827,21 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
             }
         });
+    }
+    private void gettrangthaiban() {
+        if (id_khuvuc_thanhtoan != null && id_ban_thanhtoan != null) {
+            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    TrangThaiBan_doimau = snapshot.getValue() + "";
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
 
 }

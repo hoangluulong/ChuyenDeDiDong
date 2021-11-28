@@ -61,7 +61,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private String id_ban, id_khuvuc;
     private DatabaseReference mDatabase;
-    private DatabaseReference mDatabase1;
+    private DatabaseReference mDatabase1,mFirebaseDatabase;
     private DatabaseReference mDatabasea;
     private ThanhToanAdapter thanhToanAdapter;
     private RecyclerView recyclerView;
@@ -92,13 +92,15 @@ public class ThanhToanActivity extends AppCompatActivity {
     String abc,tenban;
     String id_ngaydat;
     String id_CuaHang;
+    double tongTienCuaHang;
+    ThongTinCuaHangSql thongTinCuaHangSql;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanhtoan);
-        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         id_CuaHang = "CuaHangOder/" + thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
@@ -109,6 +111,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         actionBar.setTitle("Thanh Toán");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        getFirebase ();
         totalTxt = findViewById(R.id.totalTxt);
         sotiendadattruoc = findViewById(R.id.sotiendadattruoc);
         dailongsucces();
@@ -447,6 +450,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         Okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String tennhanvien= thongTinCuaHangSql.selectUser().getUsername();
                 if (trangthai.equals("0")) {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_ban").setValue(id_ban);
@@ -454,11 +458,11 @@ public class ThanhToanActivity extends AppCompatActivity {
                     databaseReference.child("tongtien").setValue(giaTong);
                     databaseReference.child("status").setValue(1);
                     databaseReference.child("id_khachhang").setValue("aaa");
-                    databaseReference.child("id_nhanvien").setValue("aaa");
+                    databaseReference.child("id_nhanvien").setValue(tennhanvien);
                     databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-
+                            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang+giaTong);
                             XoaSpkhiOrder();
 
                         }
@@ -476,15 +480,17 @@ public class ThanhToanActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
 
                 } else if (trangthai.equals("1")) {
+
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_datban").setValue(id_datban);
                     databaseReference.child("tongtien").setValue(giaTong);
                     databaseReference.child("status").setValue(1);
                     databaseReference.child("id_khachhang").setValue("aaa");
-                    databaseReference.child("id_nhanvien").setValue("aaa");
+                    databaseReference.child("id_nhanvien").setValue(tennhanvien);
                     databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
+                            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang+giaTong);
                             XoaSpkhiOrder();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -529,6 +535,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (trangthai.equals("0")) {
+
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_ban").setValue(id_ban);
                     databaseReference.child("id_khuvuc").setValue(id_khuvuc);
@@ -613,6 +620,23 @@ public class ThanhToanActivity extends AppCompatActivity {
 
             }
 
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void getFirebase () {
+        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    Double tien = snapshot.getValue(Double.class);
+                    tongTienCuaHang = tien;
+                }
+
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

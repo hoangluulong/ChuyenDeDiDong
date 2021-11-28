@@ -84,7 +84,6 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     ArrayList<ProuductPushFB1> carsList;
     ArrayList<ProuductPushFB1> carsListsaukhichon;
     ArrayList<ProductPushFB> carsList1;
-
     ProductPushFB productPushFB;
 
     String code_chucnang;
@@ -320,7 +319,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
 
                             if (trangthaichucnang != null) {
                                 if (trangthaichucnang.equals("1")) {
-                                    if (trangthai1.equals("2")) {
+                                    if (trangthai1.equals("2") ||trangthai1.equals("5") ||trangthai1.equals("6")) {
                                         progressBar.setVisibility(View.VISIBLE);
                                         mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                                     }

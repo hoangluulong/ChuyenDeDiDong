@@ -50,7 +50,6 @@ public class DanhSachDatBan extends AppCompatActivity {
     private Dialog dialogban;
     Window window;
     String id_CuaHang;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
