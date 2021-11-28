@@ -54,10 +54,16 @@
             android:layout_marginStart="1dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="1dp"
+            android:alpha="0"
             android:background="@color/white"
+            android:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
 
     </RelativeLayout>
 
@@ -74,17 +80,18 @@
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintTop_toBottomOf="@+id/toolbars"-->
     <!--        app:layout_constraintVertical_bias="0.145" />-->
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        app:trackColor="@color/xanh"
-        app:indicatorColor="@color/vang"
         android:visibility="gone"
+        app:indicatorColor="@color/vang"
         app:layout_constraintBottom_toBottomOf="@+id/rv_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:trackColor="@color/xanh" />
 
     <ImageView
         android:id="@+id/img_nocart"

@@ -525,7 +525,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                                                                     double tien_bangop = Double.parseDouble(datBanModel1.get(0).getSotiendadattruoc());
                                                                     double tien_banbigop = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc());
                                                                     double tongtien = tien_bangop + tien_banbigop;
-                                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(id).child(datBanModels.get(0).getId_ngaydat()).removeValue();
+                                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(ids).child(datBanModels.get(0).getId_ngaydat()).removeValue();
                                                                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(Id).child(datBanModel1.get(0).getId_ngaydat());
                                                                     databaseReference.child("tenkhachhang").setValue(datBanModel1.get(0).getTenkhachhang());
                                                                     databaseReference.child("id_bk").setValue(Id);
@@ -542,7 +542,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
                                                                 } else {
                                                                     Log.d("datBanModel1datban", "10");
-                                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(id).child(datBanModels.get(0).getId_ngaydat()).removeValue();
+                                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(ids).child(datBanModels.get(0).getId_ngaydat()).removeValue();
                                                                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(Id).child(datBanModels.get(0).getId_ngaydat());
                                                                     databaseReference.child("tenkhachhang").setValue(datBanModels.get(0).getTenkhachhang());
                                                                     databaseReference.child("id_bk").setValue(Id);
@@ -593,13 +593,37 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
                                         }
                                         if (trangthai_tachBan.equals("1")) {
-                                            
+                                            String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
+                                            String Id = CrrItem.getID() + "_" + Id_khuvuc;
                                             String ids = id_ban_tachban + "_" + id_khuvuc_tachban;
                                             FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).setValue(ProductTachBan);
                                             if (carsListsaukhichon.size() == 0) {
-                                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).setValue(null);
-                                                FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
-                                                FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
+                                                if (datBanModels.size()>0) {
+                                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(Id).child(datBanModels.get(0).getId_ngaydat());
+                                                    databaseReference.child("tenkhachhang").setValue(datBanModels.get(0).getTenkhachhang());
+                                                    databaseReference.child("id_bk").setValue(Id);
+                                                    databaseReference.child("sodienthoai").setValue(datBanModels.get(0).getSodienthoai());
+                                                    databaseReference.child("sotiendattruoc").setValue(datBanModels.get(0).getSotiendadattruoc());
+                                                    databaseReference.child("ngayhientai").setValue(datBanModels.get(0).getNgayhientai());
+                                                    databaseReference.child("ngaydat").setValue(datBanModels.get(0).getNgaydat());
+                                                    databaseReference.child("giodat").setValue(datBanModels.get(0).getGiodat());
+                                                    databaseReference.child("tenban").setValue(datBanModels.get(0).getTenban());
+                                                    databaseReference.child("trangthai").setValue(datBanModels.get(0).getTrangthai());
+                                                    databaseReference.child("gioketthuc").setValue(datBanModels.get(0).getGioketthuc());
+                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(ids).child(datBanModels.get(0).getId_ngaydat()).removeValue();
+//chuyen tien ban khi tach ban
+
+                                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).setValue(null);
+                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
+                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
+                                                }
+                                                else {
+
+                                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).setValue(null);
+                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
+                                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
+                                                }
+
                                             } else {
                                                 FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).child("sanpham").setValue(carsListsaukhichon);
 
@@ -667,8 +691,6 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
 
 
     }
-
-
     private void HamTaodialog(int gravity, StaticBanModel CrrItem) {
         if (window == null) {
             return;
@@ -688,9 +710,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         EvenlistDatban(datban, listdatban, hoantac, CrrItem);
         hamdatban(CrrItem);
         dialogban.show();
-
     }
-
     private void EvenlistDatban(TextView datban, TextView listdatban, TextView
             hoantac, StaticBanModel CrrItem) {
         datban.setOnClickListener(new View.OnClickListener() {
@@ -774,7 +794,6 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
                 }
 
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,6 +90,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     String code_chucnang;
     String id_CuaHang;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +105,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         img_nocart = findViewById(R.id.img_nocart);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         Intent intent1 = getIntent();
@@ -197,6 +200,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticRvAdapter);
         staticRvAdapter.notifyDataSetChanged();
+        recyclerView2.setAlpha(1);
 
 
     }
@@ -317,6 +321,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                             if (trangthaichucnang != null) {
                                 if (trangthaichucnang.equals("1")) {
                                     if (trangthai1.equals("2")) {
+                                        progressBar.setVisibility(View.VISIBLE);
                                         mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                                     }
                                 }
@@ -324,29 +329,36 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                                 //chuyen bàn
                                 else if (trangthaichucnang.equals("2")) {
                                     if (trangthai1.equals("1")) {
+                                        progressBar.setVisibility(View.VISIBLE);
                                         mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                                     }
                                 }
                                 //tách bàn
                                 else if (trangthaichucnang.equals("3")) {
-
+                                    progressBar.setVisibility(View.VISIBLE);
                                     mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
 
-                                } else {
+                                }
+                                else {
+                                    progressBar.setVisibility(View.VISIBLE);
                                     mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                                 }
-                            } else {
+                            }
+                            else {
+                                Log.d("abczyzss","s,d;sd");
                                 actionBar.setTitle("Danh sách Bàn");
+                                progressBar.setVisibility(View.VISIBLE);
                                 mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+
                             }
 
-
                         }
+
                         StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc, trangthai, id_khuvuc, mm);
                         item.add(product);
-
                     }
                 } else {
+
                     img_nocart.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
                 }
