@@ -28,6 +28,7 @@ import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.PackageTachBan.AdapterTachBan;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
+import java.android.quanlybanhang.Model.DatBan.DatBanModel;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiOff;
 import java.lang.reflect.Type;
@@ -54,6 +55,7 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
     String code_chucnang;
     String id_CuaHang ;
     TextView title;
+    ArrayList<DatBanModel> datBanModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,11 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         id_khuvuc_thanhtoan = intent1.getStringExtra("id_khuvuc");
         String carListAsString = getIntent().getStringExtra("list_as_string");
         String carListAsString1 = getIntent().getStringExtra("list_as_string1");
+        String carListAsString2 = getIntent().getStringExtra("list_as_string2");
         Gson gson = new Gson();
+        Type type2 = new TypeToken<ArrayList<DatBanModel>>() {
+        }.getType();
+        datBanModels = gson.fromJson(carListAsString2, type2);
         Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
         }.getType();
         Type type1 = new TypeToken<ArrayList<ProductPushFB>>() {
@@ -130,6 +136,8 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
                          intent.putExtra("id_trangthai", code_chucnang);
                          Gson gson = new Gson();
                          String b = gson.toJson(carsList);
+                         String c = gson.toJson(datBanModels);
+                         intent.putExtra("list_as_string2", c);
                          intent.putExtra("carsList", b);
                          intent.putExtras(bundle);
                          intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

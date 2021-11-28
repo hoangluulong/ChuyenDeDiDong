@@ -239,6 +239,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
                     databaseReference.child("ngaydat").setValue(txtDate.getText().toString());
                     databaseReference.child("giodat").setValue(txtTime.getText().toString());
                     databaseReference.child("tenban").setValue(tenban);
+                    databaseReference.child("trangthai").setValue("0");
                     databaseReference.child("gioketthuc").setValue(txttimekt.getText().toString());
                     Intent intent = new Intent(DatBan.this, OrderMenu.class);
                     intent.putExtra("id_ban",id_ban);

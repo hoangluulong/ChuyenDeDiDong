@@ -11,6 +11,8 @@ public class DatBanModel {
     private String sodienthoai;
     private String sotiendadattruoc;
     private String tenkhachhang;
+    private  String trangthai;
+   
 
     public boolean isUp() {
         return up;
@@ -43,6 +45,21 @@ public class DatBanModel {
         this.tenkhachhang = tenkhachhang;
         this.tenban = tenban;
     }
+
+    public DatBanModel(String tenban, String id_ngaydat, String giodat, String gioketthuc, String id_bk, String ngaydat, String ngayhientai, String sodienthoai, String sotiendadattruoc, String tenkhachhang, String trangthai) {
+        this.tenban = tenban;
+        this.id_ngaydat = id_ngaydat;
+        this.giodat = giodat;
+        this.gioketthuc = gioketthuc;
+        this.id_bk = id_bk;
+        this.ngaydat = ngaydat;
+        this.ngayhientai = ngayhientai;
+        this.sodienthoai = sodienthoai;
+        this.sotiendadattruoc = sotiendadattruoc;
+        this.tenkhachhang = tenkhachhang;
+        this.trangthai = trangthai;
+    }
+
     public String getGioketthuc() {
         return gioketthuc;
     }
@@ -116,5 +133,11 @@ public class DatBanModel {
         this.tenkhachhang = tenkhachhang;
     }
 
+    public String getTrangthai() {
+        return trangthai;
+    }
 
+    public void setTrangthai(String trangthai) {
+        this.trangthai = trangthai;
+    }
 }

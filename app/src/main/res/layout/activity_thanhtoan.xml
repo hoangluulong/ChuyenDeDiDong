@@ -80,16 +80,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Items Total:"
+                    android:text="Tổng tiền order :"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/totalFeeTxt"
+                    android:id="@+id/totalTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$10.000"
+                    android:text="$00.000"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -110,16 +110,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Delivery Services:"
+                    android:text="Tiền Đặt Bàn :"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/deliveryTxt"
+                    android:id="@+id/sotiendadattruoc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$10.000"
+                    android:text="$00.000"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tax:"
+                    android:text="Tiền Khuyến Mãi :"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -148,7 +148,7 @@
                     android:id="@+id/taxTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$10.000"
+                    android:text="$00.000"
                     android:textColor="#373b54"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -168,16 +168,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Total:"
+                    android:text="Tổng Cộng"
                     android:textColor="#373b54"
-                    android:textSize="26sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/totalTxt"
+                    android:id="@+id/totalTxt1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$10.0000"
+                    android:text="$00.0000"
                     android:textColor="#373b54"
                     android:textSize="26sp"
                     android:textStyle="bold" />
