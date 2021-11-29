@@ -62,6 +62,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="@string/email"
+                    app:startIconDrawable="@drawable/email_24"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -84,6 +85,7 @@
                     android:layout_marginRight="20dp"
                     android:hint="@string/password"
                     app:passwordToggleEnabled="true"
+                    app:startIconDrawable="@drawable/password_24"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText

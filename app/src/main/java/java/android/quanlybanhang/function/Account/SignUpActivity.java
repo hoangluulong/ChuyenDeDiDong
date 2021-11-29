@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Data.CaLam;
 import java.android.quanlybanhang.Data.NhanVien;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.ChamCong;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.util.ArrayList;
@@ -186,6 +187,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/ThongTinCuaHang/ThietLap").setValue(false);
 
                         NhanVien nhanVien = new NhanVien(userName, mail, congViec ,caLam ,mPhone , UID, true);
+                        ChamCong cham = new ChamCong(0,0,0);
+                        nhanVien.setChamcong(cham);
                         mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID).setValue(nhanVien);
 
                         String KEY_CUAHANG = mFirebaseDatabase.push().getKey();
@@ -237,6 +240,5 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             });}else {
             Toast.makeText(SignUpActivity.this,"Error Occurred!", Toast.LENGTH_LONG).show();
         }
-
     }
 }

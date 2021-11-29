@@ -22,6 +22,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
+
+        <activity
+            android:name=".function.SanPham.DanhSachNguyenLieuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".function.BaoCao.DanhSachChiTieuActivity"
+            android:exported="false" />
         <activity
             android:name=".function.ChiTieuActivity"
             android:exported="true" />
@@ -39,7 +46,7 @@
             android:exported="true"
             android:label="Chấm công nhân viên"
             android:parentActivityName=".function.NhanVien.ListNhanVien"
-            android:theme="@style/thameActionbar2" />
+            android:theme="@style/thameActionbar" />
         <activity
             android:name=".function.ThietLapActivity"
             android:exported="true"
@@ -264,6 +271,17 @@
         <activity
             android:name=".function.TachBanActivity"
             android:exported="false" />
+        <activity
+            android:name=".function.BaoCao.CapNhatBaoCaoActivity"
+            android:enabled="true"
+            android:parentActivityName=".function.ThietLapActivity"
+            android:theme="@style/thameActionbar" />
+
+        <activity
+            android:name=".function.SanPham.ThemNguyenLieuActivity"
+            android:enabled="true"
+            android:parentActivityName=".function.SanPham.DanhSachNguyenLieuActivity"
+            android:theme="@style/thameActionbar" />
     </application>
 
 </manifest>

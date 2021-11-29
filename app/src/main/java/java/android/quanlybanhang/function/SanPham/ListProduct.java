@@ -46,9 +46,6 @@ public class ListProduct  extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private ArrayList<Product> listProduct;
     private RecyclerView recyclerView;
-    private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
-    private Spinner spnNhomsanpham, spnDonViTinh;
-    private Button btnChoose;
     private EditText searchView;
     private ArrayList<Product> listSearch;
     String key;
@@ -121,7 +118,6 @@ public class ListProduct  extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent = new Intent(ListProduct.this, AddProduct.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }).show();
             }

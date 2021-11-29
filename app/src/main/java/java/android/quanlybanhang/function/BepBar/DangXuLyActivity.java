@@ -124,10 +124,16 @@ public class DangXuLyActivity extends AppCompatActivity {
                             mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(2);
                             Toast.makeText(DangXuLyActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                             hoanthanh.setText("Xong");
+                            if (KhuVucBan(sanPhamOder).length ==2) {
+                                mDatabase.child("CuaHangOder").child(ID_QUAN).child("khuvuc").child(KhuVucBan(sanPhamOder)[1]).child("ban").child(KhuVucBan(sanPhamOder)[0]).child("trangthai").setValue("5");
+                            }
                             onBackPressed();
                         } else if (sanPhamOder.getTrangThai() == 2) {
                             mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(3);
                             Toast.makeText(DangXuLyActivity.this, "Đã trả món", Toast.LENGTH_SHORT).show();
+                            if (KhuVucBan(sanPhamOder).length ==2) {
+                                mDatabase.child("CuaHangOder").child(ID_QUAN).child("khuvuc").child(KhuVucBan(sanPhamOder)[1]).child("ban").child(KhuVucBan(sanPhamOder)[0]).child("trangthai").setValue("6");
+                            }
                             onBackPressed();
                         }
                     }

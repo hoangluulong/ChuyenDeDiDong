@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
 
+
         mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHANG + "/user/" + ID_USER).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

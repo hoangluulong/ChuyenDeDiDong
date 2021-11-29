@@ -76,6 +76,7 @@ public class DonHangOfflineHoanThanhFragment extends Fragment {
                 int i=0;
                 tableList=new ArrayList<>();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
                     long date = Long.parseLong(postSnapshot.child("date").getValue().toString());
                     int trangThai = Integer.parseInt(postSnapshot.child("trangThai").getValue().toString());
                     String nametable = postSnapshot.getKey();

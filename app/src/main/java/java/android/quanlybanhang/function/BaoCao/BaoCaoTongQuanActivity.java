@@ -143,6 +143,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     private void bieuDoSanPham() {
         ArrayList<PieEntry> pieE = new ArrayList<>();
 
+
         if (dsSanPham.size() == 0) {
             pieE.add(new PieEntry(0, "Chưa có dữ liệu"));
             pieChart.setVisibility(View.GONE);
@@ -150,29 +151,32 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             pieE.clear();
             int tongSPKhac = 0;
             pieChart.setVisibility(View.VISIBLE);
-            ArrayList<PieTongQuan> sanPham = new ArrayList<>();
+            ArrayList<PieTongQuan> sanPhams = new ArrayList<>();
             for (int i = 0; i < dsSanPham.size(); i++) {
                 if (dsSanPham.get(i).getSoLuong() > 0) {
-                    sanPham.add(dsSanPham.get(i));
+                    sanPhams.add(dsSanPham.get(i));
                 }
             }
 
-            if (sanPham.size() >= 5) {
-                for (int i = 0; i < sanPham.size(); i++) {
+            if (sanPhams.size() >= 5) {
+                for (int i = 0; i < sanPhams.size(); i++) {
                     if (i <= 4) {
-                        pieE.add(new PieEntry(sanPham.get(i).getSoLuong(), sanPham.get(i).getName()));
+                        pieE.add(new PieEntry(sanPhams.get(i).getSoLuong(), sanPhams.get(i).getName()));
                     } else {
-                        tongSPKhac += sanPham.get(i).getSoLuong();
+                        tongSPKhac += sanPhams.get(i).getSoLuong();
                     }
                 }
                 pieE.add(new PieEntry(tongSPKhac, "Khác"));
 
-            } else if (sanPham.size() < 5) {
-                for (int i = 0; i < sanPham.size(); i++) {
-                    pieE.add(new PieEntry(sanPham.get(i).getSoLuong(), sanPham.get(i).getName()));
+            } else if (sanPhams.size() < 5) {
+                for (int i = 0; i < sanPhams.size(); i++) {
+                    pieE.add(new PieEntry(sanPhams.get(i).getSoLuong(), sanPhams.get(i).getName()));
                 }
             }
+            Log.d("ssss", tongSPKhac+"");
         }
+
+
 
         PieDataSet dataSet = new PieDataSet(pieE, "");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -513,6 +517,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
     private void SetDuLieu() {
         dsSanPham.clear();
+        sanPham.clear();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -570,12 +575,9 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                                 tienCTT += Double.parseDouble(a.child("tongtien").getValue() + "");
                             } else if (Integer.parseInt(a.child("status").getValue() + "") == 3) {
                             }
-                            if (Integer.parseInt(a.child("status").getValue() + "") == 4) {
+                            if (Integer.parseInt(a.child("status").getValue() + "") == 0) {
                                 slBiHuy++;
                                 tienHoaDonBiHuy += Double.parseDouble(a.child("tongtien").getValue() + "");
-                            }
-                            if (Integer.parseInt(a.child("status").getValue() + "") == 5) {
-
                             }
                         }
 

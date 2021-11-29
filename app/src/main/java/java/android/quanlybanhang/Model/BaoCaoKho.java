@@ -1,9 +1,13 @@
 package java.android.quanlybanhang.Model;
 
-public class BaoCaoKho {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class BaoCaoKho implements Serializable {
     String nhanVien;
     String ngay;
     String gio;
+    ArrayList<ChiTietNhapKho> chiTietNhapKho;
 
     public BaoCaoKho() {
     }
@@ -12,6 +16,13 @@ public class BaoCaoKho {
         this.nhanVien = nhanVien;
         this.ngay = ngay;
         this.gio = gio;
+    }
+
+    public BaoCaoKho(String nhanVien, String ngay, String gio, ArrayList<ChiTietNhapKho> chiTietNhapKho) {
+        this.nhanVien = nhanVien;
+        this.ngay = ngay;
+        this.gio = gio;
+        this.chiTietNhapKho = chiTietNhapKho;
     }
 
     public String getNhanVien() { return nhanVien; }
@@ -36,4 +47,12 @@ public class BaoCaoKho {
         this.gio = gio;
     }
 
+    public ArrayList<ChiTietNhapKho> getChiTietNhapKho() {
+        return chiTietNhapKho;
+    }
+
+    public void setChiTietNhapKho(ArrayList<ChiTietNhapKho> chiTietNhapKho) {
+        this.chiTietNhapKho = chiTietNhapKho;
+    }
 }
+

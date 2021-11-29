@@ -24,6 +24,7 @@ import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.Address;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
+import java.android.quanlybanhang.Model.NhanVien_CaLam.ChamCong;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
@@ -223,6 +224,9 @@ public class TaoChiNhanhActivity extends AppCompatActivity implements View.OnCli
 
             CaLam caLam = new CaLam(CaSang, CaChieu, CaToi);
             nhanVien.setCaLam(caLam);
+            nhanVien.setChuCuaHang(true);
+            ChamCong cham = new ChamCong(0,0,0);
+            nhanVien.setChamcong(cham);
             mFirebaseDatabase.child("CuaHangOder").child(key).child("user").child(ID_USER).setValue(nhanVien);
             mFirebaseDatabase.child("CuaHangOder/" + key + "/ThongTinCuaHang/tenCuaHang").setValue(nameStore);
             mFirebaseDatabase.child("CuaHangOder/" + key + "/ThongTinCuaHang/tinh").setValue(tenTinh);

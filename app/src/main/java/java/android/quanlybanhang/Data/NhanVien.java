@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.Data;
 
+import java.android.quanlybanhang.Model.NhanVien_CaLam.ChamCong;
 import java.util.ArrayList;
 
 public class NhanVien {
@@ -10,6 +11,7 @@ public class NhanVien {
     String phone;
     String id;
     boolean chuCuaHang;
+    ChamCong chamcong;
 
     public NhanVien() {
     }
@@ -38,6 +40,25 @@ public class NhanVien {
         this.phone = phone;
         this.id = id;
         this.chuCuaHang = chuCuaHang;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, boolean chuCuaHang, ChamCong chamcong) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.chuCuaHang = chuCuaHang;
+        this.chamcong = chamcong;
+    }
+
+    public ChamCong getChamcong() {
+        return chamcong;
+    }
+
+    public void setChamcong(ChamCong chamcong) {
+        this.chamcong = chamcong;
     }
 
     public boolean isChuCuaHang() {
