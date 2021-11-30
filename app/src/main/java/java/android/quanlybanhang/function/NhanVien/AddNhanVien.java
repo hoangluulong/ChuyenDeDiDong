@@ -44,11 +44,6 @@ public class AddNhanVien extends AppCompatActivity {
     private EditText edtTenNhanVien, edtEmail, edtPassword, edtPhone;
     private Button btnTaoNhanVien,btnhuyTaoNhanVien,checkBoxCaSang, checkBoxCaChieu, checkBoxCaToi,btnHuyDiaLogNgay,btnThemDiaLogNgay;
     private CaLam caLam = new CaLam();
-    private   Boolean QUANLYSP = false;
-    private  Boolean QUANLYNV = false;
-    private  Boolean THUCHI = false;
-    private  Boolean ODER = false;
-    private  Boolean BEP = false;
     private  Boolean T2 = false;
     private  Boolean T3 = false;
     private  Boolean T4 = false;
@@ -803,18 +798,14 @@ public class AddNhanVien extends AppCompatActivity {
                                 else {
                                     congViec.set(2,false);
                                 }
-                                if (checkBep.isChecked()){
-
+                                if (checkOder.isChecked()){
                                     congViec.set(3,true);
-                                }
-                                else {
+                                }else {
                                     congViec.set(3,false);
                                 }
-                                if (checkOder.isChecked()){
-
+                                if (checkBep.isChecked()){
                                     congViec.set(4,true);
-                                }
-                                else {
+                                }else {
                                     congViec.set(4,false);
                                 }
 

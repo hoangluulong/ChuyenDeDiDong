@@ -53,8 +53,8 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
 //        holder.ngaybatdau.setText(list.get(position).getNgayBatDau());
 //        holder.ngayketthuc.setText(list.get(position).getNgayKetThuc());
         holder.nhomsanpham.setText(list.get(position).getNhomsanpham());
-        holder.giaban.setText(list.get(position).getGiaBan()+"");
-        holder.giamgia.setText(list.get(position).getGiamGia()+"");
+//        holder.giaban.setText(list.get(position).getGiaBan()+"");
+//        holder.giamgia.setText(list.get(position).getGiamGia()+"");
         holder.name.setText(list.get(position).getNameProduct());
         holder.idsanpham.setText(list.get(position).getIdCuaHang());
     }
@@ -66,7 +66,7 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
 
     public class SanPhamHodel extends RecyclerView.ViewHolder {
 
-        private TextView ngaybatdau, ngayketthuc, nhomsanpham, giaban, giamgia, huy, name,idsanpham;
+        private TextView ngaybatdau, ngayketthuc, nhomsanpham, huy, name,idsanpham;
         private ImageView updownIMG, image;
         private LinearLayout itemClick, linerlayoutEnabled;
         private LinearLayout.LayoutParams params;
@@ -76,8 +76,6 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
             ngaybatdau = ItemView.findViewById(R.id.ngaybatdau);
             ngayketthuc = ItemView.findViewById(R.id.ngayketthuc);
             nhomsanpham = ItemView.findViewById(R.id.nhomsanpham);
-            giaban = ItemView.findViewById(R.id.giaban);
-            giamgia = ItemView.findViewById(R.id.giamgia);
             huy = ItemView.findViewById(R.id.huy);
             name = ItemView.findViewById(R.id.name);
             idsanpham = ItemView.findViewById(R.id.idsanpham);

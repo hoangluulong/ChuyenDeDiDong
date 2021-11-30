@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String ID_USER;
     private NhanVien nhanVien;
     private ThongTinCuaHangSql thongTinCuaHangSql;
+    private boolean isChu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         nhanVien = thongTinCuaHangSql.selectUser();
+        isChu = thongTinCuaHangSql.isChu();
         boolean ss = thongTinCuaHangSql.isChu();
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         ID_USER = thongTinCuaHangSql.IDUser();
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         baocao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nhanVien.getChucVu().get(2)) {
+                if (nhanVien.getChucVu().get(2) || isChu) {
                     Intent intent = new Intent(MainActivity.this, BaoCaoTongQuanActivity.class);
                     startActivity(intent);
                 } else {
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         donOnline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nhanVien.getChucVu().get(5)) {
+                if (nhanVien.getChucVu().get(5) || isChu) {
                     Intent intent = new Intent(MainActivity.this, DuyetDonHangActivity.class);
                     startActivity(intent);
                 } else {
@@ -152,7 +154,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nhanVien.getChucVu().get(4)) {
+                Log.d("ssss", nhanVien.getChucVu().get(4)+"");
+                if (nhanVien.getChucVu().get(4) || isChu) {
                     Intent intent = new Intent(MainActivity.this, BepActivity.class);
                     startActivity(intent);
                 } else {
@@ -164,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nhanVien.getChucVu().get(5)) {
+                if (nhanVien.getChucVu().get(5) || isChu) {
                     Intent intent = new Intent(MainActivity.this, CuaHangOnlineActivity.class);
                     startActivity(intent);
                 }else {

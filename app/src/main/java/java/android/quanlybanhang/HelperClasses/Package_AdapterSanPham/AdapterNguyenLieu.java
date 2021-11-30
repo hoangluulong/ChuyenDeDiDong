@@ -73,6 +73,4 @@ public class AdapterNguyenLieu extends RecyclerView.Adapter<AdapterNguyenLieu.Ng
 
         }
     }
-
-
 }

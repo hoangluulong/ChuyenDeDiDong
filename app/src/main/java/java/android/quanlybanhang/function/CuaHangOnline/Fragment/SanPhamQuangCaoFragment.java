@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.CuaHangOnline.Adapter.SanPhamChoXacNhanAdapter;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.SanPhamQuangCaoAdapter;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
 import java.util.ArrayList;
@@ -69,14 +70,17 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
         return fragment;
     }
 
-    private RecyclerView recycleview;
+    private RecyclerView recycleview, recycleviewChoXacNhan;
     private SanPhamQuangCaoAdapter sanPhamQuangCaoAdapter;
+    private SanPhamChoXacNhanAdapter sanPhamChoXacNhanAdapter;
     private ArrayList<Product> listQuanCao = new ArrayList<>();
+    private ArrayList<Product> listChoXacNhan = new ArrayList<>();
     private ProgressBar progressBarLayout;
-    private LinearLayout.LayoutParams params;
-    private LinearLayout danhsach, btnMatHangQuangCao;
+    private LinearLayout.LayoutParams params, params2;
+    private LinearLayout danhsach, btnMatHangQuangCao, btnChoXacNhan, dsChoXacNhan;
     private boolean setL = true;
-    private ImageView quangCaosanPhamIMG;
+    private boolean setC = true;
+    private ImageView quangCaosanPhamIMG, choXacNhanIMG;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
     private String ID_CUAHANG;
@@ -112,16 +116,22 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         recycleview = view.findViewById(R.id.recycleview);
+        recycleviewChoXacNhan = view.findViewById(R.id.recycleviewChoXacNhan);
         progressBarLayout = view.findViewById(R.id.progressBarLayout);
         danhsach = view.findViewById(R.id.danhsach);
+        dsChoXacNhan = view.findViewById(R.id.dsChoXacNhan);
+        choXacNhanIMG = view.findViewById(R.id.choXacNhanIMG);
         btnMatHangQuangCao = view.findViewById(R.id.btnMatHangQuangCao);
+        btnChoXacNhan = view.findViewById(R.id.btnChoXacNhan);
         quangCaosanPhamIMG = view.findViewById(R.id.quangCaosanPhamIMG);
         scrollView = view.findViewById(R.id.scrollView4);
 
         params = (LinearLayout.LayoutParams) danhsach.getLayoutParams();
+        params2 = (LinearLayout.LayoutParams) dsChoXacNhan.getLayoutParams();
 
 
         btnMatHangQuangCao.setOnClickListener(this);
+        btnChoXacNhan.setOnClickListener(this);
     }
 
     private void displayRecycleView() {
@@ -131,6 +141,11 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
         recycleview.setAdapter(sanPhamQuangCaoAdapter);
         sanPhamQuangCaoAdapter.notifyDataSetChanged();
 
+        recycleviewChoXacNhan.setHasFixedSize(true);
+        recycleviewChoXacNhan.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        sanPhamChoXacNhanAdapter = new SanPhamChoXacNhanAdapter(getContext(), listChoXacNhan, this);
+        recycleviewChoXacNhan.setAdapter(sanPhamChoXacNhanAdapter);
+        sanPhamChoXacNhanAdapter.notifyDataSetChanged();
     }
 
     private void getData() {
@@ -173,8 +188,51 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
             public void onCancelled(DatabaseError databaseError) {
             }
         };
+
+        ChildEventListener childEventListenerChoXacNhan = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                if (dataSnapshot.getValue() != null) {
+                    Product product = dataSnapshot.getValue(Product.class);
+                    listChoXacNhan.add(product);
+                    progressBarLayout.setVisibility(View.INVISIBLE);
+                    scrollView.setAlpha(1);
+                    sanPhamChoXacNhanAdapter.notifyDataSetChanged();
+                } else {
+                    progressBarLayout.setVisibility(View.INVISIBLE);
+                    scrollView.setAlpha(1);
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getKey();
+                for (int i = 0; i < listChoXacNhan.size(); i++) {
+                    if (listChoXacNhan.get(i).getId().equals(key)) {
+                        listChoXacNhan.remove(i);
+                        sanPhamQuangCaoAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
         databaseReference.addChildEventListener(childEventListener);
+        databaseReference2.addChildEventListener(childEventListenerChoXacNhan);
     }
 
     @Override
@@ -193,7 +251,18 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
                     danhsach.setLayoutParams(params);
                 }
                 break;
-
+            case R.id.btnChoXacNhan:
+                if (setC) {
+                    params2.height = 0;
+                    setC = false;
+                    choXacNhanIMG.setImageResource(R.drawable.down_24);
+                    dsChoXacNhan.setLayoutParams(params2);
+                } else {
+                    params2.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    setC = true;
+                    choXacNhanIMG.setImageResource(R.drawable.up_24);
+                    dsChoXacNhan.setLayoutParams(params2);
+                }
         }
     }
 

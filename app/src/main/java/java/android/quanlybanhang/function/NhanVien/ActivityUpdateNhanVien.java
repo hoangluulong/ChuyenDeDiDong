@@ -455,14 +455,14 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
             checkThuchi.setChecked(false);
         }
         if (congViec.get(3) == true){
-            checkBep.setChecked(true);
-        }else {
-            checkBep.setChecked(false);
-        }
-        if (congViec.get(4) == true){
             checkOder.setChecked(true);
         }else {
             checkOder.setChecked(false);
+        }
+        if (congViec.get(4) == true){
+            checkBep.setChecked(true);
+        }else {
+            checkBep.setChecked(false);
         }
         if (congViec.get(5) == true) {
             checkquanlycuahangonline.setChecked(true);
@@ -1041,14 +1041,14 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
                     else {
                         congViec.set(2,false);
                     }
-                    if (checkBep.isChecked()){
+                    if (checkOder.isChecked()){
 
                         congViec.set(3,true);
                     }
                     else {
                         congViec.set(3,false);
                     }
-                    if (checkOder.isChecked()){
+                    if (checkBep.isChecked()){
                         congViec.set(4,true);
                     }
                     else {
