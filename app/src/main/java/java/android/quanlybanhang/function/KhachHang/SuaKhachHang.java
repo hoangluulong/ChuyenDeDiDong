@@ -97,7 +97,7 @@ public class SuaKhachHang extends AppCompatActivity {
         editEmail = findViewById(R.id.edtEmailKhachHang);
         editGhiChu = findViewById(R.id.edtghichuKhachHang);
         editNgaySinh = findViewById(R.id.edtNgaySinh);
-        spnNhomKhachHang = findViewById(R.id.spnNhomKhachHang);
+        spnNhomKhachHang = findViewById(R.id.spn_khuvuc);
         btnLich = findViewById(R.id.imgLich);
         btnTaoKhachHang = findViewById(R.id.btnTaoKhachhang);
         btnhuyTaoKhachHang = findViewById(R.id.btnhuyTaoKhachHang);

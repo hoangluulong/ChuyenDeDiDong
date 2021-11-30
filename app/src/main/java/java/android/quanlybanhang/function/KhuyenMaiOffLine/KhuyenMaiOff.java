@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -40,17 +39,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterChonKhuyenMai;
 import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterDanhSachKhuyenMai;
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.Model.KhuyenMaiOffModel;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
-import java.android.quanlybanhang.function.OrderMenu;
-import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -102,7 +96,7 @@ public class KhuyenMaiOff extends AppCompatActivity {
         mDatabase = firebaseDatabase.getReference(id_CuaHang).child(STR_NKH);
         mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuyenmaioff");
         mDatabase3 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("danhsachkhuyenmaioff");
-        spnNhomKhachHang = findViewById(R.id.spnNhomKhachHang);
+        spnNhomKhachHang = findViewById(R.id.spn_khuvuc);
         giakhuyenmai = findViewById(R.id.giakhuyenmai);
         themkhoanggia = findViewById(R.id.themkhoanggia);
         bnt_khuyenmai = findViewById(R.id.bnt_khuyenmai);

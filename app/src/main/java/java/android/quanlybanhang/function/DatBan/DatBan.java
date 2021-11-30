@@ -15,7 +15,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiOff;
 import java.android.quanlybanhang.function.OrderMenu;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -83,7 +81,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
         txtTime = findViewById(R.id.tvgiodatban);
         txttimekt= findViewById(R.id.tvgiodatbankt);
         tvngayhientai= findViewById(R.id.tvngayhientai);
-        bnt_datban = findViewById(R.id.bnt_datban);
+        bnt_datban = findViewById(R.id.bnt_themkhuvuc);
         //edittext
         edttenkhachang= findViewById(R.id.edttenkhachang);
         editTextPhone = findViewById(R.id.editTextPhone);
@@ -147,7 +145,7 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
                             }, mHour, mMinute, false);
                     timePickerDialog1.show();
                     break;
-                case R.id.bnt_datban:
+                case R.id.bnt_themkhuvuc:
                     dailonghoitruockhitao();
                     dialog4.show();
                     break;

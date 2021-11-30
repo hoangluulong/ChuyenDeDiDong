@@ -13,11 +13,4 @@
         android:orderInCategory="200"
         app:showAsAction="withText"
         />
-    <item
-        android:id="@+id/bachams"
-        android:icon="@drawable/icons8bacham"
-        android:title="Chọn Tiền Đặt Bàn Trước"
-        android:orderInCategory="200"
-        app:showAsAction="withText"
-        />
 </menu>

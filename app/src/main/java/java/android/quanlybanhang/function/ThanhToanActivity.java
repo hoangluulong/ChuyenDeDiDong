@@ -38,6 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
+import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterChonKhuyenMai;
+import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterDanhSachKhuyenMai;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterDatBan.RvDatBanAdapter;
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
@@ -61,7 +63,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private String id_ban, id_khuvuc;
     private DatabaseReference mDatabase;
-    private DatabaseReference mDatabase1,mFirebaseDatabase;
+    private DatabaseReference mDatabase1,mDatabase2,mFirebaseDatabase;
     private DatabaseReference mDatabasea;
     private ThanhToanAdapter thanhToanAdapter;
     private RecyclerView recyclerView;
@@ -84,13 +86,15 @@ public class ThanhToanActivity extends AppCompatActivity {
     TextView title,sotiendadattruoc;
     Long date;
     String code1;
-    private Window window1;
-    private Dialog dialog, dialog1;
+    private Window window1,window2;
+    private Dialog dialog, dialog1,dialog2;
     ArrayList<DatBanModel> datBanModels ;
     ArrayList<ID_datban> ID_datbans;
     String id_bk,id_ne;
     String abc,tenban;
     String id_ngaydat;
+    Button bnt_huy,bnt_them;
+    RecyclerView rv_1;
     String id_CuaHang;
     double tongTienCuaHang;
     ThongTinCuaHangSql thongTinCuaHangSql;
@@ -128,6 +132,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         list = new ArrayList<>();
         int code = (int) Math.floor(((Math.random() * 899999) + 100000));
         code1 = code + "";
+
         mDatabase1 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("MangDi");
         mDatabase1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -140,7 +145,6 @@ public class ThanhToanActivity extends AppCompatActivity {
                         bnt_threedot.setVisibility(View.GONE);
                     }
                 }
-
             }
 
             @Override
@@ -151,7 +155,6 @@ public class ThanhToanActivity extends AppCompatActivity {
         });
         hamdatban();
         OnclickThanhtoan();
-//        kiemtra();
 
 
     }
@@ -298,11 +301,9 @@ public class ThanhToanActivity extends AppCompatActivity {
             startActivity(intent);
         }
         if (item_id == R.id.bacham) {
+            Chongiakhuyenmai(10);
             Toast.makeText(this, "Chọn Danh sách Khuyến Mãi", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (item_id == R.id.bachams) {
-            Toast.makeText(this, "Chọn Danh sách Đặt Bàn", Toast.LENGTH_LONG).show();
+
             return true;
         }
         if (item_id == android.R.id.home) {
@@ -643,6 +644,72 @@ public class ThanhToanActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void Chongiakhuyenmai(int gravity) {
+        dialog2 = new Dialog(ThanhToanActivity.this);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.setContentView(R.layout.dialogdanhsachchon_khuyenmaioff);
+        window2 = dialog2.getWindow();
+        if (window2 == null) {
+            return;
+        }
+        rv_1 = dialog2.findViewById(R.id.rv_1);
+//        mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("danhsachkhuyenmaioff");
+//        mDatabase2.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                khuyenMaiOffModels= new ArrayList<>();
+//                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//                    String id = postSnapshot.getKey();
+//                    String giakhuyenmai = postSnapshot.child("giakhuyenmai").getValue() + "";
+//                    String giakhuyenmaiden = postSnapshot.child("giakhuyenmaiden").getValue() + "";
+//                    String giakhuyenmaitu = postSnapshot.child("giakhuyenmaitu").getValue() + "";
+//                    khuyenMaiOffModels.add(new KhuyenMaiOffModel(giakhuyenmaitu, giakhuyenmaiden, giakhuyenmai, id));
+//                }
+//                adapterChonKhuyenMai = new AdapterChonKhuyenMai(khuyenMaiOffModels);
+//                rv_1.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
+//                rv_1.setAdapter(adapterChonKhuyenMai);
+//                adapterChonKhuyenMai.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+        bnt_huy = dialog2.findViewById(R.id.bnt_huy);
+        bnt_them = dialog2.findViewById(R.id.bnt_them);
+        bnt_them.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                offModels = adapterChonKhuyenMai.PublicArraylist();
+//                Log.d("offModels", offModels.size() + "");
+//                adapterDanhSachKhuyenMai = new AdapterDanhSachKhuyenMai(offModels,KhuyenMaiOff.this);
+//                rv_2.setLayoutManager(new LinearLayoutManager(KhuyenMaiOff.this, LinearLayoutManager.VERTICAL, false));
+//                rv_2.setAdapter(adapterDanhSachKhuyenMai);
+//                adapterDanhSachKhuyenMai.notifyDataSetChanged();
+                dialog2.dismiss();
+            }
+        });
+        bnt_huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog2.dismiss();
+            }
+        });
+        window2.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window2.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window2.getAttributes();
+        windownAttributes.gravity = gravity;
+        window2.setAttributes(windownAttributes);
+        if (Gravity.BOTTOM == gravity) {
+            dialog2.setCancelable(true);
+        } else {
+            dialog2.setCancelable(false);
+        }
+        dialog2.show();
     }
 
 }

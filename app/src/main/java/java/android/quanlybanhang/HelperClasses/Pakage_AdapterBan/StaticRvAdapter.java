@@ -78,7 +78,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     String abc;
     private ArrayList<ProuductPushFB1> listmon;
     ArrayList<DatBanModel> datBanModels, datBanModel1;
-String TrangThaiBan_doimau;
+    String TrangThaiBan_doimau;
 
     public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels, OrderMenu orderMenu, ArrayList<StaticModelKhuVuc> items, String Id_khuvuc) {
         this.staticBanModels = staticBanModels;
@@ -325,7 +325,8 @@ String TrangThaiBan_doimau;
                                                                 }
                                                             }
                                                             if (datBanModels.size() > 0) {
-
+                                                                Log.d("datBanModel1datban", datBanModel1.size()+"size1>0");
+                                                                Log.d("datBanModel1datban", datBanModels.size()+"sizes>0");
                                                                 if (datBanModel1.size() > 0) {
                                                                     Log.d("datBanModel1datban", "if11");
                                                                     double tien_bangop = Double.parseDouble(datBanModel1.get(0).getSotiendadattruoc());
@@ -347,9 +348,9 @@ String TrangThaiBan_doimau;
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
                                                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
-                                                                    String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
                                                                     database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
+
                                                                 } else {
                                                                     Log.d("datBanModel1datban", "10");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(id).child(datBanModels.get(0).getId_ngaydat()).removeValue();
@@ -368,35 +369,54 @@ String TrangThaiBan_doimau;
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
                                                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
-                                                                    String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
                                                                     database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
                                                                 }
 
                                                             }
-                                                            else {
-                                                                if(datBanModel1.size()>0){
+                                                            if(datBanModels.size()<1||datBanModels==null) {
+                                                                Log.d("datBanModel1datban", datBanModel1.size()+"size1s");
+                                                                Log.d("datBanModel1datban", datBanModels.size()+"sizess");
+                                                                if (datBanModel1.size() > 0||datBanModel1!=null) {
                                                                     Log.d("datBanModel1datban", "01");
+                                                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(Id).child(datBanModel1.get(0).getId_ngaydat());
+                                                                    databaseReference.child("tenkhachhang").setValue(datBanModel1.get(0).getTenkhachhang());
+                                                                    databaseReference.child("id_bk").setValue(Id);
+                                                                    databaseReference.child("sodienthoai").setValue(datBanModel1.get(0).getSodienthoai());
+                                                                    databaseReference.child("sotiendattruoc").setValue(datBanModel1.get(0).getSotiendadattruoc());
+                                                                    databaseReference.child("ngayhientai").setValue(datBanModel1.get(0).getNgayhientai());
+                                                                    databaseReference.child("ngaydat").setValue(datBanModel1.get(0).getNgaydat());
+                                                                    databaseReference.child("giodat").setValue(datBanModel1.get(0).getGiodat());
+                                                                    databaseReference.child("tenban").setValue(datBanModel1.get(0).getTenban());
+                                                                    databaseReference.child("trangthai").setValue(datBanModel1.get(0).getTrangthai());
+                                                                    databaseReference.child("gioketthuc").setValue(datBanModel1.get(0).getGioketthuc());
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
                                                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
-                                                                    String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
                                                                     database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
-                                                                }
-                                                                else {
+                                                                } else if (datBanModel1.size() <1 || datBanModel1 == null) {
                                                                     Log.d("datBanModel1datban", "00");
-                                                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
+                                                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(Id).child(datBanModel1.get(0).getId_ngaydat());
+                                                                    databaseReference.child("tenkhachhang").setValue(datBanModel1.get(0).getTenkhachhang());
+                                                                    databaseReference.child("id_bk").setValue(Id);
+                                                                    databaseReference.child("sodienthoai").setValue(datBanModel1.get(0).getSodienthoai());
+                                                                    databaseReference.child("sotiendattruoc").setValue(datBanModel1.get(0).getSotiendadattruoc());
+                                                                    databaseReference.child("ngayhientai").setValue(datBanModel1.get(0).getNgayhientai());
+                                                                    databaseReference.child("ngaydat").setValue(datBanModel1.get(0).getNgaydat());
+                                                                    databaseReference.child("giodat").setValue(datBanModel1.get(0).getGiodat());
+                                                                    databaseReference.child("tenban").setValue(datBanModel1.get(0).getTenban());
+                                                                    databaseReference.child("trangthai").setValue(datBanModel1.get(0).getTrangthai());
+                                                                    databaseReference.child("gioketthuc").setValue(datBanModel1.get(0).getGioketthuc());
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").setValue("1");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("gioDaOder").setValue(0);
-                                                                    String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
+                                                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan).removeValue();
                                                                     database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
+
                                                                 }
-
-
                                                             }
 
                                                         }
@@ -409,6 +429,7 @@ String TrangThaiBan_doimau;
                                                     }
                                                 });
 
+
                                             }
 
                                         });
@@ -418,8 +439,7 @@ String TrangThaiBan_doimau;
                                 .show();
 
 
-                    }
-                    else if (trangthaichucnang.equals("2")) {
+                    } else if (trangthaichucnang.equals("2")) {
                         gettrangthaiban();
                         new AlertDialog.Builder(orderMenu).setMessage(
                                 "bạn có muốn Chuyển bàn không"
@@ -427,19 +447,18 @@ String TrangThaiBan_doimau;
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 //khanh
-                               if(TrangThaiBan_doimau!=null) {
-                                   FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue(TrangThaiBan_doimau);
-                               }
-                               else {
-                                   FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
-                               }
+                                if (TrangThaiBan_doimau != null) {
+                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue(TrangThaiBan_doimau);
+                                } else {
+                                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("trangthai").setValue("2");
+                                }
                                 String Id = CrrItem.getID() + "_" + Id_khuvuc;
                                 String id = id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan;
                                 for (int i = 0; i < productPushFBS.size(); i++) {
                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).setValue(productPushFBS.get(i));
                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(Id_khuvuc).child("ban").child(CrrItem.getID()).child("gioDaOder").setValue(productPushFBS.get(i).getDate());
                                 }
-                                if (datBanModels.size()>0) {
+                                if (datBanModels.size() > 0) {
                                     Log.d("datBanModelskkka", datBanModels.size() + "chuyenbanadapter");
                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan").child(id).child(datBanModels.get(0).getId_ngaydat()).removeValue();
                                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(Id).child(datBanModels.get(0).getId_ngaydat());
@@ -463,8 +482,7 @@ String TrangThaiBan_doimau;
                                     database_order.QueryData(" DELETE FROM " + TEN_BANG + " WHERE Id='" + id + "'");
                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
                                     notifyDataSetChanged();
-                                }
-                                else {
+                                } else {
                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
                                     database_order.QueryData("UPDATE " + TEN_BANG + " SET Id = '" + Id + "' WHERE Id= '" + id + "'");
 
@@ -480,13 +498,10 @@ String TrangThaiBan_doimau;
                                 }
 
 
-
-
                             }
                         }).setNegativeButton("No", null)
                                 .show();
-                    }
-                    else if (trangthaichucnang.equals("3")) {
+                    } else if (trangthaichucnang.equals("3")) {
                         new AlertDialog.Builder(orderMenu).setMessage(
                                 "bạn chắc chắn tách món vào bàn này không"
                         ).setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -586,13 +601,12 @@ String TrangThaiBan_doimau;
                                                                 }
 
                                                             } else {
-                                                                if(datBanModel1.size()>0){
+                                                                if (datBanModel1.size() > 0) {
                                                                     Log.d("datBanModel1datban", "01");
                                                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).setValue(null);
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
-                                                                }
-                                                                else  {
+                                                                } else {
                                                                     Log.d("datBanModel1datban", "00");
                                                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).setValue(null);
                                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
@@ -624,7 +638,7 @@ String TrangThaiBan_doimau;
                                             String ids = id_ban_tachban + "_" + id_khuvuc_tachban;
                                             FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(CrrItem.getID() + "_" + Id_khuvuc).setValue(ProductTachBan);
                                             if (carsListsaukhichon.size() == 0) {
-                                                if (datBanModels.size()>0) {
+                                                if (datBanModels.size() > 0) {
                                                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(Id).child(datBanModels.get(0).getId_ngaydat());
                                                     databaseReference.child("tenkhachhang").setValue(datBanModels.get(0).getTenkhachhang());
                                                     databaseReference.child("id_bk").setValue(Id);
@@ -642,8 +656,7 @@ String TrangThaiBan_doimau;
                                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).setValue(null);
                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("gioDaOder").setValue(0);
-                                                }
-                                                else {
+                                                } else {
 
                                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(ids).setValue(null);
                                                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_tachban).child("ban").child(id_ban_tachban).child("trangthai").setValue("1");
@@ -717,6 +730,7 @@ String TrangThaiBan_doimau;
 
 
     }
+
     private void HamTaodialog(int gravity, StaticBanModel CrrItem) {
         if (window == null) {
             return;
@@ -737,6 +751,7 @@ String TrangThaiBan_doimau;
         hamdatban(CrrItem);
         dialogban.show();
     }
+
     private void EvenlistDatban(TextView datban, TextView listdatban, TextView
             hoantac, StaticBanModel CrrItem) {
         datban.setOnClickListener(new View.OnClickListener() {
@@ -828,6 +843,7 @@ String TrangThaiBan_doimau;
             }
         });
     }
+
     private void gettrangthaiban() {
         if (id_khuvuc_thanhtoan != null && id_ban_thanhtoan != null) {
             FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc_thanhtoan).child("ban").child(id_ban_thanhtoan).child("trangthai").addValueEventListener(new ValueEventListener() {

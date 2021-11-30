@@ -23,6 +23,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
+            android:name=".function.ThemBan_KhuVuc.ListKhuVuc"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.ListBan"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.ThemBan"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.ThemKhuVuc"
+            android:exported="false" />
+        <activity
             android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff"
             android:exported="false" />
         <activity
@@ -61,7 +73,7 @@
         <activity android:name=".function.Income" />
         <activity android:name=".function.Processing" />
         <activity android:name=".function.OrderMenu" />
-        <activity android:name=".function.MainActivity" >
+        <activity android:name=".function.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -237,9 +249,7 @@
         <activity android:name=".function.Error" />
         <activity
             android:name=".function.Account.IntroductoryActivity"
-            android:enabled="true">
-
-        </activity>
+            android:enabled="true" />
         <activity
             android:name=".function.Account.ChiNhanhSignInActivity"
             android:enabled="true" />
