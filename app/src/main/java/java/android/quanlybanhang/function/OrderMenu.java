@@ -188,8 +188,6 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
             });
         }
 
-        getDataOrder(actionBar);
-
         callback();
         items = new ArrayList<>();
         recyclerView2 = findViewById(R.id.rv_2);
@@ -222,21 +220,22 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int item_id = item.getItemId();
+    public boolean onOptionsItemSelected(@NonNull MenuItem itemk) {
+        int item_id = itemk.getItemId();
         TextView ad;
 
-
-        if (trangthaichucnang == null) {
-            if (item_id == R.id.mangdi) {
-                mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("MangDi");
-                mDatabase.child("trangthai").setValue("1");
-                int code = (int) Math.floor(((Math.random() * 899999) + 100000));
-                Toast.makeText(this, "mang di", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(OrderMenu.this, MonOrder.class);
-                intent.putExtra("id_datban", code + "");
-                startActivity(intent);
-                finish();
+        if(item.size()>0) {
+            if (trangthaichucnang == null) {
+                if (item_id == R.id.mangdi) {
+                    mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("MangDi");
+                    mDatabase.child("trangthai").setValue("1");
+                    int code = (int) Math.floor(((Math.random() * 899999) + 100000));
+                    Toast.makeText(this, "mang di", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(OrderMenu.this, MonOrder.class);
+                    intent.putExtra("id_datban", code + "");
+                    startActivity(intent);
+                    finish();
+                }
             }
         }
         if (item_id == android.R.id.home) {
@@ -317,40 +316,39 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                             String id_ban = aaa.getKey();
                             //gopban
 
-                            if (trangthaichucnang != null) {
-                                if (trangthaichucnang.equals("1")) {
+
+                                if ( trangthaichucnang != null &&trangthaichucnang.equals("1") ) {
                                     if (trangthai1.equals("2") ||trangthai1.equals("5") ||trangthai1.equals("6")) {
                                         progressBar.setVisibility(View.VISIBLE);
                                         mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                                        if(mm.size()<1){
+                                            img_nocart.setVisibility(View.VISIBLE);
+                                        }
                                     }
                                 }
 
                                 //chuyen bàn
-                                else if (trangthaichucnang.equals("2")) {
+                                else if ( trangthaichucnang != null && trangthaichucnang.equals("2") ) {
                                     if (trangthai1.equals("1")) {
                                         progressBar.setVisibility(View.VISIBLE);
                                         mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                                        if(mm.size()<1){
+                                            img_nocart.setVisibility(View.VISIBLE);
+                                        }
                                     }
                                 }
                                 //tách bàn
-                                else if (trangthaichucnang.equals("3")) {
+                                else if (  trangthaichucnang != null && trangthaichucnang.equals("3") ) {
                                     progressBar.setVisibility(View.VISIBLE);
                                     mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
-
+                                    if(mm.size()<1){
+                                        img_nocart.setVisibility(View.VISIBLE);
+                                    }
                                 }
                                 else {
                                     progressBar.setVisibility(View.VISIBLE);
                                     mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
                                 }
-                            }
-                            else {
-                                Log.d("abczyzss","s,d;sd");
-                                actionBar.setTitle("Danh sách Bàn");
-                                progressBar.setVisibility(View.VISIBLE);
-                                mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
-
-                            }
-
                         }
 
                         StaticModelKhuVuc product = new StaticModelKhuVuc(tenkhuvuc, trangthai, id_khuvuc, mm);

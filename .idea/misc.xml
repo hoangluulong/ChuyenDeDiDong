@@ -38,10 +38,13 @@
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/dialogthemgiakhuyenmaioff.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_ban.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_ban_edit.xml" value="0.3359375" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_card_fordsell.xml" value="0.33" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_danhsachend_khuyenmaioff.xml" value="0.5" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_khuvuc_edit.xml" value="0.3359375" />
-        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_khuyenmai.xml" value="0.9" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_khuyenmai.xml" value="0.25" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_khuyenmai_in_dialogthanhtoan.xml" value="0.5" />
+        <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_listdongia.xml" value="0.2390625" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_product.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_product_bep.xml" value="0.3359375" />
         <entry key="..\:/ChuyenDeDiDong/app/src/main/res/layout/item_sanpham.xml" value="0.3359375" />

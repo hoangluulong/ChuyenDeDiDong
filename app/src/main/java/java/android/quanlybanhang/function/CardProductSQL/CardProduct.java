@@ -468,9 +468,8 @@ public class CardProduct extends AppCompatActivity {
         if (item_id == R.id.order) {
             Toast.makeText(this, "order nè", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CardProduct.this, MonOrder.class);
+            intent.putExtra("id_datban",id_datban);
             intent.putExtra("id_ban", id_ban);
-            Log.d("id_khuvuc", id_khuvuc);
-
             intent.putExtra("id_khuvuc", id_khuvuc);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -519,5 +518,8 @@ public class CardProduct extends AppCompatActivity {
         return tong;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

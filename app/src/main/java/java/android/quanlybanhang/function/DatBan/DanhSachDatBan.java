@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
@@ -144,5 +145,16 @@ public class DanhSachDatBan extends AppCompatActivity {
             }
         }).setNegativeButton("No", null)
                 .show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        if (item_id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return true;
+
     }
 }

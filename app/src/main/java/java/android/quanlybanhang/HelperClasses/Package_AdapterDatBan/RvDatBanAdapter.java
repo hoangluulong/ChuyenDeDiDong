@@ -190,7 +190,35 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
                         holder.check.setEnabled(true);
 
                          Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
+                    else if (trangthai_ban.equals("3")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                         Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }
+                      else if (trangthai_ban.equals("4")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                         Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }
+                        else if (trangthai_ban.equals("5")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                         Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }
+                        else if (trangthai_ban.equals("6")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                         Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }else {
                          title.setText("Đã Chuyển Sang Trang Thái Đặt!!!");
                          dialogban.show();
                         FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(words[1]).child("ban").child(words[0]).child("trangthai").setValue("4");

@@ -249,7 +249,13 @@
         <activity android:name=".function.Error" />
         <activity
             android:name=".function.Account.IntroductoryActivity"
-            android:enabled="true" />
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".function.Account.ChiNhanhSignInActivity"
             android:enabled="true" />

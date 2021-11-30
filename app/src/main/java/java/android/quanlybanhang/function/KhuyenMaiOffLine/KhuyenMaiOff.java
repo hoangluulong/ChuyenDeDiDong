@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -493,6 +494,16 @@ public class KhuyenMaiOff extends AppCompatActivity {
                 dialog4.dismiss();
             }
         });
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        if (item_id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return true;
 
     }
 
