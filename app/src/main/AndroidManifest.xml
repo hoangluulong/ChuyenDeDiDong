@@ -23,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
+            android:name=".function.KhuyenMaiOffLine.KhuyenMaiThanhToan"
+            android:exported="false" />
+        <activity
             android:name=".function.ThemBan_KhuVuc.ListKhuVuc"
             android:exported="false" />
         <activity

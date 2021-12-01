@@ -19,18 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
@@ -41,12 +37,8 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 
-import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
-import java.android.quanlybanhang.function.MainActivity;
 import java.android.quanlybanhang.function.MonOrder;
-import java.android.quanlybanhang.function.OrderMenu;
 import java.android.quanlybanhang.function.ThanhToanActivity;
-import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -96,7 +88,7 @@ public class CardProduct extends AppCompatActivity {
         id_CuaHang = "CuaHangOder/" + thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
         bntluu = findViewById(R.id.bnt_luu);
-        bntthanhtoan = findViewById(R.id.bnt_thanhtoan);
+        bntthanhtoan = findViewById(R.id.bnt_xacnhan);
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
 

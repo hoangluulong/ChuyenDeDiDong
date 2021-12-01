@@ -315,8 +315,6 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                             String gioDaorder = aaa.child("gioDaOder").getValue() + "";
                             String id_ban = aaa.getKey();
                             //gopban
-
-
                                 if ( trangthaichucnang != null &&trangthaichucnang.equals("1") ) {
                                     if (trangthai1.equals("2") ||trangthai1.equals("5") ||trangthai1.equals("6")) {
                                         progressBar.setVisibility(View.VISIBLE);

@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SearchRecentSuggestionsProvider;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -24,7 +24,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,15 +36,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
-import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterChonKhuyenMai;
 import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterChonKhuyenMaiThanhToan;
-import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterDanhSachKhuyenMai;
-import java.android.quanlybanhang.HelperClasses.Package_AdapterDatBan.RvDatBanAdapter;
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
-import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
-import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.Model.DatBan.DatBanModel;
@@ -54,8 +49,8 @@ import java.android.quanlybanhang.Model.KhuyenMaiOffModel;
 import java.android.quanlybanhang.Model.ListKhuyenMaiOffModel;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
-import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
-import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiOff;
+import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiThanhToan;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,7 +61,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private String id_ban, id_khuvuc;
     private DatabaseReference mDatabase;
-    private DatabaseReference mDatabase1,mDatabase2,mFirebaseDatabase;
+    private DatabaseReference mDatabase1, mDatabase2, mFirebaseDatabase;
     private DatabaseReference mDatabasea;
     private ThanhToanAdapter thanhToanAdapter;
     private RecyclerView recyclerView;
@@ -86,17 +81,17 @@ public class ThanhToanActivity extends AppCompatActivity {
     Window window;
     ImageButton bnt_threedot;
     TextView gopban, chuyenban, tachban, thoat, tvhuydon;
-    TextView title,sotiendadattruoc;
+    TextView title, sotiendadattruoc;
     Long date;
     String code1;
-    private Window window1,window2;
-    private Dialog dialog, dialog1,dialog2;
-    ArrayList<DatBanModel> datBanModels ;
+    private Window window1, window2;
+    private Dialog dialog, dialog1, dialog2;
+    ArrayList<DatBanModel> datBanModels;
     ArrayList<ID_datban> ID_datbans;
-    String id_bk,id_ne;
-    String abc,tenban;
+    String id_bk, id_ne;
+    String abc, tenban;
     String id_ngaydat;
-    Button bnt_huy,bnt_them;
+    Button bnt_huy, bnt_them;
     RecyclerView rv_1;
     String id_CuaHang;
     double tongTienCuaHang;
@@ -105,6 +100,9 @@ public class ThanhToanActivity extends AppCompatActivity {
     ArrayList<ListKhuyenMaiOffModel> listKhuyenMaiOffModels;
     ArrayList<KhuyenMaiOffModel> khuyenMaiOffModels;
     AdapterChonKhuyenMaiThanhToan adapterChonKhuyenMai_thanhToan;
+    ArrayList<KhuyenMaiOffModel> listchuyen;
+    TextView taxTxt, totalTxt1;
+    ArrayList<KhuyenMaiOffModel> khuyenMaiOffModel;
 
 
     @Override
@@ -124,9 +122,11 @@ public class ThanhToanActivity extends AppCompatActivity {
         actionBar.setTitle("Thanh Toán");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        getFirebase ();
+        getFirebase();
         totalTxt = findViewById(R.id.totalTxt);
+        totalTxt1 = findViewById(R.id.totalTxt1);
         sotiendadattruoc = findViewById(R.id.sotiendadattruoc);
+        taxTxt = findViewById(R.id.taxTxt);
         dailongsucces();
         bnt_threedot = findViewById(R.id.bnt_threedot);
         Intent intent1 = getIntent();
@@ -135,9 +135,9 @@ public class ThanhToanActivity extends AppCompatActivity {
         id_datban = intent1.getStringExtra("id_datban");
 
         OnclickMenuchucnang();
-        bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
+        bnt_thanhtoan = findViewById(R.id.bnt_xacnhan);
         id = id_ban + "_" + id_khuvuc;
-        abc = id_ban+"_"+id_khuvuc;
+        abc = id_ban + "_" + id_khuvuc;
         list = new ArrayList<>();
         int code = (int) Math.floor(((Math.random() * 899999) + 100000));
         code1 = code + "";
@@ -184,9 +184,8 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    giaTong=0.0;
+                    giaTong = 0.0;
                     ListDate_yc = new ArrayList<>();
-                    Log.d("kssj", "ssks");
                     listmon = new ArrayList<ProuductPushFB1>();
                     ArrayList<ProuductPushFB1> mm = new ArrayList<>();
                     Long date1 = Long.parseLong(snapshot.child("date").getValue() + "");
@@ -208,6 +207,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     for (int i = 0; i < listmon.size(); i++) {
                         giaTong += listmon.get(i).getGiaProudct() * listmon.get(i).getSoluong();
                     }
+                    totalTxt1.setText(TinhTongTien() + "");
                     progressBar.setVisibility(View.INVISIBLE);
                     totalTxt.setText(giaTong + "");
                     recyclerView = findViewById(R.id.rv_3);
@@ -221,8 +221,6 @@ public class ThanhToanActivity extends AppCompatActivity {
                         bnt_thanhtoan.setEnabled(true);
                         bnt_threedot.setEnabled(true);
                     }
-
-
                 } else {
                     bnt_threedot.setEnabled(false);
                     bnt_thanhtoan.setEnabled(false);
@@ -382,7 +380,8 @@ public class ThanhToanActivity extends AppCompatActivity {
                 intent.putExtra("id_datban", id_datban);
                 intent.putExtra("id_trangthai", code1);
                 Gson gson = new Gson();
-                String a = gson.toJson(listmon);;
+                String a = gson.toJson(listmon);
+                ;
                 String c = gson.toJson(datBanModels);
                 intent.putExtra("list_as_string2", c);
                 intent.putExtra("list_as_string", a);
@@ -394,22 +393,22 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    dialogban.dismiss();
-                    Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
-                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code1).child("trangthai").setValue("2");
-                    intent.putExtra("id_ban", id_ban);
-                    intent.putExtra("id_khuvuc", id_khuvuc);
-                    intent.putExtra("id_datban", id_datban);
-                    intent.putExtra("id_trangthai", code1);
-                    intent.putExtra("date", date);
-                    Gson gson = new Gson();
-                    String a = gson.toJson(listmon);
-                    String b = gson.toJson(ListDate_yc);
-                    String c = gson.toJson(datBanModels);
-                    intent.putExtra("list_as_string", a);
-                    intent.putExtra("list_as_string1", b);
-                    intent.putExtra("list_as_string2", c);
-                    startActivity(intent);
+                dialogban.dismiss();
+                Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
+                FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code1).child("trangthai").setValue("2");
+                intent.putExtra("id_ban", id_ban);
+                intent.putExtra("id_khuvuc", id_khuvuc);
+                intent.putExtra("id_datban", id_datban);
+                intent.putExtra("id_trangthai", code1);
+                intent.putExtra("date", date);
+                Gson gson = new Gson();
+                String a = gson.toJson(listmon);
+                String b = gson.toJson(ListDate_yc);
+                String c = gson.toJson(datBanModels);
+                intent.putExtra("list_as_string", a);
+                intent.putExtra("list_as_string1", b);
+                intent.putExtra("list_as_string2", c);
+                startActivity(intent);
             }
         });
         tachban.setOnClickListener(new View.OnClickListener() {
@@ -470,7 +469,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                String tennhanvien= thongTinCuaHangSql.selectUser().getUsername();
+                String tennhanvien = thongTinCuaHangSql.selectUser().getUsername();
                 if (trangthai.equals("0")) {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_ban").setValue(id_ban);
@@ -482,7 +481,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang+giaTong);
+                            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang + giaTong);
                             XoaSpkhiOrder();
 
                         }
@@ -492,7 +491,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                             Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
                         }
                     });
-                    if(id_ngaydat!=null) {
+                    if (id_ngaydat != null) {
                         FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(id_ban + "_" + id_khuvuc).child(id_ngaydat).removeValue();
                     }
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
@@ -511,7 +510,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     databaseReference.child("sanpham").setValue(listmon).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang+giaTong);
+                            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang + giaTong);
                             XoaSpkhiOrder();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -557,7 +556,6 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (trangthai.equals("0")) {
-
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_ban").setValue(id_ban);
                     databaseReference.child("id_khuvuc").setValue(id_khuvuc);
@@ -578,7 +576,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                             Toast.makeText(ThanhToanActivity.this, "Thanh Toán không Thanh công", Toast.LENGTH_LONG).show();
                         }
                     });
-                    if(id_ngaydat!=null) {
+                    if (id_ngaydat != null) {
                         FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(id_ban + "_" + id_khuvuc).child(id_ngaydat).removeValue();
                     }
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
@@ -603,39 +601,40 @@ public class ThanhToanActivity extends AppCompatActivity {
         });
 
     }
-    private void hamdatban(){
+
+    private void hamdatban() {
         mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("DatBan");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ID_datbans = new ArrayList<>();
                 datBanModels = new ArrayList<>();
-                if(snapshot.getValue() != null){
-                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                if (snapshot.getValue() != null) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         id_ne = postSnapshot.getKey();
                         DataSnapshot sss = postSnapshot;
-                        for (DataSnapshot aaa: sss.getChildren()) {
+                        for (DataSnapshot aaa : sss.getChildren()) {
                             id_bk = aaa.child("id_bk").getValue() + "";
-                            if(id_bk.equals(abc)){
-                                if((aaa.child("trangthai").getValue()+"").equals("1")){
-                                 id_ngaydat = aaa.getKey();
-                                String giodat = aaa.child("giodat").getValue() + "";
-                                String gioketthuc = aaa.child("gioketthuc").getValue() + "";
-                                String ngaydat = aaa.child("ngaydat").getValue() + "";
-                                String ngayhientai = aaa.child("ngayhientai").getValue() + "";
-                                String sodienthoai = aaa.child("sodienthoai").getValue() + "";
-                                String sotiendattruoc = aaa.child("sotiendattruoc").getValue() + "";
-                                String tenkhachhang = aaa.child("tenkhachhang").getValue() + "";
-                                String tenban = aaa.child("tenban").getValue() + "";
-                                String trangthaidat = aaa.child("trangthai").getValue()+"";
-                                datBanModels.add(new DatBanModel(tenban,id_ngaydat,giodat,gioketthuc,id_bk,ngaydat,ngayhientai,sodienthoai,sotiendattruoc,tenkhachhang,trangthaidat));
+                            if (id_bk.equals(abc)) {
+                                if ((aaa.child("trangthai").getValue() + "").equals("1")) {
+                                    id_ngaydat = aaa.getKey();
+                                    String giodat = aaa.child("giodat").getValue() + "";
+                                    String gioketthuc = aaa.child("gioketthuc").getValue() + "";
+                                    String ngaydat = aaa.child("ngaydat").getValue() + "";
+                                    String ngayhientai = aaa.child("ngayhientai").getValue() + "";
+                                    String sodienthoai = aaa.child("sodienthoai").getValue() + "";
+                                    String sotiendattruoc = aaa.child("sotiendattruoc").getValue() + "";
+                                    String tenkhachhang = aaa.child("tenkhachhang").getValue() + "";
+                                    String tenban = aaa.child("tenban").getValue() + "";
+                                    String trangthaidat = aaa.child("trangthai").getValue() + "";
+                                    datBanModels.add(new DatBanModel(tenban, id_ngaydat, giodat, gioketthuc, id_bk, ngaydat, ngayhientai, sodienthoai, sotiendattruoc, tenkhachhang, trangthaidat));
 
                                 }
                             }
                         }
                     }
-                    if(datBanModels.size()>0){
-                        sotiendadattruoc.setText("$"+ datBanModels.get(0).getSotiendadattruoc());
+                    if (datBanModels.size() > 0) {
+                        sotiendadattruoc.setText("$" + datBanModels.get(0).getSotiendadattruoc());
                     }
                 }
 
@@ -649,7 +648,8 @@ public class ThanhToanActivity extends AppCompatActivity {
             }
         });
     }
-    private void getFirebase () {
+
+    private void getFirebase() {
         FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -666,6 +666,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             }
         });
     }
+
     private void Chongiakhuyenmai(int gravity) {
         dialog2 = new Dialog(ThanhToanActivity.this);
         dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -679,25 +680,26 @@ public class ThanhToanActivity extends AppCompatActivity {
         mDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listKhuyenMaiOffModels= new ArrayList<ListKhuyenMaiOffModel>();
+                listKhuyenMaiOffModels = new ArrayList<ListKhuyenMaiOffModel>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     khuyenMaiOffModels = new ArrayList<KhuyenMaiOffModel>();
-                    String Ngaybatdau = postSnapshot.child("Ngaybatdau").getValue()+"";
-                    String Ngayketthuc = postSnapshot.child("Ngayketthuc").getValue()+"";
-                    String Nhomkhachhang = postSnapshot.child("Nhomkhachhang").getValue()+"";
-                    String Noidungkhuyenmai = postSnapshot.child("Noidungkhuyenmai").getValue()+"";
-                    String Tenkhuyenmai = postSnapshot.child("Tenkhuyenmai").getValue()+"";
+                    String Ngaybatdau = postSnapshot.child("Ngaybatdau").getValue() + "";
+                    String Ngayketthuc = postSnapshot.child("Ngayketthuc").getValue() + "";
+                    String Nhomkhachhang = postSnapshot.child("Nhomkhachhang").getValue() + "";
+                    String Noidungkhuyenmai = postSnapshot.child("Noidungkhuyenmai").getValue() + "";
+                    String Tenkhuyenmai = postSnapshot.child("Tenkhuyenmai").getValue() + "";
                     DataSnapshot aaa = postSnapshot.child("Giasale");
                     for (DataSnapshot snapshot2 : aaa.getChildren()) {
-                        String giakhuyenmaiden =snapshot2.child("giakhuyenmaiden").getValue()+"";
-                        String giakhuyenmai =snapshot2.child("giakhuyenmai").getValue()+"";
-                        String giakhuyenmaitu =snapshot2.child("giakhuyenmaitu").getValue()+"";
-                        String key =snapshot2.child("key").getValue()+"";
-                        khuyenMaiOffModels.add(new KhuyenMaiOffModel(giakhuyenmaitu,giakhuyenmaiden,giakhuyenmai,key));
+                        String giakhuyenmaiden = snapshot2.child("giakhuyenmaiden").getValue() + "";
+                        String giakhuyenmai = snapshot2.child("giakhuyenmai").getValue() + "";
+                        String giakhuyenmaitu = snapshot2.child("giakhuyenmaitu").getValue() + "";
+                        String key = snapshot2.child("key").getValue() + "";
+                        khuyenMaiOffModels.add(new KhuyenMaiOffModel(giakhuyenmaitu, giakhuyenmaiden, giakhuyenmai, key));
                     }
-                    listKhuyenMaiOffModels.add(new ListKhuyenMaiOffModel(Ngaybatdau,Ngayketthuc,Nhomkhachhang,Noidungkhuyenmai,Tenkhuyenmai,khuyenMaiOffModels));
+                    listKhuyenMaiOffModels.add(new ListKhuyenMaiOffModel(Ngaybatdau, Ngayketthuc, Nhomkhachhang, Noidungkhuyenmai, Tenkhuyenmai, khuyenMaiOffModels));
                 }
-                adapterChonKhuyenMai_thanhToan = new AdapterChonKhuyenMaiThanhToan(listKhuyenMaiOffModels,ThanhToanActivity.this);
+                totalTxt1.setText(TinhTongTien() + "");
+                adapterChonKhuyenMai_thanhToan = new AdapterChonKhuyenMaiThanhToan(listKhuyenMaiOffModels, ThanhToanActivity.this);
                 rv_1.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
                 rv_1.setAdapter(adapterChonKhuyenMai_thanhToan);
                 adapterChonKhuyenMai_thanhToan.notifyDataSetChanged();
@@ -744,4 +746,41 @@ public class ThanhToanActivity extends AppCompatActivity {
         dialog2.show();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        khuyenMaiOffModel = new ArrayList<>();
+
+        if (KhuyenMaiThanhToan.khuyenMaiOffModel != null) {
+            khuyenMaiOffModel = KhuyenMaiThanhToan.khuyenMaiOffModel;
+            taxTxt.setText("$ " + KhuyenMaiThanhToan.khuyenMaiOffModel.get(0).getGiakhuyenmai());
+            totalTxt1.setText(TinhTongTien() + "");
+        }
+    }
+
+    private Double TinhTongTien() {
+        double TongTien = 0.0;
+
+        if (khuyenMaiOffModel != null && datBanModels.size() > 0) {
+            if(khuyenMaiOffModel.size()>0) {
+                double tienDatban = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc() + "");
+                double tienKhuyenMai = Double.parseDouble(khuyenMaiOffModel.get(0).getGiakhuyenmai() + "");
+                TongTien = tienKhuyenMai + giaTong - tienDatban;
+            }
+        } else if (khuyenMaiOffModel != null && datBanModels.size() == 0) {
+            if(khuyenMaiOffModel.size()>0){
+                double tienKhuyenMai = Double.parseDouble(khuyenMaiOffModel.get(0).getGiakhuyenmai() + "");
+                TongTien = tienKhuyenMai + giaTong;
+            }
+
+        } else if (khuyenMaiOffModel ==null  && datBanModels.size() > 0) {
+            double tienDatban = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc() + "");
+            TongTien = giaTong - tienDatban;
+        } else {
+            Log.d("khsdjshd", giaTong + "");
+            TongTien = giaTong;
+        }
+        return TongTien;
+    }
 }

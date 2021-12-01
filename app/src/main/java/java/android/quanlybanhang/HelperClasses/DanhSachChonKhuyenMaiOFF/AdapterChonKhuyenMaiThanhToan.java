@@ -1,5 +1,7 @@
 package java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.android.quanlybanhang.Model.KhuyenMaiOffModel;
 import java.android.quanlybanhang.Model.ListKhuyenMaiOffModel;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
+import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiThanhToan;
 import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.util.ArrayList;
 
 public class AdapterChonKhuyenMaiThanhToan extends RecyclerView.Adapter<AdapterChonKhuyenMaiThanhToan.AdapterChonkmhodel> {
     ArrayList<ListKhuyenMaiOffModel> listKhuyenMaiOffModels;
+    ArrayList<ListKhuyenMaiOffModel> listchuyen =new ArrayList<>();
     ThanhToanActivity thanhToanActivity;
 
     public AdapterChonKhuyenMaiThanhToan(ArrayList<ListKhuyenMaiOffModel> listKhuyenMaiOffModels,ThanhToanActivity thanhToanActivity) {
@@ -36,6 +43,7 @@ public class AdapterChonKhuyenMaiThanhToan extends RecyclerView.Adapter<AdapterC
     @Override
     public void onBindViewHolder(@NonNull AdapterChonkmhodel holder, int position) {
         ListKhuyenMaiOffModel crr = listKhuyenMaiOffModels.get(position);
+
         holder.giatu.setText(crr.getNgaybatdau());
         holder.giaden.setText(crr.getNgayketthuc());
         holder.giakhuyenmai.setText(crr.getNhomkhachhang());
@@ -44,6 +52,14 @@ public class AdapterChonKhuyenMaiThanhToan extends RecyclerView.Adapter<AdapterC
             @Override
             public void onClick(View v) {
                 Toast.makeText(thanhToanActivity, "Onclick", Toast.LENGTH_SHORT).show();
+                listchuyen.add(listKhuyenMaiOffModels.get(position));
+                Intent intent = new Intent(thanhToanActivity, KhuyenMaiThanhToan.class);
+                Bundle bundle = new Bundle();
+                Gson gson = new Gson();
+                String a = gson.toJson(listKhuyenMaiOffModels.get(position));
+                intent.putExtra("listchuyen", a);
+                intent.putExtras(bundle);
+                thanhToanActivity.startActivity(intent);
             }
         });
     }

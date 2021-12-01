@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbars"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/bnt_thanhtoan"
+        android:id="@+id/bnt_xacnhan"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
@@ -69,7 +69,7 @@
         android:background="@color/bac"
         android:elevation="30dp"
         app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/bnt_thanhtoan"
+        app:layout_constraintBottom_toTopOf="@+id/bnt_xacnhan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_3">
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/alike_angular"
-                    android:text="$00.000"
+                    android:text="00.000"
                     android:textColor="#373b54"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -137,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/alike_angular"
-                    android:text="$00.000"
+                    android:text="00.000"
                     android:textColor="#373b54"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -168,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/alike_angular"
-                    android:text="$00.000"
+                    android:text="00.000"
                     android:textColor="#373b54"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -205,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/alike_angular"
-                    android:text="$00.0000"
+                    android:text="00.0000"
                     android:textColor="#373b54"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -222,7 +222,7 @@
         android:background="@drawable/bnt_backgroudthreedot"
         android:src="@drawable/icons8menudot"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bnt_thanhtoan"
+        app:layout_constraintEnd_toStartOf="@+id/bnt_xacnhan"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:ignore="SpeakableTextPresentCheck" />

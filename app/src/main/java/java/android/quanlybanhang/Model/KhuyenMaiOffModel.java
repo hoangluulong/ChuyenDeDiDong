@@ -5,6 +5,15 @@ public class KhuyenMaiOffModel {
      String giakhuyenmaiden;
      String giakhuyenmai;
      String key;
+     Boolean check =false;
+
+    public Boolean getCheck() {
+        return check;
+    }
+
+    public void setCheck(Boolean check) {
+        this.check = check;
+    }
 
     public String getKey() {
         return key;
@@ -16,7 +25,6 @@ public class KhuyenMaiOffModel {
 
     public KhuyenMaiOffModel() {
     }
-
     public String getGiakhuyenmaitu() {
         return giakhuyenmaitu;
     }

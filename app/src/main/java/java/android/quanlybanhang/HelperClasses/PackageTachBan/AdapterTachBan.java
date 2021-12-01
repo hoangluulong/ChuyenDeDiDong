@@ -74,7 +74,6 @@ private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
                 @Override
                 public void onClick(View v) {
                     holder.tvsoluong.setText( items.get(0).getSanpham().get(position).getSoluong()+"");
-
                     if( items.get(0).getSanpham().get(position).getSoluong()<=a-1){
                         items.get(0).getSanpham().get(position).setSoluong(items.get(0).getSanpham().get(position).getSoluong()+1);
                         holder.tvsoluong.setText(crr.getSanpham().get(position).getSoluong()+"");
@@ -82,11 +81,8 @@ private ArrayList<TachBanHodel> tachBanHodels =new ArrayList<>();
                     }
                 }
             });
-
         }
-
     }
-
     @Override
     public int getItemCount() {
         if (items!=null){

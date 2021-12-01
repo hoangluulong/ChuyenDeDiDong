@@ -30,7 +30,6 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.Model.DatBan.DatBanModel;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiOff;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -64,7 +63,7 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
-        bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
+        bnt_thanhtoan = findViewById(R.id.bnt_xacnhan);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
