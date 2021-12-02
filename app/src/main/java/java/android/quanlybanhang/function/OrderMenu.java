@@ -85,7 +85,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     ArrayList<ProuductPushFB1> carsListsaukhichon;
     ArrayList<ProductPushFB> carsList1;
     ProductPushFB productPushFB;
-
+    String tennhanvien;
     String code_chucnang;
     String id_CuaHang;
 
@@ -311,7 +311,12 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                         for (DataSnapshot aaa : sss.getChildren()) {
                             String tenban = aaa.child("tenban").getValue() + "";
                             String trangthai1 = aaa.child("trangthai").getValue() + "";
-                            String tennhanvien = aaa.child("tenNhanVien").getValue() + "";
+                            if(aaa.child("tenNhanVien").getValue()==null){
+                                tennhanvien ="";
+                            }
+                            else {
+                                 tennhanvien = aaa.child("tenNhanVien").getValue() + "";
+                            }
                             String gioDaorder = aaa.child("gioDaOder").getValue() + "";
                             String id_ban = aaa.getKey();
                             //gopban

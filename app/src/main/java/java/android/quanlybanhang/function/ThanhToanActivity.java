@@ -103,6 +103,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     ArrayList<KhuyenMaiOffModel> listchuyen;
     TextView taxTxt, totalTxt1;
     ArrayList<KhuyenMaiOffModel> khuyenMaiOffModel;
+    double TongCongtatca =0.0;
 
 
     @Override
@@ -162,6 +163,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             }
 
         });
+        TinhTongTien();
         hamdatban();
         OnclickThanhtoan();
 
@@ -474,7 +476,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_ban").setValue(id_ban);
                     databaseReference.child("id_khuvuc").setValue(id_khuvuc);
-                    databaseReference.child("tongtien").setValue(giaTong);
+                    databaseReference.child("tongtien").setValue(TinhTongTien());
                     databaseReference.child("status").setValue(1);
                     databaseReference.child("id_khachhang").setValue("aaa");
                     databaseReference.child("id_nhanvien").setValue(tennhanvien);
@@ -503,7 +505,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.VISIBLE);
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("bienlai").child("thu").child(hamlaydate()).child(Hamlaygiohientai());
                     databaseReference.child("id_datban").setValue(id_datban);
-                    databaseReference.child("tongtien").setValue(giaTong);
+                    databaseReference.child("tongtien").setValue(TinhTongTien());
                     databaseReference.child("status").setValue(1);
                     databaseReference.child("id_khachhang").setValue("aaa");
                     databaseReference.child("id_nhanvien").setValue(tennhanvien);
@@ -698,7 +700,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     }
                     listKhuyenMaiOffModels.add(new ListKhuyenMaiOffModel(Ngaybatdau, Ngayketthuc, Nhomkhachhang, Noidungkhuyenmai, Tenkhuyenmai, khuyenMaiOffModels));
                 }
-                totalTxt1.setText(TinhTongTien() + "");
+//                totalTxt1.setText(TinhTongTien() + "");
                 adapterChonKhuyenMai_thanhToan = new AdapterChonKhuyenMaiThanhToan(listKhuyenMaiOffModels, ThanhToanActivity.this);
                 rv_1.setLayoutManager(new LinearLayoutManager(ThanhToanActivity.this, LinearLayoutManager.VERTICAL, false));
                 rv_1.setAdapter(adapterChonKhuyenMai_thanhToan);
@@ -716,13 +718,6 @@ public class ThanhToanActivity extends AppCompatActivity {
         bnt_them.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                offModels = adapterChonKhuyenMai.PublicArraylist();
-//                Log.d("offModels", offModels.size() + "");
-//                adapterDanhSachKhuyenMai = new AdapterDanhSachKhuyenMai(offModels,KhuyenMaiOff.this);
-//                rv_2.setLayoutManager(new LinearLayoutManager(KhuyenMaiOff.this, LinearLayoutManager.VERTICAL, false));
-//                rv_2.setAdapter(adapterDanhSachKhuyenMai);
-//                adapterDanhSachKhuyenMai.notifyDataSetChanged();
                 dialog2.dismiss();
             }
         });
@@ -745,40 +740,64 @@ public class ThanhToanActivity extends AppCompatActivity {
         }
         dialog2.show();
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
+
         khuyenMaiOffModel = new ArrayList<>();
 
         if (KhuyenMaiThanhToan.khuyenMaiOffModel != null) {
             khuyenMaiOffModel = KhuyenMaiThanhToan.khuyenMaiOffModel;
-            taxTxt.setText("$ " + KhuyenMaiThanhToan.khuyenMaiOffModel.get(0).getGiakhuyenmai());
-            totalTxt1.setText(TinhTongTien() + "");
+                taxTxt.setText("$ " + KhuyenMaiThanhToan.khuyenMaiOffModel.get(0).getGiakhuyenmai());
+                totalTxt1.setText(TinhTongTien() + "");
         }
     }
 
     private Double TinhTongTien() {
         double TongTien = 0.0;
-
-        if (khuyenMaiOffModel != null && datBanModels.size() > 0) {
-            if(khuyenMaiOffModel.size()>0) {
+        if (khuyenMaiOffModel != null && datBanModels!=null) {
+            Log.d("ThanhToankj","0");
+            if(khuyenMaiOffModel.size()>0 && datBanModels.size() > 0) {
                 double tienDatban = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc() + "");
                 double tienKhuyenMai = Double.parseDouble(khuyenMaiOffModel.get(0).getGiakhuyenmai() + "");
                 TongTien = tienKhuyenMai + giaTong - tienDatban;
+                Log.d("ThanhToankj","1");
             }
-        } else if (khuyenMaiOffModel != null && datBanModels.size() == 0) {
-            if(khuyenMaiOffModel.size()>0){
+            else if(khuyenMaiOffModel.size()>0 && datBanModels.size() == 0) {
+                Log.d("ThanhToankj","2");
                 double tienKhuyenMai = Double.parseDouble(khuyenMaiOffModel.get(0).getGiakhuyenmai() + "");
                 TongTien = tienKhuyenMai + giaTong;
             }
+            else if(khuyenMaiOffModel.size()==0 && datBanModels.size() == 0){
+                Log.d("ThanhToankj","2.0");
+                TongTien = giaTong;
+            }
+            else if(khuyenMaiOffModel.size()==0 && datBanModels.size() >0){
+                Log.d("ThanhToankj","2.1");
+                double tienDatban = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc() + "");
+                TongTien = giaTong-tienDatban;
+            }
+            else {
+                Log.d("ThanhToankj",khuyenMaiOffModel.size()+"2.2");
+                Log.d("ThanhToankj",datBanModels.size()+"2.3");
+                Log.d("ThanhToankj","2.4");
+            }
 
-        } else if (khuyenMaiOffModel ==null  && datBanModels.size() > 0) {
-            double tienDatban = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc() + "");
-            TongTien = giaTong - tienDatban;
+        } else if (khuyenMaiOffModel ==null  || khuyenMaiOffModel.size()==0) {
+            Log.d("ThanhToankj","3");
+            if(datBanModels!=null){
+                if(datBanModels.size() > 0){
+                    Log.d("ThanhToankj","4");
+                    double tienDatban = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc() + "");
+                    TongTien = giaTong - tienDatban;
+                }
+                else {
+                    TongTien = giaTong ;
+                }
+            }
+
         } else {
-            Log.d("khsdjshd", giaTong + "");
+            Log.d("ThanhToankj","5");
             TongTien = giaTong;
         }
         return TongTien;

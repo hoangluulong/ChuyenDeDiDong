@@ -92,6 +92,7 @@ public class AdapterChonKmInKmThanhToan extends RecyclerView.Adapter<AdapterChon
                 lists.add(listchuyen.get(i));
             }
         }
-        return listchuyen;
+
+        return lists;
     }
 }

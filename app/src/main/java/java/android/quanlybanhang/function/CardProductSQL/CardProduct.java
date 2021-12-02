@@ -22,12 +22,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
@@ -184,11 +186,21 @@ public class CardProduct extends AppCompatActivity {
                                         }
                                     }
                                     ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, listSP);
-                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBs);
+                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBs).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            new SupportSaveLichSu(CardProduct.this,"order mang đi:"+id_datban);
+                                        }
+                                    });
 
 
                                 } else {
-                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBm);
+                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBm).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            new SupportSaveLichSu(CardProduct.this,"order mang đi:"+id_datban);
+                                        }
+                                    });
                                 }
 
                             }
@@ -221,8 +233,6 @@ public class CardProduct extends AppCompatActivity {
                                     String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
                                     listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
                                 }
-                                Log.d("kssj", listmon.size() + "listmon");
-                                Log.d("kssj", listSP.size() + "list");
                                 int adds = listSP.size();
                                 for (int i = 0; i < adds; i++) {
                                     for (int x = 0; x < listmon.size(); x++) {
@@ -236,11 +246,21 @@ public class CardProduct extends AppCompatActivity {
                                     }
                                 }
                                 ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, listSP);
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs);
+                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        new SupportSaveLichSu(CardProduct.this,"order bàn:"+id_datban);
+                                    }
+                                });
 
 
                             } else {
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB);
+                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        new SupportSaveLichSu(CardProduct.this,"order bàn:"+id_datban);
+                                    }
+                                });
                             }
 
                         }
