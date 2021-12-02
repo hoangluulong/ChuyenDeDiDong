@@ -19,6 +19,7 @@ import java.android.quanlybanhang.function.Account.ThongTinAccountActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoKhoActivity;
 import java.android.quanlybanhang.function.BaoCao.CapNhatBaoCaoActivity;
 import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
+import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiOff;
 import java.android.quanlybanhang.function.NhanVien.ChamCongNhanVienActivity;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListCategory;
@@ -117,10 +118,10 @@ public class ThietLapActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.layout_khuyenmai:
                 if (isChu) {
-                    Intent intent6 = new Intent(ThietLapActivity.this, ChamCongNhanVienActivity.class);
+                    Intent intent6 = new Intent(ThietLapActivity.this, KhuyenMaiOff.class);
                     startActivity(intent6);
                 } else if (nhanVien.getChucVu().get(7)) {
-                    Intent intent6 = new Intent(ThietLapActivity.this, ChamCongNhanVienActivity.class);
+                    Intent intent6 = new Intent(ThietLapActivity.this, KhuyenMaiOff.class);
                     startActivity(intent6);
                 } else {
                     Toast.makeText(this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();

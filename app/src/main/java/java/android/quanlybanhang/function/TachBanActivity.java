@@ -1,10 +1,15 @@
 package java.android.quanlybanhang.function;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -19,9 +24,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.android.quanlybanhang.Common.ArrayListTachBan;
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.PackageTachBan.AdapterTachBan;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
+import java.android.quanlybanhang.Model.DatBan.DatBanModel;
 import java.android.quanlybanhang.R;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -41,21 +48,29 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
     Button bnt_thanhtoan;
     ArrayList<ProductPushFB> arrayList;
     ArrayList<ProductPushFB> listDatach = new ArrayList<>();
-
+    private Window window, window1;
+    private Dialog dialog, dialog1;
     ArrayList<ProuductPushFB1> arrayList1;
     String code_chucnang;
+    String id_CuaHang ;
+    TextView title;
+    ArrayList<DatBanModel> datBanModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tach_ban);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
-        bnt_thanhtoan = findViewById(R.id.bnt_thanhtoan);
+        bnt_thanhtoan = findViewById(R.id.bnt_xacnhan);
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Tách bàn");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        Hamdialogthongbao();
         Intent intent1 = getIntent();
         if(intent1.getStringExtra("id_trangthai")!= null){
             code_chucnang = intent1.getStringExtra("id_trangthai");
@@ -64,7 +79,11 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         id_khuvuc_thanhtoan = intent1.getStringExtra("id_khuvuc");
         String carListAsString = getIntent().getStringExtra("list_as_string");
         String carListAsString1 = getIntent().getStringExtra("list_as_string1");
+        String carListAsString2 = getIntent().getStringExtra("list_as_string2");
         Gson gson = new Gson();
+        Type type2 = new TypeToken<ArrayList<DatBanModel>>() {
+        }.getType();
+        datBanModels = gson.fromJson(carListAsString2, type2);
         Type type = new TypeToken<ArrayList<ProuductPushFB1>>() {
         }.getType();
         Type type1 = new TypeToken<ArrayList<ProductPushFB>>() {
@@ -72,14 +91,6 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
         carsList1 = gson.fromJson(carListAsString1, type1);
 
         carsList = gson.fromJson(carListAsString, type);
-//        arrayList = new ArrayList<>();
-//        Long date = carsList1.get(0).getDate();
-//        int trangthaine = carsList1.get(0).getTrangThai();
-//        Boolean flag = carsList1.get(0).isFlag();
-//        ArrayList<ProuductPushFB1> prouductPushFB1s = carsList1.get(0).getSanpham();
-//        arrayList.add(new ProductPushFB(date,flag,trangthaine,prouductPushFB1s) );
-
-//        arrayList.add(carsList1.get(0));
         adapterTachBan = new AdapterTachBan(this, this);
         adapterTachBan.setData(carsList1);
         recyclerView = findViewById(R.id.rv_1);
@@ -99,9 +110,10 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
                                     carsList.get(i).setSoluong(carsList.get(i).getSoluong() - kq.getSanpham().get(x).getSoluong());
                                 } else if (carsList.get(i).getSoluong() == kq.getSanpham().get(x).getSoluong()) {
                                     if(carsList.size()>0){
-                                    carsList.remove(i);
-                                   }
+                                        carsList.remove(i);
+                                    }
                                     else {
+
                                     }
                                 }
                             }
@@ -110,36 +122,72 @@ public class TachBanActivity extends AppCompatActivity implements ArrayListTachB
                         }
                     }
                 }
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("3");
-                Intent intent = new Intent(TachBanActivity.this, OrderMenu.class);
-                Bundle bundle = new Bundle();
-                intent.putExtra("id_banTachBan", id_ban_thanhtoan);
-                intent.putExtra("id_khuvucTachBan", id_khuvuc_thanhtoan);
-                intent.putExtra("en", kq);
-                intent.putExtra("id_trangthai",code_chucnang);
-                Gson gson = new Gson();
-                String b = gson.toJson(carsList);
-                intent.putExtra("carsList",b);
-                intent.putExtras(bundle);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                if(kq.getSanpham().size()>0){
+                    for (int i = 0; i < kq.getSanpham().size(); i++) {
+                        if( kq.getSanpham().get(i).getSoluong()>0) {
+
+                            FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("3");
+                            Intent intent = new Intent(TachBanActivity.this, OrderMenu.class);
+                            Bundle bundle = new Bundle();
+                            intent.putExtra("id_banTachBan", id_ban_thanhtoan);
+                            intent.putExtra("id_khuvucTachBan", id_khuvuc_thanhtoan);
+                            intent.putExtra("en", kq);
+                            intent.putExtra("id_trangthai", code_chucnang);
+                            Gson gson = new Gson();
+                            String b = gson.toJson(carsList);
+                            String c = gson.toJson(datBanModels);
+                            intent.putExtra("list_as_string2", c);
+                            intent.putExtra("carsList", b);
+                            intent.putExtras(bundle);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(TachBanActivity.this,"so Luong phai lon hon 0",Toast.LENGTH_LONG).show();
+                            title.setText("Số Lượng Phải Lớn Hơn 0");
+                            dialog.show();
+                        }
+                    }
+                }
+                else {
+                    dialog.show();
+                    title.setText("Không Có sản Phẩm Trong Danh Sách");
+                    Toast.makeText(TachBanActivity.this,"khong co san pham trong danh sach",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
     @Override
     public void arrTachBan(ArrayList<ProuductPushFB1> arrayList) {
-//
     }
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(TachBanActivity.this, OrderMenu.class);
-//        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban").child("trangthai").setValue("0");
-        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
-        FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("chucnang").child(code_chucnang).removeValue();
+        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).child("trangthai").setValue("0");
+        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("chucnang").child(code_chucnang).removeValue();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+    public  void Hamdialogthongbao(){
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_canhbao);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_dialog_background));
+        }
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false); //Optional
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+        Button Cancel = dialog.findViewById(R.id.btn_cancel);
+        title= dialog.findViewById(R.id.title);
+
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }

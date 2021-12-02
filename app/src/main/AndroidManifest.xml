@@ -290,6 +290,9 @@
             android:enabled="true"
             android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
             android:theme="@style/thameActionbar"/>
+
+        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff"/>
+        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiThanhToan"/>
     </application>
 
 </manifest>

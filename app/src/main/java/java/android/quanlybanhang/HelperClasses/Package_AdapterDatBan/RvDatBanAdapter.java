@@ -1,37 +1,71 @@
 package java.android.quanlybanhang.HelperClasses.Package_AdapterDatBan;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticModelKhuVuc;
+import java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc.StaticRvKhuVucAdapter;
 import java.android.quanlybanhang.Model.DatBan.ID_datban;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
+import java.android.quanlybanhang.function.OrderMenu;
+import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.util.ArrayList;
 
 public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBanholder> {
-  private   ArrayList<ID_datban> items;
+    private ArrayList<ID_datban> items;
     private DatabaseReference mDatabaĐanh;
     private DanhSachDatBan danhSachDatBan;
-    public RvDatBanAdapter(ArrayList<ID_datban> items, DanhSachDatBan danhSachDatBan){
+    String id_CuaHang;
+    String trangthai_ban;
+    private DatabaseReference mDatabase;//khai bao database
+    private Dialog dialogban;
+    Window window;
+    TextView title;
+
+    public RvDatBanAdapter(ArrayList<ID_datban> items, DanhSachDatBan danhSachDatBan, Window window, Dialog dialogban) {
         this.items = items;
         this.danhSachDatBan = danhSachDatBan;
+        this.window = window;
+        this.dialogban = dialogban;
     }
 
     @NonNull
     @Override
     public DatBanholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listdatban,parent,false);
+        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(danhSachDatBan);
+        id_CuaHang = "CuaHangOder/" + thongTinCuaHangSql.IDCuaHang();
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listdatban, parent, false);
 
         DatBanholder datBanholder = new DatBanholder(view);
 
@@ -51,7 +85,6 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
             holder.isclick.setLayoutParams(params);
         }
         ID_datban CrrItem = items.get(position);
-        Log.d("CrrItem",position+"");
         holder.tvtenkhachhang.setText(CrrItem.getDatBanModels().get(position).getTenkhachhang());
         holder.tvsodienthoai.setText(CrrItem.getDatBanModels().get(position).getSodienthoai());
         holder.tvsotiendattruoc.setText(CrrItem.getDatBanModels().get(position).getSotiendadattruoc());
@@ -70,17 +103,19 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
                 notifyDataSetChanged();
             }
         });
+
+
         holder.check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] words=items.get(position).getDatBanModels().get(position).getId_bk().split("_");
+                HamTaodialog(Gravity.BOTTOM);
+                String[] words = items.get(position).getDatBanModels().get(position).getId_bk().split("_");
+                GetTrangThaiBan(position,holder,CrrItem);
 
-                FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("khuvuc").child(words[1]).child("ban").child(words[0]).child("trangthai").setValue("4");
-                holder.check.setEnabled(true);
-                holder.check.setBackgroundResource(R.color.bac);
+
+
             }
         });
-
 
 
     }
@@ -88,18 +123,19 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
     @Override
     public int getItemCount() {
 
-        if (items!=null){
-            return items.size() ;
+        if (items != null) {
+            return items.size();
         }
         return 0;
     }
 
     public class DatBanholder extends RecyclerView.ViewHolder {
-            TextView tvtenkhachhang,tvsodienthoai,tvsotiendattruoc,tvngaydat,tvtenban,tvngaydatban,tvgiodat,tvgiokt;
-//            TextInputLayout tvtenkhachhang
-            LinearLayout click,isclick;
-            ImageButton cancel,check;
+        TextView tvtenkhachhang, tvsodienthoai, tvsotiendattruoc, tvngaydat, tvtenban, tvngaydatban, tvgiodat, tvgiokt;
+        //            TextInputLayout tvtenkhachhang
+        LinearLayout click, isclick;
+        ImageButton cancel, check;
         private LinearLayout.LayoutParams params;
+
         public DatBanholder(@NonNull View itemView) {
             super(itemView);
             tvtenkhachhang = itemView.findViewById(R.id.tvtenkhachhang);
@@ -112,9 +148,9 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
             tvgiokt = itemView.findViewById(R.id.tvgiokt);
             cancel = itemView.findViewById(R.id.cancel);
             check = itemView.findViewById(R.id.check);
-            click= itemView.findViewById(R.id.click);
-            isclick= itemView.findViewById(R.id.isclick);
-            params= (LinearLayout.LayoutParams) isclick.getLayoutParams();
+            click = itemView.findViewById(R.id.click);
+            isclick = itemView.findViewById(R.id.isclick);
+            params = (LinearLayout.LayoutParams) isclick.getLayoutParams();
             click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -136,6 +172,95 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
             });
 
         }
+
+
+    }
+
+    public void GetTrangThaiBan(int position,DatBanholder holder,ID_datban CrrItem) {
+        String[] words = items.get(position).getDatBanModels().get(position).getId_bk().split("_");
+        mDatabase = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(words[1]).child("ban").child(words[0]);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    trangthai_ban = snapshot.child("trangthai").getValue() + "";
+                    if (trangthai_ban.equals("2")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                        Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (trangthai_ban.equals("3")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                        Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (trangthai_ban.equals("4")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                        Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (trangthai_ban.equals("5")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                        Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (trangthai_ban.equals("6")) {
+                        title.setText("Bàn đang bận!!!");
+                        dialogban.show();
+                        holder.check.setEnabled(true);
+
+                        Toast.makeText(danhSachDatBan, "setEnabled", Toast.LENGTH_SHORT).show();
+                    }else {
+                        title.setText("Đã Chuyển Sang Trang Thái Đặt!!!");
+                        dialogban.show();
+                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(words[1]).child("ban").child(words[0]).child("trangthai").setValue("4");
+                        FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(words[0] + "_" + words[1]).child(CrrItem.getDatBanModels().get(position).getId_ngaydat()).child("trangthai").setValue("1");
+                        holder.check.setBackgroundResource(R.color.bac);
+                        Toast.makeText(danhSachDatBan, "trangthai1", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void HamTaodialog(int gravity) {
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        window.setAttributes(windownAttributes);
+        if (Gravity.BOTTOM == gravity) {
+            dialogban.setCancelable(true);
+        } else {
+            dialogban.setCancelable(false);
+        }
+        Button Okay = dialogban.findViewById(R.id.btn_cancel);
+        title = dialogban.findViewById(R.id.title);
+
+        Okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogban.dismiss();
+            }
+        });
+
     }
 
 
