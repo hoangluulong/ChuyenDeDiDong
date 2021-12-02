@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,9 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.Product;
@@ -41,12 +39,8 @@ import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 
-import java.android.quanlybanhang.function.DatBan.DanhSachDatBan;
-import java.android.quanlybanhang.function.MainActivity;
 import java.android.quanlybanhang.function.MonOrder;
-import java.android.quanlybanhang.function.OrderMenu;
 import java.android.quanlybanhang.function.ThanhToanActivity;
-import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -59,6 +53,7 @@ public class CardProduct extends AppCompatActivity {
     ArrayList<DonGia> cardProducts;
     ArrayList<ProuductPushFB1> listSP;
     private ProductPushFB productPushFB;
+    private ProductPushFB productPushFBm;
     String id_ban;
     String id_khuvuc;
     String id;
@@ -85,17 +80,17 @@ public class CardProduct extends AppCompatActivity {
     String id_datban;
     Activity activity;
     ArrayList<ProuductPushFB1> carsList;
-    String id_CuaHang ;
+    String id_CuaHang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_san_pham);
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
-        id_CuaHang ="CuaHangOder/"+thongTinCuaHangSql.IDCuaHang();
+        id_CuaHang = "CuaHangOder/" + thongTinCuaHangSql.IDCuaHang();
         toolbar = findViewById(R.id.toolbars);
         bntluu = findViewById(R.id.bnt_luu);
-        bntthanhtoan = findViewById(R.id.bnt_thanhtoan);
+        bntthanhtoan = findViewById(R.id.bnt_xacnhan);
         toolbar = findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
 
@@ -132,6 +127,7 @@ public class CardProduct extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     trangthai = snapshot1.getValue() + "";
                     Log.d("TrangThaiCardproduct", trangthai + "Cardproduct");
@@ -154,11 +150,69 @@ public class CardProduct extends AppCompatActivity {
                 Hamxulicardt();
                 Log.d("OOOOO", trangthai);
                 productPushFB = new ProductPushFB(date, flag, trangThai, listSP);
+                productPushFBm= new ProductPushFB(date, flag, trangThai, listSP);
                 if (trangthai.equals("1")) {
-                    if (productPushFB != null) {
-                        FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFB);
+                    if (productPushFBm != null) {
+                        mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id_datban);
+                        mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.getValue() != null) {
+                                    ListDate_yc = new ArrayList<>();
+                                    ArrayList<ProuductPushFB1> mm = new ArrayList<>();
+                                    Long date1 = Long.parseLong(snapshot.child("date").getValue() + "");
+                                    Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue() + "");
+                                    int trangThais = Integer.parseInt(snapshot.child("trangThai").getValue() + "");
+                                    DataSnapshot sss = snapshot.child("sanpham");
+                                    for (DataSnapshot postSnapshot : sss.getChildren()) {
+                                        String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
+                                        int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
+                                        String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
+                                        Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
+                                        String Loai = postSnapshot.child("loai").getValue() + "";
+                                        String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
+                                        listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
+                                    }
+                                    int adds = listSP.size();
+                                    for (int i = 0; i < adds; i++) {
+                                        for (int x = 0; x < listmon.size(); x++) {
+                                            if (listSP.get(i).getNameProduct().equals(listmon.get(x).getNameProduct()) && listSP.get(i).getLoai().equals(listmon.get(x).getLoai())) {
+                                                listSP.get(i).setSoluong(listSP.get(i).getSoluong() + listmon.get(x).getSoluong());
+                                            } else {
+                                                listSP.add(new ProuductPushFB1(listmon.get(x).getLoai(), listmon.get(x).getNameProduct(), listmon.get(x).getYeuCau(), listmon.get(x).getImgProduct(), listmon.get(x).getGiaProudct(), listmon.get(x).getSoluong()));
+
+                                            }
+
+                                        }
+                                    }
+                                    ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, listSP);
+                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBs).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            new SupportSaveLichSu(CardProduct.this,"order mang đi:"+id_datban);
+                                        }
+                                    });
+
+
+                                } else {
+                                    FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBm).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            new SupportSaveLichSu(CardProduct.this,"order mang đi:"+id_datban);
+                                        }
+                                    });
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
-                } else if (trangthai.equals("0")) {
+                }
+                else if (trangthai.equals("0")) {
                     mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id);
                     mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -194,11 +248,21 @@ public class CardProduct extends AppCompatActivity {
                                     }
                                 }
                                 ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, listSP);
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs);
+                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        new SupportSaveLichSu(CardProduct.this,"order bàn:"+id_datban);
+                                    }
+                                });
 
 
                             } else {
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB);
+                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        new SupportSaveLichSu(CardProduct.this,"order bàn:"+id_datban);
+                                    }
+                                });
                             }
 
                         }
@@ -209,6 +273,8 @@ public class CardProduct extends AppCompatActivity {
                         }
                     });
                     if (listSP.size() > 0) {
+                        String tennhanvien= thongTinCuaHangSql.selectUser().getUsername();
+                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("tenNhanVien").setValue(tennhanvien);
                         FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
                         FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
                     }
@@ -300,91 +366,91 @@ public class CardProduct extends AppCompatActivity {
     }
 
 
-    private void pushData(ArrayList<ProuductPushFB1> list, long date, boolean flag, int trangThai) {
-        Log.d("kssj", "dsjdskdjk0");
-        bntluu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Hamxulicardt();
-                productPushFB = new ProductPushFB(date, flag, trangThai, list);
-                if (trangthai.equals("1")) {
-                    if (productPushFB != null) {
-                        FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFB);
-                    }
-                } else if (trangthai.equals("0")) {
-                    Log.d("kssj", "dsjdskdjk1");
-                    mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id);
-                    mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.getValue() != null) {
-                                ListDate_yc = new ArrayList<>();
-                                Log.d("kssj", "dsjdskdjk2");
-                                listmon = new ArrayList<ProuductPushFB1>();
-                                ArrayList<ProuductPushFB1> mm = new ArrayList<>();
-                                Long date1 = Long.parseLong(snapshot.child("date").getValue() + "");
-                                Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue() + "");
-                                int trangThais = Integer.parseInt(snapshot.child("trangThai").getValue() + "");
-                                DataSnapshot sss = snapshot.child("sanpham");
-                                for (DataSnapshot postSnapshot : sss.getChildren()) {
-                                    String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
-                                    int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
-                                    String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
-                                    Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
-                                    String Loai = postSnapshot.child("loai").getValue() + "";
-                                    String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
-                                    listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
-
-                                }
-                                Log.d("kssj", listmon.size() + "listmon");
-                                Log.d("kssj", list.size() + "list");
-                                for (int i = 0; i < list.size(); i++) {
-                                    for (int x = 0; x < listmon.size(); x++) {
-                                        if (list.get(i).equals(listmon.get(x).getNameProduct()) && list.get(i).getLoai().equals(listmon.get(x).getLoai())) {
-                                            list.get(i).setSoluong(list.get(i).getSoluong() + listmon.get(x).getSoluong());
-                                        } else {
-//                                            listmon.add(list.get(i));
-                                            list.add(listmon.get(i));
-                                        }
-
-                                    }
-                                }
-                                ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, list);
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs);
-
-
-                            } else {
-                                Log.d("kssj", "dsjdskdjk3");
-                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB);
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    if (list.size() > 0) {
-                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
-                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
-                    }
-                }
-
-
-                Intent intent = new Intent(CardProduct.this, ThanhToanActivity.class);
-                intent.putExtra("id_ban", id_ban);
-                intent.putExtra("id_khuvuc", id_khuvuc);
-                intent.putExtra("id_datban", id_datban);
-                intent.putExtra("trangthai", trangthai);
-                startActivity(intent);
-                XoaSpkhiOrder();
-                Toast.makeText(CardProduct.this, "Order Thành Công", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
+//    private void pushData(ArrayList<ProuductPushFB1> list, long date, boolean flag, int trangThai) {
+//        bntluu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Hamxulicardt();
+//                productPushFB = new ProductPushFB(date, flag, trangThai, list);
+//                if (trangthai.equals("1")) {
+//                    if (productPushFB != null) {
+//                        FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban);
+//
+//                    }
+//                } else if (trangthai.equals("0")) {
+//                    Log.d("kssj", "dsjdskdjk1");
+//                    mDatabase2 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("sanphamorder").child(id);
+//                    mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            if (snapshot.getValue() != null) {
+//                                ListDate_yc = new ArrayList<>();
+//                                Log.d("kssj", "dsjdskdjk2");
+//                                listmon = new ArrayList<ProuductPushFB1>();
+//                                ArrayList<ProuductPushFB1> mm = new ArrayList<>();
+//                                Long date1 = Long.parseLong(snapshot.child("date").getValue() + "");
+//                                Boolean flag = Boolean.parseBoolean(snapshot.child("flag").getValue() + "");
+//                                int trangThais = Integer.parseInt(snapshot.child("trangThai").getValue() + "");
+//                                DataSnapshot sss = snapshot.child("sanpham");
+//                                for (DataSnapshot postSnapshot : sss.getChildren()) {
+//                                    String nameProduct = postSnapshot.child("nameProduct").getValue() + "";
+//                                    int soluong = Integer.parseInt(postSnapshot.child("soluong").getValue() + "");
+//                                    String yeuCau = postSnapshot.child("yeuCau").getValue() + "";
+//                                    Double giaProudct = Double.parseDouble(postSnapshot.child("giaProudct").getValue() + "");
+//                                    String Loai = postSnapshot.child("loai").getValue() + "";
+//                                    String imgproduct = postSnapshot.child("imgProduct").getValue() + "";
+//                                    listmon.add(new ProuductPushFB1(Loai, nameProduct, yeuCau, imgproduct, giaProudct, soluong));
+//
+//                                }
+//                                Log.d("kssj", listmon.size() + "listmon");
+//                                Log.d("kssj", list.size() + "list");
+//                                for (int i = 0; i < list.size(); i++) {
+//                                    for (int x = 0; x < listmon.size(); x++) {
+//                                        if (list.get(i).equals(listmon.get(x).getNameProduct()) && list.get(i).getLoai().equals(listmon.get(x).getLoai())) {
+//                                            list.get(i).setSoluong(list.get(i).getSoluong() + listmon.get(x).getSoluong());
+//                                        } else {
+////                                            listmon.add(list.get(i));
+//                                            list.add(listmon.get(i));
+//                                        }
+//
+//                                    }
+//                                }
+//                                ProductPushFB productPushFBs = new ProductPushFB(date1, flag, trangThai, list);
+//                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFBs);
+//
+//
+//                            } else {
+//                                Log.d("kssj", "dsjdskdjk3");
+//                                FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB);
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
+//                    if (list.size() > 0) {
+//                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("2");
+//                        FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(date);
+//                    }
+//                }
+//
+//
+//                Intent intent = new Intent(CardProduct.this, ThanhToanActivity.class);
+//                intent.putExtra("id_ban", id_ban);
+//                intent.putExtra("id_khuvuc", id_khuvuc);
+//                intent.putExtra("id_datban", id_datban);
+//                intent.putExtra("trangthai", trangthai);
+//                startActivity(intent);
+//                XoaSpkhiOrder();
+//                Toast.makeText(CardProduct.this, "Order Thành Công", Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
+//
+//    }
 
     private void Hamxulicardt() {
         ArrayList<Product> lists = staticCartAdapter.getItems();
@@ -416,9 +482,8 @@ public class CardProduct extends AppCompatActivity {
         if (item_id == R.id.order) {
             Toast.makeText(this, "order nè", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CardProduct.this, MonOrder.class);
+            intent.putExtra("id_datban",id_datban);
             intent.putExtra("id_ban", id_ban);
-            Log.d("id_khuvuc", id_khuvuc);
-
             intent.putExtra("id_khuvuc", id_khuvuc);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -467,5 +532,8 @@ public class CardProduct extends AppCompatActivity {
         return tong;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

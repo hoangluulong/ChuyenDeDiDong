@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Fragment.FragmentAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.TablayoutAdapter;
@@ -34,6 +35,7 @@ public class QuangCaoActivity extends AppCompatActivity implements NavigationVie
     private RecyclerView recylerView;
     private ViewPager2 pager;
     private TablayoutAdapter tablayoutAdapter;
+
 
     private FragmentAdapter adapter;
     private ArrayList<String> title;

@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,7 +56,8 @@ import java.util.ArrayList;
 
 public class AddProduct extends AppCompatActivity {
     private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham, textTenDonViTinh;
-    private Spinner spnNhomsanpham, spnDonViTinh;
+    private Spinner spnNhomsanpham;
+    private AutoCompleteTextView spnDonViTinh;
     private Button btnAdd,btnHuy, btnThemDonViTinh, btnDonViTinhSanPham, btnDialogHuyDVT, btnDialogThemDVT, btnDialogHuyThemDVT, btnThemDialogThemDVT;
     private ImageView btnChoose;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -67,23 +70,24 @@ public class AddProduct extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabase1;
     private DatabaseReference mDatabase2;
-    private ArrayList<String> listDonViTinh;
+    private ArrayList<String> listDonViTinh = new ArrayList<>();
     private ArrayList<DonGia> listDonGia = new ArrayList<>();
     private AdapterDonGia adapterDonGia;
     private RecyclerView listView;
     private DonViTinh donViTinh;
-
     private String STR_NHOMSANPHAM = "danhmucsanpham";
     private String STR_SANPHAM = "sanpham";
-    private String STR_CUAHANG = "CuaHangOder";
+    private String ID_CUAHANG;
     private String STR_UPLOAD = "uploads";
     private String STR_DONVITINH = "donvitinh";
+    private String STR_CUAHANG = "CuaHangOder";
     private String id;
     private ArrayAdapter<String> adapter;
     private Dialog dialog, dialog1;
     private Window window, window1;
     private  Intent intent = new Intent();
-    private String ID_CUAHANG;
+    private  String nameDonGia;
+    private int gravity = Gravity.CENTER;
 
 
     @Override
@@ -122,6 +126,8 @@ public class AddProduct extends AppCompatActivity {
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog1.setContentView(R.layout.dialogthemdonvitinh);
         window1 = dialog1.getWindow();
+
+        adapterDonGia = new AdapterDonGia(AddProduct.this, listDonGia, dialog, window, spnDonViTinh, adapter, gravity);
 
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
@@ -276,24 +282,26 @@ public class AddProduct extends AppCompatActivity {
 
     private void dailongDonViTinhSanPham(int gravity) {
         textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
-        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+        spnDonViTinh = dialog.findViewById(R.id.spnTenDonViTinh2);
         btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
         btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
 
         mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listDonViTinh = new ArrayList<>();
+//                listDonViTinh = new ArrayList<>();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     DonViTinh donViTinh1 = snapshot1.getValue(DonViTinh.class);
                     String name = donViTinh1.getDonViTinh();
                     listDonViTinh.add(name);
+                    adapterDonGia.setData(listDonViTinh);
                 }
                 if (listDonViTinh.size() != 0) {
                     adapter = new ArrayAdapter<String>(AddProduct.this, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                     spnDonViTinh.setAdapter(adapter);
                 }
+
             }
 
             @Override
@@ -320,23 +328,28 @@ public class AddProduct extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        spnDonViTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nameDonGia = parent.getItemAtPosition(position).toString();
+            }
+        });
         btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DonGia donGia = new DonGia();
-                donGia.setTenDonGia(spnDonViTinh.getSelectedItem().toString());
                 donGia.setId(id);
                 if (textGiaSanPham.getText().toString().isEmpty()) {
                     textGiaSanPham.setError("Hãy nhập giá !!!");
                     textGiaSanPham.requestFocus();
                     setFinishOnTouchOutside(true);
                 } else {
+                    donGia.setTenDonGia(nameDonGia);
                     donGia.setGiaBan(Double.parseDouble(textGiaSanPham.getText().toString()));
                     listDonGia.add(donGia);
                     dialog.dismiss();
                 }
                 textGiaSanPham.setText("");
-                adapterDonGia = new AdapterDonGia(AddProduct.this, listDonGia, dialog, window, spnDonViTinh, adapter, gravity);
                 listView.setLayoutManager(new LinearLayoutManager(AddProduct.this, LinearLayoutManager.VERTICAL, false));
                 listView.setAdapter(adapterDonGia);
                 adapterDonGia.notifyDataSetChanged();

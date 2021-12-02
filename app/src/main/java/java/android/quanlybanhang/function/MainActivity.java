@@ -1,6 +1,7 @@
 package java.android.quanlybanhang.function;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,16 +19,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
-import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.Account.SignInActivity;
-import java.android.quanlybanhang.function.Account.ThongTinAccountActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
@@ -35,12 +37,8 @@ import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ListNhomKhachHang;
 import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
-import java.android.quanlybanhang.function.KhuyenMai.ThemKhuyenMai;
-import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiOff;
 import java.android.quanlybanhang.function.NhanVien.ListNhanVien;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
-
-//import java.android.quanlybanhang.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private boolean doubleBackToExitPressedOnce = false;
@@ -49,9 +47,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu, baocao, donOnline, bep, online,account;
-    private DatabaseReference mDatabase;//khai bao database
-    private DatabaseReference mDatabase1;//khai bao database
+    RelativeLayout ordermenu, baocao, donOnline, bep, online, account;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private String ID_CUAHANG;
+    private String ID_USER;
+    private NhanVien nhanVien;
+    private ThongTinCuaHangSql thongTinCuaHangSql;
+    private boolean isChu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,53 +67,119 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         online = findViewById(R.id.online);
         account = findViewById(R.id.account);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("JxZOOK1RzcMM7pL5I6naGZfYSsu2").child("gopban");
-        mDatabase.child("trangthai").setValue("0");
+        java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSqlDB = new java.android.quanlybanhang.database.ThongTinCuaHangSql(MainActivity.this, "app_database.sqlite", null, 2);
+        thongTinCuaHangSqlDB.createTableUser();
+
+        thongTinCuaHangSql = new ThongTinCuaHangSql(this);
+        nhanVien = thongTinCuaHangSql.selectUser();
+        isChu = thongTinCuaHangSql.isChu();
+        boolean ss = thongTinCuaHangSql.isChu();
+        ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
+        ID_USER = thongTinCuaHangSql.IDUser();
+
+        Log.d("ID_USER", ID_USER + " - " + ID_CUAHANG);
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+
+
+        mFirebaseDatabase.child("CuaHangOder/" + ID_CUAHANG + "/user/" + ID_USER).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Cursor cursor = thongTinCuaHangSqlDB.selectUser();
+                nhanVien = snapshot.getValue(NhanVien.class);
+                String quyen = "";
+                for (int i = 0; i < nhanVien.getChucVu().size(); i++) {
+                    if (nhanVien.getChucVu().get(i)) {
+                        quyen = quyen + "1";
+                    } else {
+                        quyen = quyen + "0";
+                    }
+                }
+
+                if (cursor.getCount() > 0) {
+                    String IdOld = "";
+                    while (cursor.moveToNext()) {
+                        IdOld = cursor.getString(0);
+                    }
+                    thongTinCuaHangSqlDB.UpdateUser(nhanVien.getId(), nhanVien.getId(), nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                } else {
+                    thongTinCuaHangSqlDB.InsertUser(nhanVien.getId(), nhanVien.getUsername(), nhanVien.getEmail(), nhanVien.getPhone(), quyen);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         ordermenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, OrderMenu.class);
-                startActivity(intent);
+                if (nhanVien.getChucVu().get(3)) {
+                    Intent intent = new Intent(MainActivity.this, OrderMenu.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         baocao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, BaoCaoTongQuanActivity.class);
-                startActivity(intent);
+                if (nhanVien.getChucVu().get(2) || isChu) {
+                    Intent intent = new Intent(MainActivity.this, BaoCaoTongQuanActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         donOnline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DuyetDonHangActivity.class);
-                startActivity(intent);
+                if (nhanVien.getChucVu().get(5) || isChu) {
+                    Intent intent = new Intent(MainActivity.this, DuyetDonHangActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         bep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, BepActivity.class);
-                startActivity(intent);
+                Log.d("ssss", nhanVien.getChucVu().get(4)+"");
+                if (nhanVien.getChucVu().get(4) || isChu) {
+                    Intent intent = new Intent(MainActivity.this, BepActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CuaHangOnlineActivity.class);
-                startActivity(intent);
+                if (nhanVien.getChucVu().get(5) || isChu) {
+                    Intent intent = new Intent(MainActivity.this, CuaHangOnlineActivity.class);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ThongTinAccountActivity.class);
+                Intent intent = new Intent(MainActivity.this, ThietLapActivity.class);
                 startActivity(intent);
             }
         });
@@ -134,22 +203,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_homes);
-
-        ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
-
-        Toast.makeText(this, thongTinCuaHangSql.IDUser(), Toast.LENGTH_LONG).show();
-        NhanVien nhanVien = thongTinCuaHangSql.selectUser();
-        Log.d("zz", thongTinCuaHangSql.IDCuaHang());
     }
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
+                finish();
                 return;
             }
 
@@ -173,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_homes:
                 break;
             case R.id.ds_order:
-                Intent intent = new Intent(MainActivity.this, KhuyenMaiOff.class);
+                Intent intent = new Intent(MainActivity.this, ListProduct.class);
                 startActivity(intent);
                 break;
             case R.id.ds_chebien:

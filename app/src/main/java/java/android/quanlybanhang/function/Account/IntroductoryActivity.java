@@ -46,11 +46,11 @@ public class IntroductoryActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabase = mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         lottie = findViewById(R.id.lottie);
 
-        int secs = 5; // Delay in seconds
+        int secs = 2; // Delay in seconds
 
         Utils.delay(secs, new Utils.DelayCallback() {
             @Override

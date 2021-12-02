@@ -10,7 +10,10 @@ public class NhanVien implements Serializable {
     CaLam caLam;
     String phone;
     String id;
-
+    String avata;
+    String nameAvata;
+    ChamCong chamcong;
+    boolean chuCuaHang;
 
     public NhanVien() {
     }
@@ -28,13 +31,92 @@ public class NhanVien implements Serializable {
         this.phone = phone;
     }
 
-    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id) {
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, ChamCong chamCong) {
         this.username = username;
         this.email = email;
         this.chucVu = chucVu;
         this.caLam = caLam;
         this.phone = phone;
         this.id = id;
+        this.chamcong = chamCong;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, String avata) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.avata = avata;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, String avata, String nameAvata) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.avata = avata;
+        this.nameAvata = nameAvata;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, String avata, String nameAvata, ChamCong chamcong) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.avata = avata;
+        this.nameAvata = nameAvata;
+        this.chamcong = chamcong;
+    }
+
+    public NhanVien(String username, String email, ArrayList<Boolean> chucVu, CaLam caLam, String phone, String id, String avata, String nameAvata, ChamCong chamcong, boolean chuCuaHang) {
+        this.username = username;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.caLam = caLam;
+        this.phone = phone;
+        this.id = id;
+        this.avata = avata;
+        this.nameAvata = nameAvata;
+        this.chamcong = chamcong;
+        this.chuCuaHang = chuCuaHang;
+    }
+
+    public boolean isChuCuaHang() {
+        return chuCuaHang;
+    }
+
+    public void setChuCuaHang(boolean chuCuaHang) {
+        this.chuCuaHang = chuCuaHang;
+    }
+
+    public ChamCong getChamcong() {
+        return chamcong;
+    }
+
+    public void setChamcong(ChamCong chamcong) {
+        this.chamcong = chamcong;
+    }
+
+    public String getNameAvata() {
+        return nameAvata;
+    }
+
+    public void setNameAvata(String nameAvata) {
+        this.nameAvata = nameAvata;
+    }
+
+    public String getAvata() {
+        return avata;
+    }
+
+    public void setAvata(String avata) {
+        this.avata = avata;
     }
 
     public ArrayList<Boolean> getChucVu() {

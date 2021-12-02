@@ -23,11 +23,46 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
-            android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff"
+            android:name=".function.CuaHangOnline.DanhSachSanPhamActivity"
+            android:exported="true"
+            android:parentActivityName=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
+            android:theme="@style/thameActionbar4" />
+        <activity
+            android:name=".function.SanPham.DanhSachNguyenLieuActivity"
             android:exported="false" />
         <activity
-            android:name=".function.Account.ThongTinAccountActivity"
+            android:name=".function.BaoCao.DanhSachChiTieuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".function.ChiTieuActivity"
             android:exported="true" />
+        <activity
+            android:name=".function.Account.TaoChiNhanhActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.Account.ChiNhanhActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.BienLaiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".function.NhanVien.ChamCongNhanVienActivity"
+            android:exported="true"
+            android:label="Chấm công nhân viên"
+            android:parentActivityName=".function.NhanVien.ListNhanVien"
+            android:theme="@style/thameActionbar" />
+        <activity
+            android:name=".function.ThietLapActivity"
+            android:exported="true"
+            android:label="Tiện ích"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar4" />
+        <activity
+            android:name=".function.Account.ThongTinAccountActivity"
+            android:exported="true"
+            android:label=""
+            android:parentActivityName=".function.ThietLapActivity"
+            android:theme="@style/thameActionbar2" />
         <activity
             android:name=".function.ThanhToanActivity"
             android:exported="true" />
@@ -37,12 +72,8 @@
         <activity
             android:name=".function.SanPham.SuaSanPhamActivity"
             android:exported="true" />
-        <activity
-            android:name=".function.SanPham.AddCategory"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".function.SanPham.AddProduct"
-            android:screenOrientation="portrait" />
+        <activity android:name=".function.SanPham.AddCategory" />
+        <activity android:name=".function.SanPham.AddProduct" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -245,11 +276,23 @@
             android:name=".function.TachBanActivity"
             android:exported="false" />
         <activity
-            android:name=".function.DatBan.DatBan"
-            android:exported="false" />
+            android:name=".function.BaoCao.CapNhatBaoCaoActivity"
+            android:enabled="true"
+            android:parentActivityName=".function.ThietLapActivity"
+            android:theme="@style/thameActionbar" />
         <activity
-            android:name=".function.DatBan.DanhSachDatBan"
-            android:exported="false" />
+            android:name=".function.SanPham.ThemNguyenLieuActivity"
+            android:enabled="true"
+            android:parentActivityName=".function.SanPham.DanhSachNguyenLieuActivity"
+            android:theme="@style/thameActionbar" />
+
+        <activity android:name=".function.BaoCao.ChiTietThuChiActivity"
+            android:enabled="true"
+            android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
+            android:theme="@style/thameActionbar"/>
+
+        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff"/>
+        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiThanhToan"/>
     </application>
 
 </manifest>

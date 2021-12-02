@@ -110,11 +110,13 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
     private void getDataUser () {
         checkDataUser = false;
         checkThietLap= false;
-        Log.d("qqq", key);
+        thongTinCuaHangSql.createTableChuCuaHang();
+
         mFirebaseDatabase.child("CuaHangOder/"+key+"/user/"+ID_USER).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Cursor cursor = thongTinCuaHangSql.selectUser();
+                Cursor cursor1 = thongTinCuaHangSql.selectChuCuaHang();
                 NhanVien nhanVien = snapshot.getValue(NhanVien.class);
                 String quyen = "";
 
@@ -124,6 +126,14 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
                     }else{
                         quyen = quyen + "0";
                     }
+                }
+
+                Log.d("ssss", nhanVien.isChuCuaHang()+"");
+
+                if (cursor1.getCount() > 0) {
+                    thongTinCuaHangSql.UpdateChuCuaHang(nhanVien.isChuCuaHang()+"");
+                }else {
+                    thongTinCuaHangSql.InsertChuCuaHang(nhanVien.isChuCuaHang()+"");
                 }
 
                 if (cursor.getCount() > 0){
@@ -181,9 +191,11 @@ public class ChiNhanhSignInActivity extends AppCompatActivity {
                     if (thietLap == false) {
                         Intent intent = new Intent(ChiNhanhSignInActivity.this, StoreSetting.class);
                         startActivity(intent);
+                        finish();
                     }else {
                         Intent intent = new Intent(ChiNhanhSignInActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }else{
                     delayLoadata();

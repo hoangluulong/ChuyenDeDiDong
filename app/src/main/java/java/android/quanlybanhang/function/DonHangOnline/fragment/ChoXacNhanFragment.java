@@ -149,7 +149,6 @@ public class ChoXacNhanFragment extends Fragment implements SwipeRefreshLayout.O
         });
     }
 
-
     private void getDataFireBase(View view) {
         mFirebaseDatabase.child("CuaHangOder/"+ID_CUAHANG+"/donhangonline/dondadat").addValueEventListener(new ValueEventListener() {
             @Override

@@ -130,11 +130,12 @@ public class ChiTietSanPham extends AppCompatActivity {
         arrdongia = new ArrayList<>();
         for (int i = 0; i < donGiaOrders.size(); i++) {
 
-            if (donGiaOrders.get(i).getId().equals(staticMonOrderModel.getId())) {
-                arrdongia.add(new DonGia(donGiaOrders.get(i).getTenDonGia(), donGiaOrders.get(i).getGiaBan()));
+            if (donGiaOrders.get(i).getId() != null && staticMonOrderModel.getId() != null) {
+                if (donGiaOrders.get(i).getId().equals(staticMonOrderModel.getId())) {
+                    arrdongia.add(new DonGia(donGiaOrders.get(i).getTenDonGia(), donGiaOrders.get(i).getGiaBan()));
 
+                }
             }
-
         }
 
         adapterLoaiGia = new AdapterLoaiGia(arrdongia, numcheck, tonggiasp, soluong2, Loai, gia, position);
@@ -286,6 +287,8 @@ public class ChiTietSanPham extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         super.onBackPressed();
+
     }
 }

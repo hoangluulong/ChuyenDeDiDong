@@ -24,10 +24,12 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
     ArrayList<StaticModelKhuVuc> items;
     int item_a =-1;
     Interface_KhuVuc_ban interfacekhuVucban;
+
     Activity activity;
     boolean check = true;
     boolean select= true;
     private  String id_khuvuc;
+    private DatabaseReference kvDatabase;//khai bao database
     public StaticRvKhuVucAdapter(ArrayList<StaticModelKhuVuc> items, Activity activity, Interface_KhuVuc_ban interfacekhuVucban) {
         this.items = items;
         this.activity= activity;
@@ -66,6 +68,10 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
                 ArrayList<StaticBanModel> item = new ArrayList<>();
                 notifyDataSetChanged();
 
+
+                Log.d("khungaa",item.size()+"");
+//                holder.constraintLayouts.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
+//                Log.d("khungaa",items.get(position).getStaticBanModels().get(0).getTrangthai());
                 for(int i=0;i<items.size();i++){
                     if(position==i){
 
@@ -76,6 +82,10 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
                         }
                     });
 
+//        Log.d("khungaa",items.get(position).getStaticBanModels().get(1).getTrangthai());
+//        if(items.get(position).getStaticBanModels().get(0).getTrangthai().equals("aaa")){
+//            holder.constraintLayouts.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
+//        }
         if (select) {
             if(position==0)
                 holder.linearLayouts.setBackgroundResource(R.drawable.rv_khuvuc_bg);
@@ -90,6 +100,10 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
         }
 
         else {
+//            if(items.get(position).getStaticBanModels().get(position).getTrangthai().equals("2")){
+////            holder.constraintLayouts.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
+//                holder.linearLayouts.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
+//            }
             if (item_a == position) {
                 holder.linearLayouts.setBackgroundResource(R.drawable.rv_khuvuc_bg);
             } else {

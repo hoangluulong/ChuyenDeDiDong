@@ -387,7 +387,6 @@ public class ChiSoSanPhamFragment extends Fragment implements AdapterView.OnItem
         }
     }
 
-
     private ArrayList<String> MangNgay() {
         Calendar c = GregorianCalendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -454,6 +453,5 @@ public class ChiSoSanPhamFragment extends Fragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
+    public void onNothingSelected(AdapterView<?> parent) { }
 }

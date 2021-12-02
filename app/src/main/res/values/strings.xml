@@ -53,6 +53,9 @@
     <string name="quanlysanpham">Quản lý sản phẩm</string>
     <string name="thuchi">Thu chi</string>
     <string name="oder">Oder</string>
+    <string name="cuahangonline">Quản lý cửa hàng online</string>
+    <string name="khachhang">Khách hàng</string>
+    <string name="khuyenmai">Khuyến mãi</string>
     <string name="chi_phi">Chi phí</string>
 
     <!--    Login and signup-->
@@ -97,6 +100,12 @@
         <item>Số lượng tăng</item>
         <item>Tiền thu giảm</item>
         <item>Tiền thu tăng</item>
+    </string-array>
+
+    <string-array name="sort_bienlai">
+        <item>Tất cả</item>
+        <item>Cửa hàng</item>
+        <item>Online</item>
     </string-array>
 
 </resources>

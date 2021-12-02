@@ -1,6 +1,8 @@
 package java.android.quanlybanhang.function.SanPham;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,8 +54,24 @@ public class AddCategory extends AppCompatActivity {
                     String name = editTextAddCategory.getText().toString();
                     category = new Category(id,name);
                     mDatabase.child(id).setValue(category);
+                    finish();
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

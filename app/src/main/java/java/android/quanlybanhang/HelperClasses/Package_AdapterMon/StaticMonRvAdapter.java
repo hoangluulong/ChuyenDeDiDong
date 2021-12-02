@@ -25,6 +25,16 @@ import java.util.ArrayList;
 public class StaticMonRvAdapter  extends RecyclerView.Adapter<StaticMonRvAdapter.StaticMonRvViewHolder>{
     ArrayList<Product> staticMonOrderModels;
     public MonOrder monOrder;
+//    public IclickGetMon iclickGetMon;
+
+//    public interface IclickGetMon{
+//        void clickItent(Product product );
+//    }
+//
+//    public void setData(IclickGetMon iclickGetMon){
+//        this.iclickGetMon = iclickGetMon;
+//    }
+
     ArrayList<StaticCategoryMonModel> items;
     int pos;
 
@@ -46,6 +56,8 @@ public class StaticMonRvAdapter  extends RecyclerView.Adapter<StaticMonRvAdapter
         this.key_SanPham = key_SanPham;
         this.id_datban = id_datban;
         this.trangthai= trangthai;
+
+
     }
 
     @NonNull
@@ -75,11 +87,15 @@ public class StaticMonRvAdapter  extends RecyclerView.Adapter<StaticMonRvAdapter
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("sp",Crritem);
                 intent1.putExtras(bundle);
+                Log.d("aaa",id_ban+"baba1");
                 intent1.putExtra("tenban",tenban);
                 intent1.putExtra("id_ban",id_ban);
                 intent1.putExtra("id_khuvuc",id_khuvuc);
                 intent1.putExtra("key_sanpham",key_SanPham);
                 intent1.putExtra("id_datban",id_datban);
+//                    intent1.putExtra("trangthai",trangthai);
+
+//                    Log.d("key_sanpham113",Crritem.getDonGia().get(position).getId() );
                 monOrder.startActivity(intent1);
 
             }

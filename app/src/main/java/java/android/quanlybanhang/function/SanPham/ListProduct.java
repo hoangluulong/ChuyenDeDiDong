@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,9 +46,6 @@ public class ListProduct  extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private ArrayList<Product> listProduct;
     private RecyclerView recyclerView;
-    private EditText textName, textChitiet, textGianhap, textSoluong, textGiaSanPham,textTenDonViTinh;
-    private Spinner spnNhomsanpham, spnDonViTinh;
-    private Button btnChoose;
     private EditText searchView;
     private ArrayList<Product> listSearch;
     String key;
@@ -118,7 +118,6 @@ public class ListProduct  extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent = new Intent(ListProduct.this, AddProduct.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }).show();
             }
@@ -179,5 +178,18 @@ public class ListProduct  extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
+    }
 }

@@ -243,6 +243,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                     thanhphoAuto.setText(diaChiCuaHang.getTinhThanhPho());
 
                     tinh = ArrayTinh();
+
                     adapterTinh = new ArrayAdapter<String>(ThongTinCuaHangOnlineActivity.this, R.layout.item_spinner1_setup_store, tinh);
                     thanhphoAuto.setAdapter(adapterTinh);
                     adapterTinh.notifyDataSetChanged();

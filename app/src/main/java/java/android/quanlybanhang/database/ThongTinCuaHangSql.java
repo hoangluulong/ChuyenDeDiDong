@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -11,6 +12,7 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
 
     private final String NAME_TABLE = "thongtincuahang";
     private final String NAME_TABLE_USER = "user";
+    private final String NAME_TABLE_CHU_CUA_HANG = "ischu";
 
     public ThongTinCuaHangSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -59,7 +61,7 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
     }
 
     public void InsertUser(String Id, String ten, String email, String phone, String quyen) {
-        createTable();
+        createTableUser();
         String sql = "INSERT INTO " + NAME_TABLE_USER + " VALUES('" + Id + "', '" + ten + "', '" + email + "', '"+phone+"', '" + quyen + "')";
 
         SQLiteDatabase database = getWritableDatabase();
@@ -71,6 +73,7 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
         String sql = "SELECT * FROM " + NAME_TABLE_USER;
         SQLiteDatabase database = getReadableDatabase();
         return database.rawQuery(sql, null);
+
     }
 
     public void UpdateUser(String IdNew, String IdOld, String ten, String email,String phone, String quyen) {
@@ -78,6 +81,37 @@ public class ThongTinCuaHangSql extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
     }
+
+    public void createTableChuCuaHang() {
+        String sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_CHU_CUA_HANG + "(" +
+                "Id VARCHAR(10) PRIMARY KEY, " +
+                "ischu VARCHAR(10))";
+
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL(sql);
+    }
+
+    public void InsertChuCuaHang(String ischu) {
+        createTableChuCuaHang();
+        String sql = "INSERT INTO " + NAME_TABLE_CHU_CUA_HANG + " VALUES('ID', '" + ischu + "')";
+
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL(sql);
+    }
+
+    public Cursor selectChuCuaHang() {
+        createTableChuCuaHang();
+        String sql = "SELECT * FROM " + NAME_TABLE_CHU_CUA_HANG;
+        SQLiteDatabase database = getReadableDatabase();
+        return database.rawQuery(sql, null);
+    }
+    public void UpdateChuCuaHang(String ischu) {
+        createTableChuCuaHang();
+        String sql = "UPDATE " + NAME_TABLE_CHU_CUA_HANG + " SET ischu = '" + ischu + "' WHERE Id= 'ID'";
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL(sql);
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {

@@ -22,6 +22,8 @@ public class DonHang {
     private int phuongThucThanhToan;
     private String idQuan;
     private String idDonHang;
+    private String ghiChu;
+    private long thunhap;
 
     public DonHang() { }
 
@@ -155,6 +157,45 @@ public class DonHang {
         this.phuongThucThanhToan = phuongThucThanhToan;
         this.idQuan = idQuan;
         this.idDonHang = idDonHang;
+    }
+
+    public DonHang(String diaChi, String diemnhan, String time, int trangthai, String idKhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, double donGia, String key, Date date, String sdtkhachhang, String tenKhachhang, String nhanVien, String shipper, String phoneShipper, int phuongThucThanhToan, String idQuan, String idDonHang, String ghiChu, long thunhap) {
+        this.diaChi = diaChi;
+        this.diemnhan = diemnhan;
+        this.time = time;
+        this.trangthai = trangthai;
+        this.idKhachhang = idKhachhang;
+        this.giaKhuyenMai = giaKhuyenMai;
+        this.sanpham = sanpham;
+        this.donGia = donGia;
+        this.key = key;
+        this.date = date;
+        this.sdtkhachhang = sdtkhachhang;
+        this.tenKhachhang = tenKhachhang;
+        this.nhanVien = nhanVien;
+        this.shipper = shipper;
+        this.phoneShipper = phoneShipper;
+        this.phuongThucThanhToan = phuongThucThanhToan;
+        this.idQuan = idQuan;
+        this.idDonHang = idDonHang;
+        this.ghiChu = ghiChu;
+        this.thunhap = thunhap;
+    }
+
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
+    public long getThunhap() {
+        return thunhap;
+    }
+
+    public void setThunhap(long thunhap) {
+        this.thunhap = thunhap;
     }
 
     public String getSdtkhachhang() {

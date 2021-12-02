@@ -179,26 +179,6 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="20dp"
-                                            android:hint="Giá bán *"
-                                            app:hintEnabled="true">
-
-                                            <com.google.android.material.textfield.TextInputEditText
-                                                android:id="@+id/giaban"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:inputType="number"
-                                                android:textColor="@color/slate"
-                                                app:boxStrokeColor="@color/vang">
-
-                                            </com.google.android.material.textfield.TextInputEditText>
-
-                                        </com.google.android.material.textfield.TextInputLayout>
-
-                                        <com.google.android.material.textfield.TextInputLayout
-                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="20dp"
                                             android:hint="Số lượng *"
                                             app:hintEnabled="true">
 

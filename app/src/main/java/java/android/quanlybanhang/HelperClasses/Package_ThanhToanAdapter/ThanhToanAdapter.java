@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class ThanhToanAdapter extends RecyclerView.Adapter<ThanhToanAdapter.CardDaOrderHoler> {
     private  ArrayList<ProuductPushFB1> items;
-   public ThanhToanAdapter(ArrayList<ProuductPushFB1> items){
-       this.items = items;
-   }
-   public void setData(ArrayList<ProuductPushFB1> item){
-                items= item;
-                notifyDataSetChanged();
-   }
+    public ThanhToanAdapter(ArrayList<ProuductPushFB1> items){
+        this.items = items;
+    }
+    public void setData(ArrayList<ProuductPushFB1> item){
+        items= item;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public CardDaOrderHoler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -79,8 +79,6 @@ public class ThanhToanAdapter extends RecyclerView.Adapter<ThanhToanAdapter.Card
             tonggiasanphamtrong= itemView.findViewById(R.id.tonggiasanphamtrong);
             tvsoluong= itemView.findViewById(R.id.tvsoluong);
             imgsanpham= itemView.findViewById(R.id.imgsanpham);
-
-
         }
     }
 }
