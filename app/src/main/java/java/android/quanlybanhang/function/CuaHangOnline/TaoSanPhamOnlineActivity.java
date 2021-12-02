@@ -20,6 +20,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -409,7 +411,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                     spnTenDonViTinh2.setError("Đơn giá");
                     spnTenDonViTinh2.requestFocus();
                 }else {
-                    adapterDonGia = new AdapterDonGia(TaoSanPhamOnlineActivity.this,listDonGia,dialog,window,adapter,gravity);
+                    adapterDonGia = new AdapterDonGia(TaoSanPhamOnlineActivity.this,listDonGia,dialog,window,adapter,gravity,spnTenDonViTinh2, listDonViTinh);
                     listView.setLayoutManager(new LinearLayoutManager(TaoSanPhamOnlineActivity.this,LinearLayoutManager.VERTICAL,false));
                     listView.setAdapter(adapterDonGia);
                     adapterDonGia.notifyDataSetChanged();
@@ -504,6 +506,26 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
         }
         drawerLayout.closeDrawer(GravityCompat.START);
 
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_danh_sach_san_pham_online, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.danhsachsanpham:
+                Intent intent = new Intent(TaoSanPhamOnlineActivity.this, DanhSachSanPhamActivity.class);
+                startActivity(intent);
+        }
         return true;
     }
 

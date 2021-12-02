@@ -125,6 +125,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
         btnChoXacNhan = view.findViewById(R.id.btnChoXacNhan);
         quangCaosanPhamIMG = view.findViewById(R.id.quangCaosanPhamIMG);
         scrollView = view.findViewById(R.id.scrollView4);
+        progressBarLayout.setVisibility(View.GONE);
 
         params = (LinearLayout.LayoutParams) danhsach.getLayoutParams();
         params2 = (LinearLayout.LayoutParams) dsChoXacNhan.getLayoutParams();

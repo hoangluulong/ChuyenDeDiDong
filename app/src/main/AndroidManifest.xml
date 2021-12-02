@@ -22,7 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
-
+        <activity
+            android:name=".function.CuaHangOnline.DanhSachSanPhamActivity"
+            android:exported="true"
+            android:parentActivityName=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
+            android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.SanPham.DanhSachNguyenLieuActivity"
             android:exported="false" />
@@ -276,12 +280,16 @@
             android:enabled="true"
             android:parentActivityName=".function.ThietLapActivity"
             android:theme="@style/thameActionbar" />
-
         <activity
             android:name=".function.SanPham.ThemNguyenLieuActivity"
             android:enabled="true"
             android:parentActivityName=".function.SanPham.DanhSachNguyenLieuActivity"
             android:theme="@style/thameActionbar" />
+
+        <activity android:name=".function.BaoCao.ChiTietThuChiActivity"
+            android:enabled="true"
+            android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
+            android:theme="@style/thameActionbar"/>
     </application>
 
 </manifest>

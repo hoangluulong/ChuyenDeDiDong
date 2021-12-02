@@ -4,13 +4,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,21 +34,35 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
     private Window window;
     private EditText textGiaSanPham;
     private Button btnDialogHuyDVT,btnDialogThemDVT;
+    private AutoCompleteTextView spinnerTenDonVIiTinh;
     private ArrayAdapter<String> adapter;
     private int gravity;
+    private String name;
+    private ArrayList<String> listDonViTinh;
 
     public AdapterDonGia(Context context1,ArrayList<DonGia> donGias){
         this.donGias = donGias;
         this.context1 = context1;
     }
-    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias,Dialog dialog,Window window,ArrayAdapter<String> adapter,int gravity){
+    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias,Dialog dialog,Window window,ArrayAdapter<String> adapter,int gravity, AutoCompleteTextView spinnerTenDonVIiTinh, ArrayList<String> listDonViTinh){
         this.donGias = donGias;
         this.context1 = context1;
         this.dialog = dialog;
         this.window = window;
         this.adapter = adapter;
         this.gravity = gravity;
+        this.spinnerTenDonVIiTinh = spinnerTenDonVIiTinh;
+        this.listDonViTinh = listDonViTinh;
+    }
 
+    public void setData(ArrayList<DonGia> donGias) {
+        this.donGias = donGias;
+        notifyDataSetChanged();
+    }
+
+    public void setData2(ArrayList<String> listDonViTinh) {
+        this.listDonViTinh = listDonViTinh;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -90,22 +107,45 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
                 else {
                     dialog.setCancelable(false);
                 }
+
                 if(donGia.getTenDonGia() != null){
-                    int com = adapter.getPosition(donGia.getTenDonGia());
+                    spinnerTenDonVIiTinh.setText(donGia.getTenDonGia());
+                    adapter = new ArrayAdapter<String>(context1, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
+                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
+                    spinnerTenDonVIiTinh.setAdapter(adapter);
+                    notifyDataSetChanged();
+
                 }
+
                 btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        spinnerTenDonVIiTinh.setText("");
+                        textGiaSanPham.setText("");
                         dialog.dismiss();
                     }
                 });
+
+                spinnerTenDonVIiTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        name = parent.getItemAtPosition(position).toString();
+                    }
+                });
+
                 btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        holder.textView.setText(name);
                         holder.textViewGia.setText(textGiaSanPham.getText().toString());
+                        donGias.get(position).setTenDonGia(name);
+                        donGias.get(position).setGiaBan(Double.parseDouble(textGiaSanPham.getText().toString()));
+                        spinnerTenDonVIiTinh.setText("");
+                        textGiaSanPham.setText("");
                         dialog.dismiss();
                     }
                 });
+
                 dialog.show();
             }
         });

@@ -28,7 +28,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.AddProduct;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDonGiaHolder> {
@@ -42,12 +45,19 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
     private ArrayAdapter<String> adapter;
     private int gravity;
     private ArrayList<String> listDonViTinh;
+    private String name;
+
+    public void setData(ArrayList<String> listDonViTinh){
+        this.listDonViTinh = listDonViTinh;
+        notifyDataSetChanged();
+    }
+
 
     public AdapterDonGia(Context context1,ArrayList<DonGia> donGias){
         this.donGias = donGias;
         this.context1 = context1;
     }
-    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias,Dialog dialog,Window window,AutoCompleteTextView spinnerTenDonVIiTinh,ArrayAdapter<String> adapter,int gravity, ArrayList<String> listDonViTinh){
+    public AdapterDonGia(Context context1, ArrayList<DonGia> donGias,Dialog dialog,Window window,AutoCompleteTextView spinnerTenDonVIiTinh,ArrayAdapter<String> adapter,int gravity){
         this.donGias = donGias;
         this.context1 = context1;
         this.dialog = dialog;
@@ -55,7 +65,8 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
         this.spinnerTenDonVIiTinh = spinnerTenDonVIiTinh;
         this.adapter = adapter;
         this.gravity = gravity;
-        this.listDonViTinh = listDonViTinh;
+
+
     }
 
     @NonNull
@@ -84,7 +95,7 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
             @Override
             public void onClick(View v) {
                 textGiaSanPham = dialog.findViewById(R.id.tedtGiaDonVi);
-                spinnerTenDonVIiTinh = dialog.findViewById(R.id.spnTenDonViTinh);
+                spinnerTenDonVIiTinh = dialog.findViewById(R.id.spnTenDonViTinh2);
                 btnDialogHuyDVT = dialog.findViewById(R.id.btnhuyDiaLogDVT);
                 btnDialogThemDVT = dialog.findViewById(R.id.btnthemDiaLogDVT);
                 textGiaSanPham.setText(donGia.getGiaBan()+"");
@@ -101,28 +112,42 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
                 else {
                     dialog.setCancelable(false);
                 }
+
                 if(donGia.getTenDonGia() != null){
                     spinnerTenDonVIiTinh.setText(donGia.getTenDonGia());
                     adapter = new ArrayAdapter<String>(context1, R.layout.support_simple_spinner_dropdown_item, listDonViTinh);
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
                     spinnerTenDonVIiTinh.setAdapter(adapter);
                     notifyDataSetChanged();
+
                 }
+
                 btnDialogHuyDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        spinnerTenDonVIiTinh.setText("");
+                        textGiaSanPham.setText("");
                         dialog.dismiss();
                     }
                 });
+
+                spinnerTenDonVIiTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        name = parent.getItemAtPosition(position).toString();
+                    }
+                });
+
                 btnDialogThemDVT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        spinnerTenDonVIiTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                donGia.setTenDonGia(parent.getItemAtPosition(position).toString());
-                            }
-                        });
+                        holder.textView.setText(name);
+                        holder.textViewGia.setText(textGiaSanPham.getText().toString());
+                        donGias.get(position).setTenDonGia(name);
+                        donGias.get(position).setGiaBan(Double.parseDouble(textGiaSanPham.getText().toString()));
+                        spinnerTenDonVIiTinh.setText("");
+                        textGiaSanPham.setText("");
+                        dialog.dismiss();
                     }
                 });
                 dialog.show();
@@ -148,13 +173,13 @@ public class AdapterDonGia extends RecyclerView.Adapter<AdapterDonGia.AdapterDon
             Xoa = itemView.findViewById(R.id.XoaDonVi);
             Sua = itemView.findViewById(R.id.UpdateDonVi);
 
-            Xoa.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getLayoutPosition();
-                    donGias.remove(position);
-                }
-            });
+//            Xoa.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getLayoutPosition();
+//                    donGias.remove(position);
+//                }
+//            });
         }
     }
 }

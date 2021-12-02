@@ -68,11 +68,9 @@ import java.util.TimeZone;
 
 public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-
     private String ID_CUAHNAG;
     private Locale localeVN = new Locale("vi", "VN");
     private NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-
     private TextView tien_tongtien, tien_doanhthu, tien_doanhso, tien_dathanhtoan, tien_comonhuy, tien_chitieu, tien_hoadononline,
             sl_doanhso, sl_dathanhtoan, sl_comonhuy, sl_hoadononline;
     private Button thoiGianLamViec, btnChiNhanh;
@@ -142,7 +140,6 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     //
     private void bieuDoSanPham() {
         ArrayList<PieEntry> pieE = new ArrayList<>();
-
 
         if (dsSanPham.size() == 0) {
             pieE.add(new PieEntry(0, "Chưa có dữ liệu"));
@@ -234,6 +231,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         swipeRefreshLayout = findViewById(R.id.refresh);
         layoutProgressBar = findViewById(R.id.layoutProgressBar);
         tien_hoadononline = findViewById(R.id.tien_hoadononline);
+        cv_chi.setOnClickListener(this);
 
         setOnclick();
     }
@@ -268,6 +266,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             case R.id.cv_doanhthu:
                 break;
             case R.id.cv_chi:
+                intent = new Intent(BaoCaoTongQuanActivity.this, ChiTietThuChiActivity.class);
+                startActivity(intent);
                 break;
             case R.id.cv_doanhso:
                 break;
