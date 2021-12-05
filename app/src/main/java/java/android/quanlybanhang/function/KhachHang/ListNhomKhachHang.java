@@ -132,7 +132,6 @@ public class ListNhomKhachHang extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent = new Intent(ListNhomKhachHang.this, ThemNhomKhachHang.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }).show();
             }

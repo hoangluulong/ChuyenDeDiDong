@@ -209,17 +209,27 @@ public class  CapNhatBaoCaoActivity extends AppCompatActivity{
         them.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChiTietNhapKho chiTietNhapKho=new ChiTietNhapKho();
                 String TenSanPham=tenSanPham.getText().toString();
                 String SoLieuCu=soLieuCu.getText().toString();
                 String SoLieuMoi=soLieuMoi.getText().toString() + " " + donviTinh;
-                int num = Integer.parseInt(soLieuMoi.getText().toString());
-                chiTietNhapKho=new ChiTietNhapKho(TenSanPham,SoLieuCu, num ,SoLieuMoi);
-                list.add(chiTietNhapKho);
-                capNhatBaoCaoKhoAdapter=new CapNhatBaoCaoKhoAdapter(CapNhatBaoCaoActivity.this,list, soLieuMoi);
-                recyclerView.setLayoutManager(new LinearLayoutManager(CapNhatBaoCaoActivity.this,LinearLayoutManager.VERTICAL,false));
-                recyclerView.setAdapter(capNhatBaoCaoKhoAdapter);
-                capNhatBaoCaoKhoAdapter.notifyDataSetChanged();
+                if (TenSanPham.isEmpty()) {
+                    tenSanPham.setError("Chưa có tên sản phẩm");
+                    tenSanPham.requestFocus();
+                }else if (SoLieuCu.isEmpty()) {
+                    soLieuCu.setError("Chưa có số liệu cũ");
+                    soLieuCu.requestFocus();
+                }else if (SoLieuMoi.isEmpty()) {
+                    soLieuMoi.setError("Chưa có số liệu cũ");
+                    soLieuMoi.requestFocus();
+                }else {
+                    int num = Integer.parseInt(soLieuMoi.getText().toString());
+                    ChiTietNhapKho chiTietNhapKho=new ChiTietNhapKho(TenSanPham,SoLieuCu, num ,SoLieuMoi);
+                    list.add(chiTietNhapKho);
+                    capNhatBaoCaoKhoAdapter=new CapNhatBaoCaoKhoAdapter(CapNhatBaoCaoActivity.this,list, soLieuMoi);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(CapNhatBaoCaoActivity.this,LinearLayoutManager.VERTICAL,false));
+                    recyclerView.setAdapter(capNhatBaoCaoKhoAdapter);
+                    capNhatBaoCaoKhoAdapter.notifyDataSetChanged();
+                }
                 dialog.dismiss();
             }
         });

@@ -25,11 +25,11 @@
 
             <EditText
                 android:id="@+id/edtTenNhomKhachHang"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_white_edittext"
-                android:hint="Nhập tên nhân viên"
+                android:hint="Nhập tên nhóm khách hàng"
                 android:padding="12dp"></EditText>
             <TextView
                 android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_edittext"
-                android:hint="Địa chỉ "
+                android:hint="Mã khách hàng "
                 android:padding="12dp"></EditText>
 
             <TextView

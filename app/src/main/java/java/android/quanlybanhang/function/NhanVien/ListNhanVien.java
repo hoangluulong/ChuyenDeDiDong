@@ -109,8 +109,7 @@ public class ListNhanVien  extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 if (nhanVien.getChucVu().get(0) || isChu) {
-                                    Intent intent = new Intent();
-                                    intent = new Intent(ListNhanVien.this, AddNhanVien.class);
+                                    Intent intent = new Intent(ListNhanVien.this, AddNhanVien.class);
                                     startActivity(intent);
                                 }else {
                                     Toast.makeText(ListNhanVien.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();

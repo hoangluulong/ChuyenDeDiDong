@@ -60,22 +60,16 @@ public class ThemNhomKhachHang extends AppCompatActivity {
                     String ghichu = editGhiChu.getText().toString();
                     nhomKhachHang  = new NhomKhachHang(name,ma,ghichu,id);
                     mDatabase.child(id).setValue(nhomKhachHang);
+                    editTenNhom.setText("");
+                    editMa.setText("");
+                    editGhiChu.setText("");
+                    finish();
                 }
-                editTenNhom.setText("");
-                editMa.setText("");
-                editGhiChu.setText("");
-                Intent intent = new Intent();
-                intent = new Intent(ThemNhomKhachHang.this, ListNhomKhachHang.class);
-                startActivity(intent);
-                finish();
             }
         });
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent = new Intent(ThemNhomKhachHang.this, ListNhomKhachHang.class);
-                startActivity(intent);
                 finish();
             }
         });

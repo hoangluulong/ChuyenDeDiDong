@@ -28,6 +28,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,7 +58,7 @@ import java.util.Calendar;
 
 public class SuaKhachHang extends AppCompatActivity {
     private EditText editHoTen,editSDT,editNgaySinh,editEmail,editGhiChu,soNha;
-    private TextView editDiaChi;
+    private TextView editDiaChi, tv_nhom_khachHang;
     private Spinner spnNhomKhachHang;
     private RadioButton radioNam,radioNu,radioKhongCo;
     private AutoCompleteTextView spnTinh,spnHuyen,spnXa;
@@ -107,6 +108,7 @@ public class SuaKhachHang extends AppCompatActivity {
         radioNam = findViewById(R.id.gtNam);
         radioNu = findViewById(R.id.gtNu);
         radioKhongCo = findViewById(R.id.gtkhongco);
+        tv_nhom_khachHang = findViewById(R.id.tv_nhom_khachHang);
 
         //dialog
         dialog = new Dialog(SuaKhachHang.this);
@@ -329,6 +331,9 @@ public class SuaKhachHang extends AppCompatActivity {
                 btnTaoKhachHang.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        tv_nhom_khachHang.setText("Nhóm khách hàng");
+                        tv_nhom_khachHang.setTextColor(ContextCompat.getColor(SuaKhachHang.this, R.color.black));
+                        spnNhomKhachHang.setBackgroundResource(R.drawable.bg_white_edittext);
                         if (editHoTen.getText().toString().isEmpty()){
                             editHoTen.setError("Hãy nhập tên khách hàng");
                             editHoTen.requestFocus();
@@ -337,17 +342,10 @@ public class SuaKhachHang extends AppCompatActivity {
                             editSDT.setError("Hãy nhập số điện thoại");
                             editSDT.requestFocus();
                         }
-                        else if(editDiaChi.getText().toString().isEmpty()){
-                            editDiaChi.setError("Hãy chọn địa chỉ");
-                            editDiaChi.requestFocus();
-                        }
-                        else if(editNgaySinh.getText().toString().isEmpty()){
-                            editNgaySinh.setError("Chưa có ngày sinh");
-                            editNgaySinh.requestFocus();
-                        }
-                        else if (editEmail.getText().toString().isEmpty()){
-                            editEmail.setError("Hãy nhập email");
-                            editEmail.requestFocus();
+                        else if (arrayListNhomKH.size() == 0) {
+                            tv_nhom_khachHang.setText("Chưa có nhóm khách hàng nào");
+                            tv_nhom_khachHang.setTextColor(ContextCompat.getColor(SuaKhachHang.this, R.color.CPP));
+                            spnNhomKhachHang.setBackgroundResource(R.drawable.bg_white_edittext_error);
                         }
                         else {
                             String name = editHoTen.getText().toString();
@@ -368,9 +366,6 @@ public class SuaKhachHang extends AppCompatActivity {
                             mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("diaChiHuyen").setValue(tenHuyen);
                             mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("diaChiXa").setValue(tenXa);
                             mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("gioiTinh").setValue(gioiTinh);
-                            Intent intent = new Intent();
-                            intent = new Intent(SuaKhachHang.this, ListKhachHang.class);
-                            startActivity(intent);
                             finish();
                         }
                     }

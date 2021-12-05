@@ -44,7 +44,7 @@ public class SuaNhomKhachHang  extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_CUAHANG).child(ID_CUAHANG).child(STR_NKH);
 
         editTenNhom.setText(nhomKhachHang.getTenNhomKh());
-        editMa.setText(nhomKhachHang.getTenNhomKh());
+        editMa.setText(nhomKhachHang.getMaKH());
         editGhiChu.setText(nhomKhachHang.getGhichuNhom());
         updateNKH();
 
@@ -68,9 +68,6 @@ public class SuaNhomKhachHang  extends AppCompatActivity {
                     mDatabase.child(nhomKhachHang.getId()).child("tenNhomKH").setValue(name);
                     mDatabase.child(nhomKhachHang.getId()).child("maKH").setValue(ma);
                     mDatabase.child(nhomKhachHang.getId()).child("ghichuNhom").setValue(ghichu);
-                    Intent intent = new Intent();
-                    intent = new Intent(SuaNhomKhachHang.this, ListNhomKhachHang.class);
-                    startActivity(intent);
                     finish();
                 }
             }

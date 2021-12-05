@@ -28,6 +28,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,7 +57,7 @@ import java.util.Calendar;
 
 public class ThemKhachHang extends AppCompatActivity {
     private EditText editHoTen,editSDT,editNgaySinh,editEmail,editGhiChu,soNha;
-    private TextView editDiaChi;
+    private TextView editDiaChi, tv_nhom_khachHang;
     private Spinner spnNhomKhachHang;
     private RadioButton radioNam,radioNu,radioKhongCo;
     private AutoCompleteTextView spnTinh,spnHuyen,spnXa;
@@ -96,6 +97,7 @@ public class ThemKhachHang extends AppCompatActivity {
         editGhiChu = findViewById(R.id.edtghichuKhachHang);
         editNgaySinh = findViewById(R.id.edtNgaySinh);
         spnNhomKhachHang = findViewById(R.id.spnNhomKhachHang);
+        tv_nhom_khachHang = findViewById(R.id.tv_nhom_khachHang);
         btnLich = findViewById(R.id.imgLich);
         btnTaoKhachHang = findViewById(R.id.btnTaoKhachhang);
         btnhuyTaoKhachHang = findViewById(R.id.btnhuyTaoKhachHang);
@@ -134,6 +136,7 @@ public class ThemKhachHang extends AppCompatActivity {
        });
        radioKhongCo.setChecked(true);
        radioGroup = findViewById(R.id.radioGruop);
+        gioiTinh = "Không";
        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
            @Override
            public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -203,6 +206,9 @@ public class ThemKhachHang extends AppCompatActivity {
                 btnTaoKhachHang.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        tv_nhom_khachHang.setText("Nhóm khách hàng");
+                        tv_nhom_khachHang.setTextColor(ContextCompat.getColor(ThemKhachHang.this, R.color.black));
+                        spnNhomKhachHang.setBackgroundResource(R.drawable.bg_white_edittext);
                         if (editHoTen.getText().toString().isEmpty()){
                             editHoTen.setError("Hãy nhập tên khách hàng");
                             editHoTen.requestFocus();
@@ -210,18 +216,10 @@ public class ThemKhachHang extends AppCompatActivity {
                         else if(editSDT.getText().toString().isEmpty()){
                             editSDT.setError("Hãy nhập số điện thoại");
                             editSDT.requestFocus();
-                        }
-                        else if(editDiaChi.getText().toString().isEmpty()){
-                            editDiaChi.setError("Hãy chọn địa chỉ");
-                            editDiaChi.requestFocus();
-                        }
-                        else if(editNgaySinh.getText().toString().isEmpty()){
-                            editNgaySinh.setError("Chưa có ngày sinh");
-                            editNgaySinh.requestFocus();
-                        }
-                        else if (editEmail.getText().toString().isEmpty()){
-                            editEmail.setError("Hãy nhập email");
-                            editEmail.requestFocus();
+                        }else if (arrayListNhomKH.size() == 0) {
+                            tv_nhom_khachHang.setText("Chưa có nhóm khách hàng nào");
+                            tv_nhom_khachHang.setTextColor(ContextCompat.getColor(ThemKhachHang.this, R.color.CPP));
+                            spnNhomKhachHang.setBackgroundResource(R.drawable.bg_white_edittext_error);
                         }
                         else {
                             String name = editHoTen.getText().toString();
@@ -233,17 +231,14 @@ public class ThemKhachHang extends AppCompatActivity {
                             String ghichu = editGhiChu.getText().toString();
                             khachHang = new KhachHang(name,SDT,tenTinh,tenHuyen,tenXa,nha,nhomKh,gioiTinh,email,ghichu,ngaysinh);
                             mDatabase.child(nhomKh).child(SDT).setValue(khachHang);
+                            editHoTen.setText("");
+                            editSDT.setText("");
+                            editDiaChi.setText("");
+                            editNgaySinh.setText("");
+                            editEmail.setText("");
+                            editGhiChu.setText("");
+                            finish();
                         }
-                        editHoTen.setText("");
-                        editSDT.setText("");
-                        editDiaChi.setText("");
-                        editNgaySinh.setText("");
-                        editEmail.setText("");
-                        editGhiChu.setText("");
-                        Intent intent = new Intent();
-                        intent = new Intent(ThemKhachHang.this, ListKhachHang.class);
-                        startActivity(intent);
-                        finish();
                     }
                 });
             }

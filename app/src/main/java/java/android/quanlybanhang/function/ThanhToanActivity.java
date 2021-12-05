@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterChonKhuyenMaiThanhToan;
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
@@ -523,6 +524,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     });
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).removeValue();
                 }
+                new SupportSaveLichSu(ThanhToanActivity.this, "Thanh toán bàn: " + id_ban + "KV: " + id_khuvuc);
                 Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

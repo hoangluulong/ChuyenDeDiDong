@@ -189,7 +189,7 @@ public class CardProduct extends AppCompatActivity {
                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBs).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            new SupportSaveLichSu(CardProduct.this,"order mang đi:"+id_datban);
+                                            new SupportSaveLichSu(CardProduct.this,"order mang đi: ID-"+id_datban);
                                         }
                                     });
 
@@ -198,7 +198,7 @@ public class CardProduct extends AppCompatActivity {
                                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).setValue(productPushFBm).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            new SupportSaveLichSu(CardProduct.this,"order mang đi:"+id_datban);
+                                            new SupportSaveLichSu(CardProduct.this,"order mang đi: ID-"+id_datban);
                                         }
                                     });
                                 }
@@ -260,7 +260,7 @@ public class CardProduct extends AppCompatActivity {
                                 FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        new SupportSaveLichSu(CardProduct.this,"order bàn:"+id_datban);
+                                        new SupportSaveLichSu(CardProduct.this,"order bàn "+id_ban+"Khu vực: " + id_khuvuc);
                                     }
                                 });
                             }

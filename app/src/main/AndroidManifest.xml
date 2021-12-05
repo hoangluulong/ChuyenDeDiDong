@@ -23,6 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
+            android:name=".function.LichSuHoatDongActivity"
+            android:exported="false"
+            android:parentActivityName=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
+            android:theme="@style/thameActionbar"/>
+        <activity
             android:name=".function.CuaHangOnline.DanhSachSanPhamActivity"
             android:exported="true"
             android:parentActivityName=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
@@ -291,14 +296,13 @@
             android:enabled="true"
             android:parentActivityName=".function.SanPham.DanhSachNguyenLieuActivity"
             android:theme="@style/thameActionbar" />
-
-        <activity android:name=".function.BaoCao.ChiTietThuChiActivity"
+        <activity
+            android:name=".function.BaoCao.ChiTietThuChiActivity"
             android:enabled="true"
             android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
-            android:theme="@style/thameActionbar"/>
-
-        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff"/>
-        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiThanhToan"/>
+            android:theme="@style/thameActionbar" />
+        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff" />
+        <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiThanhToan" />
     </application>
 
 </manifest>

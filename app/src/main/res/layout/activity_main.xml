@@ -9,7 +9,7 @@
     android:elevation="10dp"
     tools:context=".function.MainActivity"
     android:fitsSystemWindows="true"
-    tools:openDrawer="end"
+    tools:openDrawer="start"
     android:orientation="vertical"
     >
     <com.google.android.material.navigation.NavigationView

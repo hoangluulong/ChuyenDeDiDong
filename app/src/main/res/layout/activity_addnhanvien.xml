@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_edittext"
                 android:hint="Nhập số điện thoại"
+                android:inputType="number"
                 android:padding="12dp"></EditText>
             <TextView
                 android:layout_width="match_parent"
@@ -50,7 +51,6 @@
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="5dp"
-                android:inputType="number"
                 android:text="Email"></TextView>
             <EditText
                 android:id="@+id/edtEmail"
@@ -94,6 +94,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginBottom="5dp"
                     android:textSize="10sp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center_vertical"

@@ -234,29 +234,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_homes:
                 break;
-            case R.id.ds_order:
-                Intent intent = new Intent(MainActivity.this, ListProduct.class);
+            case R.id.lichsu:
+                Intent intent = new Intent(MainActivity.this, LichSuHoatDongActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.ds_chebien:
-                Intent intent1 = new Intent(MainActivity.this, ListNhanVien.class);
-                startActivity(intent1);
+            case R.id.bep:
+                if (nhanVien.getChucVu().get(4) || isChu) {
+                    Intent intent3 = new Intent(MainActivity.this, BepActivity.class);
+                    startActivity(intent3);
+                } else {
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
                 break;
-            case R.id.ds_thuchi:
-                Intent intent2 = new Intent(MainActivity.this, ListKhuyenMai.class);
-                startActivity(intent2);
-                break;
-            case R.id.quanly:
-                Intent intent3 = new Intent(MainActivity.this, ListNhomKhachHang.class);
-                startActivity(intent3);
-                break;
-            case R.id.profile:
-                Intent intent4 = new Intent(MainActivity.this, ListKhachHang.class);
-                startActivity(intent4);
+            case R.id.oder:
+                if (nhanVien.getChucVu().get(3)) {
+                    Intent intent4 = new Intent(MainActivity.this, OrderMenu.class);
+                    startActivity(intent4);
+                } else {
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent5 = new Intent(MainActivity.this, SignInActivity.class);
+                intent5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent5.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent5);
                 finish();
                 break;

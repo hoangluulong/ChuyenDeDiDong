@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -30,7 +31,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterKhachHang.AdapterKhachHang;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
+import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.BepBar.BepActivity;
+import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.util.ArrayList;
 
 public class ListKhachHang extends AppCompatActivity {
@@ -107,10 +111,8 @@ public class ListKhachHang extends AppCompatActivity {
                         .setAction("Thêm", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent();
-                                intent = new Intent(ListKhachHang.this, ThemKhachHang.class);
+                                Intent intent = new Intent(ListKhachHang.this, ThemKhachHang.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }).show();
             }
@@ -173,12 +175,18 @@ public class ListKhachHang extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_nhom_khach_hang, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_nhom_khach_hang:
+                Intent intent = new Intent(ListKhachHang.this, ListNhomKhachHang.class);
+                startActivity(intent);
+                break;
             case android.R.id.home:
                 finish();
                 break;

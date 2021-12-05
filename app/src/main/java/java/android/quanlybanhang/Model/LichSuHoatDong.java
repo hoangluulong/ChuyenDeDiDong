@@ -4,6 +4,7 @@ public class LichSuHoatDong {
     private String congViec;
     private String nhanVien;
     private String thoiGian;
+    private String key;
 
     public LichSuHoatDong() {
     }
@@ -12,6 +13,21 @@ public class LichSuHoatDong {
         this.congViec = congViec;
         this.nhanVien = nhanVien;
         this.thoiGian = thoiGian;
+    }
+
+    public LichSuHoatDong(String congViec, String nhanVien, String thoiGian, String key) {
+        this.congViec = congViec;
+        this.nhanVien = nhanVien;
+        this.thoiGian = thoiGian;
+        this.key = key;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getCongViec() {

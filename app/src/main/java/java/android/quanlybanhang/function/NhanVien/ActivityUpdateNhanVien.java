@@ -148,8 +148,6 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               intent = new Intent();
-                intent = new Intent(ActivityUpdateNhanVien.this, ListNhanVien.class);
-                startActivity(intent);
                 finish();
             }
         });
