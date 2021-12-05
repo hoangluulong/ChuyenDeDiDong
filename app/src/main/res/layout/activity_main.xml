@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nav_home">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -56,13 +57,12 @@
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/baloo"
                 android:gravity="center"
-                android:text="FoodApp"
+                android:text="Coffe Houses"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/imglogo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
 
 
             <ImageView
@@ -83,10 +83,11 @@
             <LinearLayout
                 android:id="@+id/linear1"
                 android:layout_width="0dp"
-                android:layout_height="175dp"
-                android:layout_margin="10dp"
+                android:layout_height="165dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal"
-                android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/Line1a"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -96,17 +97,20 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:elevation="8dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardElevation="8dp"
                     app:cardMaxElevation="8dp">
 
                     <RelativeLayout
+                        android:id="@+id/orderbutton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/xanh"
-                        android:id="@+id/orderbutton">
+                        android:background="@color/xanh">
 
                         <TextView
                             android:id="@+id/tvorder"
@@ -116,7 +120,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/alike_angular"
-                            android:text="Oder"
+                            android:text="Orders"
                             android:textColor="@color/hong_nhat"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -134,8 +138,11 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:elevation="8dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="5px"
                     app:cardElevation="8dp"
@@ -178,13 +185,11 @@
             <LinearLayout
                 android:id="@+id/Line1a"
                 android:layout_width="0dp"
-                android:layout_height="175dp"
-                android:layout_margin="10dp"
-                android:layout_marginStart="170dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_height="165dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linear1">
@@ -192,8 +197,11 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:elevation="20dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardElevation="8dp"
                     app:cardMaxElevation="8dp">
@@ -230,12 +238,15 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:elevation="8dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="5px"
                     app:cardElevation="8dp"
-                    app:cardMaxElevation="8dp"
+                    app:cardMaxElevation="20dp"
                     app:cardPreventCornerOverlap="true"
                     app:cardUseCompatPadding="false">
 
@@ -253,6 +264,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/alike_angular"
+                            android:gravity="center"
                             android:text="Thiết lập online"
                             android:textColor="@color/hong_nhat"
                             android:textSize="20sp"
@@ -264,8 +276,7 @@
                             android:layout_height="75dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="15dp"
-                            app:srcCompat="@drawable/quanly"
-                            />
+                            app:srcCompat="@drawable/quanly" />
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -276,11 +287,11 @@
             <LinearLayout
                 android:id="@+id/Line2"
                 android:layout_width="0dp"
-                android:layout_height="175dp"
-                android:layout_margin="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_height="165dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -289,8 +300,11 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:elevation="8dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardElevation="8dp"
                     app:cardMaxElevation="8dp">
@@ -309,6 +323,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/alike_angular"
+                            android:gravity="center"
                             android:text="Đơn hàng online "
                             android:textColor="@color/hong_nhat"
                             android:textSize="20sp"
@@ -320,15 +335,18 @@
                             android:layout_height="75dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="15dp"
-                            app:srcCompat="@drawable/shop_65" />
+                            app:srcCompat="@drawable/icons8onlineshop100" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:elevation="8dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="5px"
                     app:cardElevation="8dp"
@@ -361,7 +379,7 @@
                             android:layout_height="75dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="15dp"
-                            app:srcCompat="@drawable/shop_65" />
+                            app:srcCompat="@drawable/icons8setting100" />
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>

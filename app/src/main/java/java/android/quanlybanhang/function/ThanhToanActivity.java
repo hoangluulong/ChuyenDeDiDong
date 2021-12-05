@@ -149,7 +149,6 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     trangthai = snapshot1.getValue() + "";
-                    Log.d("TrangThaima", trangthai + "chitiet");
                     getData();
                     if (trangthai.equals("1")) {
                         bnt_threedot.setVisibility(View.GONE);
@@ -498,6 +497,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     }
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
+                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("tenNhanVien").setValue("");
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
                     progressBar.setVisibility(View.VISIBLE);
 
@@ -582,6 +582,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                         FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(id_ban + "_" + id_khuvuc).child(id_ngaydat).removeValue();
                     }
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
+                    FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("tenNhanVien").setValue("");
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("gioDaOder").setValue(0);
 
@@ -760,13 +761,13 @@ public class ThanhToanActivity extends AppCompatActivity {
             if(khuyenMaiOffModel.size()>0 && datBanModels.size() > 0) {
                 double tienDatban = Double.parseDouble(datBanModels.get(0).getSotiendadattruoc() + "");
                 double tienKhuyenMai = Double.parseDouble(khuyenMaiOffModel.get(0).getGiakhuyenmai() + "");
-                TongTien = tienKhuyenMai + giaTong - tienDatban;
+                TongTien = giaTong- (tienKhuyenMai + tienDatban);
                 Log.d("ThanhToankj","1");
             }
             else if(khuyenMaiOffModel.size()>0 && datBanModels.size() == 0) {
                 Log.d("ThanhToankj","2");
                 double tienKhuyenMai = Double.parseDouble(khuyenMaiOffModel.get(0).getGiakhuyenmai() + "");
-                TongTien = tienKhuyenMai + giaTong;
+                TongTien =giaTong -  tienKhuyenMai ;
             }
             else if(khuyenMaiOffModel.size()==0 && datBanModels.size() == 0){
                 Log.d("ThanhToankj","2.0");

@@ -3,6 +3,7 @@ package java.android.quanlybanhang.function.KhuyenMaiOffLine;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -46,6 +47,9 @@ import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.Adapter
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.Model.KhuyenMaiOffModel;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.TachBanActivity;
+import java.android.quanlybanhang.function.ThanhToanActivity;
+import java.android.quanlybanhang.function.ThietLapActivity;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -228,6 +232,8 @@ public class KhuyenMaiOff extends AppCompatActivity {
                             giakhuyenmais.setText("");
                             dialog1.dismiss();
                             dialog.show();
+
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -483,18 +489,19 @@ public class KhuyenMaiOff extends AppCompatActivity {
                     mDatabase3.child(id).child("Ngayketthuc").setValue(dateketthuc.getText().toString());
                     mDatabase3.child(id).child("Nhomkhachhang").setValue(stamps);
                     mDatabase3.child(id).child("Giasale").setValue(offModels);
+                    Intent intent = new Intent(KhuyenMaiOff.this, ThietLapActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
                 dialog4.dismiss();
             }
         });
-
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog4.dismiss();
             }
         });
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
