@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterNguyenLieu;
 import java.android.quanlybanhang.Model.NguyenLieu;
@@ -168,6 +169,7 @@ public class DanhSachNguyenLieuActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mDatabase.child(listNguyenLieu.get(position).getKey()).removeValue();
+                        new SupportSaveLichSu(DanhSachNguyenLieuActivity.this, "Xóa nguyên liệu: "+listNguyenLieu.get(position).getTen());
                     }
                 }, 1000);
             }

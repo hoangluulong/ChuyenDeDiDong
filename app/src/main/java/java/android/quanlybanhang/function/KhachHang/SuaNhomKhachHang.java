@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.R;
@@ -68,6 +69,7 @@ public class SuaNhomKhachHang  extends AppCompatActivity {
                     mDatabase.child(nhomKhachHang.getId()).child("tenNhomKH").setValue(name);
                     mDatabase.child(nhomKhachHang.getId()).child("maKH").setValue(ma);
                     mDatabase.child(nhomKhachHang.getId()).child("ghichuNhom").setValue(ghichu);
+                    new SupportSaveLichSu(SuaNhomKhachHang.this, "Đã sửa nhóm khách hàng: "+ nhomKhachHang.getTenNhomKh());
                     finish();
                 }
             }
@@ -76,9 +78,6 @@ public class SuaNhomKhachHang  extends AppCompatActivity {
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent = new Intent(SuaNhomKhachHang.this, ListNhomKhachHang.class);
-                startActivity(intent);
                 finish();
             }
         });

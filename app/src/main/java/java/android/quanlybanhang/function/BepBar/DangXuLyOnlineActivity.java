@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.ChiTietDonHangOnlineAdapter;
@@ -101,16 +102,19 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
                                 mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/nhanVien").setValue(userName);
                                 Toast.makeText(DangXuLyOnlineActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                                 hoanthanh.setText("Hoàn Thành");
+                                new SupportSaveLichSu(DangXuLyOnlineActivity.this, "Đang sử lý đơn hàng ID-"+ID_KEY);
                                 donHang.setTrangthai(3);
                             }else if (donHang.getTrangthai() == 3) {
                                 mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(4);
                                 Toast.makeText(DangXuLyOnlineActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
+                                new SupportSaveLichSu(DangXuLyOnlineActivity.this, "Đơn hàng ID-"+ID_KEY+" đã xử lý xong");
                                 hoanthanh.setText("Trả đơn");
                                 donHang.setTrangthai(4);
                                 onBackPressed();
                             }else if (donHang.getTrangthai() == 4) {
                                 mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(5);
                                 Toast.makeText(DangXuLyOnlineActivity.this, "Đã trả đơn", Toast.LENGTH_SHORT).show();
+                                new SupportSaveLichSu(DangXuLyOnlineActivity.this, "Hoàn thành đơn hàng ID-"+ID_KEY);
                                 onBackPressed();
                             }
                         }

@@ -232,8 +232,6 @@ public class KhuyenMaiOff extends AppCompatActivity {
                             giakhuyenmais.setText("");
                             dialog1.dismiss();
                             dialog.show();
-
-
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

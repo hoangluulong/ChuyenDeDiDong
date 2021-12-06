@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
 import java.android.quanlybanhang.R;
@@ -63,6 +64,7 @@ public class ThemNhomKhachHang extends AppCompatActivity {
                     editTenNhom.setText("");
                     editMa.setText("");
                     editGhiChu.setText("");
+                    new SupportSaveLichSu(ThemNhomKhachHang.this, "Đã thêm nhóm khách hàng: " + nhomKhachHang.getTenNhomKh());
                     finish();
                 }
             }

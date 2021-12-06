@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterKhachHang.AdapterKhachHang;
 import java.android.quanlybanhang.Model.KhachHang.KhachHang;
@@ -161,6 +162,7 @@ public class ListKhachHang extends AppCompatActivity {
                             Toast.makeText(ListKhachHang.this,khachHangs.get(position).getSoDT()+"",Toast.LENGTH_LONG).show();
                             mDatabase1 = firebaseDatabase.getReference(STR_CUAHANG).child(ID_CUAHANG).child("khachhang").child(aaa.getKey());
                             mDatabase1.child(khachHangs.get(position).getSoDT()).removeValue();
+                            new SupportSaveLichSu(ListKhachHang.this, "Xóa khách hàng: "+khachHangs.get(position).getHoTenKhachHang());
                         }
                     }
 

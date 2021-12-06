@@ -43,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterDonGia;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
@@ -292,9 +293,7 @@ public class SuaSanPhamActivity extends AppCompatActivity {
                                                 mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("status").setValue(status);
                                                 mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("giaNhap").setValue(gianhap);
                                                 mDatabase1.child(product.getNhomsanpham()).child(product.getId()).child("donGia").setValue(donGias);
-
-                                                intent = new Intent(SuaSanPhamActivity.this, ListProduct.class);
-                                                startActivity(intent);
+                                                new SupportSaveLichSu(SuaSanPhamActivity.this, "Sửa sản phẩm: "+ product.getNameProduct());
                                                 finish();
 
                                             }

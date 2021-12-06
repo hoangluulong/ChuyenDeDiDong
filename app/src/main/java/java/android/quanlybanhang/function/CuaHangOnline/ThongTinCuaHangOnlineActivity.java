@@ -54,6 +54,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.android.quanlybanhang.Common.DataAddress;
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
@@ -339,6 +340,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã xóa hình", Toast.LENGTH_SHORT).show();
+                        new SupportSaveLichSu(ThongTinCuaHangOnlineActivity.this, "Đã xóa 1 hình ảnh");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -617,6 +619,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                                                 mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
                                                 mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
                                                 mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                                new SupportSaveLichSu(ThongTinCuaHangOnlineActivity.this, "Đã thay đổi thông tin chung cửa hàng online");
                                             }
                                         });
                                     }
@@ -651,6 +654,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                                         mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
                                         mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
                                         mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                        new SupportSaveLichSu(ThongTinCuaHangOnlineActivity.this, "Đã thay đổi thông tin chung cửa hàng online");
                                     }
                                 });
                             }
@@ -678,6 +682,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                                     mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("id").child(ID_CUAHANG);
                                     mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("namelogo").setValue(nameLogo);
                                     mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG).child("thongtin").child("logoUrl").setValue(uri.toString());
+                                    new SupportSaveLichSu(ThongTinCuaHangOnlineActivity.this, "Đã thay đổi thông tin chung cửa hàng online");
                                 }
                             });
                         }
@@ -737,6 +742,7 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 @Override
                 public void onSuccess(Void unused) {
                     Toast.makeText(ThongTinCuaHangOnlineActivity.this, "Đã lưu", Toast.LENGTH_SHORT).show();
+                    new SupportSaveLichSu(ThongTinCuaHangOnlineActivity.this, "Đã thay đổi địa chỉ cửa hàng online");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

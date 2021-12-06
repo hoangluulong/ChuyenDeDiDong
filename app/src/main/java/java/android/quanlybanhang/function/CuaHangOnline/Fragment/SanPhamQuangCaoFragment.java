@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.SanPhamChoXacNhanAdapter;
@@ -279,6 +280,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                        new SupportSaveLichSu(getContext(), "Hủy quảng cáo sản phẩm: " + listQuanCao.get(position).getNameProduct());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

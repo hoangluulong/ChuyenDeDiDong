@@ -30,9 +30,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.HinhThucGiaoHang;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
+import java.android.quanlybanhang.function.ThanhToanActivity;
 
 public class CuaHangOnlineActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private NavigationView navigationView;
@@ -230,6 +233,7 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                 public void onSuccess(Void unused) {
                     progressBar.setVisibility(View.INVISIBLE);
                     dangKy.setText("Lưu");
+                    new SupportSaveLichSu(CuaHangOnlineActivity.this, "Thay đổi thông tin của hàng");
                     Toast.makeText(CuaHangOnlineActivity.this, "Đã lưu", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -274,8 +278,10 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                 startActivity(intent);
                 finish();
                 break;
-
-
+            case R.id.khuyenmai:
+                intent = new Intent(this, ListKhuyenMai.class);
+                startActivity(intent);
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
 

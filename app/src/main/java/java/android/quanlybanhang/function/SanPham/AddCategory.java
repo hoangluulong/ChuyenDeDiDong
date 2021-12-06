@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.SanPham.Category;
 import java.android.quanlybanhang.R;
@@ -54,6 +55,7 @@ public class AddCategory extends AppCompatActivity {
                     String name = editTextAddCategory.getText().toString();
                     category = new Category(id,name);
                     mDatabase.child(id).setValue(category);
+                    new SupportSaveLichSu(AddCategory.this, "Thêm nhóm sản phẩm: "+ category.getNameCategory());
                     finish();
                 }
             }

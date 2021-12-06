@@ -54,6 +54,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
 import java.android.quanlybanhang.Model.SanPham.DonViTinh;
@@ -271,6 +272,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                                     imageUri = null;
                                     nameImage = "";
                                     progressBar.setVisibility(View.INVISIBLE);
+                                    new SupportSaveLichSu(TaoSanPhamOnlineActivity.this, "Tạo sản phẩm mới: " + product.getNameProduct());
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -327,6 +329,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                 donViTinh = new DonViTinh(name,id);
                 mDatabase2.child(id).setValue(donViTinh);
                 textTenDonViTinh.setText("");
+                new SupportSaveLichSu(TaoSanPhamOnlineActivity.this, "Tạo đơn vị tính mới: " + donViTinh.getDonViTinh());
                 dialog1.dismiss();
             }
         });

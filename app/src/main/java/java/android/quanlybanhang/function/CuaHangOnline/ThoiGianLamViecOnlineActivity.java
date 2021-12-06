@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.ThoiGian;
@@ -151,6 +152,7 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
                         thoiGianBatDau.setEnabled(false);
                         thoiGianKetThuc.setEnabled(false);
                         xacNhan.setVisibility(View.GONE);
+                        new SupportSaveLichSu(ThoiGianLamViecOnlineActivity.this, "Đã khóa cửa hàng online");
                     } else {
                         isCheckStatus = true;
                         tamDung.setText("Tạm dừng");
@@ -161,6 +163,7 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
                         thoiGianBatDau.setEnabled(true);
                         thoiGianKetThuc.setEnabled(true);
                         xacNhan.setVisibility(View.VISIBLE);
+                        new SupportSaveLichSu(ThoiGianLamViecOnlineActivity.this, "Đã kích hoạt của hàng online");
                     }
                     progressBarMini.setVisibility(View.GONE);
                     mFirebaseDatabase.child("cuaHang").child(ID_CUAHANG).child("thoiGianLamViec/status").setValue(isCheckStatus);

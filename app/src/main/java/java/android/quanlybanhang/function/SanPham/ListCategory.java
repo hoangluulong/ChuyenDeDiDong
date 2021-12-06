@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterCategory;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterProduct;
@@ -148,8 +149,8 @@ public class ListCategory extends AppCompatActivity {
         ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 mDatabase.child(listCategory.get(position).getId()).removeValue();
+                new SupportSaveLichSu(ListCategory.this, "Xóa nhóm sản phẩm: "+ listCategory.get(position).getNameCategory());
 
             }
         }).setNegativeButton("No", null)

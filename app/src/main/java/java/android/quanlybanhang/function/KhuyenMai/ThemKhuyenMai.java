@@ -24,9 +24,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.KhachHang.ThemKhachHang;
 import java.util.ArrayList;
 
 public class ThemKhuyenMai extends AppCompatActivity {
@@ -217,6 +219,7 @@ public class ThemKhuyenMai extends AppCompatActivity {
                   khuyenMai = new KhuyenMai(STR_CUAHANG,vitri,quan,gia);
               }
               mDatabase.child(STR_CUAHANG).push().setValue(khuyenMai);
+//              new SupportSaveLichSu(ThemKhuyenMai.this, "Đã thêm khuyến mãi: ");
               Intent intent = new Intent();
               intent = new Intent(ThemKhuyenMai.this, ListKhuyenMai.class);
               startActivity(intent);

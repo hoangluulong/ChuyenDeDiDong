@@ -45,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterDonGia;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
@@ -235,6 +236,7 @@ public class AddProduct extends AppCompatActivity {
                                             textSoluong.setText("");
                                             textChitiet.setText("");
                                             textGianhap.setText("");
+                                            new SupportSaveLichSu(AddProduct.this, "Thêm sản phẩm: " + product.getNameProduct());
                                             listDonGia.clear();
                                         }
                                     });

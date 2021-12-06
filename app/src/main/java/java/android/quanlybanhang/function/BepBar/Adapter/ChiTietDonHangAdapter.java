@@ -41,7 +41,11 @@ public class ChiTietDonHangAdapter extends RecyclerView.Adapter<ChiTietDonHangAd
 //        Glide.with(context).load(list.get(position).getImgProduct()).into(holder.circleImageView);
         holder.textnameProduct.setText(list.get(position).getNameProduct());
         holder.textSoLuong.setText("Số lượng: "+list.get(position).getSoluong()+"");
-        holder.textYeuCau.setText("Yêu cầu:  "+list.get(position).getYeuCau());
+        if (list.get(position).getYeuCau() == null) {
+            holder.textYeuCau.setText("Yêu cầu:  " + "Không có");
+        }else {
+            holder.textYeuCau.setText("Yêu cầu:  "+list.get(position).getYeuCau());
+        }
     }
 
     @Override

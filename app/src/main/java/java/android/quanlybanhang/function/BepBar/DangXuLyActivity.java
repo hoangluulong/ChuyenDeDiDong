@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.BepBar.Adapter.ChiTietDonHangAdapter;
@@ -119,10 +120,12 @@ public class DangXuLyActivity extends AppCompatActivity {
                             mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(1);
                             Toast.makeText(DangXuLyActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
                             sanPhamOder.setTrangThai(1);
+                            new SupportSaveLichSu(DangXuLyActivity.this, "Đang xử lý đơn bàn ID"+ID_BAN);
                             hoanthanh.setText("Hoàn thành");
                         } else if (sanPhamOder.getTrangThai() == 1) {
                             mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(2);
                             Toast.makeText(DangXuLyActivity.this, "Đã chuyển trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
+                            new SupportSaveLichSu(DangXuLyActivity.this, "Xửa lý xong đơn bàn ID" + ID_BAN);
                             hoanthanh.setText("Xong");
                             if (KhuVucBan(sanPhamOder).length ==2) {
                                 mDatabase.child("CuaHangOder").child(ID_QUAN).child("khuvuc").child(KhuVucBan(sanPhamOder)[1]).child("ban").child(KhuVucBan(sanPhamOder)[0]).child("trangthai").setValue("5");
@@ -131,6 +134,7 @@ public class DangXuLyActivity extends AppCompatActivity {
                         } else if (sanPhamOder.getTrangThai() == 2) {
                             mDatabase.child("CuaHangOder/"+ID_QUAN).child("sanphamorder/" + ID_BAN).child("trangThai").setValue(3);
                             Toast.makeText(DangXuLyActivity.this, "Đã trả món", Toast.LENGTH_SHORT).show();
+                            new SupportSaveLichSu(DangXuLyActivity.this, "Hoàn thành đơn bàn ID" + ID_BAN);
                             if (KhuVucBan(sanPhamOder).length ==2) {
                                 mDatabase.child("CuaHangOder").child(ID_QUAN).child("khuvuc").child(KhuVucBan(sanPhamOder)[1]).child("ban").child(KhuVucBan(sanPhamOder)[0]).child("trangthai").setValue("6");
                             }

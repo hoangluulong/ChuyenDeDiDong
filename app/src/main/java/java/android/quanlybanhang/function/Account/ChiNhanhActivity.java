@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,16 +35,18 @@ public class ChiNhanhActivity extends AppCompatActivity implements View.OnClickL
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private java.android.quanlybanhang.Common.ThongTinCuaHangSql thongTinCuaHangSqlCommon;
-    private String ID_USER;
+    private String ID_USER, ID_CUAHANG;
     private ArrayList<CuaHangSignIn> cuaHangSignIns = new ArrayList<>();
     private ArrayList<String> arr = new ArrayList<>();
     private AutoCompleteTextView spinner_chinhanh;
     private ArrayAdapter<String> adapter;
     private String key;
+    private TextView ten_chi_nhanh;
 
     private Boolean checkDataUser = false;
     private Boolean checkThietLap = false;
     private Boolean thietLap = false;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class ChiNhanhActivity extends AppCompatActivity implements View.OnClickL
         thongTinCuaHangSql = new ThongTinCuaHangSql(ChiNhanhActivity.this,"app_database.sqlite", null, 2);
         thongTinCuaHangSqlCommon = new java.android.quanlybanhang.Common.ThongTinCuaHangSql(this);
         ID_USER = thongTinCuaHangSqlCommon.IDUser();
+        ID_CUAHANG = thongTinCuaHangSqlCommon.IDCuaHang();
 
 
         DanhSachChiNhanh();
@@ -64,6 +68,7 @@ public class ChiNhanhActivity extends AppCompatActivity implements View.OnClickL
         btnChiNhanhMoi = findViewById(R.id.btnChiNhanhMoi);
         btnChuyen = findViewById(R.id.btnChuyen);
         spinner_chinhanh = findViewById(R.id.spinner_chinhanh);
+        ten_chi_nhanh = findViewById(R.id.ten_chi_nhanh);
 
         btnChiNhanhMoi.setOnClickListener(this);
         btnChuyen.setOnClickListener(this);
@@ -101,6 +106,18 @@ public class ChiNhanhActivity extends AppCompatActivity implements View.OnClickL
                 }else {
 
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        mFirebaseDatabase.child("ACCOUNT_LOGIN").child(ID_USER).child("CuaHang").child(ID_CUAHANG).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ten_chi_nhanh.setText(snapshot.getValue().toString());
             }
 
             @Override

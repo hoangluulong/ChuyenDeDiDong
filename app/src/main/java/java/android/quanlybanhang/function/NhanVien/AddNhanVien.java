@@ -853,7 +853,7 @@ public class AddNhanVien extends AppCompatActivity {
                                 mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("ChucVu").setValue(0);
                                 mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("ID").setValue(ID_CUAHANG);
                                 mData2.child("ACCOUNT_LOGIN").child(mFirebaseAuth.getUid()+"/CuaHang/"+ID_CUAHANG).child("name").setValue("Chi nhánh 1");
-                                SupportSaveLichSu supportSaveLichSu = new SupportSaveLichSu(AddNhanVien.this, "Thêm nhân viên: " + name);
+                                new SupportSaveLichSu(AddNhanVien.this, "Thêm nhân viên: " + nhanVien.getUsername());
                                 finish();
                             }
                         }

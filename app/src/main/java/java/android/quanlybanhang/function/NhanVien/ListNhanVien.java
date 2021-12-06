@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterNhanVien.AdapterNhanVien;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
@@ -148,6 +149,7 @@ public class ListNhanVien  extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mDatabase.child(nhanViens.get(position).getId()).removeValue();
+                new SupportSaveLichSu(ListNhanVien.this, "Xóa nhân viên: "+nhanViens.get(position).getUsername());
             }
         }).setNegativeButton("No", null)
                 .show();

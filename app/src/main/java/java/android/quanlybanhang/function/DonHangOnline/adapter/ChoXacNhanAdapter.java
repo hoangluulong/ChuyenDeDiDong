@@ -31,8 +31,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.CuaHangOnline.ThongTinCuaHangOnlineActivity;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -242,6 +244,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã xác nhận đơn", Toast.LENGTH_SHORT).show();
+                new SupportSaveLichSu(context, "Đã xác nhận đơn hàng online: "+ list.get(position).getIdDonHang());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -263,6 +266,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();
+                new SupportSaveLichSu(context, "Đã hủy nhận đơn hàng online: "+ list.get(position).getIdDonHang());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -48,6 +48,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterProduct;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
@@ -60,6 +61,7 @@ import java.android.quanlybanhang.function.CuaHangOnline.DanhSachSanPhamActivity
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
 import java.android.quanlybanhang.function.CuaHangOnline.TaoSanPhamOnlineActivity;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
+import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.util.ArrayList;
 
 /**
@@ -571,6 +573,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                                         listDonGia.clear();
                                         adapterDonGia.notifyDataSetChanged();
                                         progressBar.setVisibility(View.INVISIBLE);
+                                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -627,6 +630,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                         listDonGia.clear();
                         adapterDonGia.notifyDataSetChanged();
                         progressBar.setVisibility(View.INVISIBLE);
+                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

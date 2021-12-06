@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.CaLam;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
@@ -1080,6 +1081,7 @@ public class ActivityUpdateNhanVien extends AppCompatActivity {
                     mData.child(nhanVien.getId()).child("phone").setValue(phone);
                     mData.child(nhanVien.getId()).child("caLam").setValue(caLam);
                     mData.child(nhanVien.getId()).child("chucVu").setValue(congViec);
+                    new SupportSaveLichSu(ActivityUpdateNhanVien.this, "Đã update nhân viên:" +nhanVien.getUsername());
                     finish();
                 }
             }

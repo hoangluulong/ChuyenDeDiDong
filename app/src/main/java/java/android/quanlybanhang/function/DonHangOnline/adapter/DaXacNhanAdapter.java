@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.android.quanlybanhang.Common.FormatDouble;
 import java.android.quanlybanhang.Common.SupportFragmentDonOnline;
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
@@ -229,6 +230,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã chuyển đơn đến bếp", Toast.LENGTH_SHORT).show();
+                new SupportSaveLichSu(context, "Đã chuyển đơn hàng tới bếp: " + list.get(position).getIdDonHang());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -247,6 +249,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();
+                new SupportSaveLichSu(context, "Đã hủy đơn hàng online: " + list.get(position).getIdDonHang());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

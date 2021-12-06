@@ -178,8 +178,8 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
                                 bienLai.setTongtien(200000);
                                 bienLai.setKey(dataSnapshot.getKey());
                                 bienLai.setLoai(true);
-                                arrayListAll.add(bienLai);
-                                arrayListLoai2.add(bienLai);
+                                arrayListAll.add(0, bienLai);
+                                arrayListLoai2.add(0, bienLai);
                             }
 
                         }
@@ -222,6 +222,7 @@ public class DanhSachBienLaiActivity extends AppCompatActivity implements View.O
                         danhSachHoaDonAdapter.notifyDataSetChanged();
                         return;
                     } else {
+                        arrayList.clear();
                         arrayList.addAll(arrayListAll);
                         progressBar.setVisibility(View.GONE);
                         image.setImageResource(0);

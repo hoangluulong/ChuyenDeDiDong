@@ -30,6 +30,7 @@ import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
 import java.android.quanlybanhang.function.Account.SignInActivity;
+import java.android.quanlybanhang.function.Account.ThongTinAccountActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
@@ -233,6 +234,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_homes:
+                break;
+            case R.id.profile:
+                Intent intent11 = new Intent(MainActivity.this, ThongTinAccountActivity.class);
+                startActivity(intent11);
                 break;
             case R.id.lichsu:
                 Intent intent = new Intent(MainActivity.this, LichSuHoatDongActivity.class);

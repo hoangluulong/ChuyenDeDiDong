@@ -110,6 +110,7 @@ public class BaoCaoChiSoActivity extends AppCompatActivity implements SwipeRefre
                 loai = true;
                 getFirebaseBienLai();
                 setValuess();
+                Log.d("ssssss", "sssss");
                 btn_chon_ngay.setEnabled(true);
                 btn_chon_nam.setEnabled(false);
                 btn_chon_ngay.setBackgroundResource(R.color.white);

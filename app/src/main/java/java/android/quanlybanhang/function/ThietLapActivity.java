@@ -153,7 +153,8 @@ public class ThietLapActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.layout_sodo:
                 if (isChu) {
-
+                    Intent intent10 = new Intent(ThietLapActivity.this, TestLayDatBanTheoNgay.class);
+                    startActivity(intent10);
                 }else {
                     Toast.makeText(this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
                 }

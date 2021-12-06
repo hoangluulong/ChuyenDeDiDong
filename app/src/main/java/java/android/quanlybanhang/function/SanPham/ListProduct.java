@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterProduct;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.DonGia;
@@ -166,6 +167,7 @@ public class ListProduct  extends AppCompatActivity {
                             Toast.makeText(ListProduct.this,listProduct.get(position).getId()+"",Toast.LENGTH_LONG).show();
                             mDatabase1 = firebaseDatabase.getReference("CuaHangOder/"+ID_CUAHANG).child("sanpham").child(aaa.getKey());
                             mDatabase1.child(listProduct.get(position).getId()).removeValue();
+                            new SupportSaveLichSu(ListProduct.this, "Xóa sản phẩm: "+ listProduct.get(position).getNameProduct());
                         }
                     }
 

@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.NguyenLieu;
 import java.android.quanlybanhang.R;
@@ -75,6 +76,7 @@ public class ThemNguyenLieuActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void unused) {
                     Toast.makeText(ThemNguyenLieuActivity.this, "Thành công!", Toast.LENGTH_SHORT).show();
+                    new SupportSaveLichSu(ThemNguyenLieuActivity.this, "Thêm nguyên liệu: "+nguyenLieu.getTen());
                     tenNguyenLieu.setText("");
                     soluong.setText("");
                     donvi.setText("");

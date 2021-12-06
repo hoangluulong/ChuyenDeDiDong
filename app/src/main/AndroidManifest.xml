@@ -23,23 +23,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
+            android:name=".function.TestLayDatBanTheoNgay"
+            android:exported="false" />
+        <activity
             android:name=".function.LichSuHoatDongActivity"
-            android:exported="false"
-            android:parentActivityName=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
-            android:theme="@style/thameActionbar"/>
+            android:exported="true"
+            android:label="Lịch sử hoạt động"
+            android:parentActivityName=".function.MainActivity"
+            android:theme="@style/thameActionbar" />
         <activity
             android:name=".function.CuaHangOnline.DanhSachSanPhamActivity"
             android:exported="true"
+            android:label="Danh sách sản phẩm"
             android:parentActivityName=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
             android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.SanPham.DanhSachNguyenLieuActivity"
-            android:exported="false" />
+            android:label="Danh sách nguyên liệu"
+            android:exported="true" />
         <activity
             android:name=".function.BaoCao.DanhSachChiTieuActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:label=""/>
         <activity
             android:name=".function.ChiTieuActivity"
+            android:label="Chi tiêu"
             android:exported="true" />
         <activity
             android:name=".function.Account.TaoChiNhanhActivity"
@@ -162,31 +170,37 @@
         <activity
             android:name=".function.CuaHangOnline.CuaHangOnlineActivity"
             android:exported="true"
+            android:label=""
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.CuaHangOnline.ThongTinCuaHangOnlineActivity"
             android:exported="true"
+            android:label=""
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.CuaHangOnline.CauHinhVanChuyenOnlineActivity"
             android:exported="true"
+            android:label=""
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.CuaHangOnline.QuangCaoActivity"
             android:exported="true"
+            android:label=""
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.CuaHangOnline.TaoSanPhamOnlineActivity"
             android:exported="true"
+            android:label=""
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.CuaHangOnline.ThoiGianLamViecOnlineActivity"
             android:exported="true"
+            android:label=""
             android:parentActivityName=".function.MainActivity"
             android:theme="@style/thameActionbar4" />
         <activity
@@ -289,6 +303,7 @@
         <activity
             android:name=".function.BaoCao.CapNhatBaoCaoActivity"
             android:enabled="true"
+            android:label="Cập nhật nguyên liệu"
             android:parentActivityName=".function.ThietLapActivity"
             android:theme="@style/thameActionbar" />
         <activity
@@ -299,6 +314,7 @@
         <activity
             android:name=".function.BaoCao.ChiTietThuChiActivity"
             android:enabled="true"
+            android:label="Chi tiêu"
             android:parentActivityName=".function.BaoCao.BaoCaoTongQuanActivity"
             android:theme="@style/thameActionbar" />
         <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff" />

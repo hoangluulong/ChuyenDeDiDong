@@ -22,7 +22,6 @@
         android:layout_marginRight="20dp"
         android:text="Tất cả ngày"/>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"

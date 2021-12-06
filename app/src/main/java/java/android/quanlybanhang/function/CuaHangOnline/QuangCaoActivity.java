@@ -25,6 +25,7 @@ import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Fragment.FragmentAdapter;
 import java.android.quanlybanhang.function.DonHangOnline.adapter.TablayoutAdapter;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
 import java.util.ArrayList;
 
 public class QuangCaoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
@@ -119,6 +120,10 @@ public class QuangCaoActivity extends AppCompatActivity implements NavigationVie
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.khuyenmai:
+                intent = new Intent(this, ListKhuyenMai.class);
+                startActivity(intent);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

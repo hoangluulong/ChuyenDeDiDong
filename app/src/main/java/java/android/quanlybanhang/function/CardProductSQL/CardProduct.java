@@ -260,7 +260,7 @@ public class CardProduct extends AppCompatActivity {
                                 FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id).setValue(productPushFB).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        new SupportSaveLichSu(CardProduct.this,"order bàn "+id_ban+"Khu vực: " + id_khuvuc);
+                                        new SupportSaveLichSu(CardProduct.this,"order bàn "+id_ban+", Khu vực: " + id_khuvuc);
                                     }
                                 });
                             }

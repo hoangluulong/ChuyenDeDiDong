@@ -51,6 +51,7 @@ import java.android.quanlybanhang.Common.Utils;
 import java.android.quanlybanhang.Model.PieTongQuan;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.DbBaoCao;
+import java.android.quanlybanhang.function.Account.ChiNhanhActivity;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -304,6 +305,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                 openFeedbackDialog(Gravity.CENTER);
                 break;
             case R.id.btnChiNhanh:
+                Intent intent1 = new Intent(BaoCaoTongQuanActivity.this, ChiNhanhActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
@@ -566,16 +569,20 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
                         ArrayList<DataSnapshot> listSP = new ArrayList<>();
 
                         for (DataSnapshot a : dataBienLai) {
-                            listSP.add(a.child("sanpham"));
-                            if (Integer.parseInt(a.child("status").getValue() + "") == 1) {
+                            int status = Integer.parseInt(a.child("status").getValue().toString());
+                            if (status != 0) {
+                                listSP.add(a.child("sanpham"));
+                            }
+
+                            if (status == 1) {
                                 slDaThanhToan++;
                                 tienDTT += Double.parseDouble(a.child("tongtien").getValue() + "");
-                            } else if (Integer.parseInt(a.child("status").getValue() + "") == 2) {
+                            } else if (status == 2) {
                                 slChuaThanhToan++;
                                 tienCTT += Double.parseDouble(a.child("tongtien").getValue() + "");
-                            } else if (Integer.parseInt(a.child("status").getValue() + "") == 3) {
+                            } else if (status == 3) {
                             }
-                            if (Integer.parseInt(a.child("status").getValue() + "") == 0) {
+                            if (status == 0) {
                                 slBiHuy++;
                                 tienHoaDonBiHuy += Double.parseDouble(a.child("tongtien").getValue() + "");
                             }

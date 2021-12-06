@@ -40,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.AddressVN.DiaChi;
 import java.android.quanlybanhang.Model.AddressVN.Huyen;
@@ -185,9 +186,6 @@ public class SuaKhachHang extends AppCompatActivity {
         btnhuyTaoKhachHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent = new Intent(SuaKhachHang.this, ListKhachHang.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -366,6 +364,7 @@ public class SuaKhachHang extends AppCompatActivity {
                             mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("diaChiHuyen").setValue(tenHuyen);
                             mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("diaChiXa").setValue(tenXa);
                             mDatabase.child(khachhang.getNhomKhachKhach()).child(khachhang.getSoDT()).child("gioiTinh").setValue(gioiTinh);
+                            new SupportSaveLichSu(SuaKhachHang.this, "Đã update thông tin khách hàng: " + khachhang.getHoTenKhachHang());
                             finish();
                         }
                     }

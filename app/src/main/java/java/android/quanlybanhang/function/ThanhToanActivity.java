@@ -485,7 +485,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                         public void onSuccess(Void unused) {
                             FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang + giaTong);
                             XoaSpkhiOrder();
-
+                            new SupportSaveLichSu(ThanhToanActivity.this, "Thanh toán bàn: " + id_ban + "KV: " + id_khuvuc);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -515,6 +515,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                         public void onSuccess(Void unused) {
                             FirebaseDatabase.getInstance().getReference(id_CuaHang).child("bienlai/taichinh").child("tongTien").setValue(tongTienCuaHang + giaTong);
                             XoaSpkhiOrder();
+                            new SupportSaveLichSu(ThanhToanActivity.this, "Thanh toán đơn hàng mang đi: " + id_datban);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -524,7 +525,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     });
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_datban).removeValue();
                 }
-                new SupportSaveLichSu(ThanhToanActivity.this, "Thanh toán bàn: " + id_ban + "KV: " + id_khuvuc);
+
                 Intent intent = new Intent(ThanhToanActivity.this, OrderMenu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

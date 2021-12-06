@@ -22,12 +22,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterProduct;
 import java.android.quanlybanhang.Model.Product;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.DanhSachSanPhamOnlineAdapter;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
+import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.util.ArrayList;
 
 public class DanhSachSanPhamActivity extends AppCompatActivity {
@@ -81,7 +83,6 @@ public class DanhSachSanPhamActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 listProduct = new ArrayList<>();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     DataSnapshot aaa = snapshot1;
@@ -139,6 +140,7 @@ public class DanhSachSanPhamActivity extends AppCompatActivity {
                             DataSnapshot aaa = snapshot1;
                             Toast.makeText(DanhSachSanPhamActivity.this,listProduct.get(position).getId()+"",Toast.LENGTH_LONG).show();
                             mDatabase1 = firebaseDatabase.getReference("cuaHang/"+ID_CUAHANG).child("sanpham").child(aaa.getKey());
+                            new SupportSaveLichSu(DanhSachSanPhamActivity.this, "Xóa sản phẩm: " + listProduct.get(position).getNameProduct() + " :ID-"+ listProduct.get(position).getId());
                             mDatabase1.child(listProduct.get(position).getId()).removeValue();
                         }
                     }

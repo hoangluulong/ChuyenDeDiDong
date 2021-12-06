@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterKhachHang.AdapterNhomKhachHang;
 import java.android.quanlybanhang.Model.KhachHang.NhomKhachHang;
@@ -144,9 +145,8 @@ public class ListNhomKhachHang extends AppCompatActivity {
         ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 mDatabase.child(nhomKhachHangs.get(position).getId()).removeValue();
-
+                new SupportSaveLichSu(ListNhomKhachHang.this, "Xóa nhóm khách hàng: " + nhomKhachHangs.get(position).getTenNhomKh());
             }
         }).setNegativeButton("No", null)
                 .show();
