@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +63,7 @@ import java.android.quanlybanhang.function.CuaHangOnline.Adapter.DanhSachSanPham
 import java.android.quanlybanhang.function.CuaHangOnline.DanhSachSanPhamActivity;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
 import java.android.quanlybanhang.function.CuaHangOnline.TaoSanPhamOnlineActivity;
+import java.android.quanlybanhang.function.CustomDialogClass;
 import java.android.quanlybanhang.function.SanPham.ListProduct;
 import java.android.quanlybanhang.function.ThanhToanActivity;
 import java.util.ArrayList;
@@ -123,7 +127,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private LinearLayout.LayoutParams params1, paramsImage, paramsImage1;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabase3;
     private FirebaseDatabase firebaseDatabase;
 
     private StorageReference reference = FirebaseStorage.getInstance().getReference("hinhanh");
@@ -155,6 +159,8 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private String nhom = "";
     private boolean loai = true;
     private String tenHinh;
+    private String nameCuaHang;
+    private String soDT;
 
 
     //dialog
@@ -162,7 +168,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private TextView dong, btnChonSanPham;
 
     private DatabaseReference mDatabase2;
-
+    private CheckBox cbSuperQC;
     private String name;
     private int sLuong = 0;
     private double giamGia = 0;
@@ -181,8 +187,10 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         thongTinCuaHangSql = new ThongTinCuaHangSql(view.getContext());
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         IDLayout(view);
+
         firebaseDatabase =  FirebaseDatabase.getInstance();
         mDatabase = firebaseDatabase.getReference("CuaHangOder/"+ID_CUAHANG).child("sanpham");
+        mDatabase3 = firebaseDatabase.getReference();
 
         paramsImage.height = 0;
         layout_image.setLayoutParams(paramsImage);
@@ -228,6 +236,8 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
 
         getNhomSanPham();
         Danhsachsanpham();
+        getName();
+
         return view;
     }
 
@@ -256,7 +266,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         listView = view.findViewById(R.id.donViTinh);
         title = view.findViewById(R.id.title);
         btnChonSanPham = view.findViewById(R.id.btnChonSanPham);
-
+        cbSuperQC=view.findViewById(R.id.cbSuperQC);
         paramsImage = (LinearLayout.LayoutParams) layout_image.getLayoutParams();
         paramsImage1 = (LinearLayout.LayoutParams) layout_image1.getLayoutParams();
 
@@ -337,13 +347,42 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.taoDon:
-                if (imageUri != null && loai == true) {
-                    uploadFirebaseQuangCao(imageUri);
+//                CustomDialogClass dialogClass =new CustomDialogClass(getActivity());
+//                Toast.makeText(getContext(),cbSuperQC.isChecked()+" abc",Toast.LENGTH_SHORT).show();
+
+                if(cbSuperQC.isChecked())
+                {
+
+                    if (imageUri != null && loai == true) {
+                    uploadFirebaseQuangCao(imageUri,true);
                 } else if (loai == false) {
-                    uploadFirebaseQuangCao(imageUri);
+                    uploadFirebaseQuangCao(imageUri,true);
                 } else {
                     Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
                 }
+
+
+                }
+                else {
+
+                    if (imageUri != null && loai == true) {
+                    uploadFirebaseQuangCao(imageUri,false);
+                } else if (loai == false) {
+                    uploadFirebaseQuangCao(imageUri,false);
+                }
+                    else {
+                    Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
+                }
+
+                }
+
+//                if (imageUri != null && loai == true) {
+//                    uploadFirebaseQuangCao(imageUri);
+//                } else if (loai == false) {
+//                    uploadFirebaseQuangCao(imageUri);
+//                } else {
+//                    Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
+//                }
                 break;
             case R.id.addLoai:
                 donViTinh(Gravity.CENTER);
@@ -355,6 +394,24 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                 SanPhamCoSan(Gravity.CENTER);
                 break;
         }
+    }
+
+    private void getName() {
+        mDatabase3.child("cuaHang").child(ID_CUAHANG).child("thongtin").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    nameCuaHang = snapshot.child("name").getValue().toString();
+                    soDT = snapshot.child("soDienThoai").getValue().toString();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void themDonViTinh(int gravity) {
@@ -479,7 +536,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         dialog.show();
     }
 
-    private void uploadFirebaseQuangCao(Uri uri) {
+    private void uploadFirebaseQuangCao(Uri uri,boolean superQuangcao) {
         if (loai) {
             nameImage = System.currentTimeMillis() + "." + getFileExtension(uri);
         }
@@ -548,39 +605,54 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                                 taoDon.setEnabled(true);
                                 String status = "Còn";
                                 String img = uri.toString();
-                                product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false, titleText);
-                                DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
-                                DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
-                                mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();
-                                        mFirebaseDatabase2.child("cuaHang/"+ID_CUAHANG).child("sanpham").child(product.getNhomsanpham()).child(key).setValue(product);
-                                        name = null;
-                                        sLuong = 0;
-                                        giamGia = 0;
-                                        moTa = null;
-                                        nameImage = null;
-                                        tenSanPham.setText(null);
-                                        soLuong.setText(null);
-                                        giamgia.setText(null);
-                                        imgageView.setImageURI(null);
-                                        nhomsanpham.setText(null);
-                                        title.setText(null);
-                                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
-                                        mota.setText(null);
-                                        imageUri = null;
-                                        listDonGia.clear();
-                                        adapterDonGia.notifyDataSetChanged();
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                if(superQuangcao)
+                                {
+                                    product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false, titleText, true);
+                                    product.setName(nameCuaHang);
+                                    product.setSoDienThoai(soDT);
+                                    getThongtinChuyenkhoan("50.000 VND",product,key,true);
+                                }else {
+                                    product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false, titleText, false);
+                                    product.setName(nameCuaHang);
+                                    product.setSoDienThoai(soDT);
+                                    getThongtinChuyenkhoan("100.000 VND",product,key,false);
+                                }
+
+
+//                                DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
+//                                DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
+//                                mFirebaseDatabase1.child("ChoXacNhan/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void unused) {
+//                                        Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();
+//                                        mFirebaseDatabase2.child("cuaHang/"+ID_CUAHANG).child("sanpham").child(product.getNhomsanpham()).child(key).setValue(product);
+//                                        name = null;
+//                                        sLuong = 0;
+//                                        giamGia = 0;
+//                                        moTa = null;
+//                                        nameImage = null;
+//                                        tenSanPham.setText(null);
+//                                        soLuong.setText(null);
+//                                        giamgia.setText(null);
+//                                        imgageView.setImageURI(null);
+//                                        nhomsanpham.setText(null);
+//                                        title.setText(null);
+//                                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
+//                                        mota.setText(null);
+//                                        imageUri = null;
+//                                        listDonGia.clear();
+//                                        adapterDonGia.notifyDataSetChanged();
+//                                        progressBar.setVisibility(View.INVISIBLE);
+//                                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
+//
+//
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
                             }
                         });
                     }
@@ -605,39 +677,52 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                 taoDon.setEnabled(true);
                 String status = "Còn";
 
-                product = new Product(key,name,moTa,nhomSp,0.0, sLuong, tenHinh, "", giamGia, status, listDonGia, ID_CUAHANG, false, titleText);
-                DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
-                DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
-                mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();
-                        mFirebaseDatabase2.child("cuaHang/"+ID_CUAHANG).child("sanpham").child(product.getNhomsanpham()).child(key).setValue(product);
-                        name = null;
-                        sLuong = 0;
-                        giamGia = 0;
-                        moTa = null;
-                        nameImage = null;
-                        tenSanPham.setText(null);
-                        soLuong.setText(null);
-                        giamgia.setText(null);
-                        imgageView.setImageURI(null);
-                        nhomsanpham.setText(null);
-                        title.setText(null);
-                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
-                        mota.setText(null);
-                        imageUri = null;
-                        listDonGia.clear();
-                        adapterDonGia.notifyDataSetChanged();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if(superQuangcao)
+                {
+                    product = new Product(key,name,moTa,nhomSp,0.0, sLuong, tenHinh, "", giamGia, status, listDonGia, ID_CUAHANG, false, titleText, true);
+                    product.setName(nameCuaHang);
+                    product.setSoDienThoai(soDT);
+                    getThongtinChuyenkhoan("100.000 VND",product,key,true);
+                }else {
+                    product = new Product(key,name,moTa,nhomSp,0.0, sLuong, tenHinh, "", giamGia, status, listDonGia, ID_CUAHANG, false, titleText, false);
+                    product.setName(nameCuaHang);
+                    product.setSoDienThoai(soDT);
+                    getThongtinChuyenkhoan("50.000 VND",product,key,false);
+                }
+
+
+//                DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
+//                DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
+//                mFirebaseDatabase1.child("ChoXacNhan/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();
+//                        mFirebaseDatabase2.child("cuaHang/"+ID_CUAHANG).child("sanpham").child(product.getNhomsanpham()).child(key).setValue(product);
+//                        name = null;
+//                        sLuong = 0;
+//                        giamGia = 0;
+//                        moTa = null;
+//                        nameImage = null;
+//                        tenSanPham.setText(null);
+//                        soLuong.setText(null);
+//                        giamgia.setText(null);
+//                        imgageView.setImageURI(null);
+//                        nhomsanpham.setText(null);
+//                        title.setText(null);
+//                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
+//                        mota.setText(null);
+//                        imageUri = null;
+//                        listDonGia.clear();
+//                        adapterDonGia.notifyDataSetChanged();
+//                        progressBar.setVisibility(View.INVISIBLE);
+//                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         }
     }
@@ -763,4 +848,93 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
 
         dialog3.dismiss();
     }
+
+    private void getThongtinChuyenkhoan(String soTien,Product noiDung,String key,boolean flag)
+    {
+        mFirebaseDatabase=FirebaseDatabase.getInstance().getReference("cuaHang").child(ID_CUAHANG);
+        mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String key= snapshot.getKey();
+                if(key.equals("thongtin"))
+                {
+                    for (DataSnapshot snapshot1: snapshot.getChildren())
+                    {
+                        if(snapshot1.getKey().equals("thongTinChuyenKhoan"))
+                        {
+                            String ttck=snapshot1.getValue(String.class);
+                            String[] abc= ttck.split("\n");
+                            CustomDialogClass dialog =new CustomDialogClass(getActivity(),abc[0],abc[2],abc[1],soTien,noiDung.getId());
+                            dialog.setData(new CustomDialogClass.pushFirebase() {
+                                @Override
+                                public void pushQuangCao() {
+                                    pushFB(key,noiDung,flag);
+                                }
+                            });
+                            dialog.show();
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void pushFB(String key,Product product1,boolean flag)
+    {
+                        DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
+                DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
+                product1.setSuperquangcao(flag);
+                mFirebaseDatabase1.child("ChoXacNhan/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getContext(), "Thành công 3!", Toast.LENGTH_SHORT).show();
+                        mFirebaseDatabase2.child("cuaHang/"+ID_CUAHANG).child("sanpham").child(product.getNhomsanpham()).child(key).setValue(product1);
+                        name = null;
+                        sLuong = 0;
+                        giamGia = 0;
+                        moTa = null;
+                        nameImage = null;
+                        tenSanPham.setText(null);
+                        soLuong.setText(null);
+                        giamgia.setText(null);
+                        imgageView.setImageURI(null);
+                        nhomsanpham.setText(null);
+                        title.setText(null);
+                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
+                        mota.setText(null);
+                        imageUri = null;
+                        listDonGia.clear();
+                        adapterDonGia.notifyDataSetChanged();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 }

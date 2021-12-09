@@ -234,6 +234,7 @@ public class TaoChiNhanhActivity extends AppCompatActivity implements View.OnCli
             mFirebaseDatabase.child("CuaHangOder/" + key + "/ThongTinCuaHang/xa").setValue(tenXa);
             mFirebaseDatabase.child("CuaHangOder/" + key + "/ThongTinCuaHang/soNha").setValue(tenXa);
             mFirebaseDatabase.child("CuaHangOder/" + key + "/ThongTinCuaHang/ThietLap").setValue(true);
+            mFirebaseDatabase.child("CuaHangOder").child(key).child("ChuCuaHang").setValue(ID_USER);
 
             java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSqlDB = new java.android.quanlybanhang.database.ThongTinCuaHangSql(TaoChiNhanhActivity.this,
                     "app_database.sqlite", null, 2);

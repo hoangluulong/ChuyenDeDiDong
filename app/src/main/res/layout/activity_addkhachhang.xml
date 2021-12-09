@@ -132,7 +132,7 @@
                     android:layout_marginLeft="-60dp"
                     style="?android:buttonBarButtonStyle"
                     android:layout_gravity="center"
-                    android:src="@drawable/iconlich"
+                    android:src="@drawable/icons8calendar"
                     android:layout_width="40dp"
                     android:layout_height="40dp" />
             </LinearLayout>
@@ -201,6 +201,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="16sp"
+            android:textColor="@color/blue_berry"
+            android:backgroundTint="@color/Java"
             android:background="@drawable/bg_button_16"
             android:text="Thêm"></Button>
     </LinearLayout>

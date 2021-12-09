@@ -23,6 +23,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyBanHang">
         <activity
+            android:name=".admin.DoiPasswordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.ThongBaoKhoaCuaHangActivity"
+            android:exported="true"
+            android:theme="@style/thameActionbar7" />
+        <activity
+            android:name=".admin.cuahang.CuaHangActivity"
+            android:exported="true"
+            android:theme="@style/thameActionbar7" />
+        <activity
+            android:name=".admin.SanPhamQuangCaoActivity"
+            android:exported="true"
+            android:theme="@style/thameActionbar7" />
+        <activity
+            android:name=".admin.ThongTinChuyenKhoanActivity"
+            android:exported="false"
+            android:theme="@style/thameActionbar7" />
+        <activity
+            android:name=".admin.TrangChuActivity"
+            android:exported="false"
+            android:theme="@style/thameActionbar7" />
+        <activity
+            android:name=".admin.login.LoginAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".function.TestLayDatBanTheoNgay"
             android:exported="false" />
         <activity
@@ -39,16 +65,16 @@
             android:theme="@style/thameActionbar4" />
         <activity
             android:name=".function.SanPham.DanhSachNguyenLieuActivity"
-            android:label="Danh sách nguyên liệu"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Danh sách nguyên liệu" />
         <activity
             android:name=".function.BaoCao.DanhSachChiTieuActivity"
             android:exported="true"
-            android:label=""/>
+            android:label="" />
         <activity
             android:name=".function.ChiTieuActivity"
-            android:label="Chi tiêu"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Chi tiêu" />
         <activity
             android:name=".function.Account.TaoChiNhanhActivity"
             android:exported="true" />
@@ -260,15 +286,15 @@
         <activity
             android:name=".function.KhuyenMai.ThemKhuyenMai"
             android:exported="true"
-            android:label="Thêm Khuyến mãi"
+            android:label=""
             android:parentActivityName=".function.KhuyenMai.ListKhuyenMai"
-            android:theme="@style/thameActionbar5" />
+            android:theme="@style/thameActionbar6" />
         <activity
             android:name=".function.KhuyenMai.ListKhuyenMai"
             android:exported="true"
-            android:label="Danh sách khuyến mãi"
+            android:label=""
             android:parentActivityName=".function.MainActivity"
-            android:theme="@style/thameActionbar5" />
+            android:theme="@style/thameActionbar6" />
         <activity
             android:name=".function.SanPham.ListCategory"
             android:exported="true"
@@ -319,6 +345,42 @@
             android:theme="@style/thameActionbar" />
         <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiOff" />
         <activity android:name=".function.KhuyenMaiOffLine.KhuyenMaiThanhToan" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.ListBan"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.ListKhuVuc"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.SuaBanKV"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.SuaKhuVuc"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.ThemBan"
+            android:exported="false" />
+        <activity
+            android:name=".function.ThemBan_KhuVuc.ThemKhuVuc"
+            android:exported="false" />
+        <activity
+            android:name=".function.KhuyenMaiOffLine.ListChonKhuyenMaiOff"
+            android:exported="false" />
+        <activity
+            android:name=".function.KhuyenMaiOffLine.ListKhuyeMaiOff"
+            android:exported="false" />
+        <activity
+            android:name=".function.SanPham.ListDonViTinh"
+            android:exported="false" />
+
+        <service android:name=".admin.MyNotification"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

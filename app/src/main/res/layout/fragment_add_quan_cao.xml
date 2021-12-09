@@ -356,6 +356,22 @@
                                     android:layout_marginTop="5dp"
                                     android:gravity="right">
 
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginRight="45dp">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="15sp"
+                                            android:text="Quảng cáo nhanh"/>
+                                        <CheckBox
+                                            android:id="@+id/cbSuperQC"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
                                     <androidx.constraintlayout.widget.ConstraintLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content">

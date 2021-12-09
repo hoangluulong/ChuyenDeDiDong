@@ -34,6 +34,7 @@
             android:background="@drawable/bg_white_edittext"
             android:layout_marginTop="5dp"
             android:padding="12dp"
+            android:inputType="number"
             android:hint="Nhập giá"
             ></EditText>
 
@@ -77,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="16sp"
+                android:textColor="@color/white"
                 android:background="@drawable/bg_button_16"
                 android:text="Thêm"></Button>
         </LinearLayout>

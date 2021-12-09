@@ -63,6 +63,7 @@ import java.android.quanlybanhang.function.CuaHangOnline.Adapter.ImageAdapter;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.DiaChiCuaHang;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Image;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.ThongTinCuaHang;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -528,6 +529,10 @@ public class ThongTinCuaHangOnlineActivity extends AppCompatActivity implements 
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.khuyenmai:
+                intent = new Intent(this, ListKhuyenMai.class);
+                startActivity(intent);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

@@ -10,11 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/xanh"
+        android:textStyle="bold|normal|italic"
         android:textSize="16sp"
         android:gravity="center"
         android:background="@drawable/bg_titel_16"
-        android:text="San Pham"></TextView>
+        android:text="Cập nhật số liệu"></TextView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,6 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="16sp"
+            android:backgroundTint="@color/vang"
+            android:textColor="@color/xanh"
             android:background="@drawable/bg_button_16"
             android:text="Thêm"
             android:id="@+id/addChiTietKho"></Button>

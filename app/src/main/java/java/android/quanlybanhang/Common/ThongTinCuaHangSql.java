@@ -15,7 +15,9 @@ public class ThongTinCuaHangSql {
     }
 
     public String IDCuaHang() {
-        java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSql = new java.android.quanlybanhang.database.ThongTinCuaHangSql(context, "app_database.sqlite", null, 2);
+        java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSql =
+                new java.android.quanlybanhang.database.
+                        ThongTinCuaHangSql(context, "app_database.sqlite", null, 2);
         thongTinCuaHangSql.createTable();
         Cursor cursor = thongTinCuaHangSql.selectThongTin();
         String id = "";

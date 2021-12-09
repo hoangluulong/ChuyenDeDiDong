@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/xanh"
+        android:textStyle="normal|italic|bold"
         android:textSize="16sp"
         android:gravity="center"
         android:background="@drawable/bg_titel_16"
@@ -129,6 +130,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/vang"
+                android:textColor="@color/xanh"
                 android:textSize="16sp"
                 android:background="@drawable/bg_button_16"
                 android:text="Thêm"></Button>

@@ -1,7 +1,22 @@
 package java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan;
 
-public class StaticBanModel {
+import java.io.Serializable;
 
+public class StaticBanModel implements Serializable {
+    private String ID ;
+    private   String tenban;
+    private  String tenNhanVien;
+    private  String gioDaOder;
+    private String id_khuvuc;
+
+    public StaticBanModel(String ID, String tenban, String tenNhanVien, String gioDaOder, String id_khuvuc, String trangthai) {
+        this.ID = ID;
+        this.tenban = tenban;
+        this.tenNhanVien = tenNhanVien;
+        this.gioDaOder = gioDaOder;
+        this.id_khuvuc = id_khuvuc;
+        this.trangthai = trangthai;
+    }
 
     public StaticBanModel(String ID, String tenban, String trangthai, String tenNhanVien, String gioDaOder) {
         this.ID = ID;
@@ -9,6 +24,14 @@ public class StaticBanModel {
         this.trangthai = trangthai;
         this.tenNhanVien = tenNhanVien;
         this.gioDaOder = gioDaOder;
+    }
+
+    public String getId_khuvuc() {
+        return id_khuvuc;
+    }
+
+    public void setId_khuvuc(String id_khuvuc) {
+        this.id_khuvuc = id_khuvuc;
     }
 
     public String getID() {
@@ -35,7 +58,7 @@ public class StaticBanModel {
         this.gioDaOder = gioDaOder;
     }
 
-    private String ID ;
+
     public String getTenNhanVien() {
         return tenNhanVien;
     }
@@ -51,7 +74,7 @@ public class StaticBanModel {
         return trangthai;
     }
 
-    private   String tenban;
+
 
     public StaticBanModel(String tenban, String trangthai, String tenNhanVien, String gioDaOder) {
         this.tenban = "";
@@ -69,9 +92,5 @@ public class StaticBanModel {
         this.tenban = tenban;
         this.trangthai = trangthai;
     }
-
-    private  String tenNhanVien;
-    private  String gioDaOder;
-
 
 }

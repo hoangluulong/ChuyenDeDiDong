@@ -20,6 +20,11 @@ public class Product implements Serializable {
     private String idCuaHang;
     private boolean up;
     private String title;
+    private boolean superquangcao;
+    private String soDienThoai;
+    private String name;
+    private String ngayBatDau;
+    private String ngayKetThuc;
 
     //(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false);
 
@@ -50,7 +55,7 @@ public class Product implements Serializable {
         this.donGiaOrder = donGiaOrder;
     }
 
-    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder, String idCuaHang, boolean up, String title) {
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder, String idCuaHang, boolean up, String title, boolean superquangcao) {
         this.id = id;
         this.nameProduct = nameProduct;
         this.chitiet = chitiet;
@@ -65,6 +70,91 @@ public class Product implements Serializable {
         this.idCuaHang = idCuaHang;
         this.title = title;
         this.up = up;
+        this.superquangcao = false;
+    }
+
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, Double giaBan, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder, String idCuaHang, boolean up, String title, boolean superquangcao, String soDienThoai, String name) {
+        this.id = id;
+        this.nameProduct = nameProduct;
+        this.chitiet = chitiet;
+        Nhomsanpham = nhomsanpham;
+        this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
+        this.soluong = soluong;
+        this.imgProduct = imgProduct;
+        this.nameImage = nameImage;
+        this.giamGia = giamGia;
+        this.status = status;
+        this.donGiaOrder = donGiaOrder;
+        this.idCuaHang = idCuaHang;
+        this.up = up;
+        this.title = title;
+        this.superquangcao = superquangcao;
+        this.soDienThoai = soDienThoai;
+        this.name = name;
+    }
+
+    public Product(String id, String nameProduct, String chitiet, String nhomsanpham, Double giaNhap, Double giaBan, int soluong, String imgProduct, String nameImage, Double giamGia, String status, ArrayList<DonGia> donGiaOrder, String idCuaHang, boolean up, String title, boolean superquangcao, String soDienThoai, String name, String ngayBatDau, String ngayKetThuc) {
+        this.id = id;
+        this.nameProduct = nameProduct;
+        this.chitiet = chitiet;
+        Nhomsanpham = nhomsanpham;
+        this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
+        this.soluong = soluong;
+        this.imgProduct = imgProduct;
+        this.nameImage = nameImage;
+        this.giamGia = giamGia;
+        this.status = status;
+        this.donGiaOrder = donGiaOrder;
+        this.idCuaHang = idCuaHang;
+        this.up = up;
+        this.title = title;
+        this.superquangcao = superquangcao;
+        this.soDienThoai = soDienThoai;
+        this.name = name;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+    }
+
+    public String getNgayBatDau() {
+        return ngayBatDau;
+    }
+
+    public void setNgayBatDau(String ngayBatDau) {
+        this.ngayBatDau = ngayBatDau;
+    }
+
+    public String getNgayKetThuc() {
+        return ngayKetThuc;
+    }
+
+    public void setNgayKetThuc(String ngayKetThuc) {
+        this.ngayKetThuc = ngayKetThuc;
+    }
+
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isSuperquangcao() {
+        return superquangcao;
+    }
+
+    public void setSuperquangcao(boolean superquangcao) {
+        this.superquangcao = superquangcao;
     }
 
     public Product() {

@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/xanh"
+        android:textStyle="normal|italic|bold"
         android:textSize="16sp"
         android:gravity="center"
         android:background="@drawable/bg_titel_16"
@@ -24,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/black"
+            android:textColor="@color/xanh"
             android:text="Giá để khuyến mãi"></TextView>
 
         <EditText
@@ -41,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/black"
+            android:textColor="@color/xanh"
             android:text="Phần % khuyến mãi"></TextView>
 
         <EditText
@@ -49,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:textColor="@color/link"
             android:background="@drawable/bg_white_edittext"
             android:layout_marginTop="5dp"
             android:padding="12dp"
@@ -75,6 +77,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="16sp"
+                android:backgroundTint="@color/vang"
+                android:textColor="@color/xanh"
                 android:background="@drawable/bg_button_16"
                 android:text="Thêm"></Button>
         </LinearLayout>

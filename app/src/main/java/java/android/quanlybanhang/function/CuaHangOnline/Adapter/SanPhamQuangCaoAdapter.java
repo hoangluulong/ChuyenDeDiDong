@@ -58,6 +58,8 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
 //        holder.giamgia.setText(list.get(position).getGiamGia()+"");
         holder.name.setText(list.get(position).getNameProduct());
         holder.idsanpham.setText(list.get(position).getIdCuaHang());
+        holder.ngaybatdau.setText(list.get(position).getNgayBatDau());
+        holder.ngayketthuc.setText(list.get(position).getNgayKetThuc());
     }
 
     @Override

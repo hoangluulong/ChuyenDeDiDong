@@ -55,7 +55,6 @@ public class DanhSachSanPhamActivity extends AppCompatActivity {
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
 
-
         mDatabase = firebaseDatabase.getReference("cuaHang/"+ID_CUAHANG).child("sanpham");
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
