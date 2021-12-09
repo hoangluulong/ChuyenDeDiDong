@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,17 +22,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
-import java.android.quanlybanhang.function.KhachHang.ThemKhachHang;
 import java.util.ArrayList;
 
 public class ThemKhuyenMai extends AppCompatActivity {
     private AutoCompleteTextView spnLoaiKM;
     private TextView chonLoaiKN,thongtinKM;
-    private EditText editGiaKM,editPhantramKM,editQuan,editGia;
+    private EditText editGiaKM,editPhantramKM,editQuan,editGia,editmoTa;
     private Button btnThemKM,btnHuyKM,btnThemKM1,btnHuyKM1,btnThemKM2,btnHuyKM2;
     private Dialog dialog,dialog1;
     private Window window,window1;
@@ -45,9 +41,11 @@ public class ThemKhuyenMai extends AppCompatActivity {
     private Double gia;
     private Double phanTram;
     private String quan;
-    private ArrayList<Integer> arrayList = new ArrayList<Integer>();
-    private ArrayAdapter<Integer> adapter;
+    private ArrayList<String> arrayList = new ArrayList<String>();
+    private ArrayAdapter<String> adapter;
     private int vitri = 0;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +56,7 @@ public class ThemKhuyenMai extends AppCompatActivity {
         thongtinKM = findViewById(R.id.edtThongtinkhuyenmai);
         btnThemKM = findViewById(R.id.btnTaoKhuyenMai);
         btnHuyKM = findViewById(R.id.btnhuyTaoKhuyenMai);
+        editmoTa = findViewById(R.id.edtghiMoTa);
 
         dialog = new Dialog(ThemKhuyenMai.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -71,9 +70,9 @@ public class ThemKhuyenMai extends AppCompatActivity {
         STR_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         window1 = dialog1.getWindow();
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_KM);
-        arrayList.add(1);
-        arrayList.add(2);
-        adapter = new ArrayAdapter<Integer>(this, R.layout.support_simple_spinner_dropdown_item,arrayList);
+        arrayList.add("Khuyến mãi theo phần trăm giá");
+        arrayList.add("Khuyến mãi theo đại điểm");
+        adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
         spnLoaiKM.setAdapter(adapter);
         Click();
@@ -130,12 +129,12 @@ public class ThemKhuyenMai extends AppCompatActivity {
                     }
                 }
                 else {
-                     gia = Double.parseDouble(editGiaKM.getText().toString());
-                     phanTram = Double.parseDouble(editPhantramKM.getText().toString());
-                     thongtinKM.setText("Giá: "+gia+" khuyến mãi: "+phanTram+"%");
-                     editGiaKM.setText("");
-                     editPhantramKM.setText("");
-                     dialog.dismiss();
+                    gia = Double.parseDouble(editGiaKM.getText().toString());
+                    phanTram = Double.parseDouble(editPhantramKM.getText().toString());
+                    thongtinKM.setText("Giá: "+gia+" khuyến mãi: "+phanTram+"%");
+                    editGiaKM.setText("");
+                    editPhantramKM.setText("");
+                    dialog.dismiss();
                 }
 
             }
@@ -174,6 +173,7 @@ public class ThemKhuyenMai extends AppCompatActivity {
             public void onClick(View v) {
                 if(editQuan.getText().toString().isEmpty()){
                     editQuan.setError("Hãy nhập giá");
+                    editQuan.requestFocus();
                 }else  if(editQuan.getText().toString().isEmpty()){
                     editQuan.setError("Hãy nhập quận/huyện");
                     editQuan.requestFocus();
@@ -195,7 +195,7 @@ public class ThemKhuyenMai extends AppCompatActivity {
         spnLoaiKM.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(parent.getItemAtPosition(position).toString().equals("1")){
+                if(parent.getItemAtPosition(position).toString().equals("Khuyến mãi theo phần trăm giá")){
                     vitri = 1;
                     dialogKM1(Gravity.CENTER);
                 }
@@ -208,39 +208,29 @@ public class ThemKhuyenMai extends AppCompatActivity {
     }
 
     public void ThemKhuyenMai(){
-      btnThemKM.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              if(vitri == 1){
-                  khuyenMai = new KhuyenMai(gia,STR_CUAHANG,vitri,phanTram);
-              }
-              else {
-                  vitri = 2;
-                  khuyenMai = new KhuyenMai(STR_CUAHANG,vitri,quan,gia);
-              }
-              mDatabase.child(STR_CUAHANG).push().setValue(khuyenMai);
-//              new SupportSaveLichSu(ThemKhuyenMai.this, "Đã thêm khuyến mãi: ");
-              Intent intent = new Intent();
-              intent = new Intent(ThemKhuyenMai.this, ListKhuyenMai.class);
-              startActivity(intent);
-              finish();
-          }
-      });
+        btnThemKM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editmoTa.getText().toString().isEmpty()) {
+                    editmoTa.setError("Nhập mô tả");
+                    editmoTa.requestFocus();
+                } else {
+                    String mota = editmoTa.getText().toString();
+
+                    if (vitri == 1) {
+                        khuyenMai = new KhuyenMai(gia, STR_CUAHANG, vitri, phanTram, mota);
+                    } else {
+                        vitri = 2;
+                        khuyenMai = new KhuyenMai(STR_CUAHANG, vitri, quan, gia, mota);
+                    }
+                    mDatabase.child(STR_CUAHANG).push().setValue(khuyenMai);
+                    Intent intent = new Intent();
+                    intent = new Intent(ThemKhuyenMai.this, ListKhuyenMai.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
-    }
-
 }

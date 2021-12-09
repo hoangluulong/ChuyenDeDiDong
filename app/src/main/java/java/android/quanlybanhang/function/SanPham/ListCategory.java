@@ -1,14 +1,19 @@
 package java.android.quanlybanhang.function.SanPham;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -26,12 +31,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterCategory;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham.AdapterProduct;
 import java.android.quanlybanhang.Model.SanPham.Category;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.KhachHang.SuaKhachHang;
 import java.util.ArrayList;
 
 public class ListCategory extends AppCompatActivity {
@@ -44,11 +49,13 @@ public class ListCategory extends AppCompatActivity {
     private AdapterCategory adapterCategory;
     private String STR_CUAHANG = "CuaHangOder";
     private String STR_NHOMSANPHAM = "danhmucsanpham";
-    private EditText searchView;
+    private EditText searchView,editTenNhom;
     private ArrayList<Category> listSearch;
     private String ID_CUAHANG;
     private String key;
-
+    private Dialog dialog;
+    private Window window;
+    private Button btnThem,btnHuy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,13 @@ public class ListCategory extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_2);
         searchView = findViewById(R.id.btn_searchnsp);
         floatingActionButton = findViewById(R.id.themnhomsanpham);
+        dialog = new Dialog(ListCategory.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_suanhomsanpham);
+        window = dialog.getWindow();
+        editTenNhom = dialog.findViewById(R.id.edtTenNhomKH);
+        btnThem = dialog.findViewById(R.id.btnthemDiaLogThemNKH);
+        btnHuy = dialog.findViewById(R.id.btnhuyDiaLogThemNKH);
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         ID_CUAHANG = thongTinCuaHangSql.IDCuaHang();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -149,52 +163,45 @@ public class ListCategory extends AppCompatActivity {
         ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 mDatabase.child(listCategory.get(position).getId()).removeValue();
-                new SupportSaveLichSu(ListCategory.this, "Xóa nhóm sản phẩm: "+ listCategory.get(position).getNameCategory());
 
             }
         }).setNegativeButton("No", null)
                 .show();
     }
     //Sửa sản phẩm
-    public void update( int position){
+    public void update( int position,int gravity){
 
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View customLayout = inflater.inflate(R.layout.dailong_updatecategory, null);
-        EditText editText = customLayout.findViewById(R.id.editUpdateCategory);
-        builder.setView(customLayout);
-        builder.setTitle("Sửa nhóm sản phẩm");
-        editText.setText(listCategory.get(position).getNameCategory());
-
-        builder.setNegativeButton("Thoat", new DialogInterface.OnClickListener() {
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windownAttributes = window.getAttributes();
+        windownAttributes.gravity = gravity;
+        window.setAttributes(windownAttributes);
+        if(Gravity.BOTTOM == gravity){
+            dialog.setCancelable(true);
+        }
+        else {
+            dialog.setCancelable(false);
+        }
+        editTenNhom.setText(listCategory.get(position).getNameCategory());
+        btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
-        });  builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mDatabase.child(listCategory.get(position).getId()).child("nameCategory").setValue(editText.getText().toString());
-            }
-
         });
 
-        builder.create().show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
+        btnThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDatabase.child(listCategory.get(position).getId()).child("nameCategory").setValue(editTenNhom.getText().toString());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

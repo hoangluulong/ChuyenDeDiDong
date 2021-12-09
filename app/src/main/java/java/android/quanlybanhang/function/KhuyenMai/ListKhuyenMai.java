@@ -1,16 +1,18 @@
 package java.android.quanlybanhang.function.KhuyenMai;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +29,7 @@ import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.Package_AdapterKhuyenMai.ApdapterKhuyenMai;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.SanPham.ListProduct;
 import java.util.ArrayList;
 
 public class ListKhuyenMai  extends AppCompatActivity {
@@ -41,6 +44,7 @@ public class ListKhuyenMai  extends AppCompatActivity {
     private ApdapterKhuyenMai apdapterKhuyenMai;
     private KhuyenMai khuyenMai;
     private String key;
+    private ArrayList<String> arrayListID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,10 +59,12 @@ public class ListKhuyenMai  extends AppCompatActivity {
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
@@ -69,6 +75,18 @@ public class ListKhuyenMai  extends AppCompatActivity {
         });
         DanhSachKhuyenMai();
         Taosanphamoi();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        if(item_id==android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     @Override
@@ -120,12 +138,15 @@ public class ListKhuyenMai  extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 arrayList = new ArrayList<>();
+                arrayListID = new ArrayList<>();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     khuyenMai = snapshot1.getValue(KhuyenMai.class);
                     Double gia = Double.parseDouble(khuyenMai.getGiaDeDuocKhuyenMai().toString());
                     int loai = Integer.parseInt(khuyenMai.getLoaiKhuyenmai()+"");
+                    String id = snapshot1.getKey();
                     arrayList.add(new KhuyenMai(gia,loai));
-                    }
+                    arrayListID.add(id);
+                }
                 apdapterKhuyenMai = new ApdapterKhuyenMai(ListKhuyenMai.this,arrayList);
                 recyclerView.setAdapter(apdapterKhuyenMai);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListKhuyenMai.this, LinearLayoutManager.VERTICAL, false);
@@ -134,22 +155,21 @@ public class ListKhuyenMai  extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
+    public void delete(int position){
+        new AlertDialog.Builder(ListKhuyenMai.this).setMessage(
+                "Do you want to delete this item"
+        ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(ListKhuyenMai.this, arrayListID.get(position).toString(), Toast.LENGTH_SHORT).show();
+                mDatabase.child(arrayListID.get(position).toString()).removeValue();
+            }
+        }).setNegativeButton("No", null)
+                .show();
     }
 }

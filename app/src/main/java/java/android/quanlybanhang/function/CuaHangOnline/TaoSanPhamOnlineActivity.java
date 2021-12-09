@@ -61,6 +61,7 @@ import java.android.quanlybanhang.Model.SanPham.DonViTinh;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Adapter.AdapterDonGia;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.Product;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
 import java.util.ArrayList;
 
 public class TaoSanPhamOnlineActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -254,7 +255,7 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
 
                             String img = uri.toString();
                             String status = "Còn";
-                            product = new Product(key, name, moTaChiTiet, nhomSp, 0.0, 123, imgProduct, nameImage, 0.0, status, listDonGia, ID_CUAHANG, false, titleText);
+                            product = new Product(key, name, moTaChiTiet, nhomSp, 0.0, 123, imgProduct, nameImage, 0.0, status, listDonGia, ID_CUAHANG, false, titleText, false);
                             mFirebaseDatabase.child("cuaHang/" + ID_CUAHANG + "/sanpham/" + product.getNhomsanpham() + "/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
@@ -505,6 +506,10 @@ public class TaoSanPhamOnlineActivity extends AppCompatActivity implements Navig
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.khuyenmai:
+                intent = new Intent(this, ListKhuyenMai.class);
+                startActivity(intent);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

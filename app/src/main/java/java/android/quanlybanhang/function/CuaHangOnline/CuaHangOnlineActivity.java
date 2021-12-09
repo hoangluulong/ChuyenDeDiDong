@@ -278,6 +278,7 @@ public class CuaHangOnlineActivity extends AppCompatActivity implements Navigati
                 startActivity(intent);
                 finish();
                 break;
+
             case R.id.khuyenmai:
                 intent = new Intent(this, ListKhuyenMai.class);
                 startActivity(intent);

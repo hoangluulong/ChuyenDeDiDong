@@ -59,23 +59,23 @@
     <string name="chi_phi">Chi phí</string>
 
     <!--    Login and signup-->
-    <string name="signIpNow">SignUp to start your new Joueney</string>
+    <string name="signIpNow">Đăng ký một tài khoản để bắt đầu</string>
     <string name="signUpGoodle">Sign up with Google</string>
     <string name="wellcom">Welcome</string>
-    <string name="Username">Username</string>
+    <string name="Username">Tên người dùng</string>
     <string name="nameStore">Name of the store</string>
-    <string name="phone">Phone</string>
-    <string name="signup">Sign Up</string>
-    <string name="already_accund">Already have an account? Sign in</string>
-    <string name="signin_continue">Sign In to continue</string>
-    <string name="forget_password">Forget password?</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="signup">Đăng ký</string>
+    <string name="already_accund">Đã có tài khoản? Đăng nhập ngay</string>
+    <string name="signin_continue">Đăng nhập để bắt đầu</string>
+    <string name="forget_password">Quên mật khẩu?</string>
     <string name="forget_password2">Forgot password</string>
-    <string name="signin">Sign In</string>
-    <string name="noAccount">No account? Signup now</string>
+    <string name="signin">Đăng nhập</string>
+    <string name="noAccount">Chưa có tài khoản? Đăng ký ngay</string>
     <string name="signInGoogle">Sign in with Google</string>
     <string name="enter_email">Enter correct email to recover password</string>
     <string name="reset_password">Reset Password</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_password">Nhập lại Password</string>
 
     <!--  Setting store activity  -->
     <string name="setupStore">Thiết lập cửa hàng</string>

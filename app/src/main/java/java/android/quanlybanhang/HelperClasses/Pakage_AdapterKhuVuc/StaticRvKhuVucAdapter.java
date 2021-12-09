@@ -30,6 +30,8 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
     boolean select= true;
     private  String id_khuvuc;
     private DatabaseReference kvDatabase;//khai bao database
+    private int stamp = 0;
+    private int stamp2 = 0;
     public StaticRvKhuVucAdapter(ArrayList<StaticModelKhuVuc> items, Activity activity, Interface_KhuVuc_ban interfacekhuVucban) {
         this.items = items;
         this.activity= activity;
@@ -54,9 +56,14 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
         holder.textView.setText(CrItem.getTenkhuvuc());
         holder.textview1.setText(CrItem.getTrangthai());
         if(check){
+            if (stamp < items.size()) {
+                if (items.get(position).getTrangthai().equals("3")) {
+                    stamp++;
+                }
+                interfacekhuVucban.GetBack(stamp,items.get(stamp).getStaticBanModels(),items.get(stamp).getId_khuvuc(), items.get(position).getTrangthai());
+                check= false;
 
-            interfacekhuVucban.GetBack(0,items.get(0).getStaticBanModels(),items.get(0).getId_khuvuc());
-            check= false;
+            }
         }
 
 
@@ -75,7 +82,7 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
                 for(int i=0;i<items.size();i++){
                     if(position==i){
 
-                        interfacekhuVucban.GetBack(position,items.get(position).getStaticBanModels(),items.get(i).getId_khuvuc());
+                        interfacekhuVucban.GetBack(position,items.get(position).getStaticBanModels(),items.get(i).getId_khuvuc(), items.get(position).getTrangthai());
 
                                     }
                               }
@@ -87,10 +94,18 @@ public class StaticRvKhuVucAdapter  extends RecyclerView.Adapter<StaticRvKhuVucA
 //            holder.constraintLayouts.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
 //        }
         if (select) {
-            if(position==0)
-                holder.linearLayouts.setBackgroundResource(R.drawable.rv_khuvuc_bg);
-
-            select = false;
+            if(position == stamp2) {
+                if (items.get(position).getTrangthai().equals("3")) {
+                    holder.linearLayouts.setBackgroundResource(R.drawable.rv_khuvuc_hong_bg);
+                    holder.linearLayouts.setEnabled(false);
+                } else {
+                    holder.linearLayouts.setBackgroundResource(R.drawable.rv_khuvuc_bg);
+                    select = false;
+                }
+                if (stamp2 != items.size()) {
+                    stamp2++;
+                }
+            }
         }
 
         else if (items.get(position).getTrangthai().equals("3")){

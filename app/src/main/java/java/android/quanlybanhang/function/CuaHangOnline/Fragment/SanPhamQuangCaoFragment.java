@@ -187,6 +187,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
             }
 
             @Override
+
             public void onCancelled(DatabaseError databaseError) {
             }
         };
@@ -231,7 +232,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
             }
         };
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
+                                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
         DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
         databaseReference.addChildEventListener(childEventListener);
         databaseReference2.addChildEventListener(childEventListenerChoXacNhan);

@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DangXuLyActivity extends AppCompatActivity {
-
     private String ID_QUAN;
     private TextView khuvuc, soluong, tongdon, thoigian;
     private Button hoanthanh;

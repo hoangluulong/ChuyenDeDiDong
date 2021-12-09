@@ -13,17 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
 import java.util.ArrayList;
 
 
 public class ApdapterKhuyenMai extends RecyclerView.Adapter<ApdapterKhuyenMai.AdapterKhuyenMaiHolder> {
     ArrayList<KhuyenMai> khuyenMais;
-    Context context;
+    ListKhuyenMai context;
 
 
 
 
-    public ApdapterKhuyenMai(Context context, ArrayList<KhuyenMai> khuyenMais){
+    public ApdapterKhuyenMai(ListKhuyenMai context, ArrayList<KhuyenMai> khuyenMais){
         this.khuyenMais =khuyenMais;
         this.context = context;
 
@@ -42,7 +43,11 @@ public class ApdapterKhuyenMai extends RecyclerView.Adapter<ApdapterKhuyenMai.Ad
     public void onBindViewHolder(@NonNull AdapterKhuyenMaiHolder holder, int position) {
         KhuyenMai khuyenMai = khuyenMais.get(position);
         holder.textViewTen.setText(khuyenMai.getGiaDeDuocKhuyenMai().toString());
-        holder.textViewLoai.setText(khuyenMai.getLoaiKhuyenmai()+"");
+        if (khuyenMai.getLoaiKhuyenmai() == 1) {
+            holder.textViewLoai.setText("Loại theo phần trăm");
+        } else {
+            holder.textViewLoai.setText("Loại theo địa chỉ");
+        }
     }
 
     @Override
@@ -60,23 +65,12 @@ public class ApdapterKhuyenMai extends RecyclerView.Adapter<ApdapterKhuyenMai.Ad
             textViewTen = itemView.findViewById(R.id.text_tenKM);
             textViewLoai = itemView.findViewById(R.id.text_loaiKM);
             imgXoa = itemView.findViewById(R.id.btnXoaKM);
-            imgSua = itemView.findViewById(R.id.btnSuaKM);
-
-            imgSua.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    int position = getLayoutPosition();
-//                    Intent intent = new Intent(context, SuaKhachHang.class);
-//                    intent.putExtra("Key_arrKH",khachHangs.get(position));
-//                    context.startActivity(intent);
-                }
-            });
 
             imgXoa.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
-
+                    context.delete(position);
                 }
             });
         }

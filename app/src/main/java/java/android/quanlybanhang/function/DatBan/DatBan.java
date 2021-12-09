@@ -112,8 +112,12 @@ public class DatBan extends AppCompatActivity implements View.OnClickListener {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
+                                String ngaysss = dayOfMonth+"";
+                                if (dayOfMonth < 10) {
+                                    ngaysss = "0" + dayOfMonth;
+                                }
 
-                                txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                txtDate.setText(ngaysss + "-" + (monthOfYear + 1) + "-" + year);
 
                             }
                         }, mYear, mMonth, mDay);

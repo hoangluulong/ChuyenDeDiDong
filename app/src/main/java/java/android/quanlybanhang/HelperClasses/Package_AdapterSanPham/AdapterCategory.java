@@ -1,5 +1,6 @@
 package java.android.quanlybanhang.HelperClasses.Package_AdapterSanPham;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Catego
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
-                    context.update(position);
+                    context.update(position, Gravity.CENTER);
                 }
             });
 

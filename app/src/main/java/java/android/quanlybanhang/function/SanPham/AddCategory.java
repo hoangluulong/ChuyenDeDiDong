@@ -1,8 +1,7 @@
 package java.android.quanlybanhang.function.SanPham;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,20 +10,22 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.Model.SanPham.Category;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
+import java.android.quanlybanhang.function.KhachHang.ThemKhachHang;
 
 public class AddCategory extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private EditText editTextAddCategory;
-    private Button btnAddCategory,btnHuy;
+    private TextInputEditText editTextAddCategory;
+    private Button btnAddCategory;
     private Category category;
     private String STR_NHOMSANPHAM ="danhmucsanpham";
     private String STR_CUAHANG = "CuaHangOder";
@@ -55,25 +56,10 @@ public class AddCategory extends AppCompatActivity {
                     String name = editTextAddCategory.getText().toString();
                     category = new Category(id,name);
                     mDatabase.child(id).setValue(category);
-                    new SupportSaveLichSu(AddCategory.this, "Thêm nhóm sản phẩm: "+ category.getNameCategory());
+
                     finish();
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
     }
 }

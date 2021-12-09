@@ -9,6 +9,7 @@ public class ListKhuyenMaiOffModel {
     private String Noidungkhuyenmai;
     private String Tenkhuyenmai;
     private ArrayList<KhuyenMaiOffModel> khuyenMaiOffModels;
+    private String id;
 
     public ListKhuyenMaiOffModel() {
     }
@@ -20,6 +21,24 @@ public class ListKhuyenMaiOffModel {
         Noidungkhuyenmai = noidungkhuyenmai;
         Tenkhuyenmai = tenkhuyenmai;
         this.khuyenMaiOffModels = khuyenMaiOffModels;
+    }
+
+    public ListKhuyenMaiOffModel(String ngaybatdau, String ngayketthuc, String nhomkhachhang, String noidungkhuyenmai, String tenkhuyenmai, ArrayList<KhuyenMaiOffModel> khuyenMaiOffModels, String id) {
+        Ngaybatdau = ngaybatdau;
+        Ngayketthuc = ngayketthuc;
+        Nhomkhachhang = nhomkhachhang;
+        Noidungkhuyenmai = noidungkhuyenmai;
+        Tenkhuyenmai = tenkhuyenmai;
+        this.khuyenMaiOffModels = khuyenMaiOffModels;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNgaybatdau() {

@@ -123,7 +123,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private LinearLayout.LayoutParams params1, paramsImage, paramsImage1;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabase3;
     private FirebaseDatabase firebaseDatabase;
 
     private StorageReference reference = FirebaseStorage.getInstance().getReference("hinhanh");
@@ -155,6 +155,8 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     private String nhom = "";
     private boolean loai = true;
     private String tenHinh;
+    private String nameCuaHang;
+    private String soDT;
 
 
     //dialog
@@ -183,6 +185,7 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
         IDLayout(view);
         firebaseDatabase =  FirebaseDatabase.getInstance();
         mDatabase = firebaseDatabase.getReference("CuaHangOder/"+ID_CUAHANG).child("sanpham");
+        mDatabase3 = firebaseDatabase.getReference();
 
         paramsImage.height = 0;
         layout_image.setLayoutParams(paramsImage);
@@ -228,6 +231,8 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
 
         getNhomSanPham();
         Danhsachsanpham();
+        getName();
+
         return view;
     }
 
@@ -355,6 +360,24 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                 SanPhamCoSan(Gravity.CENTER);
                 break;
         }
+    }
+
+    private void getName() {
+        mDatabase3.child("cuaHang").child(ID_CUAHANG).child("thongtin").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    nameCuaHang = snapshot.child("name").getValue().toString();
+                    soDT = snapshot.child("soDienThoai").getValue().toString();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void themDonViTinh(int gravity) {
@@ -548,10 +571,12 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                                 taoDon.setEnabled(true);
                                 String status = "Còn";
                                 String img = uri.toString();
-                                product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false, titleText);
+                                product = new Product(key,name,moTa,nhomSp,0.0, sLuong, img, nameImage, giamGia, status, listDonGia, ID_CUAHANG, false, titleText, false);
+                                product.setName(nameCuaHang);
+                                product.setSoDienThoai(soDT);
                                 DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
                                 DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
-                                mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                mFirebaseDatabase1.child("ChoXacNhan/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();
@@ -605,10 +630,12 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                 taoDon.setEnabled(true);
                 String status = "Còn";
 
-                product = new Product(key,name,moTa,nhomSp,0.0, sLuong, tenHinh, "", giamGia, status, listDonGia, ID_CUAHANG, false, titleText);
+                product = new Product(key,name,moTa,nhomSp,0.0, sLuong, tenHinh, "", giamGia, status, listDonGia, ID_CUAHANG, false, titleText, false);
+                product.setName(nameCuaHang);
+                product.setSoDienThoai(soDT);
                 DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
                 DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
-                mFirebaseDatabase1.child("sanPhamQuangCao/" + ID_CUAHANG + "/sanpham/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+                mFirebaseDatabase1.child("ChoXacNhan/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(getContext(), "Thành công!", Toast.LENGTH_SHORT).show();

@@ -193,7 +193,7 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
         items = new ArrayList<>();
         recyclerView2 = findViewById(R.id.rv_2);
         staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, "", window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan, carsList, carsList1, productPushFB, carsListsaukhichon, id_ban_tachban,
-                id_khuvuc_tachban, trangthaichucnang, code_chucnang, datBanModels);
+                id_khuvuc_tachban, trangthaichucnang, code_chucnang, datBanModels, "");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(staticRvAdapter);
@@ -204,10 +204,11 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
     }
 
     @Override
-    public void GetBack(int position, ArrayList<StaticBanModel> items, String id_khuvuc) {
+    public void GetBack(int position, ArrayList<StaticBanModel> items, String id_khuvuc, String trangThai) {
         id_khuvuc = item.get(position).getId_khuvuc();
+        trangThai = item.get(position).getTrangthai();
         staticRvAdapter = new StaticRvAdapter(items, OrderMenu.this, item, id_khuvuc, window, dialogban, trangthaigop, id_ban_thanhtoan, id_khuvuc_thanhtoan,
-                carsList, carsList1, productPushFB, carsListsaukhichon, id_ban_tachban, id_khuvuc_tachban, trangthaichucnang, code_chucnang, datBanModels);
+                carsList, carsList1, productPushFB, carsListsaukhichon, id_ban_tachban, id_khuvuc_tachban, trangthaichucnang, code_chucnang, datBanModels, trangThai);
         staticRvAdapter.notifyDataSetChanged();
         recyclerView2.setAdapter(staticRvAdapter);
 
@@ -359,7 +360,6 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                         item.add(product);
                     }
                 } else {
-
                     img_nocart.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
                 }

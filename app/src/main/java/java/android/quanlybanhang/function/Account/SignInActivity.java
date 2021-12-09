@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.android.quanlybanhang.Model.CuaHangSignIn;
 import java.android.quanlybanhang.Model.NhanVien_CaLam.NhanVien;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.admin.login.LoginAdminActivity;
 import java.android.quanlybanhang.database.DbBaoCao;
 import java.android.quanlybanhang.database.ThongTinCuaHangSql;
 import java.android.quanlybanhang.function.MainActivity;
@@ -47,7 +48,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private TextView logoText, sloganText, forgetPass;
     private ImageView imageView;
     private TextInputEditText username, password;
-    private CardView google;
+    private CardView btn_admin;
     private Dialog dialog;
     private Window window;
 
@@ -80,7 +81,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         password = findViewById(R.id.edt_password);
         imageView = findViewById(R.id.imageView);
         forgetPass = findViewById(R.id.lbl_forget_pass);
-        google = findViewById(R.id.btn_google);
+        btn_admin = findViewById(R.id.btn_admin);
         layout = findViewById(R.id.layout);
         layout.setAlpha(1);
         dialog = new Dialog(SignInActivity.this);
@@ -102,7 +103,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
 
         sigupNow.setOnClickListener(this);
-        google.setOnClickListener(this);
+        btn_admin.setOnClickListener(this);
         login.setOnClickListener(this);
         forgetPass.setOnClickListener(this);
     }
@@ -119,13 +120,17 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.lbl_forget_pass:
                 callForgetPassword();
                 break;
+            case R.id.btn_admin:
+                Intent intent = new Intent(SignInActivity.this, LoginAdminActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
     private void callSignup() {
         Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
 
-        Pair[] pairs = new Pair[9];
+        Pair[] pairs = new Pair[7];
 
         pairs[0] = new Pair<View, String>(imageView, "logo_image");
         pairs[1] = new Pair<View, String>(logoText, "logo_welcome");
@@ -134,8 +139,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         pairs[4] = new Pair<View, String>(password, "edt_password");
         pairs[5] = new Pair<View, String>(forgetPass, "lbl_forget");
         pairs[6] = new Pair<View, String>(login, "button_sign");
-        pairs[7] = new Pair<View, String>(sigupNow, "btn_signup_now");
-        pairs[8] = new Pair<View, String>(google, "button_google");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SignInActivity.this, pairs);

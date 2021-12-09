@@ -148,27 +148,18 @@
                 android:layout_gravity="bottom|center">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/btn_google"
+                    android:id="@+id/btn_admin"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
                     app:cardCornerRadius="3dp"
                     android:layout_gravity="center"
-                    app:cardElevation="4dp"
                     android:transitionName="button_sign">
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/icon_google"/>
-
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:text="@string/signInGoogle"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="SPECIAL MANAGER"/>
 
                 </androidx.cardview.widget.CardView>
 

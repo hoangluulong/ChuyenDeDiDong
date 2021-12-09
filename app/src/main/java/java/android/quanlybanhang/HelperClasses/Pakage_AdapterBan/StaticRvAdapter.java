@@ -81,17 +81,19 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
     ArrayList<DatBanModel> datBanModels, datBanModel1;
     String TrangThaiBan_doimau,TrangThaiBan_doimau_gop;
     String tennhanvien;
+    private String trangThaiKV;
     public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels, OrderMenu orderMenu, ArrayList<StaticModelKhuVuc> items, String Id_khuvuc) {
         this.staticBanModels = staticBanModels;
         this.orderMenu = orderMenu;
         this.items = items;
         this.Id_khuvuc = Id_khuvuc;
 
+
     }
 
     public StaticRvAdapter(ArrayList<StaticBanModel> staticBanModels, OrderMenu orderMenu, ArrayList<StaticModelKhuVuc> items, String Id_khuvuc, Window window, Dialog dialogban, String trangthaigop, String id_ban_thanhtoan,
                            String id_khuvuc_thanhtoan, ArrayList<ProuductPushFB1> prouductPushFB1, ArrayList<ProductPushFB> productPushFBS, ProductPushFB ProductTachBan, ArrayList<ProuductPushFB1> carsListsaukhichon, String id_ban_tachban, String id_khuvuc_tachban,
-                           String trangthaichucnang, String code_chucnang, ArrayList<DatBanModel> datBanModels
+                           String trangthaichucnang, String code_chucnang, ArrayList<DatBanModel> datBanModels, String trangThai
     ) {
         this.staticBanModels = staticBanModels;
         this.orderMenu = orderMenu;
@@ -111,6 +113,7 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         this.trangthaichucnang = trangthaichucnang;
         this.code_chucnang = code_chucnang;
         this.datBanModels = datBanModels;
+        this.trangThaiKV = trangThai;
         if (datBanModels != null) {
             Log.d("datBanModelskkka", datBanModels.size() + "adapterOrdermenu");
         }
@@ -164,69 +167,78 @@ public class StaticRvAdapter extends RecyclerView.Adapter<StaticRvAdapter.Static
         holder.ngayGio.setText(changeDate(CrrItem.getGioDaOder()));
         holder.trangThai.setText(CrrItem.getTrangthai());
         //ban hu
-        if (staticBanModels.get(position).getTrangthai().equals("3")) {
+
+        if (!trangThaiKV.equals("3")) {
+            if (staticBanModels.get(position).getTrangthai().equals("3")) {
+                holder.cardview_ban.setBackgroundResource(R.color.red);
+                holder.constraintLayout.setEnabled(false);
+
+            }
+            //da order nhung chua co mon
+            if (staticBanModels.get(position).getTrangthai().equals("2")) {
+                holder.cardview_ban.setBackgroundResource(R.color.maudat);
+
+
+            }
+            //da dat ban
+            if (staticBanModels.get(position).getTrangthai().equals("4")) {
+                holder.cardview_ban.setBackgroundResource(R.color.bac);
+
+
+            }
+            //da order cho lay
+            if (staticBanModels.get(position).getTrangthai().equals("5")) {
+                holder.cardview_ban.setBackgroundResource(R.color.xanh);
+
+
+            }
+            //dang an
+            if (staticBanModels.get(position).getTrangthai().equals("6")) {
+                holder.cardview_ban.setBackgroundResource(R.color.purple_200);
+
+
+            }
+            if (trangthaichucnang != null) {
+                if (trangthaichucnang.equals("1") ||trangthaichucnang.equals("2") ) {
+                    if ((CrrItem.getID() + "_" + Id_khuvuc).equals(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan)) {
+                        holder.constraintLayout.setVisibility(View.GONE);
+                    }
+                }
+
+            }
+            if (trangthaichucnang != null) {
+                if (trangthaichucnang.equals("3") ) {
+                    if ((CrrItem.getID() + "_" + Id_khuvuc).equals(id_ban_tachban + "_" + id_khuvuc_tachban)) {
+                        holder.constraintLayout.setVisibility(View.GONE);
+                    }
+                }
+
+            }
+
+            holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getData(CrrItem);
+
+                }
+            });
+
+            holder.bacham.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    HamTaodialog(Gravity.BOTTOM, CrrItem);
+                    Toast.makeText(orderMenu, "bacham", Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }else {
             holder.cardview_ban.setBackgroundResource(R.color.red);
             holder.constraintLayout.setEnabled(false);
-
-        }
-        //da order nhung chua co mon
-        if (staticBanModels.get(position).getTrangthai().equals("2")) {
-            holder.cardview_ban.setBackgroundResource(R.color.maudat);
-
-
-        }
-        //da dat ban
-        if (staticBanModels.get(position).getTrangthai().equals("4")) {
-            holder.cardview_ban.setBackgroundResource(R.color.bac);
-
-
-        }
-        //da order cho lay
-        if (staticBanModels.get(position).getTrangthai().equals("5")) {
-            holder.cardview_ban.setBackgroundResource(R.color.xanh);
-
-
-        }
-        //dang an
-        if (staticBanModels.get(position).getTrangthai().equals("6")) {
-            holder.cardview_ban.setBackgroundResource(R.color.purple_200);
-
-
-        }
-        if (trangthaichucnang != null) {
-            if (trangthaichucnang.equals("1") ||trangthaichucnang.equals("2") ) {
-                if ((CrrItem.getID() + "_" + Id_khuvuc).equals(id_ban_thanhtoan + "_" + id_khuvuc_thanhtoan)) {
-                    holder.constraintLayout.setVisibility(View.GONE);
-                }
-            }
-
-        }
-        if (trangthaichucnang != null) {
-            if (trangthaichucnang.equals("3") ) {
-                if ((CrrItem.getID() + "_" + Id_khuvuc).equals(id_ban_tachban + "_" + id_khuvuc_tachban)) {
-                    holder.constraintLayout.setVisibility(View.GONE);
-                }
-            }
-
         }
 
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData(CrrItem);
 
-            }
-        });
 
-        holder.bacham.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                HamTaodialog(Gravity.BOTTOM, CrrItem);
-                Toast.makeText(orderMenu, "bacham", Toast.LENGTH_LONG).show();
-
-            }
-        });
     }
 
     //chuyeenr doii String sang ngay

@@ -41,7 +41,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private TextView logoText, sloganText, forgetPass;
     private ImageView imageView;
     private TextInputEditText username, email, phone, password, confirm_password;
-    private CardView google;
     private Dialog dialog;
     private Window window;
 
@@ -73,8 +72,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         password = findViewById(R.id.edt_password);
         imageView = findViewById(R.id.imageView);
         forgetPass = findViewById(R.id.lbl_forget_pass);
-//        facebook =  findViewById(R.id.btn_facebook);
-        google = findViewById(R.id.btn_google);
         confirm_password = findViewById(R.id.edt_confirm_password);
 
         caLam.getCaSang().add(true);
@@ -185,6 +182,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         congViec.add(true);
 
                         mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/ThongTinCuaHang/ThietLap").setValue(false);
+                        mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/ChuCuaHang").setValue(UID);
 
                         NhanVien nhanVien = new NhanVien(userName, mail, congViec ,caLam ,mPhone , UID, true);
                         ChamCong cham = new ChamCong(0,0,0);

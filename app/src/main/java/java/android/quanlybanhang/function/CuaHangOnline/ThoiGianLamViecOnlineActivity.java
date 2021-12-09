@@ -31,6 +31,7 @@ import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.function.CuaHangOnline.Data.ThoiGian;
+import java.android.quanlybanhang.function.KhuyenMai.ListKhuyenMai;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -299,6 +300,10 @@ public class ThoiGianLamViecOnlineActivity extends AppCompatActivity implements 
                 intent = new Intent(this, CauHinhVanChuyenOnlineActivity.class);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.khuyenmai:
+                intent = new Intent(this, ListKhuyenMai.class);
+                startActivity(intent);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

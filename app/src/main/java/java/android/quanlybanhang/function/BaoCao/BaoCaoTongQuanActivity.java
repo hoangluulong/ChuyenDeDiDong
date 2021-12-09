@@ -18,10 +18,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -33,6 +35,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
@@ -55,6 +58,8 @@ import java.android.quanlybanhang.function.Account.ChiNhanhActivity;
 import java.android.quanlybanhang.function.DonHangOnline.data.DonHang;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -114,9 +119,10 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
     private int tamp = 0;
 
     //dialog
-    private Dialog dialog;
+    private Dialog dialog, dialog2;
     private Button dong;
     private Button dongy;
+    private double sTongTien = 0;
 
     //Firebase
     private FirebaseDatabase mFirebaseInstance;
@@ -247,6 +253,7 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
         cv_hoadononline.setOnClickListener(this);
         thoiGianLamViec.setOnClickListener(this);
         btnChiNhanh.setOnClickListener(this);
+        tien_tongtien.setOnClickListener(this);
 
         //Dialog
         bottomSheetDialog = new BottomSheetDialog(BaoCaoTongQuanActivity.this, R.style.BottomSheetBaoCao);
@@ -307,6 +314,9 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             case R.id.btnChiNhanh:
                 Intent intent1 = new Intent(BaoCaoTongQuanActivity.this, ChiNhanhActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.tien_tongtien:
+                openDialogEditTong(Gravity.CENTER);
                 break;
         }
     }
@@ -504,7 +514,8 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    tien_tongtien.setText(formatStr(Double.parseDouble(dataSnapshot.child("tongTien").getValue().toString())));
+                    sTongTien = dataSnapshot.child("tongTien").getValue(Double.class);
+                    tien_tongtien.setText(formatStr(sTongTien));
                 }
             }
 
@@ -686,6 +697,70 @@ public class BaoCaoTongQuanActivity extends AppCompatActivity implements View.On
 
     private String formatStr(double val) {
         return String.format(Locale.US, "%,.2f", val);
+    }
+
+    private void openDialogEditTong(int gravity) {
+        dialog2 = new Dialog(this);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.setContentView(R.layout.dialog_edit_tongtien);
+        Window window = dialog2.getWindow();
+
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        if (Gravity.BOTTOM == gravity) {
+            dialog2.setCancelable(true);
+        } else {
+            dialog2.setCancelable(false);
+        }
+
+        EditText edt_edit = dialog2.findViewById(R.id.edt_edit);
+        Button btn_edit = dialog2.findViewById(R.id.btn_edit);
+        Button btn_huy = dialog2.findViewById(R.id.btn_huy);
+
+        DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        df.setMaximumFractionDigits(340);
+
+        String tog = df.format(sTongTien);
+
+        edt_edit.setText(tog);
+
+        btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String strNum = edt_edit.getText().toString();
+                if (strNum.isEmpty()) {
+                    edt_edit.setError("Không được để trống");
+                    btn_edit.requestFocus();
+                }else {
+                    double num = Double.parseDouble(strNum);
+
+                    mFirebaseDatabase.child("CuaHangOder").child(ID_CUAHNAG).child("bienlai").child("taichinh").child("tongTien").setValue(num).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(BaoCaoTongQuanActivity.this, "Đã chỉnh sửa!", Toast.LENGTH_SHORT).show();
+                            tien_tongtien.setText(formatStr(num));
+                            dialog2.dismiss();
+                        }
+                    });
+                }
+            }
+        });
+
+        btn_huy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog2.dismiss();
+            }
+        });
+
+
+        dialog2.show();
     }
 
     private void openFeedbackDialog(int gravity) {

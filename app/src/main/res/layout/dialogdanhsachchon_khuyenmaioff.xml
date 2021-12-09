@@ -15,7 +15,8 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="Danh Sách Chọn Khuyến Mãi"
-        android:textColor="@color/black"
+        android:textColor="@color/xanh"
+        android:textStyle="bold|italic|normal"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></TextView>
@@ -66,6 +67,8 @@
             android:layout_weight="1"
             android:background="@drawable/bg_button_16"
             android:text="Thêm"
+            android:backgroundTint="@color/vang"
+            android:textColor="@color/xanh"
             android:textSize="16sp"></Button>
     </LinearLayout>
 

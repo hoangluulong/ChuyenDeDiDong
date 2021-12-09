@@ -1,10 +1,15 @@
 package java.android.quanlybanhang.HelperClasses.Pakage_AdapterKhuVuc;
 
 import java.android.quanlybanhang.HelperClasses.Pakage_AdapterBan.StaticBanModel;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StaticModelKhuVuc {
+public class StaticModelKhuVuc implements Serializable {
 
+    private String Id_khuvuc;
+    private ArrayList<StaticBanModel> staticBanModels ;
+    private String tenkhuvuc;
+    private  String trangthai;
 
     public String getTenkhuvuc() {
         return tenkhuvuc;
@@ -14,7 +19,7 @@ public class StaticModelKhuVuc {
         return trangthai;
     }
 
-    private String tenkhuvuc;
+
 
     public StaticModelKhuVuc(String tenkhuvuc, String trangthai, ArrayList<StaticBanModel> staticBanModels) {
         this.tenkhuvuc = tenkhuvuc;
@@ -28,8 +33,6 @@ public class StaticModelKhuVuc {
        this.Id_khuvuc = id_khuvuc;
         this.staticBanModels = staticBanModels;
     }
-
-    private  String trangthai;
 
     public void setTenkhuvuc(String tenkhuvuc) {
         this.tenkhuvuc = tenkhuvuc;
@@ -50,9 +53,6 @@ public class StaticModelKhuVuc {
     public void setStaticBanModels(ArrayList<StaticBanModel> staticBanModels) {
         this.staticBanModels = staticBanModels;
     }
-
-    private String Id_khuvuc;
-    ArrayList<StaticBanModel> staticBanModels ;
 
     public ArrayList<StaticBanModel> getStaticBanModels() {
         return staticBanModels;

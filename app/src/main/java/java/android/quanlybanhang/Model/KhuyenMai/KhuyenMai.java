@@ -6,6 +6,7 @@ public class KhuyenMai {
     int loaiKhuyenmai;
     Double phanTramKhuyenMai;
     String tenQuanHuyen;
+    String mota;
 
     public KhuyenMai() {
     }
@@ -15,18 +16,20 @@ public class KhuyenMai {
         this.loaiKhuyenmai = loaiKhuyenmai;
     }
 
-    public KhuyenMai(Double giaDeDuocKhuyenMai, String idCuahang, int loaiKhuyenmai, Double phanTramKhuyenMai) {
+    public KhuyenMai(Double giaDeDuocKhuyenMai, String idCuahang, int loaiKhuyenmai, Double phanTramKhuyenMai,String mota) {
         this.giaDeDuocKhuyenMai = giaDeDuocKhuyenMai;
         this.idCuahang = idCuahang;
         this.loaiKhuyenmai = loaiKhuyenmai;
         this.phanTramKhuyenMai = phanTramKhuyenMai;
+        this.mota = mota;
     }
 
-    public KhuyenMai(String idCuahang, int loaiKhuyenmai, String tenQuanHuyen, Double giaDeDuocKhuyenMai) {
+    public KhuyenMai(String idCuahang, int loaiKhuyenmai, String tenQuanHuyen, Double giaDeDuocKhuyenMai,String mota) {
         this.idCuahang = idCuahang;
         this.loaiKhuyenmai = loaiKhuyenmai;
         this.tenQuanHuyen = tenQuanHuyen;
         this.giaDeDuocKhuyenMai = giaDeDuocKhuyenMai;
+        this.mota = mota;
     }
 
     public Double getGiaDeDuocKhuyenMai() {

@@ -96,7 +96,6 @@ public class DangXuLyOnlineActivity extends AppCompatActivity {
                     hoanthanh.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(DangXuLyOnlineActivity.this, "s", Toast.LENGTH_SHORT).show();
                             if (donHang.getTrangthai() == 2) {
                                 mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/trangthai").setValue(3);
                                 mDatabase.child("CuaHangOder/"+ID_QUAN+"/donhangonline/dondadat/"+KEY_NGAY+"/"+ID_KEY+"/nhanVien").setValue(userName);
