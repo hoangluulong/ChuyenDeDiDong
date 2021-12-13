@@ -114,17 +114,36 @@ public class ChiNhanhActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        mFirebaseDatabase.child("ACCOUNT_LOGIN").child(ID_USER).child("CuaHang").child(ID_CUAHANG).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ten_chi_nhanh.setText(snapshot.getValue().toString());
-            }
+        Log.d("ssss", ID_USER+ " - "+ ID_CUAHANG);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            mFirebaseDatabase.child("ACCOUNT_LOGIN").child(ID_USER).child("CuaHang").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.getChildrenCount() == 1) {
+                        for (DataSnapshot snapshot1: snapshot.getChildren()) {
+                            ten_chi_nhanh.setText(snapshot1.child("name").getValue().toString());
+                        }
+                    }else {
+                        mFirebaseDatabase.child("ACCOUNT_LOGIN").child(ID_USER).child("CuaHang").child(ID_CUAHANG).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                ten_chi_nhanh.setText(snapshot.getValue().toString());
+                            }
 
-            }
-        });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
     }
 
 

@@ -149,6 +149,8 @@
         <entry key="..\:/HK5 -mobile/CUOICUNG/ChuyenDeDiDong/app/src/main/res/menu/menu_main.xml" value="0.36666666666666664" />
         <entry key="..\:/HK5 -mobile/CUOICUNG/ChuyenDeDiDong/app/src/main/res/menu/menu_nhom_khach_hang.xml" value="0.36666666666666664" />
         <entry key="..\:/HK5 -mobile/CUOICUNG/ChuyenDeDiDong/app/src/main/res/menu/menu_save.xml" value="0.36666666666666664" />
+        <entry key="..\:/HK5_2021-2022 web/CUOICUNG_12345/ChuyenDeDiDong_cuoi_cung/app/src/main/res/layout/activity_cap_nhat_chi_tiet_kho.xml" value="0.36666666666666664" />
+        <entry key="..\:/HK5_2021-2022 web/CUOICUNG_12345/ChuyenDeDiDong_cuoi_cung/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/delete_24.xml" value="0.25" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable-xxxhdpi/edit_24.xml" value="0.25" />
         <entry key="..\:/HK5_2021-2022/ChuyenDeDiDong/app/src/main/res/drawable/bg_layout.xml" value="0.25" />
@@ -208,7 +210,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

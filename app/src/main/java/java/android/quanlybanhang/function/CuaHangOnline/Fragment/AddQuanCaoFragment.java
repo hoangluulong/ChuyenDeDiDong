@@ -397,12 +397,15 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
     }
 
     private void getName() {
+        Log.d("SSS", ID_CUAHANG);
         mDatabase3.child("cuaHang").child(ID_CUAHANG).child("thongtin").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    nameCuaHang = snapshot.child("name").getValue().toString();
-                    soDT = snapshot.child("soDienThoai").getValue().toString();
+                    if (snapshot.child("name").getValue() != null) {
+                        nameCuaHang = snapshot.child("name").getValue().toString();
+                        soDT = snapshot.child("soDienThoai").getValue().toString();
+                    }
                 }
 
             }
@@ -554,7 +557,9 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
             giamGia = Double.parseDouble(sGiamGiaText);
         }
 
-        if (name.isEmpty()) {
+        if (nameCuaHang == null) {
+            Toast.makeText(getContext(), "Chưa thiết lập thông tin cửa hàng", Toast.LENGTH_SHORT).show();
+        }else if (name.isEmpty()) {
             tenSanPham.setError("Nhập tên sản phẩm");
             tenSanPham.requestFocus();
         } else if (sLuongText.isEmpty()) {
