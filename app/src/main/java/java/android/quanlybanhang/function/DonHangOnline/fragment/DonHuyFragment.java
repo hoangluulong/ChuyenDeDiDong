@@ -137,7 +137,7 @@ public class DonHuyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snap : postSnapshot.getChildren()) {
                         DonHang donHang = snap.getValue(DonHang.class);
-                        if (donHang.getTrangthai() == 7) {
+                        if (donHang.getTrangthai() == 7 || donHang.getTrangthai() == 8) {
                             donHangs.add(donHang);
                             String key = snap.getKey();
                             Date date = support.formatDate(donHangs.get(i).getTime());

@@ -1,5 +1,8 @@
 package java.android.quanlybanhang.admin.Adapter;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +32,7 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
     private ArrayList<Product> listQC;
     private DatabaseReference mDatabase;
     private int loai;
+    private Context context;
 
     public SanPhamQuangCaoAdapter(ArrayList<Product> listQC, int loai) {
         this.listQC = listQC;
@@ -36,9 +40,48 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
         this.loai = loai;
     }
 
+    public void getContext(Context context)
+    {
+        this.context=context;
+    }
+
     public void setLoai(int loai) {
         this.loai = loai;
         notifyDataSetChanged();
+    }
+    public void putKm(String key ,String sotien)
+    {
+        if(listQC.size()>0)
+        {
+            for (int i = 0; i < listQC.size(); i++) {
+                if(listQC.get(i).getId().equals(key))
+                {
+                    if(listQC.get(i).isSuperquangcao())
+                    {
+                        if(sotien.equals("100.000VND"))
+                        {
+                            xacNhanDonHang(listQC.get(i));
+                        }else {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                            builder1.setMessage("Số tiền chuyển khoản không đúng!");
+                            builder1.setCancelable(true);
+                            builder1.setNegativeButton(
+                                    "Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                        }
+                    }else {
+
+                    }
+                }
+            }
+        }
+        else {
+            Toast.makeText(context,sotien,Toast.LENGTH_SHORT).show();
+        }
     }
 
     @NonNull
@@ -73,20 +116,33 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
         holder.btn_duyet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "HHHHHHHHH", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                builder1.setMessage("Chắc chắn thêm loại sản phầm này?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(v.getContext(), "HHHHHHHHH", Toast.LENGTH_SHORT).show();
                 listQC.get(position).setNgayBatDau(hamlaydate());
                 listQC.get(position).setNgayKetThuc(congNgay());
-                mDatabase.child("sanPhamQuangCao").child(listQC.get(position).getIdCuaHang()).child("sanpham").child(listQC.get(position).getId()).setValue(listQC.get(position)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        mDatabase.child("ChoXacNhan").child(listQC.get(position).getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(v.getContext(), "Xác nhận thành công!", Toast.LENGTH_SHORT).show();
+                xacNhanDonHang(listQC.get(position));
+                                dialog.cancel();
                             }
                         });
-                    }
-                });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+
             }
         });
     }
@@ -126,5 +182,23 @@ public class SanPhamQuangCaoAdapter extends RecyclerView.Adapter<SanPhamQuangCao
 
         c1.roll(Calendar.DATE, 10);
         return dateFormat.format(c1.getTime());
+    }
+
+    public static void xacNhanDonHang(Product product)
+    {
+       DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("sanPhamQuangCao").child(product.getIdCuaHang()).child("sanpham").child(product.getId()).
+                setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                mDatabase.child("ChoXacNhan").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                       // Toast.makeText(, "Xác nhận thành công!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
     }
 }

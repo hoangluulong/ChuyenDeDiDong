@@ -3,6 +3,7 @@ package java.android.quanlybanhang.admin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -75,5 +76,16 @@ public class ThongTinChuyenKhoanActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        if(bundle!=null)
+        {
+            String sotien= bundle.getString("sotien");
+            String key= bundle.getString("key");
+
+            Toast.makeText(getApplicationContext(),sotien,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),key,Toast.LENGTH_SHORT).show();
+        }
     }
 }

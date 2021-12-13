@@ -37,7 +37,8 @@ public class ItemDonHangDaXacNhanAdapter extends RecyclerView.Adapter<ItemDonHan
     @Override
     public void onBindViewHolder(@NonNull DonCho holder, int position) {
         holder.name.setText(list.get(position).getNameProduct());
-        holder.dongia.setText(formatDouble.formatStr(list.get(position).getGiaBan()));
+        holder.dongia.setText(formatDouble.formatStr(list.get(position).getDonGia().get(0).getGiaBan()));
+        holder.loai.setText(list.get(position).getDonGia().get(0).getTenDonGia());
         holder.soluong.setText(list.get(position).getSoluong()+"");
     }
 

@@ -113,7 +113,6 @@ public class DanhSachDatBan extends AppCompatActivity {
                 }
                 else {
                     rong.setVisibility(View.VISIBLE);
-
                 }
                 progressBar.setVisibility(View.INVISIBLE);
                 recyclerView = findViewById(R.id.rv_1);

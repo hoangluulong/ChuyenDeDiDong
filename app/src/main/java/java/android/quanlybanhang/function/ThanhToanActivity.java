@@ -41,6 +41,7 @@ import com.google.gson.reflect.TypeToken;
 import java.android.quanlybanhang.Common.SupportSaveLichSu;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
 import java.android.quanlybanhang.HelperClasses.DanhSachChonKhuyenMaiOFF.AdapterChonKhuyenMaiThanhToan;
+import java.android.quanlybanhang.HelperClasses.Package_AdapterDatBan.DatBanOnlineAdapter;
 import java.android.quanlybanhang.HelperClasses.Package_ThanhToanAdapter.ThanhToanAdapter;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProductPushFB;
 import java.android.quanlybanhang.Model.ChucNangThanhToan.ProuductPushFB1;
@@ -50,6 +51,7 @@ import java.android.quanlybanhang.Model.KhuyenMaiOffModel;
 import java.android.quanlybanhang.Model.ListKhuyenMaiOffModel;
 import java.android.quanlybanhang.R;
 import java.android.quanlybanhang.database.Database_order;
+import java.android.quanlybanhang.function.DatBan.XacNhanDatBan;
 import java.android.quanlybanhang.function.KhuyenMaiOffLine.KhuyenMaiThanhToan;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
@@ -89,7 +91,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     private Dialog dialog, dialog1, dialog2;
     ArrayList<DatBanModel> datBanModels;
     ArrayList<ID_datban> ID_datbans;
-    String id_bk, id_ne;
+    String id_bk, id_ne,id_bk1;
     String abc, tenban;
     String id_ngaydat;
     Button bnt_huy, bnt_them;
@@ -143,6 +145,8 @@ public class ThanhToanActivity extends AppCompatActivity {
         list = new ArrayList<>();
         int code = (int) Math.floor(((Math.random() * 899999) + 100000));
         code1 = code + "";
+
+
 
         mDatabase1 = FirebaseDatabase.getInstance().getReference(id_CuaHang).child("MangDi");
         mDatabase1.addValueEventListener(new ValueEventListener() {
@@ -496,6 +500,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     if (id_ngaydat != null) {
                         FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(id_ban + "_" + id_khuvuc).child(id_ngaydat).removeValue();
                     }
+                    DanhSachDon();
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("tenNhanVien").setValue("");
@@ -584,6 +589,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     if (id_ngaydat != null) {
                         FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("DatBan").child(id_ban + "_" + id_khuvuc).child(id_ngaydat).removeValue();
                     }
+                    DanhSachDon();
                     FirebaseDatabase.getInstance().getReference().child(id_CuaHang).child("sanphamorder").child(id_ban + "_" + id_khuvuc).removeValue();
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("tenNhanVien").setValue("");
                     FirebaseDatabase.getInstance().getReference(id_CuaHang).child("khuvuc").child(id_khuvuc).child("ban").child(id_ban).child("trangthai").setValue("1");
@@ -805,5 +811,52 @@ public class ThanhToanActivity extends AppCompatActivity {
             TongTien = giaTong;
         }
         return TongTien;
+    }
+
+    private void DanhSachDon(){
+        mDatabase = FirebaseDatabase.getInstance().getReference("DuyetDatBan");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                datBanModels = new ArrayList<>();
+                if (snapshot.getValue() != null) {
+                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                        for (DataSnapshot postSnapshot : snapshot1.getChildren()) {
+                            DataSnapshot sss = postSnapshot;
+                            for (DataSnapshot aaa : sss.getChildren()) {
+                                String trangthai_dat = aaa.child("trangthai_dat").getValue()+"";
+                                id_bk1 = aaa.child("id_bk").getValue() + "";
+                                String id_ngaydat1 = aaa.getKey();
+                                if(trangthai_dat.equals("1")){
+                                    if(id_bk1.equals(abc)){
+                                        if(id_ngaydat1.equals(id_ngaydat)) {
+                                            String giodat = aaa.child("giodat").getValue() + "";
+                                            String gioketthuc = aaa.child("gioketthuc").getValue() + "";
+                                            String ngaydat = aaa.child("ngaydat").getValue() + "";
+                                            String ngayhientai = aaa.child("ngayhientai").getValue() + "";
+                                            String sodienthoai = aaa.child("sodienthoai").getValue() + "";
+                                            String sotiendattruoc = aaa.child("sotiendattruoc").getValue() + "";
+                                            String tenkhachhang = aaa.child("tenkhachhang").getValue() + "";
+                                            String tenban = aaa.child("tenban").getValue() + "";
+                                            String trangthai = aaa.child("trangthai").getValue() + "";
+                                            String id = aaa.getKey();
+                                            String key_khachhang = aaa.child("key_khachhang").getValue() + "";
+                                            datBanModels.add(new DatBanModel(tenban, id_ngaydat, giodat, gioketthuc, id_bk, ngaydat, ngayhientai, sodienthoai, sotiendattruoc, tenkhachhang, trangthai, id, key_khachhang));
+                                            FirebaseDatabase.getInstance().getReference("DuyetDatBan").child(key_khachhang).child(id_ban + "_" + id_khuvuc).child(id_ngaydat).removeValue();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

@@ -66,9 +66,7 @@ public class RvDatBanAdapter extends RecyclerView.Adapter<RvDatBanAdapter.DatBan
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(danhSachDatBan);
         id_CuaHang = "CuaHangOder/" + thongTinCuaHangSql.IDCuaHang();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listdatban, parent, false);
-
         DatBanholder datBanholder = new DatBanholder(view);
-
         return datBanholder;
     }
 

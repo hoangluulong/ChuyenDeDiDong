@@ -108,7 +108,7 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
 
         holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
         holder.lblKhachang.setText(list.get(position).getTenKhachhang());
-        holder.lblDonGia.setText(formatDouble.formatStr(list.get(position).getDonGia()));
+        holder.lblDonGia.setText(formatDouble.formatStr(list.get(position).getDonGia() - list.get(position).getThunhap()));
         holder.tv_id_donhang.setText(list.get(position).getIdDonHang());
     }
 
@@ -149,12 +149,14 @@ public class DaXacNhanAdapter extends RecyclerView.Adapter<DaXacNhanAdapter.DaXa
         ImageView close = dialog.findViewById(R.id.close);
         TextView khuyenmai = dialog.findViewById(R.id.khuyenmai);
         TextView thanhTien = dialog.findViewById(R.id.thanhTien);
+        TextView thoigian = dialog.findViewById(R.id.thoigian);
 
+        thoigian.setText(support.formartDate(list.get(position).getDate()));
         tenkhachhang.setText(list.get(position).getTenKhachhang());
         diachi.setText(list.get(position).getDiaChi());
-        tongtien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham())));
+        tongtien.setText(formatDouble.formatStr(list.get(position).getDonGia() - list.get(position).getThunhap() + list.get(position).getGiaKhuyenMai()));
         khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));
-        thanhTien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        thanhTien.setText(formatDouble.formatStr(list.get(position).getDonGia() - list.get(position).getThunhap()));
 
 
 

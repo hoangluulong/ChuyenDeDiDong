@@ -189,12 +189,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         nhanVien.setChamcong(cham);
                         mFirebaseDatabase.child(CUA_HANG+"/"+UID+"/user/"+UID).setValue(nhanVien);
 
-                        String KEY_CUAHANG = mFirebaseDatabase.push().getKey();
-                        Log.d("KEY", KEY_CUAHANG);
-
-                        mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+KEY_CUAHANG).child("ChucVu").setValue(0);
-                        mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+KEY_CUAHANG).child("ID").setValue(UID);
-                        mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+KEY_CUAHANG).child("name").setValue("Chi nhánh 1");
+                        mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+UID).child("ChucVu").setValue(0);
+                        mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+UID).child("ID").setValue(UID);
+                        mFirebaseDatabase.child(ACCOUNT_LOGIN).child(UID+"/CuaHang/"+UID).child("name").setValue("Chi nhánh 1");
 
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {

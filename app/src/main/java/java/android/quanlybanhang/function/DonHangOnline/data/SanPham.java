@@ -1,5 +1,7 @@
 package java.android.quanlybanhang.function.DonHangOnline.data;
 
+import java.util.ArrayList;
+
 public class SanPham {
     private Boolean addToCart;
     private String chitiet;
@@ -12,6 +14,7 @@ public class SanPham {
     private String loai;
     private String yeuCau;
     private Double giaProudct;
+    private ArrayList<DonGia> donGia;
 
     public SanPham() {
     }
@@ -28,6 +31,14 @@ public class SanPham {
         this.loai = loai;
         this.yeuCau = yeuCau;
         this.giaProudct = giaBan;
+    }
+
+    public ArrayList<DonGia> getDonGia() {
+        return donGia;
+    }
+
+    public void setDonGia(ArrayList<DonGia> donGia) {
+        this.donGia = donGia;
     }
 
     public Boolean getAddToCart() {

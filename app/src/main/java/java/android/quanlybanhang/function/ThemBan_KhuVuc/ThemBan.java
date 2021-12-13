@@ -124,7 +124,6 @@ public class ThemBan extends AppCompatActivity {
                            String name = tenBan.getText().toString();
                            StaticBanModel staticBanModel = new StaticBanModel(idBan,name,null,"0",idKV,setTT);
                            mDatabase1.child(idBan).setValue(staticBanModel);
-
                            tenBan.setText("");
                            finish();
                        }

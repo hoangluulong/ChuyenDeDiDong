@@ -345,9 +345,11 @@ public class OrderMenu extends AppCompatActivity implements Interface_KhuVuc_ban
                             //tách bàn
                             else if (  trangthaichucnang != null && trangthaichucnang.equals("3") ) {
                                 progressBar.setVisibility(View.VISIBLE);
-                                mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
-                                if(mm.size()<1){
-                                    img_nocart.setVisibility(View.VISIBLE);
+                                if (trangthai1.equals("1") || trangthai1.equals("2")) {
+                                    mm.add(new StaticBanModel(id_ban, tenban, trangthai1, tennhanvien, gioDaorder));
+                                    if(mm.size()<1){
+                                        img_nocart.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }
                             else {
