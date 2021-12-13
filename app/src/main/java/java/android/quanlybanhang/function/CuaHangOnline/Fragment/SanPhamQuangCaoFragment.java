@@ -218,7 +218,7 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
                 for (int i = 0; i < listChoXacNhan.size(); i++) {
                     if (listChoXacNhan.get(i).getId().equals(key)) {
                         listChoXacNhan.remove(i);
-                        sanPhamQuangCaoAdapter.notifyDataSetChanged();
+                        sanPhamChoXacNhanAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -232,8 +232,8 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
             }
         };
 
-                                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
-        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("sanPhamQuangCao").child(ID_CUAHANG).child("sanpham");
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("ChoXacNhan");
         databaseReference.addChildEventListener(childEventListener);
         databaseReference2.addChildEventListener(childEventListenerChoXacNhan);
     }
@@ -281,6 +281,32 @@ public class SanPhamQuangCaoFragment extends Fragment implements View.OnClickLis
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                        new SupportSaveLichSu(getContext(), "Hủy quảng cáo sản phẩm: " + listQuanCao.get(position).getNameProduct());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Lỗi", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).setNegativeButton("không", null)
+                .show();
+    }
+
+    public void delete2(final int position) {
+        new AlertDialog.Builder(getContext(), R.style.AlertDialog).setMessage(
+                "Bạn có chắc chắn hủy đơn quảng cáo này?"
+        ).setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sanPhamChoXacNhanAdapter.notifyDataSetChanged();
+                FirebaseDatabase.getInstance().getReference().child("ChoXacNhan/" +listChoXacNhan
+                        .get(position).getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                        sanPhamChoXacNhanAdapter.notifyDataSetChanged();
                         new SupportSaveLichSu(getContext(), "Hủy quảng cáo sản phẩm: " + listQuanCao.get(position).getNameProduct());
                     }
                 }).addOnFailureListener(new OnFailureListener() {

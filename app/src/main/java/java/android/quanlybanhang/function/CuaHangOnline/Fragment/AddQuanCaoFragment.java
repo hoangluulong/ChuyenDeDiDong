@@ -354,25 +354,25 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
                 {
 
                     if (imageUri != null && loai == true) {
-                    uploadFirebaseQuangCao(imageUri,true);
-                } else if (loai == false) {
-                    uploadFirebaseQuangCao(imageUri,true);
-                } else {
-                    Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
-                }
+                        uploadFirebaseQuangCao(imageUri,true);
+                    } else if (loai == false) {
+                        uploadFirebaseQuangCao(imageUri,true);
+                    } else {
+                        Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
+                    }
 
 
                 }
                 else {
 
                     if (imageUri != null && loai == true) {
-                    uploadFirebaseQuangCao(imageUri,false);
-                } else if (loai == false) {
-                    uploadFirebaseQuangCao(imageUri,false);
-                }
+                        uploadFirebaseQuangCao(imageUri,false);
+                    } else if (loai == false) {
+                        uploadFirebaseQuangCao(imageUri,false);
+                    }
                     else {
-                    Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
-                }
+                        Toast.makeText(v.getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
@@ -902,39 +902,39 @@ public class AddQuanCaoFragment extends Fragment implements View.OnClickListener
 
     private void pushFB(String key,Product product1,boolean flag)
     {
-                        DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
-                DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
-                product1.setSuperquangcao(flag);
-                mFirebaseDatabase1.child("ChoXacNhan/" + key).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getContext(), "Thành công 3!", Toast.LENGTH_SHORT).show();
-                        mFirebaseDatabase2.child("cuaHang/"+ID_CUAHANG).child("sanpham").child(product.getNhomsanpham()).child(key).setValue(product1);
-                        name = null;
-                        sLuong = 0;
-                        giamGia = 0;
-                        moTa = null;
-                        nameImage = null;
-                        tenSanPham.setText(null);
-                        soLuong.setText(null);
-                        giamgia.setText(null);
-                        imgageView.setImageURI(null);
-                        nhomsanpham.setText(null);
-                        title.setText(null);
-                        addImage.setBackgroundResource(R.drawable.border_image_dashed);
-                        mota.setText(null);
-                        imageUri = null;
-                        listDonGia.clear();
-                        adapterDonGia.notifyDataSetChanged();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        DatabaseReference mFirebaseDatabase1 = mFirebaseInstance.getReference();
+        DatabaseReference mFirebaseDatabase2 = mFirebaseInstance.getReference();
+        product1.setSuperquangcao(flag);
+        mFirebaseDatabase1.child("ChoXacNhan/" + product1.getId()).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getContext(), "Thành công 3!", Toast.LENGTH_SHORT).show();
+                mFirebaseDatabase2.child("cuaHang/"+ID_CUAHANG).child("sanpham").child(product.getNhomsanpham()).child(key).setValue(product1);
+                name = null;
+                sLuong = 0;
+                giamGia = 0;
+                moTa = null;
+                nameImage = null;
+                tenSanPham.setText(null);
+                soLuong.setText(null);
+                giamgia.setText(null);
+                imgageView.setImageURI(null);
+                nhomsanpham.setText(null);
+                title.setText(null);
+                addImage.setBackgroundResource(R.drawable.border_image_dashed);
+                mota.setText(null);
+                imageUri = null;
+                listDonGia.clear();
+                adapterDonGia.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
+                new SupportSaveLichSu(getContext(), "Thêm sản phẩm quảng cáo: " + product.getNameProduct());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

@@ -45,6 +45,7 @@ import java.android.quanlybanhang.function.Account.ThongTinAccountActivity;
 import java.android.quanlybanhang.function.BaoCao.BaoCaoTongQuanActivity;
 import java.android.quanlybanhang.function.BepBar.BepActivity;
 import java.android.quanlybanhang.function.CuaHangOnline.CuaHangOnlineActivity;
+import java.android.quanlybanhang.function.DatBan.XacNhanDatBan;
 import java.android.quanlybanhang.function.DonHangOnline.DuyetDonHangActivity;
 import java.android.quanlybanhang.function.KhachHang.ListKhachHang;
 import java.android.quanlybanhang.function.KhachHang.ListNhomKhachHang;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Database_order database_order;
     FirebaseAuth mFirebaseAuth;
-    RelativeLayout ordermenu, baocao, donOnline, bep, online, account;
+    RelativeLayout ordermenu, baocao, donOnline, bep, online, account,dondatban;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String ID_CUAHANG;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bep = findViewById(R.id.bep);
         online = findViewById(R.id.online);
         account = findViewById(R.id.account);
+        dondatban = findViewById(R.id.dondatban);
 
         java.android.quanlybanhang.database.ThongTinCuaHangSql thongTinCuaHangSqlDB = new java.android.quanlybanhang.database.ThongTinCuaHangSql(MainActivity.this, "app_database.sqlite", null, 2);
         thongTinCuaHangSqlDB.createTableUser();
@@ -155,6 +157,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        dondatban.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(nhanVien.getChucVu().get(3) || isChu){
+                    Intent intent = new Intent(MainActivity.this, XacNhanDatBan.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(MainActivity.this, "Không thể thực hiện hành động này", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

@@ -373,6 +373,10 @@
             android:name=".function.SanPham.ListDonViTinh"
             android:exported="false" />
 
+        <activity
+            android:name=".function.DatBan.XacNhanDatBan"
+            android:exported="false" />
+
         <service android:name=".admin.MyNotification"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">

@@ -284,6 +284,7 @@
             </LinearLayout>
 
             <!--      them-->
+
             <LinearLayout
                 android:id="@+id/Line2"
                 android:layout_width="0dp"
@@ -294,8 +295,10 @@
                 android:paddingTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.842"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Line1a">
+                app:layout_constraintTop_toBottomOf="@+id/Line1a"
+                app:layout_constraintVertical_bias="0.118">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
@@ -385,6 +388,65 @@
                 </androidx.cardview.widget.CardView>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Line3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Line2">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardElevation="8dp"
+                    app:cardMaxElevation="8dp">
+
+                    <RelativeLayout
+                        android:id="@+id/dondatban"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/xanh">
+
+                        <TextView
+                            android:id="@+id/tvdsmon1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/imgdsmon1"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/alike_angular"
+                            android:gravity="center"
+                            android:text="Đơn đặt bàn online "
+                            android:textColor="@color/hong_nhat"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imgdsmon1"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_centerHorizontal="true"
+                            app:srcCompat="@drawable/icons8onlineshop100" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

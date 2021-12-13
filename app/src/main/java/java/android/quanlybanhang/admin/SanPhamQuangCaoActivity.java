@@ -61,7 +61,7 @@ public class SanPhamQuangCaoActivity extends AppCompatActivity {
             String key= bundle.getString("key");
             this.key=key;
             this.sotien=sotien;
-            Toast.makeText(SanPhamQuangCaoActivity.this,key ,Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SanPhamQuangCaoActivity.this,key ,Toast.LENGTH_SHORT).show();
 //            sanPhamQuangCaoAdapter.putKm(key,sotien);
         }
 
@@ -105,80 +105,80 @@ public class SanPhamQuangCaoActivity extends AppCompatActivity {
                         for (DataSnapshot data : snapshot.getChildren()) {
                             Product product=data.getValue(Product.class);
 
-                                if((product.getId()).equals(key))
+                            if((product.getId()).equals(key))
+                            {
+                                if(product.isSuperquangcao())
                                 {
-                                    if(product.isSuperquangcao())
+                                    if(sotien.equals("100,000VND"))
                                     {
-                                        if(sotien.equals("100,000VND"))
-                                        {
-                                            SanPhamQuangCaoAdapter.xacNhanDonHang(product);
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
-                                            builder1.setMessage("Đã thêm mã sản phẩm "+key+" vào quảng cáo");
-                                            builder1.setCancelable(true);
-                                            builder1.setNegativeButton(
-                                                    "Cancel",
-                                                    new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int id) {
-                                                            dialog.cancel();
-                                                        }
-                                                    });
-                                            AlertDialog alert11 = builder1.create();
-                                            alert11.show();
-                                        }else {
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
-                                            builder1.setMessage("Số tiền chuyển khoản không đúng!");
-                                            builder1.setCancelable(true);
-                                            builder1.setNegativeButton(
-                                                    "Cancel",
-                                                    new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int id) {
-                                                            dialog.cancel();
-                                                        }
-                                                    });
-                                            AlertDialog alert11 = builder1.create();
-                                            alert11.show();
-                                            listSPQuangCao.add(product);
-                                    //        Toast.makeText(SanPhamQuangCaoActivity.this,"Gia sai",Toast.LENGTH_SHORT).show();
-                                        }
+                                        SanPhamQuangCaoAdapter.xacNhanDonHang(product);
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
+                                        builder1.setMessage("Đã thêm mã sản phẩm "+key+" vào quảng cáo");
+                                        builder1.setCancelable(true);
+                                        builder1.setNegativeButton(
+                                                "Cancel",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
                                     }else {
-                                        if(sotien.equals("50,000VND"))
-                                        {
-                                            SanPhamQuangCaoAdapter.xacNhanDonHang(product);
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
-                                            builder1.setMessage("Đã thêm mã sản phẩm "+key+" vào quảng cáo");
-                                            builder1.setCancelable(true);
-                                            builder1.setNegativeButton(
-                                                    "Cancel",
-                                                    new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int id) {
-                                                            dialog.cancel();
-                                                        }
-                                                    });
-                                            AlertDialog alert11 = builder1.create();
-                                            alert11.show();
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
+                                        builder1.setMessage("Số tiền chuyển khoản không đúng!");
+                                        builder1.setCancelable(true);
+                                        builder1.setNegativeButton(
+                                                "Cancel",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
+                                        listSPQuangCao.add(product);
+                                        //        Toast.makeText(SanPhamQuangCaoActivity.this,"Gia sai",Toast.LENGTH_SHORT).show();
+                                    }
+                                }else {
+                                    if(sotien.equals("50,000VND"))
+                                    {
+                                        SanPhamQuangCaoAdapter.xacNhanDonHang(product);
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
+                                        builder1.setMessage("Đã thêm mã sản phẩm "+key+" vào quảng cáo");
+                                        builder1.setCancelable(true);
+                                        builder1.setNegativeButton(
+                                                "Cancel",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
 
-                                        }else {
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
-                                            builder1.setMessage("Số tiền chuyển khoản không đúng!");
-                                            builder1.setCancelable(true);
-                                            builder1.setNegativeButton(
-                                                    "Cancel",
-                                                    new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int id) {
-                                                            dialog.cancel();
-                                                        }
-                                                    });
-                                            AlertDialog alert11 = builder1.create();
-                                            alert11.show();
-                                            listSPQuangCao.add(product);
-                                            //        Toast.makeText(SanPhamQuangCaoActivity.this,"Gia sai",Toast.LENGTH_SHORT).show();
-                                        }
+                                    }else {
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SanPhamQuangCaoActivity.this);
+                                        builder1.setMessage("Số tiền chuyển khoản không đúng!");
+                                        builder1.setCancelable(true);
+                                        builder1.setNegativeButton(
+                                                "Cancel",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
+                                        listSPQuangCao.add(product);
+                                        //        Toast.makeText(SanPhamQuangCaoActivity.this,"Gia sai",Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                else {
-                                    listSPQuangCao.add(product);
+                            }
+                            else {
+                                listSPQuangCao.add(product);
 
-                                }
+                            }
 
                         }
                         sanPhamQuangCaoAdapter.notifyDataSetChanged();

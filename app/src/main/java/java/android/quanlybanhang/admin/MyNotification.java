@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +37,14 @@ public class MyNotification extends NotificationListenerService {
 //            Toast.makeText(context, text+"abc",Toast.LENGTH_SHORT).show();
 //            Toast.makeText(context, package_name+"abcxyz",Toast.LENGTH_SHORT).show();
 //            Toast.makeText(context, "abc",Toast.LENGTH_SHORT).show();
+
             if(text!=null && text.contains("NamABank"))
             {
 
                 if(checkTaiKhoan(text))
                 {
                     Intent intent=new Intent(getApplicationContext(), SanPhamQuangCaoActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     Bundle bundle=new Bundle();
                     bundle.putString("sotien",key.get(0));
                     bundle.putString("key",key.get(1));
@@ -51,6 +53,9 @@ public class MyNotification extends NotificationListenerService {
                 }
 
             }
+//            Toast.makeText(getApplicationContext(),"abc",Toast.LENGTH_SHORT).show();
+
+
         }
     }
 

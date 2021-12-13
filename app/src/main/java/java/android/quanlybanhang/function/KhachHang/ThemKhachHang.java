@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -154,6 +155,7 @@ public class ThemKhachHang extends AppCompatActivity {
                }
            }
        });
+        Log.d("zzzz", gioiTinh+"");
 
        TaoKhachHang();
        btnhuyTaoKhachHang.setOnClickListener(new View.OnClickListener() {

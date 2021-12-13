@@ -25,6 +25,7 @@ public class DonHang {
     private String ghiChu;
     private long thunhap;
 
+
     public DonHang() { }
 
     public DonHang(String diaChi, String time, int trangthai, String idKhachhang,String sdtkhachhang, Double giaKhuyenMai, ArrayList<SanPham> sanpham, int phuongThucThanhToan, String diemnhan) {

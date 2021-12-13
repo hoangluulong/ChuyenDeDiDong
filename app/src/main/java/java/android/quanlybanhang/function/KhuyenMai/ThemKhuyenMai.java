@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -14,17 +15,28 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+
+import java.android.quanlybanhang.Common.DataAddress;
 import java.android.quanlybanhang.Common.ThongTinCuaHangSql;
+import java.android.quanlybanhang.Model.AddressVN.DiaChi;
+import java.android.quanlybanhang.Model.AddressVN.Huyen;
 import java.android.quanlybanhang.Model.KhuyenMai.KhuyenMai;
 import java.android.quanlybanhang.R;
+import java.android.quanlybanhang.function.CuaHangOnline.ThongTinCuaHangOnlineActivity;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ThemKhuyenMai extends AppCompatActivity {
@@ -44,6 +56,20 @@ public class ThemKhuyenMai extends AppCompatActivity {
     private ArrayList<String> arrayList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
     private int vitri = 0;
+    private RadioGroup radioGroup;
+    private int vitriTP = 0;
+    private RadioButton rdTp,rdHuyen,rdXa;
+    private AutoCompleteTextView spnTinh,spnHuyen,spnXa;
+    private TextInputLayout textTinh,textXa,textHuyen;
+    private ArrayAdapter<String> adapterTinh,adapterHuyen,adapterXa;
+    private ArrayList<DiaChi> listDiaChi = new ArrayList<>();
+    private String[] tinh;
+    private String[] huyen;
+    private String[] xa;
+    private int  ViTri =0;
+    private String tenTinh;
+    private String tenHuyen;
+    private String tenXa;
 
 
 
@@ -65,13 +91,52 @@ public class ThemKhuyenMai extends AppCompatActivity {
         dialog1 = new Dialog(ThemKhuyenMai.this);
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog1.setContentView(R.layout.dialog_khuyenmai2);
+        window1 = dialog1.getWindow();
+        radioGroup = dialog1.findViewById(R.id.radioGruop);
+        rdTp = dialog1.findViewById(R.id.rdTP);
+        rdHuyen = dialog1.findViewById(R.id.rdHuyen);
+        rdXa = dialog1.findViewById(R.id.rdXa);
+        rdTp.setChecked(true);
+        vitriTP = 1;
+        DataAddress dataAddress = new DataAddress();
+        try {
+            listDiaChi = dataAddress.readCompanyJSONFile(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rdTP:
+                        textHuyen.setVisibility(View.GONE);
+                        textXa.setVisibility(View.GONE);
+                        vitriTP =1;
+                        break;
+                    case R.id.rdHuyen:
+                        textHuyen.setVisibility(View.VISIBLE);
+                        textXa.setVisibility(View.GONE);
+                        vitriTP =2;
+                        break;
+                    case R.id.rdXa:
+                        textHuyen.setVisibility(View.VISIBLE);
+                        textXa.setVisibility(View.VISIBLE);
+                        vitriTP =3;
+                        break;
+                }
+            }
+        });
+
 
         ThongTinCuaHangSql thongTinCuaHangSql = new ThongTinCuaHangSql(this);
         STR_CUAHANG = thongTinCuaHangSql.IDCuaHang();
-        window1 = dialog1.getWindow();
+
         mDatabase = FirebaseDatabase.getInstance().getReference(STR_KM);
         arrayList.add("Khuyến mãi theo phần trăm giá");
-        arrayList.add("Khuyến mãi theo đại điểm");
+        arrayList.add("Khuyến mãi theo địa điểm");
         adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
         spnLoaiKM.setAdapter(adapter);
@@ -80,10 +145,11 @@ public class ThemKhuyenMai extends AppCompatActivity {
         btnHuyKM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent = new Intent(ThemKhuyenMai.this, ListKhuyenMai.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent = new Intent(ThemKhuyenMai.this, ListKhuyenMai.class);
+//                startActivity(intent);
                 finish();
+
             }
         });
     }
@@ -132,8 +198,6 @@ public class ThemKhuyenMai extends AppCompatActivity {
                     gia = Double.parseDouble(editGiaKM.getText().toString());
                     phanTram = Double.parseDouble(editPhantramKM.getText().toString());
                     thongtinKM.setText("Giá: "+gia+" khuyến mãi: "+phanTram+"%");
-                    editGiaKM.setText("");
-                    editPhantramKM.setText("");
                     dialog.dismiss();
                 }
 
@@ -144,11 +208,20 @@ public class ThemKhuyenMai extends AppCompatActivity {
     }
 
     public void dialogKM2(int gravity){
-        editQuan = dialog1.findViewById(R.id.edtquanhuyen);
         editGia = dialog1.findViewById(R.id.edtgia);
         btnHuyKM2 = dialog1.findViewById(R.id.btnhuyDiaLogThemKM2);
         btnThemKM2 = dialog1.findViewById(R.id.btnthemDiaLogThemKM2);
+        textTinh = dialog1.findViewById(R.id.province);
+        textHuyen = dialog1.findViewById(R.id.province1);
+        textXa = dialog1.findViewById(R.id.province2);
+        spnTinh = dialog1.findViewById(R.id.spinner_tinh);
+        spnHuyen = dialog1.findViewById(R.id.spinner_huyen);
+        spnXa = dialog1.findViewById(R.id.spinner_xa);
 
+        if(vitriTP == 1){
+            textHuyen.setVisibility(View.GONE);
+            textXa.setVisibility(View.GONE);
+        }
 
         if (window1 == null) {
             return;
@@ -162,6 +235,51 @@ public class ThemKhuyenMai extends AppCompatActivity {
         } else {
             dialog1.setCancelable(false);
         }
+        tinh = ArrayTinh();
+        adapterTinh = new ArrayAdapter<String>(this, R.layout.item_spinner1_setup_store, tinh);
+        spnTinh.setAdapter(adapterTinh);
+        adapterTinh.notifyDataSetChanged();
+
+        int i = 0;
+
+        spnTinh.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tenTinh = parent.getItemAtPosition(position).toString();
+                ViTri = position;
+                String[] arrayHuyen = ArrayHuyen(position);
+                adapterHuyen = new ArrayAdapter<String>(ThemKhuyenMai.this, R.layout.item_spinner1_setup_store, arrayHuyen);
+                spnHuyen.setText(listDiaChi.get(position).getHuyens().get(0).getTenHuyen());
+                tenHuyen = listDiaChi.get(position).getHuyens().get(0).getTenHuyen();
+                spnHuyen.setAdapter(adapterHuyen);
+
+                adapterXa = new ArrayAdapter<String>(ThemKhuyenMai.this, R.layout.item_spinner1_setup_store,
+                        listDiaChi.get(position).getHuyens().get(0).getXa());
+                spnXa.setText(listDiaChi.get(position).getHuyens().get(0).getXa().get(0));
+                tenXa = listDiaChi.get(position).getHuyens().get(0).getXa().get(0);
+                spnXa.setAdapter(adapterXa);
+            }
+        });
+
+        spnHuyen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tenHuyen = parent.getItemAtPosition(position).toString();
+
+                adapterXa = new ArrayAdapter<String>(ThemKhuyenMai.this, R.layout.item_spinner1_setup_store,
+                        listDiaChi.get(ViTri).getHuyens().get(position).getXa());
+                spnXa.setText(listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0));
+                tenXa = listDiaChi.get(ViTri).getHuyens().get(position).getXa().get(0);
+                spnXa.setAdapter(adapterXa);
+            }
+        });
+
+        spnXa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tenXa = parent.getItemAtPosition(position).toString();
+            }
+        });
         btnHuyKM2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,19 +289,31 @@ public class ThemKhuyenMai extends AppCompatActivity {
         btnThemKM2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editQuan.getText().toString().isEmpty()){
-                    editQuan.setError("Hãy nhập giá");
-                    editQuan.requestFocus();
-                }else  if(editQuan.getText().toString().isEmpty()){
-                    editQuan.setError("Hãy nhập quận/huyện");
-                    editQuan.requestFocus();
-                }else{
-                    quan = editQuan.getText().toString();
+                if(editGia.getText().toString().isEmpty()){
+                    editGia.setError("Hãy nhập giá");
+                    editGia.requestFocus();
+
+                } else if(tenTinh == null){
+                    Toast.makeText(ThemKhuyenMai.this, "Hãy nhập địa chỉ", Toast.LENGTH_LONG).show();
+                }
+                else {
                     gia = Double.parseDouble(editGia.getText().toString());
-                    thongtinKM.setText("Giá: "+gia+" Địa chỉ: "+quan);
-                    editQuan.setText("");
-                    editGia.setText("");
+                    if (vitriTP == 1){
+                        thongtinKM.setText("Giá: " + gia + " Địa chỉ: " + tenTinh);
+                        quan = tenTinh;
+                    }
+                    if (vitriTP == 2){
+                        thongtinKM.setText("Giá: " + gia + " Địa chỉ: " +tenHuyen +","+ tenTinh);
+                        quan = tenTinh;
+                    }
+                    if (vitri == 3){
+                        thongtinKM.setText("Giá: " + gia + " Địa chỉ: " + tenXa +","+tenHuyen +","+ tenTinh);
+                        quan = tenXa;
+                    }
+
+
                     dialog1.dismiss();
+
                 }
             }
         });
@@ -201,6 +331,17 @@ public class ThemKhuyenMai extends AppCompatActivity {
                 }
                 else {
                     vitri = 2;
+                    dialogKM2(Gravity.CENTER);
+                }
+            }
+        });
+        thongtinKM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vitri == 1){
+                    dialogKM1(Gravity.CENTER);
+                }
+                else {
                     dialogKM2(Gravity.CENTER);
                 }
             }
@@ -224,13 +365,36 @@ public class ThemKhuyenMai extends AppCompatActivity {
                         khuyenMai = new KhuyenMai(STR_CUAHANG, vitri, quan, gia, mota);
                     }
                     mDatabase.child(STR_CUAHANG).push().setValue(khuyenMai);
-                    Intent intent = new Intent();
-                    intent = new Intent(ThemKhuyenMai.this, ListKhuyenMai.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent();
+//                    intent = new Intent(ThemKhuyenMai.this, ListKhuyenMai.class);
+//                    startActivity(intent);
                     finish();
                 }
             }
         });
 
+    }
+
+
+
+    private String[] ArrayTinh() {
+
+        String[] arr = new String[listDiaChi.size()];
+
+        for (int i = 0; i < listDiaChi.size(); i++) {
+            arr[i] = listDiaChi.get(i).getTenTinhTP();
+        }
+
+        return arr;
+    }
+
+    private String[] ArrayHuyen(int pos) {
+        String[] arr = new String[listDiaChi.get(pos).getHuyens().size()];
+
+        for (int i = 0; i < listDiaChi.get(pos).getHuyens().size(); i++) {
+            arr[i] = listDiaChi.get(pos).getHuyens().get(i).getTenHuyen();
+        }
+
+        return arr;
     }
 }

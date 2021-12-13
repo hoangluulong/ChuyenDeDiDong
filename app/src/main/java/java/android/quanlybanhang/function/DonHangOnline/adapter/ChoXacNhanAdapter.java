@@ -75,34 +75,35 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
 
     @Override
     public void onBindViewHolder(@NonNull DonChoXacNhan holder, int position) {
+        int k = position;
         holder.layoutThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFeedbackDialog(Gravity.CENTER, position);
+                openFeedbackDialog(Gravity.CENTER, k);
             }
         });
 
         holder.lblHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFeedbackDialogHuy(Gravity.CENTER, position);
+                openFeedbackDialogHuy(Gravity.CENTER, k);
             }
         });
 
-        if (list.get(position).getPhuongThucThanhToan() == 0){
+        if (list.get(k).getPhuongThucThanhToan() == 0){
             holder.thanhtoan.setText("Thanh toán khi nhận");
         }else {
             holder.thanhtoan.setText("Chuyển khoản");
         }
-        holder.lblThoiGian.setText(support.formartDate(list.get(position).getDate()));
-        holder.lblDiaChi.setText(list.get(position).getDiaChi());
-        holder.lblKhachang.setText(list.get(position).getTenKhachhang());
-        holder.lblDonGia.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
-        holder.tv_id_donhang.setText(list.get(position).getIdDonHang());
+        holder.lblThoiGian.setText(support.formartDate(list.get(k).getDate()));
+        holder.lblDiaChi.setText(list.get(k).getDiaChi());
+        holder.lblKhachang.setText(list.get(k).getTenKhachhang());
+        holder.lblDonGia.setText(formatDouble.formatStr(list.get(k).getDonGia() - list.get(k).getThunhap()));
+        holder.tv_id_donhang.setText(list.get(k).getIdDonHang());
         holder.lblXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                select = position;
+                select = k;
                 setFirebaseXacNhanDonHang(select);
             }
         });
@@ -148,10 +149,12 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         ImageView close = dialog.findViewById(R.id.close);
         TextView khuyenmai = dialog.findViewById(R.id.khuyenmai);
         TextView thanhTien = dialog.findViewById(R.id.thanhTien);
+        TextView thoigian = dialog.findViewById(R.id.thoigian);
 
-        tongtien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham())));
+        thoigian.setText(support.formartDate(list.get(position).getDate()));
+        tongtien.setText(formatDouble.formatStr(list.get(position).getDonGia() - list.get(position).getThunhap() + list.get(position).getGiaKhuyenMai()));
         khuyenmai.setText(formatDouble.formatStr(list.get(position).getGiaKhuyenMai()));
-        thanhTien.setText(formatDouble.formatStr(support.TinhTongTien(list.get(position).getSanpham()) - list.get(position).getGiaKhuyenMai()));
+        thanhTien.setText(formatDouble.formatStr(list.get(position).getDonGia() - list.get(position).getThunhap()));
         tenkhachhang.setText(list.get(position).getTenKhachhang());
         diachi.setText(list.get(position).getDiaChi());
 
@@ -210,7 +213,7 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
         btn_huy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFirebaseHuyDonDonHang(list.get(positon).getKey(), positon);
+                setFirebaseHuyDonDonHang(positon);
                 dialogHuy.dismiss();
             }
         });
@@ -259,10 +262,10 @@ public class ChoXacNhanAdapter extends RecyclerView.Adapter<ChoXacNhanAdapter.Do
     }
 
     //TODO: setDuLieu Firebase hủy đơn
-    private void setFirebaseHuyDonDonHang (String IdDonHang, int position) {
+    private void setFirebaseHuyDonDonHang ( int position) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("CuaHangOder/"+ ID_CUAHANG +"/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+IdDonHang).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        mFirebaseDatabase.child("CuaHangOder/"+ ID_CUAHANG +"/donhangonline/dondadat/"+support.ngayHientai(list.get(position).getDate())+"/"+list.get(position).getIdDonHang()+"/trangthai").setValue(8).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Đã hủy đơn", Toast.LENGTH_SHORT).show();
