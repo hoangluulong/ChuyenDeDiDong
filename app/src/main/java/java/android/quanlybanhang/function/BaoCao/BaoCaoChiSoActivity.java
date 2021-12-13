@@ -223,20 +223,23 @@ public class BaoCaoChiSoActivity extends AppCompatActivity implements SwipeRefre
                 }
             });
 
-            mFirebaseDatabase.child("CuaHangOder/" + ID_CUA_HANG + "/donhangonline/donhoanthanh/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
+            mFirebaseDatabase.child("CuaHangOder/" + ID_CUA_HANG + "/donhangonline/dondadat/" + st).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         Double tong = 0.0;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Double giaSP = 0.0;
-                            Double khuyenMai = Double.parseDouble(snapshot.child("giaKhuyenMai").getValue().toString());
-                            for (DataSnapshot snap : snapshot.child("sanpham").getChildren()) {
-                                int soluong = Integer.parseInt(snap.child("soluong").getValue().toString());
-                                Double giaProudct = Double.parseDouble(snap.child("giaBan").getValue().toString()) * soluong;
-                                giaSP += soluong * giaProudct;
+                            int statuss = snapshot.child("trangthai").getValue(Integer.class);
+                            if (statuss == 6) {
+                                Double giaSP = 0.0;
+                                Double khuyenMai = Double.parseDouble(snapshot.child("giaKhuyenMai").getValue().toString());
+                                for (DataSnapshot snap : snapshot.child("sanpham").getChildren()) {
+                                    int soluong = Integer.parseInt(snap.child("soluong").getValue().toString());
+                                    Double giaProudct = Double.parseDouble(snap.child("giaBan").getValue().toString()) * soluong;
+                                    giaSP += soluong * giaProudct;
+                                }
+                                tong += giaSP - khuyenMai;
                             }
-                            tong += giaSP - khuyenMai;
                         }
                         listTienTuan2.add(tong);
                         listCheckSizeDouble2.add(1);
